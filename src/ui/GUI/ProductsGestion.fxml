@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="574.0" prefWidth="947.0" style="-fx-background-color: #080404;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane layoutX="570.0" layoutY="31.0" prefHeight="513.0" prefWidth="343.0" style="-fx-background-color: #e4d389;">
+         <children>
+            <Label layoutX="133.0" layoutY="22.0" text="Gestion">
+               <font>
+                  <Font name="SansSerif Regular" size="21.0" />
+               </font>
+            </Label>
+            <Label layoutX="126.0" layoutY="55.0" text="Productos">
+               <font>
+                  <Font name="SansSerif Regular" size="21.0" />
+               </font>
+            </Label>
+            <TextField alignment="CENTER" layoutX="78.0" layoutY="105.0" promptText="Nombre" style="-fx-background-color: #040404;" />
+            <TextField alignment="CENTER" layoutX="80.0" layoutY="267.0" promptText="Precio" style="-fx-background-color: #040404;" />
+            <TextField alignment="CENTER" layoutX="80.0" layoutY="226.0" promptText="Tamaño" style="-fx-background-color: #040404;" />
+            <Button layoutX="80.0" layoutY="314.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="186.0" style="-fx-background-color: #cfad5c;" text="Agregar" />
+            <Button layoutX="80.0" layoutY="393.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="186.0" style="-fx-background-color: #cfad5c;" text="Deshabilitar" />
+            <Button layoutX="80.0" layoutY="436.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="186.0" style="-fx-background-color: #cfad5c;" text="Eliminar" />
+            <Button layoutX="80.0" layoutY="354.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="186.0" style="-fx-background-color: #cfad5c;" text="Actualizar" />
+            <ComboBox layoutX="78.0" layoutY="144.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="31.0" prefWidth="186.0" promptText="         Ingredientes" style="-fx-background-color: #cfad5c;" />
+            <ComboBox layoutX="79.0" layoutY="188.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="31.0" prefWidth="186.0" promptText=" Tipos de productos" style="-fx-background-color: #cfad5c;" />
+         </children>
+      </Pane>
+      <TableView layoutX="32.0" layoutY="31.0" prefHeight="513.0" prefWidth="501.0" style="-fx-background-color: #e4d389;">
+         <columns>
+            <TableColumn prefWidth="166.0" style="-fx-background-color: #e4d389;" text="Nombre" />
+            <TableColumn prefWidth="166.0" style="-fx-background-color: #e4d389;" text="Apellido" />
+            <TableColumn prefWidth="166.0" style="-fx-background-color: #e4d389;" text="Identificación" />
+         </columns>
+      </TableView>
+   </children>
+</Pane>

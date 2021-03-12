@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="bpMain" style="-fx-background-color: #080404;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="466.0" prefWidth="368.0" style="-fx-background-color: #080404;">
+         <children>
+            <Pane prefHeight="466.0" prefWidth="369.0" style="-fx-background-color: #fee99b;">
+               <children>
+                  <ImageView fx:id="ivLoginP" fitHeight="466.0" fitWidth="368.0" pickOnBounds="true" />
+                  <Label layoutX="137.0" layoutY="20.0" text="Registrate">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Label>
+                  <TextField alignment="CENTER" layoutX="73.0" layoutY="75.0" promptText="Nombre" style="-fx-background-color: #080404;">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" layoutX="73.0" layoutY="131.0" promptText="Apellidos" style="-fx-background-color: #080404;">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" layoutX="73.0" layoutY="186.0" promptText="Identificación" style="-fx-background-color: #080404;">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" layoutX="73.0" layoutY="240.0" promptText="Usuario" style="-fx-background-color: #080404;">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </TextField>
+                  <PasswordField alignment="CENTER" layoutX="73.0" layoutY="294.0" promptText="Contraseña" style="-fx-background-color: #080404;">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </PasswordField>
+                  <Button layoutX="121.0" layoutY="351.0" mnemonicParsing="false" onAction="#onCreateAccount" text="Crear cuenta">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+                  <Button layoutX="133.0" layoutY="403.0" mnemonicParsing="false" onAction="#onIhaveAccount" text="Ya tengo cuenta" underline="true" />
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+   </center>
+</BorderPane>

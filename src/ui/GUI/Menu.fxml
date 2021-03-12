@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="574.0" prefWidth="947.0" style="-fx-background-color: #040404;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <MenuBar prefHeight="32.0" prefWidth="947.0" style="-fx-background-color: #e4d389;">
+        <menus>
+          <Menu mnemonicParsing="false" text="Gestionar">
+            <items>
+                  <MenuItem mnemonicParsing="false" text="Usuarios de Sistema" />
+                  <MenuItem mnemonicParsing="false" text="Empleados" />
+                  <MenuItem mnemonicParsing="false" text="Clientes" />
+                  <MenuItem mnemonicParsing="false" text="Productos" />
+                  <MenuItem mnemonicParsing="false" text="Ingredientes" />
+                  <MenuItem mnemonicParsing="false" text="Tipo de Productos" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Listado">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Cliente" />
+                  <MenuItem mnemonicParsing="false" text="Productos" />
+                  <MenuItem mnemonicParsing="false" text="Ingredientes" />
+                  <MenuItem mnemonicParsing="false" text="Tipos de productos" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Pedidos">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Agregar Pedidos" />
+                  <MenuItem mnemonicParsing="false" text="Lista de Pedidos" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Generar Reportes">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Pedidos" />
+                  <MenuItem mnemonicParsing="false" text="Empleados por Pedidos" />
+                  <MenuItem mnemonicParsing="false" text="Productos" />
+                  <MenuItem mnemonicParsing="false" text="Ingredientes" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Importar">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Información de Clientes" />
+                  <MenuItem mnemonicParsing="false" text="Productos" />
+                  <MenuItem mnemonicParsing="false" text="Pedidos" />
+               </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+      <ImageView fitHeight="221.0" fitWidth="656.0" layoutX="146.0" layoutY="241.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../img/BannerCasaDorada.png" />
+         </image>
+      </ImageView>
+   </children>
+</Pane>
