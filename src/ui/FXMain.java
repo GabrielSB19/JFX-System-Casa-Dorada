@@ -30,7 +30,6 @@ public class FXMain extends Application{
 	Parent root = fxmlLoader.load();
 		
 	Scene scene = new Scene(root);
-        scene.getStylesheets().add(this.getClass().getResource("/css/WelcomePane.css").toExternalForm());
 	primaryStage.setScene(scene);
         primaryStage.setResizable(false);
 	primaryStage.setTitle("Casa Dorada");
