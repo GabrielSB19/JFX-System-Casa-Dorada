@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXSpinner?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="407.0" prefWidth="676.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="bpMain" prefHeight="407.0" prefWidth="676.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="407.0" prefWidth="602.0">
          <children>
@@ -17,8 +18,8 @@
                   <Font name="Edwardian Script ITC" size="80.0" />
                </font>
             </Label>
-            <Label layoutX="14.0" layoutY="355.0" text="Version 1.0" textFill="#fee99b" />
-            <Label fx:id="lblProgress" layoutX="490.0" layoutY="355.0" text="Loading   " textFill="#fee99b" />
+            <Label layoutX="14.0" layoutY="345.0" text="Version 1.0" textFill="#fee99b" />
+            <JFXSpinner fx:id="jfxSpinner" layoutX="487.0" layoutY="309.0" prefHeight="89.0" prefWidth="101.0" progress="0.0" />
          </children>
       </Pane>
    </center>

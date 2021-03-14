@@ -1,6 +1,5 @@
 package ui;
 
-import java.io.File;
 import javafx.application.Preloader;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -25,8 +24,8 @@ public class FXSplashScreen extends Preloader{
     public void init() throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/WelcomePane.fxml"));
         fxmlLoader.setController(fxControllerGUI);
-        Parent root1 = fxmlLoader.load();
-        scene = new Scene(root1);
+        Parent root = fxmlLoader.load();
+        scene = new Scene(root);
         Image img = new Image("image/CasaDorada.png");
         FXControllerGUI.imageView.setImage(img);
     }
@@ -43,7 +42,7 @@ public class FXSplashScreen extends Preloader{
     @Override
     public void handleApplicationNotification(Preloader.PreloaderNotification info) {
         if (info instanceof ProgressNotification) {
-            FXControllerGUI.label.setText("Loading " + ((ProgressNotification) info).getProgress() + "%");
+            //FXControllerGUI.label.setText("Loading " + ((ProgressNotification) info).getProgress() + "%");
         }
     }
     
