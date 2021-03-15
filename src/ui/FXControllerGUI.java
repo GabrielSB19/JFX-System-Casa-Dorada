@@ -77,7 +77,6 @@ public class FXControllerGUI implements Initializable {
             setImageWelcome();
             FXMain.loaded = true;
         }
-        setImageLogin();
     }
 
     
@@ -106,13 +105,6 @@ public class FXControllerGUI implements Initializable {
     public void setImageWelcome() {
         try {
             ivWelcome.setImage(new Image("image/CasaDorada.png"));
-        } catch (Exception e) {
-        }
-    }
-
-    public void setImageLogin() {
-        try {
-            ivLoginP.setImage(new Image("/image/61100.jpg"));
         } catch (Exception e) {
         }
     }
