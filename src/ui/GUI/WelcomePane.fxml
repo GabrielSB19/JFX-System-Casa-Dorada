@@ -19,7 +19,7 @@
                </font>
             </Label>
             <Label layoutX="14.0" layoutY="345.0" text="Version 1.0" textFill="#fee99b" />
-            <JFXSpinner fx:id="jfxSpinner" layoutX="487.0" layoutY="309.0" prefHeight="89.0" prefWidth="101.0" progress="0.0" />
+            <JFXSpinner fx:id="jfxSpinner" layoutX="498.0" layoutY="329.0" prefHeight="50.0" prefWidth="52.0" progress="0.0" />
          </children>
       </Pane>
    </center>
