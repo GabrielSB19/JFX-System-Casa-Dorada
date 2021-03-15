@@ -15,8 +15,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -30,10 +28,10 @@ public class FXControllerGUI implements Initializable {
 
     private CasaDorada casaDorada;
 
-    private static Timeline timeline;
+    public static Timeline timeline;
 
     @FXML
-    private static BorderPane bpMain;
+    private BorderPane bpMain;
 
     @FXML
     public JFXSpinner jfxSpinner;
