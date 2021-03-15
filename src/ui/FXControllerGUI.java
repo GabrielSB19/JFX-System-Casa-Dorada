@@ -1,6 +1,8 @@
 package ui;
 
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXSpinner;
+import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -46,10 +48,10 @@ public class FXControllerGUI implements Initializable {
     private BorderPane bpRegister;
 
     @FXML
-    private TextField txtUser;
+    private JFXTextField txtUserLogin;
 
     @FXML
-    private PasswordField txtPassword;
+    private JFXPasswordField txtPassWordLogin;
 
     public FXControllerGUI(CasaDorada casaDorada) {
         this.casaDorada = casaDorada;
@@ -80,21 +82,18 @@ public class FXControllerGUI implements Initializable {
         setImageLogin();
     }
 
+    
     @FXML
-    public void onLogIn(ActionEvent event) {
-    }
-
-    @FXML
-    public void onCreateAccount(ActionEvent event) {
-    }
-
-    @FXML
-    public void onSingGo(ActionEvent event) throws IOException {
+    public void onCreateAccount(ActionEvent event) throws IOException {
         closeStage();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/Register.fxml"));
         fxmlLoader.setController(this);
         Parent root = fxmlLoader.load();
         newStage(root);
+    }
+
+    @FXML
+    public void onLogIn(ActionEvent event) {
     }
 
     @FXML
