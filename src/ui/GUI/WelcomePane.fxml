@@ -11,7 +11,7 @@
    <center>
       <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="407.0" prefWidth="602.0">
          <children>
-            <ImageView fx:id="ivWelcome" fitHeight="242.0" fitWidth="442.0" layoutX="81.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="ivWelcome" fitHeight="199.0" fitWidth="263.0" layoutX="170.0" layoutY="112.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
       </ImageView>
             <Label layoutX="133.0" prefHeight="112.0" prefWidth="337.0" text="Bienvenido a" textFill="#fee99b">
                <font>

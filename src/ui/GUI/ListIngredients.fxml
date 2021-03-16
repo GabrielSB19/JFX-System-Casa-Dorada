@@ -3,24 +3,35 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="574.0" prefWidth="947.0" style="-fx-background-color: #080404;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Pane layoutX="57.0" layoutY="25.0" prefHeight="64.0" prefWidth="834.0" style="-fx-background-color: #e4d389;">
+<BorderPane prefHeight="750.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;">
          <children>
-            <Label layoutX="308.0" layoutY="20.0" text="Listado de Ingredientes">
-               <font>
-                  <Font name="SansSerif Regular" size="21.0" />
-               </font>
-            </Label>
+            <Pane layoutX="257.0" layoutY="14.0" prefHeight="114.0" prefWidth="684.0" style="-fx-background-color: #ffffff;">
+               <children>
+                  <Label layoutX="273.0" layoutY="14.0" text="Listado de">
+                     <font>
+                        <Font name="SansSerif Regular" size="30.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="259.0" layoutY="50.0" text="Ingredientes">
+                     <font>
+                        <Font name="SansSerif Regular" size="30.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <TableView layoutX="105.0" layoutY="128.0" prefHeight="565.0" prefWidth="989.0" style="-fx-background-color: #ffffff; -fx-border-color: #efb810;">
+               <columns>
+                  <TableColumn prefWidth="493.0" style="-fx-background-color: #ffffff;" text="Nombre" />
+                  <TableColumn prefWidth="493.0" style="-fx-background-color: #ffffff;" text="Estado" />
+               </columns>
+            </TableView>
          </children>
       </Pane>
-      <TableView layoutX="57.0" layoutY="124.0" prefHeight="403.0" prefWidth="834.0" style="-fx-background-color: #e4d389;">
-         <columns>
-            <TableColumn prefWidth="833.0" style="-fx-background-color: #e4d389;" text="Nombre" />
-         </columns>
-      </TableView>
-   </children>
-</Pane>
+   </center>
+</BorderPane>

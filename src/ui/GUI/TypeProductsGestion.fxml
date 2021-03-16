@@ -1,38 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="574.0" prefWidth="947.0" style="-fx-background-color: #080404;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Pane layoutX="570.0" layoutY="31.0" prefHeight="513.0" prefWidth="343.0" style="-fx-background-color: #e4d389;">
+<BorderPane prefHeight="750.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;">
          <children>
-            <Label layoutX="135.0" layoutY="29.0" text="Gestion">
-               <font>
-                  <Font name="SansSerif Regular" size="21.0" />
-               </font>
-            </Label>
-            <Label layoutX="82.0" layoutY="54.0" text="Tipos de productos">
-               <font>
-                  <Font name="SansSerif Regular" size="21.0" />
-               </font>
-            </Label>
-            <TextField alignment="CENTER" layoutX="78.0" layoutY="170.0" promptText="Nombre" style="-fx-background-color: #040404;" />
-            <Button layoutX="78.0" layoutY="266.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="186.0" style="-fx-background-color: #cfad5c;" text="Agregar" />
-            <Button layoutX="78.0" layoutY="374.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="186.0" style="-fx-background-color: #cfad5c;" text="Deshabilitar" />
-            <Button layoutX="79.0" layoutY="429.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="186.0" style="-fx-background-color: #cfad5c;" text="Eliminar" />
-            <Button layoutX="78.0" layoutY="319.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="186.0" style="-fx-background-color: #cfad5c;" text="Actualizar" />
+            <Pane layoutX="768.0" layoutY="42.0" prefHeight="683.0" prefWidth="426.0" style="-fx-background-color: #ffffff;">
+               <children>
+                  <Label layoutX="162.0" layoutY="142.0" text="Gestion">
+                     <font>
+                        <Font name="SansSerif Regular" size="30.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="91.0" layoutY="178.0" text="Tipos de Producto">
+                     <font>
+                        <Font name="SansSerif Regular" size="30.0" />
+                     </font>
+                  </Label>
+                  <JFXTextField alignment="CENTER" focusColor="BLACK" layoutX="84.0" layoutY="251.0" prefHeight="39.0" prefWidth="259.0" promptText="Nombre" unFocusColor="#efb810">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXTextField>
+                  <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="356.0" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Agregar">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="513.0" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Eliminar">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="414.0" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Actualizar">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXToggleButton layoutX="142.0" layoutY="453.0" text="Habilitado" toggleColor="#efb810" toggleLineColor="#fee99b" />
+               </children>
+            </Pane>
+            <TableView layoutX="105.0" layoutY="52.0" prefHeight="647.0" prefWidth="681.0" style="-fx-background-color: #ffffff; -fx-border-color: #efb810;">
+               <columns>
+                  <TableColumn prefWidth="340.0" style="-fx-background-color: #ffffff;" text="Nombre" />
+                  <TableColumn prefWidth="340.0" style="-fx-background-color: #ffffff;" text="Estado" />
+               </columns>
+            </TableView>
          </children>
       </Pane>
-      <TableView layoutX="32.0" layoutY="31.0" prefHeight="513.0" prefWidth="501.0" style="-fx-background-color: #e4d389;">
-         <columns>
-            <TableColumn prefWidth="500.0" style="-fx-background-color: #e4d389;" text="Tipos de producto disponibles" />
-         </columns>
-      </TableView>
-   </children>
-</Pane>
+   </center>
+</BorderPane>

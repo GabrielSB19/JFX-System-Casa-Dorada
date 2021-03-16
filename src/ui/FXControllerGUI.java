@@ -41,6 +41,13 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     private ImageView ivWelcome;
+    
+    @FXML
+    private ImageView ivGoldHouse;
+    /*
+    @FXML
+    private ImageView ivTest;
+    */
 
     @FXML
     private BorderPane bpRegister;
@@ -90,7 +97,13 @@ public class FXControllerGUI implements Initializable {
     }
 
     @FXML
-    public void onLogIn(ActionEvent event) {
+    public void onLogIn(ActionEvent event) throws IOException {
+        closeStage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/Menu.fxml"));
+        fxmlLoader.setController(this);
+        Parent root = fxmlLoader.load();
+        ivGoldHouse.setImage(new Image("image/CasaDoradaNew.png"));
+        newStage(root);
     }
 
     @FXML
@@ -101,13 +114,27 @@ public class FXControllerGUI implements Initializable {
         Parent root = fxmlLoader.load();
         newStage(root);
     }
+    
+    @FXML
+    void onRegister(ActionEvent event) {
+    }
 
     public void setImageWelcome() {
         try {
-            ivWelcome.setImage(new Image("image/CasaDorada.png"));
+            ivWelcome.setImage(new Image("image/CasaDoradaNew.png"));
         } catch (Exception e) {
         }
     }
+    
+    /*
+    public void setImageBanner(){
+        try{
+            ivTest.setImage(new Image("image/BannerCasaDoradaNew.png"));
+        } catch (Exception e){
+            
+        }
+    }
+    */
 
     public void changeScreen() {
         try {

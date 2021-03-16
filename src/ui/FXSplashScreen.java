@@ -26,7 +26,7 @@ public class FXSplashScreen extends Preloader{
         fxmlLoader.setController(fxControllerGUI);
         Parent root = fxmlLoader.load();
         scene = new Scene(root);
-        Image img = new Image("image/CasaDorada.png");
+        Image img = new Image("image/CasaDoradaNew.png");
         FXControllerGUI.imageView.setImage(img);
     }
     
