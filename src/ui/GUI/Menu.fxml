@@ -7,29 +7,29 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
-
-<BorderPane prefHeight="750.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="bpMenu" prefHeight="782.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;">
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="782.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;">
          <children>
-            <MenuBar prefHeight="32.0" prefWidth="1200.0" style="-fx-background-color: #efb810;">
+            <MenuBar layoutY="-2.0" prefHeight="32.0" prefWidth="1200.0" style="-fx-background-color: #efb810;">
               <menus>
                 <Menu mnemonicParsing="false" style="-fx-background-color: #efb810;" text="Gestionar">
                   <items>
-                        <MenuItem mnemonicParsing="false" text="Usuarios de Sistema" />
-                        <MenuItem mnemonicParsing="false" text="Empleados" />
-                        <MenuItem mnemonicParsing="false" text="Clientes" />
-                        <MenuItem mnemonicParsing="false" text="Productos" />
-                        <MenuItem mnemonicParsing="false" text="Ingredientes" />
-                        <MenuItem mnemonicParsing="false" text="Tipo de Productos" />
+                        <MenuItem mnemonicParsing="false" onAction="#onGestionUser" text="Usuarios de Sistema" />
+                        <MenuItem mnemonicParsing="false" onAction="#onGestionEmployee" text="Empleados" />
+                        <MenuItem mnemonicParsing="false" onAction="#onGestionClients" text="Clientes" />
+                        <MenuItem mnemonicParsing="false" onAction="#onGestionProducts" text="Productos" />
+                        <MenuItem mnemonicParsing="false" onAction="#onGestionIngredients" text="Ingredientes" />
+                        <MenuItem mnemonicParsing="false" onAction="#onGestionTypeProduct" text="Tipo de Productos" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" style="-fx-background-color: #efb810;" text="Listado">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Cliente" />
-                        <MenuItem mnemonicParsing="false" text="Productos" />
-                        <MenuItem mnemonicParsing="false" text="Ingredientes" />
-                        <MenuItem mnemonicParsing="false" text="Tipos de productos" />
+                    <MenuItem mnemonicParsing="false" onAction="#onLIstClients" text="Cliente" />
+                        <MenuItem mnemonicParsing="false" onAction="#onLIstEmployees" text="Empleados" />
+                        <MenuItem mnemonicParsing="false" onAction="#onLIstProducts" text="Productos" />
+                        <MenuItem mnemonicParsing="false" onAction="#onLIstIngredients" text="Ingredientes" />
+                        <MenuItem mnemonicParsing="false" onAction="#onLIstTypeProduct" text="Tipos de productos" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" style="-fx-background-color: #efb810;" text="Pedidos">
@@ -53,9 +53,19 @@
                         <MenuItem mnemonicParsing="false" text="Pedidos" />
                      </items>
                   </Menu>
+                  <Menu mnemonicParsing="false" style="-fx-background-color: #efb810;" text="Salir">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#onLogOut" text="Cerrar Sesion" />
+                        <MenuItem mnemonicParsing="false" onAction="#onExitProgram" text="Salir del programa" />
+                     </items>
+                  </Menu>
               </menus>
             </MenuBar>
-            <ImageView fx:id="ivGoldHouse" fitHeight="583.0" fitWidth="703.0" layoutX="249.0" layoutY="84.0" pickOnBounds="true" preserveRatio="true" />
+            <Pane fx:id="pNewOption" layoutY="30.0" prefHeight="750.0" prefWidth="1200.0">
+               <children>
+                  <ImageView fx:id="ivGoldHouse" fitHeight="583.0" fitWidth="703.0" layoutX="249.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </Pane>
          </children>
       </Pane>
    </center>

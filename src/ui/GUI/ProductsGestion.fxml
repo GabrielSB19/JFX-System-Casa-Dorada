@@ -7,72 +7,67 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="750.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
-   <center>
-      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane layoutX="768.0" layoutY="42.0" prefHeight="683.0" prefWidth="427.0" style="-fx-background-color: #ffffff;">
          <children>
-            <Pane layoutX="768.0" layoutY="42.0" prefHeight="683.0" prefWidth="427.0" style="-fx-background-color: #ffffff;">
-               <children>
-                  <Label layoutX="161.0" layoutY="42.0" text="Gestion">
-                     <font>
-                        <Font name="SansSerif Regular" size="30.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="146.0" layoutY="78.0" text="Productos">
-                     <font>
-                        <Font name="SansSerif Regular" size="30.0" />
-                     </font>
-                  </Label>
-                  <JFXTextField alignment="CENTER" focusColor="BLACK" layoutX="84.0" layoutY="126.0" prefHeight="39.0" prefWidth="259.0" promptText="Nombre" unFocusColor="#efb810">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </JFXTextField>
-                  <JFXTextField alignment="CENTER" focusColor="BLACK" layoutX="84.0" layoutY="282.0" prefHeight="39.0" prefWidth="259.0" promptText="Telefono" text="Tamaño" unFocusColor="#efb810">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </JFXTextField>
-                  <JFXTextField alignment="CENTER" editable="false" focusColor="BLACK" layoutX="84.0" layoutY="335.0" prefHeight="39.0" prefWidth="259.0" promptText="Dirección" text="Precio" unFocusColor="#efb810">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </JFXTextField>
-                  <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="422.0" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Agregar">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="576.0" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Eliminar">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="477.0" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Actualizar">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXToggleButton layoutX="142.0" layoutY="516.0" text="Habilitado" toggleColor="#efb810" toggleLineColor="#fee99b" />
-                  <JFXComboBox focusColor="BLACK" layoutX="84.0" layoutY="179.0" prefHeight="39.0" prefWidth="259.0" promptText="                     Ingredientes" unFocusColor="#efb810" />
-                  <JFXComboBox focusColor="BLACK" layoutX="84.0" layoutY="232.0" prefHeight="39.0" prefWidth="259.0" promptText="                  Tipo de Producto" unFocusColor="#efb810" />
-               </children>
-            </Pane>
-            <TableView layoutX="105.0" layoutY="52.0" prefHeight="647.0" prefWidth="681.0" style="-fx-background-color: #ffffff; -fx-border-color: #efb810;">
-               <columns>
-                  <TableColumn prefWidth="113.0" style="-fx-background-color: #ffffff;" text="Nombre" />
-                  <TableColumn prefWidth="113.0" style="-fx-background-color: #ffffff;" text="Apellido" />
-                  <TableColumn prefWidth="113.0" style="-fx-background-color: #ffffff;" text="ID" />
-                  <TableColumn prefWidth="113.0" style="-fx-background-color: #ffffff;" text="Telefono" />
-                  <TableColumn prefWidth="113.0" style="-fx-background-color: #ffffff;" text="Dirección" />
-                  <TableColumn prefWidth="113.0" style="-fx-background-color: #ffffff;" text="Observaciones" />
-               </columns>
-            </TableView>
+            <Label layoutX="161.0" layoutY="42.0" text="Gestion">
+               <font>
+                  <Font name="SansSerif Regular" size="30.0" />
+               </font>
+            </Label>
+            <Label layoutX="146.0" layoutY="78.0" text="Productos">
+               <font>
+                  <Font name="SansSerif Regular" size="30.0" />
+               </font>
+            </Label>
+            <JFXTextField alignment="CENTER" focusColor="BLACK" layoutX="84.0" layoutY="126.0" prefHeight="39.0" prefWidth="259.0" promptText="Nombre" unFocusColor="#efb810">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField alignment="CENTER" focusColor="BLACK" layoutX="84.0" layoutY="282.0" prefHeight="39.0" prefWidth="259.0" promptText="Telefono" text="Tamaño" unFocusColor="#efb810">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField alignment="CENTER" editable="false" focusColor="BLACK" layoutX="84.0" layoutY="335.0" prefHeight="39.0" prefWidth="259.0" promptText="Dirección" text="Precio" unFocusColor="#efb810">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXTextField>
+            <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="422.0" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Agregar">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXButton>
+            <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="576.0" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Eliminar">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXButton>
+            <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="477.0" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Actualizar">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXButton>
+            <JFXToggleButton layoutX="142.0" layoutY="516.0" text="Habilitado" toggleColor="#efb810" toggleLineColor="#fee99b" />
+            <JFXComboBox focusColor="BLACK" layoutX="84.0" layoutY="179.0" prefHeight="39.0" prefWidth="259.0" promptText="                     Ingredientes" unFocusColor="#efb810" />
+            <JFXComboBox focusColor="BLACK" layoutX="84.0" layoutY="232.0" prefHeight="39.0" prefWidth="259.0" promptText="                  Tipo de Producto" unFocusColor="#efb810" />
          </children>
       </Pane>
-   </center>
-</BorderPane>
+      <TableView layoutX="49.0" layoutY="52.0" prefHeight="647.0" prefWidth="735.0" style="-fx-background-color: #ffffff; -fx-border-color: #efb810;">
+         <columns>
+            <TableColumn prefWidth="122.0" style="-fx-background-color: #ffffff;" text="Nombre" />
+            <TableColumn prefWidth="122.0" style="-fx-background-color: #ffffff;" text="Ingredientes" />
+            <TableColumn prefWidth="122.0" style="-fx-background-color: #ffffff;" text="Tipo de Producto" />
+            <TableColumn prefWidth="122.0" style="-fx-background-color: #ffffff;" text="Tamaño" />
+            <TableColumn prefWidth="122.0" style="-fx-background-color: #ffffff;" text="Precio" />
+            <TableColumn prefWidth="122.0" style="-fx-background-color: #ffffff;" text="Estado" />
+         </columns>
+      </TableView>
+   </children>
+</Pane>

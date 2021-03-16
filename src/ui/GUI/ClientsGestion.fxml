@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane prefHeight="750.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;">
@@ -75,14 +74,14 @@
                   </JFXTextField>
                </children>
             </Pane>
-            <TableView layoutX="105.0" layoutY="52.0" prefHeight="647.0" prefWidth="681.0" style="-fx-background-color: #ffffff; -fx-border-color: #efb810;">
+            <TableView layoutX="49.0" layoutY="52.0" prefHeight="647.0" prefWidth="735.0" style="-fx-background-color: #ffffff; -fx-border-color: #efb810;">
                <columns>
-                  <TableColumn prefWidth="113.0" style="-fx-background-color: #ffffff;" text="Nombre" />
-                  <TableColumn prefWidth="113.0" style="-fx-background-color: #ffffff;" text="Apellido" />
-                  <TableColumn prefWidth="113.0" style="-fx-background-color: #ffffff;" text="ID" />
-                  <TableColumn prefWidth="113.0" style="-fx-background-color: #ffffff;" text="Telefono" />
-                  <TableColumn prefWidth="113.0" style="-fx-background-color: #ffffff;" text="Dirección" />
-                  <TableColumn prefWidth="113.0" style="-fx-background-color: #ffffff;" text="Observaciones" />
+                  <TableColumn prefWidth="122.0" style="-fx-background-color: #ffffff;" text="Nombre" />
+                  <TableColumn prefWidth="122.0" style="-fx-background-color: #ffffff;" text="Apellido" />
+                  <TableColumn prefWidth="122.0" style="-fx-background-color: #ffffff;" text="ID" />
+                  <TableColumn prefWidth="122.0" style="-fx-background-color: #ffffff;" text="Telefono" />
+                  <TableColumn prefWidth="122.0" style="-fx-background-color: #ffffff;" text="Dirección" />
+                  <TableColumn prefWidth="122.0" style="-fx-background-color: #ffffff;" text="Observaciones" />
                </columns>
             </TableView>
          </children>
