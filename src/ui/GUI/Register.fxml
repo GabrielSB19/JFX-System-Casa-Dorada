@@ -49,7 +49,7 @@
                         <Font name="SansSerif Regular" size="18.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton layoutX="152.0" layoutY="450.0" onAction="#onIhaveAccount" text="Ya tengo una cuenta" underline="true" />
+                  <JFXButton layoutX="168.0" layoutY="450.0" onAction="#onIhaveAccount" text="Ya tengo una cuenta" underline="true" />
                </children>
             </Pane>
          </children>

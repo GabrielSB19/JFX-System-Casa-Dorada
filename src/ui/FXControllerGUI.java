@@ -476,5 +476,4 @@ public class FXControllerGUI implements Initializable {
         }
     }
     */
-
 }
