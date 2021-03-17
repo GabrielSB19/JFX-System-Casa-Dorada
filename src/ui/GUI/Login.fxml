@@ -36,7 +36,7 @@
                         <Font name="SansSerif Regular" size="18.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton layoutX="129.0" layoutY="414.0" onAction="#onCreateAccount" style="-fx-background-color: #ffffff;" text="¿Aún no tienes una cuenta?" underline="true">
+                  <JFXButton layoutX="150.0" layoutY="414.0" onAction="#onCreateAccount" style="-fx-background-color: #ffffff;" text="¿Aún no tienes una cuenta?" underline="true">
                      <ripplerFill>
                         <LinearGradient endX="1.0" endY="1.0">
                            <stops>
