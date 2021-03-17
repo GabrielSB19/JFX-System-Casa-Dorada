@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane layoutX="257.0" layoutY="14.0" prefHeight="114.0" prefWidth="684.0" style="-fx-background-color: #ffffff;">
+         <children>
+            <Label layoutX="273.0" layoutY="14.0" text="Listado de">
+               <font>
+                  <Font name="SansSerif Regular" size="30.0" />
+               </font>
+            </Label>
+            <Label layoutX="288.0" layoutY="50.0" text="Pedidos">
+               <font>
+                  <Font name="SansSerif Regular" size="30.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <TableView layoutX="15.0" layoutY="128.0" prefHeight="565.0" prefWidth="1166.0" style="-fx-background-color: #ffffff; -fx-border-color: #efb810;">
+         <columns>
+            <TableColumn prefWidth="145.0" style="-fx-background-color: #ffffff;" text="Hora y Fecha" />
+            <TableColumn prefWidth="145.0" style="-fx-background-color: #ffffff;" text="Codigo" />
+            <TableColumn prefWidth="145.0" style="-fx-background-color: #ffffff;" text="Estado del Pedido" />
+            <TableColumn prefWidth="129.0" style="-fx-background-color: #ffffff;" text="Productos">
+               <columns>
+                  <TableColumn prefWidth="145.0" style="-fx-background-color: #ffffff;" text="Producto" />
+                  <TableColumn prefWidth="145.0" style="-fx-background-color: #ffffff;" text="Cantidad" />
+               </columns></TableColumn>
+            <TableColumn prefWidth="145.0" style="-fx-background-color: #ffffff;" text="Cliente" />
+            <TableColumn prefWidth="145.0" style="-fx-background-color: #ffffff;" text="Empleado" />
+            <TableColumn prefWidth="149.0" style="-fx-background-color: #ffffff;" text="Observaciones" />
+         </columns>
+      </TableView>
+   </children>
+</Pane>

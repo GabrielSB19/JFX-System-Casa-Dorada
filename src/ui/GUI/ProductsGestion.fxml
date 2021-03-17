@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.scene.control.Label?>
@@ -55,8 +54,16 @@
                </font>
             </JFXButton>
             <JFXToggleButton layoutX="142.0" layoutY="516.0" text="Habilitado" toggleColor="#efb810" toggleLineColor="#fee99b" />
-            <JFXComboBox focusColor="BLACK" layoutX="84.0" layoutY="179.0" prefHeight="39.0" prefWidth="259.0" promptText="                     Ingredientes" unFocusColor="#efb810" />
-            <JFXComboBox focusColor="BLACK" layoutX="84.0" layoutY="232.0" prefHeight="39.0" prefWidth="259.0" promptText="                  Tipo de Producto" unFocusColor="#efb810" />
+            <JFXButton layoutX="84.0" layoutY="186.0" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #ffffff;" text="Ingredientes" textFill="#ab8000" underline="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXButton>
+            <JFXButton layoutX="91.0" layoutY="235.0" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #ffffff;" text="Tipos de producto" textFill="#ab8000" underline="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXButton>
          </children>
       </Pane>
       <TableView layoutX="49.0" layoutY="52.0" prefHeight="647.0" prefWidth="735.0" style="-fx-background-color: #ffffff; -fx-border-color: #efb810;">
