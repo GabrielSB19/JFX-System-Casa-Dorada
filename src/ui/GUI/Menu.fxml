@@ -34,16 +34,16 @@
                 </Menu>
                 <Menu mnemonicParsing="false" style="-fx-background-color: #efb810;" text="Pedidos">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Agregar Pedidos" />
-                        <MenuItem mnemonicParsing="false" text="Lista de Pedidos" />
+                    <MenuItem mnemonicParsing="false" onAction="#onGestionOrder" text="Agregar Pedidos" />
+                        <MenuItem mnemonicParsing="false" onAction="#onListOrder" text="Lista de Pedidos" />
                   </items>
                 </Menu>
                   <Menu mnemonicParsing="false" style="-fx-background-color: #efb810;" text="Generar Reportes">
                      <items>
-                        <MenuItem mnemonicParsing="false" text="Pedidos" />
-                        <MenuItem mnemonicParsing="false" text="Empleados por Pedidos" />
-                        <MenuItem mnemonicParsing="false" text="Productos" />
-                        <MenuItem mnemonicParsing="false" text="Ingredientes" />
+                        <MenuItem mnemonicParsing="false" onAction="#onReportOrder" text="Pedidos" />
+                        <MenuItem mnemonicParsing="false" onAction="#onReportEmployee" text="Empleados por Pedidos" />
+                        <MenuItem mnemonicParsing="false" onAction="#onReportProducts" text="Productos" />
+                        <MenuItem mnemonicParsing="false" onAction="#onReportIngredients" text="Ingredientes" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" style="-fx-background-color: #efb810;" text="Importar">

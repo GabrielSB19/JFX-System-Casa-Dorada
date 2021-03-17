@@ -66,6 +66,25 @@ public class FXControllerGUI implements Initializable {
     
     @FXML
     private Pane pNewOption;
+    
+    //Gestion del producto
+    
+    @FXML
+    private Pane pChooseIngredients;
+    
+    @FXML
+    private Pane pChooseType;
+    
+    //Gestion del pedido
+    
+    @FXML
+    private Pane pChooseProduct;
+    
+    //Generar reporte
+    
+    @FXML
+    private Pane pSelectDate;
+    
     /*
     @FXML
     private ImageView ivTest;
@@ -261,6 +280,18 @@ public class FXControllerGUI implements Initializable {
     	pNewOption.getChildren().setAll(typeProductsGestion);
     }
     
+        
+    @FXML
+    public void onGestionOrder(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/OrderGestion.fxml"));
+    	
+    	fxmlLoader.setController(this);
+    	Parent orderGestion = fxmlLoader.load();
+    	
+    	pNewOption.getChildren().clear();
+    	pNewOption.getChildren().setAll(orderGestion);
+    }
+    
     //Listas
     
     @FXML
@@ -308,7 +339,7 @@ public class FXControllerGUI implements Initializable {
     }
 
     @FXML
-    void onLIstTypeProduct(ActionEvent event) throws IOException {
+    public void onLIstTypeProduct(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ListTypeProducts.fxml"));
     	
     	fxmlLoader.setController(this);
@@ -317,7 +348,108 @@ public class FXControllerGUI implements Initializable {
     	pNewOption.getChildren().clear();
     	pNewOption.getChildren().setAll(listTypeProducts);
     }
+    
+    @FXML
+    public void onListOrder(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ListOrder.fxml"));
+    	
+    	fxmlLoader.setController(this);
+    	Parent listOrder = fxmlLoader.load();
+    	
+    	pNewOption.getChildren().clear();
+    	pNewOption.getChildren().setAll(listOrder);
+    }
 
+    
+    //Gestion del producto
+    
+    @FXML
+    public void onAddIngredientsToProduct(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ChooseIngredients.fxml"));
+    	
+    	fxmlLoader.setController(this);
+    	Parent chooseIngredient = fxmlLoader.load();
+        newStage(chooseIngredient);
+    }
+    
+    @FXML
+    public void onExitChooseIngredient(ActionEvent event) {
+        Stage stage = (Stage) pChooseIngredients.getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    public void onAddTypeToProduct(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ChooseTypeProducts.fxml"));
+    	
+    	fxmlLoader.setController(this);
+    	Parent chooseTypeProduct = fxmlLoader.load();
+        newStage(chooseTypeProduct);
+    }
+    
+    @FXML
+    public void onExitChooseType(ActionEvent event) {
+        Stage stage = (Stage) pChooseType.getScene().getWindow();
+        stage.close();
+    }
+    
+    //Gestion de los pedidos
+    
+    @FXML
+    public void onChooseClient(ActionEvent event) {
+
+    }
+
+    @FXML
+    public void onChooseProduct(ActionEvent event) throws IOException {
+       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ChooseProducts.fxml"));
+    	
+    	fxmlLoader.setController(this);
+    	Parent chooseProduct = fxmlLoader.load();
+        newStage(chooseProduct);
+    }
+    
+    @FXML
+    public void onExitChooseProduct(ActionEvent event) {
+        Stage stage = (Stage) pChooseProduct.getScene().getWindow();
+        stage.close();
+    }
+    
+    //Manejo de reportes
+    
+    public void openSelectDate() throws IOException{
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/SelectDate.fxml"));
+    	
+    	fxmlLoader.setController(this);
+    	Parent selectDate = fxmlLoader.load();
+        newStage(selectDate);
+    }
+    
+    @FXML
+    public void onReportEmployee(ActionEvent event) throws IOException {
+        openSelectDate();
+    }
+
+    @FXML
+    public void onReportIngredients(ActionEvent event) throws IOException {
+        openSelectDate();
+    }
+
+    @FXML
+    public void onReportOrder(ActionEvent event) throws IOException {
+        openSelectDate();
+    }
+
+    @FXML
+    public void onReportProducts(ActionEvent event) throws IOException {
+        openSelectDate();
+    }
+    
+    @FXML
+    public void onExitSelectDate(ActionEvent event) {
+        Stage stage = (Stage) pSelectDate.getScene().getWindow();
+        stage.close();
+    }
     
     /*
     public void setImageBanner(){

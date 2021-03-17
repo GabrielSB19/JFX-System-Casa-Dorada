@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="766.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="pChooseIngredients" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="766.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <TableView layoutX="77.0" layoutY="137.0" prefHeight="285.0" prefWidth="614.0">
          <columns>
@@ -30,7 +30,7 @@
             <Font size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="343.0" layoutY="436.0" prefHeight="39.0" prefWidth="80.0" style="-fx-background-color: #efb810;" text="Volver">
+      <JFXButton buttonType="RAISED" layoutX="343.0" layoutY="436.0" onAction="#onExitChooseIngredient" prefHeight="39.0" prefWidth="80.0" style="-fx-background-color: #efb810;" text="Volver">
          <font>
             <Font size="18.0" />
          </font>
