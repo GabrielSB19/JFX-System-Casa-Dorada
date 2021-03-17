@@ -85,6 +85,11 @@ public class FXControllerGUI implements Initializable {
     @FXML
     private Pane pSelectDate;
     
+    //Buscar Cliente
+    
+    @FXML
+    private Pane pSearchClient;
+    
     /*
     @FXML
     private ImageView ivTest;
@@ -396,17 +401,28 @@ public class FXControllerGUI implements Initializable {
     //Gestion de los pedidos
     
     @FXML
-    public void onChooseClient(ActionEvent event) {
-
+    public void onChooseClient(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/SearchClient.fxml"));
+    	
+    	fxmlLoader.setController(this);
+    	Parent searchClient = fxmlLoader.load();
+        newStage(searchClient); 
     }
 
     @FXML
     public void onChooseProduct(ActionEvent event) throws IOException {
-       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ChooseProducts.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ChooseProducts.fxml"));
     	
     	fxmlLoader.setController(this);
     	Parent chooseProduct = fxmlLoader.load();
         newStage(chooseProduct);
+    }
+    
+    
+    @FXML
+    public void onExitSearchClient(ActionEvent event) {
+        Stage stage = (Stage) pSearchClient.getScene().getWindow();
+        stage.close();
     }
     
     @FXML
