@@ -1,14 +1,18 @@
 package model;
 
-public abstract class Employee extends Person{
-    
+public class Employee extends Person {
+
     private int numOrder;
     private boolean eState;
-
-    public Employee(int numOrder, boolean eState, String name, String lastName, int ID) {
-        super(name, lastName, ID);
+    private Admin mAdmin;
+    
+    public Employee(int numOrder, boolean eState, Admin mAdmin, String name, String lastName,
+            int ID, Admin cAdmin) {
+        
+        super(name, lastName, ID, cAdmin);
         this.numOrder = numOrder;
         this.eState = eState;
+        this.mAdmin = mAdmin;
     }
 
     public int getNumOrder() {
@@ -26,7 +30,5 @@ public abstract class Employee extends Person{
     public void seteState(boolean eState) {
         this.eState = eState;
     }
-    
-    
-    
+
 }

@@ -1,17 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package model;
 
-/**
- * 
- * @author Sammy Guergachi <sguergachi at gmail.com>
- */
+import java.io.Serializable;
+
 public class TypeProduct {
-    
+
     private String typeName;
     private boolean typeState;
     private Admin ctpAdmin;
@@ -22,8 +14,6 @@ public class TypeProduct {
         this.typeState = typeState;
         this.ctpAdmin = ctpAdmin;
         this.mtpAdmin = mtpAdmin;
-        
-        
     }
 
     public String getTypeName() {
@@ -41,6 +31,4 @@ public class TypeProduct {
     public void setTypeState(boolean typeState) {
         this.typeState = typeState;
     }
-    
-
 }

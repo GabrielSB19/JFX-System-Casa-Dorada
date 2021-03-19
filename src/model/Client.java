@@ -1,15 +1,17 @@
 package model;
 
 public class Client extends Person {
-    
+
     private String cAddress;
     private int cPhone;
     private String cObservations;
     private boolean cState;
     private Admin mcAdmin;
 
-    public Client(String cAddress, int cPhone, String cObservations, boolean cState, String name, String lastName, int ID) {
-        super(name, lastName, ID);
+    public Client(String cAddress, int cPhone, String cObservations, boolean cState,
+            String name, String lastName, int ID, Admin cAdmin) {
+
+        super(name, lastName, ID, cAdmin);
         this.cAddress = cAddress;
         this.cPhone = cPhone;
         this.cObservations = cObservations;
@@ -48,7 +50,5 @@ public class Client extends Person {
     public void setcState(boolean cState) {
         this.cState = cState;
     }
-    
-    
 
 }

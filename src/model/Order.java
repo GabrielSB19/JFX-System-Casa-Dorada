@@ -1,10 +1,11 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Order {
-    
+
     private int oCode;
     private StatusOrder Status;
     private ArrayList<Integer> amountxProduct;
@@ -12,7 +13,6 @@ public class Order {
     private Date oHour;
     private String observatinos;
     private boolean state;
-    
     private ArrayList<Product> products;
     private Client rClient;
     private Employee rEmployee;
@@ -89,5 +89,5 @@ public class Order {
     public void setState(boolean state) {
         this.state = state;
     }
-    
+
 }

@@ -1,13 +1,15 @@
 package model;
 
+import java.io.Serializable;
+
 public abstract class Person {
-    
+
     private String name;
     private String lastName;
     private int ID;
     private Admin cAdmin;
 
-    public Person(String name, String lastName, int ID) {
+    public Person(String name, String lastName, int ID, Admin cAdmin) {
         this.name = name;
         this.lastName = lastName;
         this.ID = ID;
@@ -38,6 +40,4 @@ public abstract class Person {
         this.ID = ID;
     }
     
-    
-
 }

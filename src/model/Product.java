@@ -1,9 +1,10 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Product {
-    
+
     private String pName;
     private String pSize;
     private double pPrice;
@@ -11,10 +12,10 @@ public class Product {
     private int pNumOrder;
     private Admin cpAdmin;
     private Admin mpAdmin;
-    
+
     private ArrayList<Ingredient> ingredients;
     private ArrayList<TypeProduct> typeProducts;
-    
+
     public Product(String pName, String pSize, double pPrice, boolean pState, int pNumOrder) {
         this.pName = pName;
         this.pSize = pSize;
@@ -25,8 +26,7 @@ public class Product {
         this.mpAdmin = mpAdmin;
         ingredients = new ArrayList<>();
         typeProducts = new ArrayList<>();
-        
-        
+
     }
 
     public String getpName() {
