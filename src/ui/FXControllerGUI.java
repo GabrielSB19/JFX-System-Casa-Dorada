@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXToggleButton;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -22,7 +23,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -38,10 +38,7 @@ import model.*;
 
 public class FXControllerGUI implements Initializable {
 
-    /*
-    Atributos para el funcionamiento de SplashScreen
-    */
-    
+    //Atributos para el funcionamiento de SplashScreen
     public static ImageView imageView;
 
     private CasaDorada casaDorada;
@@ -54,17 +51,11 @@ public class FXControllerGUI implements Initializable {
     @FXML
     private ImageView ivWelcome;
     
-    /*
-    Pantalla para las advertencias
-    */
-    
+    //Pantalla para las advertencias
     @FXML
     private StackPane stackPane;
 
-    /*
-    Primera Pantalla (Login)
-    */
-    
+    //Primera Pantalla (Login)
     @FXML
     private BorderPane bpMain;
 
@@ -74,10 +65,7 @@ public class FXControllerGUI implements Initializable {
     @FXML
     private JFXPasswordField txtPassWordLogin;
 
-    /*
-    Pantalla de registrarse
-    */
-
+    //Pantalla de registrarse
     @FXML
     private JFXTextField txtRegisterName;
 
@@ -93,14 +81,9 @@ public class FXControllerGUI implements Initializable {
     @FXML
     private JFXPasswordField txtRegisterPassword;
 
-    /*
-    Atribtuos del Menu
-    */
+    //Atribtuos del Menu
     
-        /*
-        Atribtuos generales
-        */
-    
+        //Atribtuos generales
     @FXML
     private ImageView ivGoldHouse;
 
@@ -110,10 +93,7 @@ public class FXControllerGUI implements Initializable {
     @FXML
     private Pane pNewOption;
     
-    /*
-    Atributos para gestionar los Admin
-    */
-    
+    //Atributos para gestionar los Admin
     @FXML
     private TableView<Admin> tblAdmin;
     
@@ -132,30 +112,33 @@ public class FXControllerGUI implements Initializable {
     @FXML
     private TableColumn<Admin, Boolean> tblAdminState;
     
-        /*
-        Atributos para gestionar los ingredients
-        */
+    //Atributos para gestionar los Empleados
+    @FXML
+    private JFXTextField txtEmpName;
+
+    @FXML
+    private JFXTextField txtEmpLastName;
+
+    @FXML
+    private JFXTextField txtEmpID;
     
+    @FXML
+    private JFXToggleButton tbState;
+    
+        //Atributos para gestionar los ingredients
     @FXML
     private JFXTextField txtIngName;
     
-        /*
-        Atribtuos para gestionar los tipo de ingrediente
-        */
-    
+        //Atribtuos para gestionar los tipo de ingrediente
     @FXML
     private JFXTextField txtTpName;
     
-        /*
-        Atributos para gestionar los productos
-        */
-    
+        //Atributos para gestionar los productos
     @FXML
     private Pane pChooseIngredients;
     
     @FXML
     private TableView<Ingredient> tblChooseIngredient;
-    
     
     @FXML
     private TableColumn<Ingredient, String> tblIngredientName;
@@ -178,32 +161,19 @@ public class FXControllerGUI implements Initializable {
     @FXML
     private JFXTextField txtProductPrice;
 
-        /*
-        Atributos para gestionar los pedidos
-        */
-    
+        //Atributos para gestionar los pedidos
     @FXML
     private Pane pChooseProduct;
     
-            /*
-            Buscar cliente para los pedidos
-            */
-    
+            //Buscar cliente para los pedidos
     @FXML
     private Pane pSearchClient;
     
-        /*
-        Generar reportes
-        */
-    
+        //Generar reportes
     @FXML
     private Pane pSelectDate;
     
-    /*
-    Inicializable y concstructos de la clase
-    */
-
-
+    //Inicializable y concstructos de la clase
     public FXControllerGUI(CasaDorada casaDorada) throws IOException {
         this.casaDorada = casaDorada;
         casaDorada.loadDataAdmin();
@@ -235,10 +205,7 @@ public class FXControllerGUI implements Initializable {
         }
     }
 
-    /*
-    Cambios de Scene
-    */
-    
+    //Cambios de Scene
     public void newStage(Parent root) {
         Stage newStage = new Stage();
         Scene scene = new Scene(root);
@@ -253,11 +220,7 @@ public class FXControllerGUI implements Initializable {
         stage.close();
     }
 
-    /*
-    Metodos relacionados para que el splash screen funcione
-    Correctamente
-    */
-    
+    //Metodos relacionados para que el splash screen funcione Correctamente
     public void setImageWelcome() {
         try {
             ivWelcome.setImage(new Image("image/CasaDoradaNew.png"));
@@ -811,5 +774,34 @@ public class FXControllerGUI implements Initializable {
            tblAdminState.setCellValueFactory(new PropertyValueFactory<>("eState"));
        }
        
+               /*
+        Gestionar Empleado
+        */
        
+       @FXML
+       public void addEmployee(ActionEvent event){
+           JFXDialogLayout content = new JFXDialogLayout();
+           JFXButton button = new JFXButton("Okay");
+           JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
+           button.setOnAction(new EventHandler<ActionEvent>() {
+               @Override
+               public void handle(ActionEvent event) {
+                   dialog.close();
+               }
+           });
+           content.setActions(button);
+           if (!txtEmpName.getText().equals("") && !txtEmpLastName.getText().equals("")
+                   && !txtEmpID.getText().equals("")) {
+
+               casaDorada.addEmployee(0, tbState.isSelected(), true, null, null);
+
+               content.setHeading(new Text("¡Listo!"));
+               content.setBody(new Text("El ingrediente fue creado exitosamente."));
+               dialog.show();
+           } else {
+               content.setHeading(new Text("¡Error!"));
+               content.setBody(new Text("Debes colocarle un nombre al ingrediente que deseas crear."));
+               dialog.show();
+           }
+       }
 }
