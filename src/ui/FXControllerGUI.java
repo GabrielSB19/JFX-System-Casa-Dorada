@@ -1,5 +1,8 @@
 package ui;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
@@ -10,15 +13,19 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.*;
@@ -50,7 +57,22 @@ public class FXControllerGUI implements Initializable {
 
     //Register
     @FXML
-    private BorderPane bpRegister;
+    private StackPane stackPane;
+    
+    @FXML
+    private JFXTextField txtRegisterName;
+
+    @FXML
+    private JFXTextField txtRegisterLastName;
+
+    @FXML
+    private JFXTextField txtRegisterID;
+
+    @FXML
+    private JFXTextField txtRegisterUserName;
+
+    @FXML
+    private JFXPasswordField txtRegisterPassword;
 
     //Menu
     @FXML
@@ -116,7 +138,7 @@ public class FXControllerGUI implements Initializable {
             casaDorada.loadData();
         } catch (Exception e) {
         }
-        */
+         */
     }
 
     //Scenes
@@ -185,11 +207,37 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     public void onRegister(ActionEvent event) throws IOException {
-        closeStage();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/Login.fxml"));
-        fxmlLoader.setController(this);
-        Parent root = fxmlLoader.load();
-        newStage(root);
+        JFXDialogLayout content = new JFXDialogLayout();
+        JFXButton button = new JFXButton("Okay");
+        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                dialog.close();
+            }
+        });
+        content.setActions(button);
+        if (!txtRegisterName.getText().equals("") && !txtRegisterLastName.getText().equals("")
+                && !txtRegisterID.getText().equals("") && !txtRegisterUserName.getText().equals("")
+                && !txtRegisterPassword.getText().equals("")) {
+            
+            content.setHeading(new Text("¡Listo!"));
+            content.setBody(new Text("El usuario fue creado exitosamente."));
+            
+            casaDorada.addAdmin(txtRegisterUserName.getText(), txtRegisterPassword.getText(),
+                    Integer.parseInt(txtRegisterID.getText()), true, null, txtRegisterName.getText(),
+                    txtRegisterLastName.getText(), 0, null);
+            
+            closeStage();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/Login.fxml"));
+            fxmlLoader.setController(this);
+            Parent root = fxmlLoader.load();
+            newStage(root);
+        } else {
+            content.setHeading(new Text("¡Error!"));
+            content.setBody(new Text("Debes llenar todos los datos para crear el usuario."));
+            dialog.show();
+        }
     }
 
     //Menu

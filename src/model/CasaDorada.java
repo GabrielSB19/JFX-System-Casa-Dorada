@@ -50,8 +50,8 @@ public class CasaDorada implements Serializable {
             String name, String lastName, int ID, Admin cAdmin) throws IOException {
 
         //Al crearse la primer vez, no hay modificador y nunca va a tener creador.
-        Admin newAdmin = new Admin(userName, password, numOrder, eState, null,
-                name, lastName, ID, null);
+        Admin newAdmin = new Admin(userName, password, numOrder, eState, mAdmin,
+                name, lastName, ID, cAdmin);
         listAdmins.add(newAdmin);
         saveData();
     }
