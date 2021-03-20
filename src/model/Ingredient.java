@@ -36,7 +36,7 @@ public class Ingredient implements Serializable{
         this.ingredientsName = ingredientsName;
     }
 
-    public boolean isIngredientsState() {
+    public boolean getIngredientsState() {
         return ingredientsState;
     }
 

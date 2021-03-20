@@ -36,7 +36,7 @@ public class TypeProduct implements Serializable{
         this.typeName = typeName;
     }
 
-    public boolean isTypeState() {
+    public boolean getTypeState() {
         return typeState;
     }
 

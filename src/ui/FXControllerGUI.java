@@ -385,6 +385,7 @@ public class FXControllerGUI implements Initializable {
 
         pNewOption.getChildren().clear();
         pNewOption.getChildren().setAll(ingredientsGestion);
+        onTableIngredient();
     }
 
     @FXML
@@ -407,6 +408,7 @@ public class FXControllerGUI implements Initializable {
 
         pNewOption.getChildren().clear();
         pNewOption.getChildren().setAll(typeProductsGestion);
+        onTableTypeProduct();
     }
 
     @FXML
@@ -774,6 +776,7 @@ public class FXControllerGUI implements Initializable {
            tblAdminState.setCellValueFactory(new PropertyValueFactory<>("eState"));
        }
        
+
                /*
         Gestionar Empleado
         */
@@ -804,4 +807,49 @@ public class FXControllerGUI implements Initializable {
                dialog.show();
            }
        }
+       
+          //Pasar
+       
+    @FXML
+    private TableView<Ingredient> tblIngredient;
+
+    @FXML
+    private TableColumn<Ingredient, String> tblIngredientNameGestion;
+
+    @FXML
+    private TableColumn<Ingredient, Boolean> tblIngredientState;
+    
+    public void onTableIngredient(){
+        List<Ingredient> ingredients = casaDorada.getIngredient();
+        ObservableList<Ingredient> newTableIngredient;
+        newTableIngredient = FXCollections.observableArrayList(ingredients);
+        
+        tblIngredient.setItems(newTableIngredient);
+        tblIngredientNameGestion.setCellValueFactory(new PropertyValueFactory<>("ingredientsName"));
+        //Cambiar el getter
+        tblIngredientState.setCellValueFactory(new PropertyValueFactory<>("ingredientsState"));
+        //Llamar en el metodo onGestionIngredient
+    }
+    
+    
+    @FXML
+    private TableView<TypeProduct> tblTypeProduct;
+
+    @FXML
+    private TableColumn<TypeProduct, String> tblTypeProductNameGestion;
+
+    @FXML
+    private TableColumn<TypeProduct, Boolean> tblTypeProductState;
+    
+    public void onTableTypeProduct(){
+        List<TypeProduct> typeProducts = casaDorada.getTypeProduc();
+        ObservableList<TypeProduct> newTableTypeProduct;
+        newTableTypeProduct = FXCollections.observableArrayList(typeProducts);
+        
+        tblTypeProduct.setItems(newTableTypeProduct);
+        tblTypeProductNameGestion.setCellValueFactory(new PropertyValueFactory<>("typeName"));
+        //Cambiar el getter
+        tblTypeProductState.setCellValueFactory(new PropertyValueFactory<>("typeState"));
+        //Llamar en el metodo onGestionTypeProduct
+    }
 }
