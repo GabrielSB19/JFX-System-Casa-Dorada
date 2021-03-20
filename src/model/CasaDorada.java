@@ -195,10 +195,10 @@ public class CasaDorada implements Serializable {
             /*
         Metodos relacionados con los clientes
         */
-    public void addClient(String cAddress, int cPhone, String cObservations, boolean cState,
+    public void addClient(String cAddress, int cPhone, String cObservations, boolean cState, Admin mcAdmin,
             String name, String lastName, int ID, Admin cAdmin) throws IOException{
         
-        Client newClient = new Client(cAddress, cPhone, cObservations, cState,
+        Client newClient = new Client(cAddress, cPhone, cObservations, cState, mcAdmin,
             name, lastName, ID, cAdmin);
         
         listClients.add(newClient);
