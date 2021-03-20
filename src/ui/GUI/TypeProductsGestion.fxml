@@ -50,10 +50,10 @@
                   <JFXToggleButton layoutX="142.0" layoutY="453.0" text="Habilitado" toggleColor="#efb810" toggleLineColor="#fee99b" />
                </children>
             </Pane>
-            <TableView layoutX="50.0" layoutY="52.0" prefHeight="647.0" prefWidth="735.0" style="-fx-background-color: #ffffff; -fx-border-color: #efb810;">
+            <TableView fx:id="tblTypeProduct" layoutX="50.0" layoutY="52.0" prefHeight="647.0" prefWidth="735.0" style="-fx-background-color: #ffffff; -fx-border-color: #efb810;">
                <columns>
-                  <TableColumn prefWidth="367.0" style="-fx-background-color: #ffffff;" text="Nombre" />
-                  <TableColumn prefWidth="367.0" style="-fx-background-color: #ffffff;" text="Estado" />
+                  <TableColumn fx:id="tblTypeProductNameGestion" prefWidth="367.0" style="-fx-background-color: #ffffff;" text="Nombre" />
+                  <TableColumn fx:id="tblTypeProductState" prefWidth="367.0" style="-fx-background-color: #ffffff;" text="Estado" />
                </columns>
             </TableView>
          </children>
