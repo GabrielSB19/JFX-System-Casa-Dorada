@@ -52,7 +52,7 @@
                         <Font size="18.0" />
                      </font>
                   </JFXTextField>
-                  <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="468.0" onAction="#addClient" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Agregar">
+                  <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="517.0" onAction="#addClient" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Agregar">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -62,12 +62,12 @@
                         <Font size="18.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="520.0" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Actualizar">
+                  <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="569.0" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Actualizar">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </JFXButton>
-                  <JFXToggleButton layoutX="142.0" layoutY="559.0" text="Habilitado" toggleColor="#efb810" toggleLineColor="#fee99b" />
+                  <JFXToggleButton fx:id="tbStateClient" layoutX="142.0" layoutY="451.0" text="Habilitado" toggleColor="#efb810" toggleLineColor="#fee99b" />
                   <JFXTextField fx:id="txtCObser" alignment="CENTER" focusColor="BLACK" layoutX="84.0" layoutY="365.0" prefHeight="86.0" prefWidth="259.0" promptText="Observaciones" unFocusColor="#efb810">
                      <font>
                         <Font size="18.0" />

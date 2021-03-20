@@ -41,7 +41,7 @@
                         <Font size="18.0" />
                      </font>
                   </JFXTextField>
-                  <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="406.0" onAction="#addEmployee" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Agregar">
+                  <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="446.0" onAction="#addEmployee" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Agregar">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -51,20 +51,20 @@
                         <Font size="18.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="454.0" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Actualizar">
+                  <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="498.0" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Actualizar">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </JFXButton>
-                  <JFXToggleButton fx:id="tbState" layoutX="142.0" layoutY="493.0" text="Habilitado" toggleColor="#efb810" toggleLineColor="#fee99b" />
+                  <JFXToggleButton fx:id="tbStateEmployee" layoutX="142.0" layoutY="375.0" text="Habilitado" toggleColor="#efb810" toggleLineColor="#fee99b" />
                </children>
             </Pane>
             <TableView fx:id="tblEmployee" layoutX="49.0" layoutY="52.0" prefHeight="647.0" prefWidth="735.0" style="-fx-background-color: #ffffff; -fx-border-color: #efb810;">
                <columns>
-                  <TableColumn fx:id="tblEmployeeName" prefWidth="183.0" style="-fx-background-color: #ffffff;" text="Nombre" />
-                  <TableColumn fx:id="tblEmployeeLastName" prefWidth="183.0" style="-fx-background-color: #ffffff;" text="Apellido" />
-                  <TableColumn fx:id="tblEmployeeID" prefWidth="183.0" style="-fx-background-color: #ffffff;" text="ID" />
-                  <TableColumn fx:id="tblEmployeeState" prefWidth="183.0" style="-fx-background-color: #ffffff;" text="Estado" />
+                  <TableColumn fx:id="tblEmployeeName" prefWidth="183.0" text="Nombre" />
+                  <TableColumn fx:id="tblEmployeeLastName" prefWidth="183.0" text="Apellido" />
+                  <TableColumn fx:id="tblEmployeeID" prefWidth="183.0" text="ID" />
+                  <TableColumn fx:id="tblEmployeeState" prefWidth="183.0" text="Estado" />
                </columns>
             </TableView>
          </children>

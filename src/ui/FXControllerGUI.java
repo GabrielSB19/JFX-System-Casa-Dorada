@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -132,7 +133,7 @@ public class FXControllerGUI implements Initializable {
     private JFXTextField txtEmpID;
 
     @FXML
-    private JFXToggleButton tbState;
+    private JFXToggleButton tbStateEmployee;
     
     @FXML
     private TableView<Employee> tblEmployee;
@@ -152,6 +153,9 @@ public class FXControllerGUI implements Initializable {
     //Atributos para gestionar los ingredients
     @FXML
     private JFXTextField txtIngName;
+    
+    @FXML
+    private JFXToggleButton tbStateIngredients;
 
     @FXML
     private TableView<Ingredient> tblIngredient;
@@ -167,6 +171,9 @@ public class FXControllerGUI implements Initializable {
     
     @FXML
     private JFXTextField txtTpName;
+    
+    @FXML
+    private JFXToggleButton tbStateTypeProduct;
     
      @FXML
     private TableView<TypeProduct> tblTypeProduct;
@@ -205,7 +212,7 @@ public class FXControllerGUI implements Initializable {
     @FXML
     private JFXTextField txtProductPrice;
     
-        //Atributos para gestionar los clienetes
+        //Atributos para gestionar los clientes
     
     @FXML
     private JFXTextField txtCName;
@@ -224,8 +231,11 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     private JFXTextField txtCObser;
+        
+    @FXML
+    private JFXToggleButton tbStateClient;
     
-        @FXML
+    @FXML
     private TableView<Client> tblClients;
 
     @FXML
@@ -254,6 +264,61 @@ public class FXControllerGUI implements Initializable {
     @FXML
     private Pane pChooseProduct;
 
+    //Atributos para listar
+    
+        //Atributos Ingredientes
+    
+    @FXML
+    private TableView<Ingredient> tblIngredientDisp;
+
+    @FXML
+    private TableColumn<Ingredient, String> tblIngredientNameDisp;
+    
+        //Atributos tipo de producto
+        
+    @FXML
+    private TableView<TypeProduct> tblDispTP;
+
+    @FXML
+    private TableColumn<TypeProduct, String> tblDispNameTP;
+    
+        //Atributos cliente
+
+    @FXML
+    private TableView<Client> tblDispClient;
+
+    @FXML
+    private TableColumn<Client, String> tblDispNameClient;
+
+    @FXML
+    private TableColumn<Client, String> tblDispLNClient;
+
+    @FXML
+    private TableColumn<Client, Integer> tblDispIDClient;
+
+    @FXML
+    private TableColumn<Client, String> tblDispAddressClient;
+
+    @FXML
+    private TableColumn<Client, Integer> tblDispPhoneClient;
+
+    @FXML
+    private TableColumn<Client, String> tblDispObserClient;
+    
+        //Atributos empleado
+        
+    @FXML
+    private TableView<Employee> tblEmployeeDisp;
+
+    @FXML
+    private TableColumn<Employee, String> tblEmployeeNameDisp;
+
+    @FXML
+    private TableColumn<Employee, String> tblEmployeeLNDisp;
+
+    @FXML
+    private TableColumn<Employee, Integer> tblEmployeeIDDisp;
+    
     //Buscar cliente para los pedidos
     @FXML
     private Pane pSearchClient;
@@ -548,6 +613,7 @@ public class FXControllerGUI implements Initializable {
 
         pNewOption.getChildren().clear();
         pNewOption.getChildren().setAll(listClients);
+        showListClient();
     }
 
     @FXML
@@ -559,6 +625,7 @@ public class FXControllerGUI implements Initializable {
 
         pNewOption.getChildren().clear();
         pNewOption.getChildren().setAll(listEmployees);
+        showListEmployee();
     }
 
     @FXML
@@ -570,6 +637,7 @@ public class FXControllerGUI implements Initializable {
 
         pNewOption.getChildren().clear();
         pNewOption.getChildren().setAll(listIngredients);
+        showListIngredient();
     }
 
     @FXML
@@ -592,6 +660,7 @@ public class FXControllerGUI implements Initializable {
 
         pNewOption.getChildren().clear();
         pNewOption.getChildren().setAll(listTypeProducts);
+        showListTypeProduct();
     }
 
     @FXML
@@ -738,7 +807,7 @@ public class FXControllerGUI implements Initializable {
 
             //ingCode++;
             String ingredientsName = txtIngName.getText();
-            casaDorada.addIngredient(0, ingredientsName, true, null, null);
+            casaDorada.addIngredient(0, ingredientsName, tbStateIngredients.isSelected(), null, null);
 
             content.setHeading(new Text("¡Listo!"));
             content.setBody(new Text("El ingrediente fue creado exitosamente."));
@@ -793,7 +862,7 @@ public class FXControllerGUI implements Initializable {
             //tpCode++;
 
             String typeName = txtTpName.getText();
-            casaDorada.addTypeProduct(0, typeName, true, null, null);
+            casaDorada.addTypeProduct(0, typeName, tbStateTypeProduct.isSelected(), null, null);
             content.setHeading(new Text("¡Listo!"));
             content.setBody(new Text("El tipo de producto fue creado exitosamente."));
             dialog.show();
@@ -812,9 +881,7 @@ public class FXControllerGUI implements Initializable {
         
         tblTypeProduct.setItems(newTableTypeProduct);
         tblTypeProductNameGestion.setCellValueFactory(new PropertyValueFactory<>("typeName"));
-        //Cambiar el getter
         tblTypeProductState.setCellValueFactory(new PropertyValueFactory<>("typeState"));
-        //Llamar en el metodo onGestionTypeProduct
     }
         
         /*
@@ -942,23 +1009,30 @@ public class FXControllerGUI implements Initializable {
             }
         });
         content.setActions(button);
-        if (!txtEmpName.getText().equals("") && !txtEmpLastName.getText().equals("")
+        try{
+           if (!txtEmpName.getText().equals("") && !txtEmpLastName.getText().equals("")
                 && !txtEmpID.getText().equals("")) {
 
-            casaDorada.addEmployee(0, tbState.isSelected(), null, txtEmpName.getText(),
+                casaDorada.addEmployee(0, tbStateEmployee.isSelected(), null, txtEmpName.getText(),
                     txtEmpLastName.getText(), Integer.parseInt(txtEmpID.getText()),casaDorada.getAdminActive());
-            content.setHeading(new Text("¡Listo!"));
-            content.setBody(new Text("El empleado fue creado exitosamente."));
-            dialog.show();
-            txtEmpName.clear();
-            txtEmpLastName.clear();
-            txtEmpID.clear();
-            onTableEmployee();
-        } else {
+                content.setHeading(new Text("¡Listo!"));
+                content.setBody(new Text("El empleado fue creado exitosamente."));
+                dialog.show();
+                txtEmpName.clear();
+                txtEmpLastName.clear();
+                txtEmpID.clear();
+                onTableEmployee();
+            } else {
+                content.setHeading(new Text("¡Error!"));
+                content.setBody(new Text("Debes llenar todos los campos."));
+                dialog.show();
+            }     
+        } catch (Exception e){
             content.setHeading(new Text("¡Error!"));
-            content.setBody(new Text("Debes llenar todos los campos."));
+            content.setBody(new Text("No puedes ingresar letras en la identificación."));
             dialog.show();
         }
+        
     }
     
     public void onTableEmployee() {
@@ -1002,28 +1076,35 @@ public class FXControllerGUI implements Initializable {
             }
         });
         content.setActions(button);
-        if(!(txtCName.getText().equals("")) && !(txtCLastName.getText().equals("")) && !(txtCID.getText().equals(""))
+        try{
+           if(!(txtCName.getText().equals("")) && !(txtCLastName.getText().equals("")) && !(txtCID.getText().equals(""))
                 && !(txtCPhone.getText().equals("")) && !(txtCAddress.getText().equals(""))){
             
-            String cName = txtCName.getText();
-            String cLastName = txtCLastName.getText();
-            int cID = Integer.parseInt(txtCID.getText());
-            int cPhone = Integer.parseInt(txtCPhone.getText());
-            String cAddress = txtCAddress.getText();
-            String cObser = txtCObser.getText();
+                String cName = txtCName.getText();
+                String cLastName = txtCLastName.getText();
+                int cID = Integer.parseInt(txtCID.getText());
+                int cPhone = Integer.parseInt(txtCPhone.getText());
+                String cAddress = txtCAddress.getText();
+                String cObser = txtCObser.getText();
             
-            casaDorada.addClient(cAddress, cPhone, cObser, true, null,
-            cName, cLastName, cID, null);
+                casaDorada.addClient(cAddress, cPhone, cObser, tbStateClient.isSelected(), null,
+                    cName, cLastName, cID, null);
             
-            content.setHeading(new Text("¡Listo!"));
-            content.setBody(new Text("El Cliente fue creado exitosamente."));
-            dialog.show();
-            onTableClient();
-        } else {
+                content.setHeading(new Text("¡Listo!"));
+                content.setBody(new Text("El Cliente fue creado exitosamente."));
+                dialog.show();
+                onTableClient();
+            } else {
             content.setHeading(new Text("¡Error!"));
             content.setBody(new Text("Todos los campos son obligatorios, menos las observaciones."));
             dialog.show();  
+            } 
+        } catch (Exception e){
+            content.setHeading(new Text("¡Error!"));
+            content.setBody(new Text("No puedes ingresar letras en la identificación o el numero de telefono."));
+            dialog.show();
         }
+        
     }
     
     public  void onTableClient(){
@@ -1049,5 +1130,97 @@ public class FXControllerGUI implements Initializable {
         /*
         Deshabiliatar Cliente
         */
-       
+    
+    /*
+    Listar las arrayList de los objetos
+    */
+        /*
+        Listar ingredientes
+        */
+    
+    public void showListIngredient(){
+        ArrayList<Ingredient> dispIngredients = new ArrayList<>();
+        List<Ingredient> ingredients = casaDorada.getIngredient();
+        for(int i = 0; i<ingredients.size(); i++){
+            if(ingredients.get(i).getIngredientsState()){
+                dispIngredients.add(ingredients.get(i));
+            }
+        }
+        ObservableList<Ingredient> newTableIngredient;
+        newTableIngredient = FXCollections.observableArrayList(dispIngredients);
+        
+        tblIngredientDisp.setItems(newTableIngredient);
+        tblIngredientNameDisp.setCellValueFactory(new PropertyValueFactory<>("ingredientsName"));
+    }
+    
+        /*
+        Listar tipo de productos
+        */
+
+    
+    public void showListTypeProduct(){
+        ArrayList<TypeProduct> dispTypeProduct = new ArrayList<>();
+        List<TypeProduct> typeProducts = casaDorada.getTypeProduc();
+        for(int i = 0; i<typeProducts.size(); i++){
+            if(typeProducts.get(i).getTypeState()){
+                dispTypeProduct.add(typeProducts.get(i));
+            }
+        }
+        ObservableList<TypeProduct> newTableTypeProduct;
+        newTableTypeProduct = FXCollections.observableArrayList(dispTypeProduct);
+        
+        tblDispTP.setItems(newTableTypeProduct);
+        tblDispNameTP.setCellValueFactory(new PropertyValueFactory<>("typeName"));
+    }
+    
+        /*
+        Listar empleados
+        */
+
+    
+    public void showListEmployee(){
+        ArrayList<Employee> dispEmployees = new ArrayList<>();
+        List<Employee> employees = casaDorada.getEmployee();
+        for(int i = 0; i<employees.size(); i++){
+            if(employees.get(i).getEState()){
+                dispEmployees.add(employees.get(i));
+            }
+        }
+        ObservableList<Employee> newTableEmployee;
+        newTableEmployee = FXCollections.observableArrayList(dispEmployees);
+        
+        tblEmployeeDisp.setItems(newTableEmployee);
+        tblEmployeeNameDisp.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tblEmployeeLNDisp.setCellValueFactory(new PropertyValueFactory<>("lastname"));
+        tblEmployeeIDDisp.setCellValueFactory(new PropertyValueFactory<>("ID"));
+    }
+        
+        /*
+        Listar clientes
+        */
+
+    
+    public void showListClient(){
+        ArrayList<Client> dispClient = new ArrayList<>();
+        List<Client> clients = casaDorada.getClient();
+        for(int i = 0; i<clients.size(); i++){
+            if(clients.get(i).getCState()){
+                dispClient.add(clients.get(i));
+            }
+        }
+        ObservableList<Client> newTableClient;
+        newTableClient = FXCollections.observableArrayList(dispClient);
+        
+        tblDispClient.setItems(newTableClient);
+        tblDispNameClient.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tblDispLNClient.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        tblDispIDClient.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        tblDispAddressClient.setCellValueFactory(new PropertyValueFactory<>("cAddress"));
+        tblDispPhoneClient.setCellValueFactory(new PropertyValueFactory<>("cPhone"));
+        tblDispObserClient.setCellValueFactory(new PropertyValueFactory<>("cObservations"));
+    }
+
+        /*
+        Listar productos
+        */
 }
