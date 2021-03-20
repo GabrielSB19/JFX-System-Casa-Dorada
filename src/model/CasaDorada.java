@@ -159,6 +159,10 @@ public class CasaDorada implements Serializable {
         saveDataIngredient();
     }
     
+    public List<Ingredient> getIngredient(){
+        return listIngredients;
+    }
+    
         
         /*
         Metodos relacionados con los tipo de productos
@@ -169,6 +173,10 @@ public class CasaDorada implements Serializable {
         TypeProduct newTypeProduct = new TypeProduct(tpCode, typeName, typeState, ctpAdmin, mtpAdmin);
         listTypeProducts.add(newTypeProduct);
         saveDataTypeProduct();
+    }
+    
+    public List<TypeProduct> getTypeProduc(){
+        return listTypeProducts;
     }
     
         /*

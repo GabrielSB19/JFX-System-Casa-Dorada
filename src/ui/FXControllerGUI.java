@@ -8,10 +8,13 @@ import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -20,6 +23,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -124,6 +130,19 @@ public class FXControllerGUI implements Initializable {
     
     @FXML
     private Pane pChooseIngredients;
+    
+    @FXML
+    private TableView<Ingredient> tblChooseIngredient;
+    
+    
+    @FXML
+    private TableColumn<Ingredient, String> tblIngredientName;
+
+    @FXML
+    private TableView<TypeProduct> tblChooseTypeProduct;
+
+    @FXML
+    private TableColumn<TypeProduct, String> tblTypeProductName;
 
     @FXML
     private Pane pChooseType;
@@ -167,7 +186,7 @@ public class FXControllerGUI implements Initializable {
         this.casaDorada = casaDorada;
         casaDorada.loadDataAdmin();
         casaDorada.loadDataIngredient();
-        casaDorada.loadDatTypeProduct();;
+        casaDorada.loadDatTypeProduct();
     }
 
     @Override
@@ -504,7 +523,8 @@ public class FXControllerGUI implements Initializable {
 
         fxmlLoader.setController(this);
         Parent chooseIngredient = fxmlLoader.load();
-        newStage(chooseIngredient);
+        newStage(chooseIngredient);  
+        onTableChooseIngredient();
     }
 
     @FXML
@@ -520,6 +540,7 @@ public class FXControllerGUI implements Initializable {
         fxmlLoader.setController(this);
         Parent chooseTypeProduct = fxmlLoader.load();
         newStage(chooseTypeProduct);
+        onTableChooseTypeProduct();
     }
 
     @FXML
@@ -622,6 +643,7 @@ public class FXControllerGUI implements Initializable {
             
             content.setHeading(new Text("¡Listo!"));
             content.setBody(new Text("El ingrediente fue creado exitosamente."));
+            dialog.show();
         } else {
             content.setHeading(new Text("¡Error!"));
             content.setBody(new Text("Debes colocarle un nombre al ingrediente que deseas crear."));
@@ -664,6 +686,9 @@ public class FXControllerGUI implements Initializable {
             
             String typeName = txtTpName.getText();
             casaDorada.addTypeProduct(0, typeName, true, null, null);
+            content.setHeading(new Text("¡Listo!"));
+            content.setBody(new Text("El ingrediente fue creado exitosamente."));
+            dialog.show();
         } else {
             content.setHeading(new Text("¡Error!"));
             content.setBody(new Text("Debes colocarle un nombre al tipo de producto que deseas crear."));
@@ -685,7 +710,7 @@ public class FXControllerGUI implements Initializable {
     Gestionar Producto
     */
         /*
-        Agregar tipo de producto
+        Agregar producto
         */
     
     @FXML
@@ -711,17 +736,40 @@ public class FXControllerGUI implements Initializable {
         } else {
             content.setHeading(new Text("¡Error!"));
             content.setBody(new Text("Debes colocarle un nombre al tipo de producto que deseas crear."));
-            dialog.show(); 
+            dialog.show();
         }
     }
+    
+            /*
+            Listar los ingredientes disponibles
+            */
+    
+    public void onTableChooseIngredient(){
+        List<Ingredient> chooseIngredients = casaDorada.getIngredient();
+        ObservableList<Ingredient> newTableIngredient;
+        newTableIngredient = FXCollections.observableArrayList(chooseIngredients);
+        
+        tblChooseIngredient.setItems(newTableIngredient);
+        tblIngredientName.setCellValueFactory(new PropertyValueFactory<>("ingredientsName"));
+    }
+    
+       public void onTableChooseTypeProduct(){
+        List<TypeProduct> chooseTypeProduct = casaDorada.getTypeProduc();
+        ObservableList<TypeProduct> newTableTypeProduct;
+        newTableTypeProduct = FXCollections.observableArrayList(chooseTypeProduct);
+        
+        tblChooseTypeProduct.setItems(newTableTypeProduct);
+        tblTypeProductName.setCellValueFactory(new PropertyValueFactory<>("typeName"));
+    }
+    
         /*
-        Eliminar tipo de producto
+        Eliminar producto
         */
         /*
-        Actualizar tipo de producto
+        Actualizar producto
         */
         /*
-        Deshabiliatar tipo de producto
+        Deshabiliatar producto
         */
     
 }
