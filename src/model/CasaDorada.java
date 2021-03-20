@@ -28,6 +28,7 @@ public class CasaDorada implements Serializable {
     private List<Order> listOrders;
     private List<Product> listProducts;
     private List<TypeProduct> listTypeProducts;
+    private Admin adminActive;
     
     public CasaDorada() {
         listAdmins = new ArrayList<>();
@@ -222,6 +223,10 @@ public class CasaDorada implements Serializable {
         saveDataEmployee();
     }
     
+    public List<Employee> getEmployee(){
+        return listEmployees;
+    }
+    
         /*
         Metodos relacionados con los ingredientes
         */
@@ -266,12 +271,17 @@ public class CasaDorada implements Serializable {
     }
     
         
-    public void login(String username){
+    public boolean login(String username, String password){
         for (int i = 0; i < listAdmins.size(); i++) {
-            if (listAdmins.get(i).getUsername().equals(username)) {
-                System.out.println("si");
+            if (listAdmins.get(i).getUsername().equals(username) && listAdmins.get(i).getPassword().equals(password)) {
+                adminActive = listAdmins.get(i);
+                return true;
             }
         }
-        System.out.println("no");
+        return false;
+    }
+    
+    public Admin getAdminActive(){
+        return adminActive;
     }
 }
