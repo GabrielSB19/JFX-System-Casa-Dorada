@@ -8,30 +8,31 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class CasaDorada implements Serializable {
 
     private static final long serialVersionUID = 1;
     private CasaDorada cd;
-    private String SAVE_PATH_FILE_PROGRAM = "/logs/Program.cgd";
-    private ArrayList<Admin> listAdmins;
-    private ArrayList<Client> listClients;
-    private ArrayList<Employee> listEmployees;
-    private ArrayList<Ingredient> listIngredients;
-    private ArrayList<Order> listOrders;
-    private ArrayList<Product> listProducts;
-    private ArrayList<TypeProduct> listTypeProducts;
+    private String SAVE_PATH_FILE_PROGRAM = "data/Program.cgd";
+    private List<Admin> listAdmins;
+    private List<Client> listClients;
+    private List<Employee> listEmployees;
+    private List<Ingredient> listIngredients;
+    private List<Order> listOrders;
+    private List<Product> listProducts;
+    private List<TypeProduct> listTypeProducts;
     
     public CasaDorada() {
-
+        listAdmins = new ArrayList<>();
     }
 
     //LOAD INFO
     public void loadData() throws IOException {
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE_PROGRAM)));
-            CasaDorada cd = (CasaDorada) ois.readObject();
-            this.cd = cd;
+            listAdmins = (List) ois.readObject();
             ois.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -41,7 +42,7 @@ public class CasaDorada implements Serializable {
     //SAVE INFO
     public void saveData() throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_PROGRAM));
-        oos.writeObject(cd);
+        oos.writeObject(listAdmins);
         oos.close();
     }
 
@@ -54,5 +55,14 @@ public class CasaDorada implements Serializable {
                 name, lastName, ID, cAdmin);
         listAdmins.add(newAdmin);
         saveData();
+    }
+    
+    public void login(String username){
+        for (int i = 0; i < listAdmins.size(); i++) {
+            if (listAdmins.get(i).getUsername().equals(username)) {
+                System.out.println("si");
+            }
+        }
+        System.out.println("no");
     }
 }

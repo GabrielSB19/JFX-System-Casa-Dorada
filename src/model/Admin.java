@@ -1,14 +1,17 @@
 package model;
 
-public class Admin extends Employee {
+import java.io.Serializable;
 
+public class Admin extends Employee implements Serializable {
+
+    private static final long serialVersionUID = 1;
     private String username;
     private String password;
 
     public Admin(String userName, String password, int numOrder, boolean eState, Admin mAdmin,
             String name, String lastName, int ID, Admin cAdmin) {
-        
-        super(numOrder, eState,  mAdmin, name, lastName, ID, cAdmin);
+
+        super(numOrder, eState, mAdmin, name, lastName, ID, cAdmin);
         this.username = userName;
         this.password = password;
     }

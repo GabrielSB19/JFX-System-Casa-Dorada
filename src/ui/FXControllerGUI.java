@@ -58,7 +58,7 @@ public class FXControllerGUI implements Initializable {
     //Register
     @FXML
     private StackPane stackPane;
-    
+
     @FXML
     private JFXTextField txtRegisterName;
 
@@ -107,8 +107,9 @@ public class FXControllerGUI implements Initializable {
     @FXML
     private Pane pSearchClient;
 
-    public FXControllerGUI(CasaDorada casaDorada) {
+    public FXControllerGUI(CasaDorada casaDorada) throws IOException {
         this.casaDorada = casaDorada;
+        casaDorada.loadData();
     }
 
     @Override
@@ -133,12 +134,6 @@ public class FXControllerGUI implements Initializable {
             setImageWelcome();
             FXMain.loaded = true;
         }
-        /*
-        try {
-            casaDorada.loadData();
-        } catch (Exception e) {
-        }
-         */
     }
 
     //Scenes
@@ -187,6 +182,7 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     public void onLogIn(ActionEvent event) throws IOException {
+        casaDorada.login(txtUserLogin.getText());
         closeStage();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/Menu.fxml"));
         fxmlLoader.setController(this);
@@ -220,14 +216,14 @@ public class FXControllerGUI implements Initializable {
         if (!txtRegisterName.getText().equals("") && !txtRegisterLastName.getText().equals("")
                 && !txtRegisterID.getText().equals("") && !txtRegisterUserName.getText().equals("")
                 && !txtRegisterPassword.getText().equals("")) {
-            
+
             content.setHeading(new Text("¡Listo!"));
             content.setBody(new Text("El usuario fue creado exitosamente."));
-            
+
             casaDorada.addAdmin(txtRegisterUserName.getText(), txtRegisterPassword.getText(),
                     Integer.parseInt(txtRegisterID.getText()), true, null, txtRegisterName.getText(),
                     txtRegisterLastName.getText(), 0, null);
-            
+
             closeStage();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/Login.fxml"));
             fxmlLoader.setController(this);

@@ -2,8 +2,9 @@ package model;
 
 import java.io.Serializable;
 
-public abstract class Person {
+public abstract class Person implements Serializable {
 
+    private static final long serialVersionUID = 1;
     private String name;
     private String lastName;
     private int ID;

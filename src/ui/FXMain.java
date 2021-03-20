@@ -1,6 +1,7 @@
 package ui;
 
 import com.sun.javafx.application.LauncherImpl;
+import java.io.IOException;
 import javafx.application.Preloader;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,14 +11,15 @@ import javafx.stage.Stage;
 import model.*;
 
 public class FXMain extends Application {
-    
+
+    private String SAVE_PATH_FILE_PROGRAM = "data/Program.cgd";
     public static boolean loaded = false;
     private CasaDorada casaDorada;
     private FXControllerGUI fxControllerGUI;
 
     private static final int COUNT_LIMIT = 30000;
 
-    public FXMain() {
+    public FXMain() throws IOException {
         casaDorada = new CasaDorada();
         fxControllerGUI = new FXControllerGUI(casaDorada);
     }
