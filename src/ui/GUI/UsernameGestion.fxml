@@ -44,11 +44,6 @@
                   <Font size="18.0" />
                </font>
             </JFXTextField>
-            <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="453.0" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Agregar">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </JFXButton>
             <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="604.0" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Eliminar">
                <font>
                   <Font size="18.0" />
@@ -72,13 +67,13 @@
             </JFXPasswordField>
          </children>
       </Pane>
-      <TableView layoutX="49.0" layoutY="52.0" prefHeight="647.0" prefWidth="735.0" style="-fx-background-color: #ffffff; -fx-border-color: #efb810;">
+      <TableView fx:id="tblAdmin" layoutX="49.0" layoutY="52.0" prefHeight="647.0" prefWidth="735.0" style="-fx-background-color: #ffffff; -fx-border-color: #efb810;">
          <columns>
-            <TableColumn prefWidth="147.0" style="-fx-background-color: #ffffff;" text="Nombre" />
-            <TableColumn prefWidth="163.0" style="-fx-background-color: #ffffff;" text="Apellido" />
-            <TableColumn prefWidth="131.0" style="-fx-background-color: #ffffff;" text="ID" />
-            <TableColumn prefWidth="147.0" style="-fx-background-color: #ffffff;" text="Usuario" />
-            <TableColumn prefWidth="147.0" style="-fx-background-color: #ffffff;" text="Estado" />
+            <TableColumn fx:id="tblAdminName" prefWidth="147.0" text="Nombre" />
+            <TableColumn fx:id="tblAdminLastName" prefWidth="163.0" text="Apellido" />
+            <TableColumn fx:id="tblAdminID" prefWidth="131.0" text="ID" />
+            <TableColumn fx:id="tblAdminUserName" prefWidth="147.0" text="Usuario" />
+            <TableColumn fx:id="tblAdminState" prefWidth="147.0" text="Estado" />
          </columns>
       </TableView>
    </children>

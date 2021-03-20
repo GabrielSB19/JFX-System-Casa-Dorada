@@ -110,6 +110,28 @@ public class FXControllerGUI implements Initializable {
     @FXML
     private Pane pNewOption;
     
+    /*
+    Atributos para gestionar los Admin
+    */
+    
+    @FXML
+    private TableView<Admin> tblAdmin;
+    
+    @FXML
+    private TableColumn<Admin, String> tblAdminName;
+
+    @FXML
+    private TableColumn<Admin, String> tblAdminLastName;
+
+    @FXML
+    private TableColumn<Admin, Integer> tblAdminID;
+
+    @FXML
+    private TableColumn<Admin, String> tblAdminUserName;
+
+    @FXML
+    private TableColumn<Admin, Boolean> tblAdminState;
+    
         /*
         Atributos para gestionar los ingredients
         */
@@ -365,6 +387,7 @@ public class FXControllerGUI implements Initializable {
 
         pNewOption.getChildren().clear();
         pNewOption.getChildren().setAll(usernameGestion);
+        onTableAdmin();
     }
 
     
@@ -772,4 +795,21 @@ public class FXControllerGUI implements Initializable {
         Deshabiliatar producto
         */
     
+        /*
+        Gestionar Admin
+        */
+       public void onTableAdmin(){
+           List<Admin> admin = casaDorada.getAdmin();
+           ObservableList<Admin> newTableAdmin;
+           newTableAdmin = FXCollections.observableArrayList(admin);
+
+           tblAdmin.setItems(newTableAdmin);
+           tblAdminName.setCellValueFactory(new PropertyValueFactory<>("name"));
+           tblAdminLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+           tblAdminID.setCellValueFactory(new PropertyValueFactory<>("ID"));
+           tblAdminUserName.setCellValueFactory(new PropertyValueFactory<>("username"));
+           tblAdminState.setCellValueFactory(new PropertyValueFactory<>("eState"));
+       }
+       
+       
 }

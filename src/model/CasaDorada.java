@@ -8,7 +8,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class CasaDorada implements Serializable {
@@ -16,6 +15,8 @@ public class CasaDorada implements Serializable {
     private static final long serialVersionUID = 1;
     
     private final String SAVE_PATH_FILE_ADMIN = "data/Admin.cgd";
+    private final String SAVE_PATH_FILE_CLIENT = "data/Client.cgd";
+    private final String SAVE_PATH_FILE_EMPLOYEE = "data/Employee.cgd";
     private final String SAVE_PATH_FILE_INGREDIENT = "data/Ingredient.cgd";
     private final String SAVE_PATH_FILE_TYPEPRODUCT = "data/TypeProduc.cgd";
     private final String SAVE_PATH_FILE_PRODUCT = "data/Product.cgd";
@@ -31,6 +32,8 @@ public class CasaDorada implements Serializable {
     
     public CasaDorada() {
         listAdmins = new ArrayList<>();
+        listClients = new ArrayList<>();
+        listEmployees = new ArrayList<>();
         listIngredients = new ArrayList<>();
         listTypeProducts = new ArrayList<>();
         listProducts = new ArrayList<>();
@@ -53,6 +56,29 @@ public class CasaDorada implements Serializable {
         }
     }
     
+    //Cargar lista de Cliente
+    
+    public void loadDataClient() throws IOException {
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE_CLIENT)));
+            listClients = (List) ois.readObject();
+            ois.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //Cargar lista de Empleado
+    public void loadDataEMmployee() throws IOException {
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE_EMPLOYEE)));
+            listEmployees = (List) ois.readObject();
+            ois.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     //Cargar lista de ingredientes
         
     public void loadDataIngredient() throws IOException {
@@ -102,6 +128,22 @@ public class CasaDorada implements Serializable {
         oos.close();
     }
     
+    //Guardar lista de Clientes
+    
+    public void saveDataClient() throws IOException {
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_CLIENT));
+        oos.writeObject(listClients);
+        oos.close();
+    }
+    
+    //Guardar lista de Empleados
+    
+    public void saveDataEmployee() throws IOException {
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_EMPLOYEE));
+        oos.writeObject(listEmployees);
+        oos.close();
+    }
+    
     //Guardar lista de ingredientes
     
     public void saveDataIngredient() throws IOException {
@@ -145,7 +187,41 @@ public class CasaDorada implements Serializable {
         listAdmins.add(newAdmin);
         saveDataAdmin();
     }
-
+    
+    public List<Admin> getAdmin(){
+        return listAdmins;
+    }
+    
+            /*
+        Metodos relacionados con los clientes
+        */
+    public void addClient(String cAddress, int cPhone, String cObservations, boolean cState,
+            String name, String lastName, int ID, Admin cAdmin) throws IOException{
+        
+        Client newClient = new Client(cAddress, cPhone, cObservations, cState,
+            name, lastName, ID, cAdmin);
+        
+        listClients.add(newClient);
+        saveDataClient();
+    }
+    
+    public List<Client> getClient(){
+        return listClients;
+    }
+    
+            /*
+        Metodos relacionados con los Empleados
+        */
+    
+    public void addEmployee(int numOrder, boolean eState, Admin mAdmin, String name, String lastName,
+            int ID, Admin cAdmin) throws IOException{
+        
+        Employee newEmployee = new Employee(numOrder, eState, mAdmin, name, lastName,
+            ID, cAdmin);
+        
+        listEmployees.add(newEmployee);
+        saveDataEmployee();
+    }
     
         /*
         Metodos relacionados con los ingredientes

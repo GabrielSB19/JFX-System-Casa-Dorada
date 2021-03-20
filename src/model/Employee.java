@@ -26,11 +26,11 @@ public class Employee extends Person implements Serializable {
         this.numOrder = numOrder;
     }
 
-    public boolean iseState() {
+    public boolean getEState() {
         return eState;
     }
 
-    public void seteState(boolean eState) {
+    public void setEState(boolean eState) {
         this.eState = eState;
     }
 
