@@ -793,7 +793,7 @@ public class FXControllerGUI implements Initializable {
            if (!txtEmpName.getText().equals("") && !txtEmpLastName.getText().equals("")
                    && !txtEmpID.getText().equals("")) {
 
-               casaDorada.addEmployee(0, tbState.isSelected(), true, null, null);
+               //casaDorada.addEmployee(0, tbState.isSelected(), true, null, null);
 
                content.setHeading(new Text("¡Listo!"));
                content.setBody(new Text("El ingrediente fue creado exitosamente."));

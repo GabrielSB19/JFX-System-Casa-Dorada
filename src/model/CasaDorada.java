@@ -21,7 +21,6 @@ public class CasaDorada implements Serializable {
     private final String SAVE_PATH_FILE_TYPEPRODUCT = "data/TypeProduc.cgd";
     private final String SAVE_PATH_FILE_PRODUCT = "data/Product.cgd";
     
-    
     private List<Admin> listAdmins;
     private List<Client> listClients;
     private List<Employee> listEmployees;
