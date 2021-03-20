@@ -29,6 +29,7 @@ public class CasaDorada implements Serializable {
     private List<Product> listProducts;
     private List<TypeProduct> listTypeProducts;
     private Admin adminActive;
+    private Admin adminSelected;
     
     public CasaDorada() {
         listAdmins = new ArrayList<>();
@@ -283,5 +284,19 @@ public class CasaDorada implements Serializable {
     
     public Admin getAdminActive(){
         return adminActive;
+    }
+    
+    public void selectedAdmin(Admin adminNew){
+        for(int i = 0; i<listAdmins.size(); i++){
+            if(listAdmins.get(i) == adminNew){
+                adminIndex = i; 
+                adminSelected = adminNew;
+            }
+        }
+    }
+    private int adminIndex;
+    
+    public void setNewAdmin(Admin newAdmin){
+        listAdmins.set(adminIndex, newAdmin);
     }
 }
