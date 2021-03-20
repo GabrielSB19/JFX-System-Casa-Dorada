@@ -1,6 +1,10 @@
 package model;
 
-public class TypeProduct {
+import java.io.Serializable;
+
+public class TypeProduct implements Serializable{
+    
+    private static final long serialVersionUID = 1;
 
     private int tpCode;
     private String typeName;

@@ -18,6 +18,7 @@ public class CasaDorada implements Serializable {
     private final String SAVE_PATH_FILE_ADMIN = "data/Admin.cgd";
     private final String SAVE_PATH_FILE_INGREDIENT = "data/Ingredient.cgd";
     private final String SAVE_PATH_FILE_TYPEPRODUCT = "data/TypeProduc.cgd";
+    private final String SAVE_PATH_FILE_PRODUCT = "data/Product.cgd";
     
     
     private List<Admin> listAdmins;
@@ -32,6 +33,7 @@ public class CasaDorada implements Serializable {
         listAdmins = new ArrayList<>();
         listIngredients = new ArrayList<>();
         listTypeProducts = new ArrayList<>();
+        listProducts = new ArrayList<>();
     }
 
     /*
@@ -75,6 +77,17 @@ public class CasaDorada implements Serializable {
         }
     }
     
+    //Cargar lista de productos
+    
+    public void loadDataProduct() throws IOException {
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE_PRODUCT)));
+            listProducts = (List) ois.readObject();
+            ois.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
     /*
     Metodos relacionados  con guardar la informacion
@@ -101,6 +114,14 @@ public class CasaDorada implements Serializable {
         
     public void saveDataTypeProduct() throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_TYPEPRODUCT));
+        oos.writeObject(listTypeProducts);
+        oos.close();
+    }
+    
+    //Guardar lista de productos
+    
+    public void saveDataProduct() throws IOException {
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_PRODUCT));
         oos.writeObject(listTypeProducts);
         oos.close();
     }
@@ -148,6 +169,17 @@ public class CasaDorada implements Serializable {
         TypeProduct newTypeProduct = new TypeProduct(tpCode, typeName, typeState, ctpAdmin, mtpAdmin);
         listTypeProducts.add(newTypeProduct);
         saveDataTypeProduct();
+    }
+    
+        /*
+        Metodos relacionados con los productos
+        */
+    
+            //Agregar Producto
+    
+    public void addProduct(int pCode, String pName, String pSize, double pPrice, boolean pState, int pNumOrder, Admin cpAdmin, Admin mpAdmin){
+        Product newProduct = new Product(pCode, pName, pSize, pPrice, pState, pNumOrder, cpAdmin, mpAdmin);
+        listProducts.add(newProduct);
     }
     
         

@@ -127,6 +127,15 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     private Pane pChooseType;
+    
+    @FXML
+    private JFXTextField txtProductName;
+
+    @FXML
+    private JFXTextField txtProductSize;
+
+    @FXML
+    private JFXTextField txtProductPrice;
 
         /*
         Atributos para gestionar los pedidos
@@ -675,6 +684,44 @@ public class FXControllerGUI implements Initializable {
     /*
     Gestionar Producto
     */
+        /*
+        Agregar tipo de producto
+        */
     
+    @FXML
+    void onAddProduct(ActionEvent event) {
+        JFXDialogLayout content = new JFXDialogLayout();
+        JFXButton button = new JFXButton("Okay");
+        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                dialog.close();
+            }
+        });
+        content.setActions(button);
+        if(!(txtProductName.getText().equals("")) && !(txtProductSize.getText().equals(""))
+                && !(txtProductPrice.getText().equals(""))){
+            
+            String productName = txtProductName.getText();
+            String productSize = txtProductSize.getText();
+            double productPrice = Double.parseDouble(txtProductPrice.getText());
+            
+            casaDorada.addProduct(0, productName, productSize, productPrice, true, 0, null, null);
+        } else {
+            content.setHeading(new Text("¡Error!"));
+            content.setBody(new Text("Debes colocarle un nombre al tipo de producto que deseas crear."));
+            dialog.show(); 
+        }
+    }
+        /*
+        Eliminar tipo de producto
+        */
+        /*
+        Actualizar tipo de producto
+        */
+        /*
+        Deshabiliatar tipo de producto
+        */
     
 }

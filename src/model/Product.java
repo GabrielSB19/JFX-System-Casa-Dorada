@@ -3,8 +3,11 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Product {
+public class Product implements Serializable {
+    
+    private static final long serialVersionUID = 1;
 
+    private int pCode;
     private String pName;
     private String pSize;
     private double pPrice;
@@ -16,7 +19,8 @@ public class Product {
     private ArrayList<Ingredient> ingredients;
     private ArrayList<TypeProduct> typeProducts;
 
-    public Product(String pName, String pSize, double pPrice, boolean pState, int pNumOrder) {
+    public Product(int pCode, String pName, String pSize, double pPrice, boolean pState, int pNumOrder, Admin cpAdmin, Admin mpAdmin) {
+        this.pCode = pCode;
         this.pName = pName;
         this.pSize = pSize;
         this.pPrice = pPrice;
@@ -27,6 +31,14 @@ public class Product {
         ingredients = new ArrayList<>();
         typeProducts = new ArrayList<>();
 
+    }
+
+    public int getpCode() {
+        return pCode;
+    }
+
+    public void setpCode(int pCode) {
+        this.pCode = pCode;
     }
 
     public String getpName() {
@@ -67,5 +79,29 @@ public class Product {
 
     public void setpNumOrder(int pNumOrder) {
         this.pNumOrder = pNumOrder;
+    }
+
+    public Admin getCpAdmin() {
+        return cpAdmin;
+    }
+
+    public void setCpAdmin(Admin cpAdmin) {
+        this.cpAdmin = cpAdmin;
+    }
+
+    public Admin getMpAdmin() {
+        return mpAdmin;
+    }
+
+    public void setMpAdmin(Admin mpAdmin) {
+        this.mpAdmin = mpAdmin;
+    } 
+    
+    public void addIngredientInProduct(Ingredient newIngredient){
+        ingredients.add(newIngredient);
+    }
+    
+    public void addTypeProductInProduct(TypeProduct newTypeProduct){
+        typeProducts.add(newTypeProduct);
     }
 }
