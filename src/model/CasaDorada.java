@@ -29,7 +29,11 @@ public class CasaDorada implements Serializable {
     private List<Product> listProducts;
     private List<TypeProduct> listTypeProducts;
     private Admin adminActive;
-    private Admin adminSelected;
+    //private Admin adminSelected;
+    //private Ingredient ingredientSelected;
+    //private TypeProduct typeProductSelected;
+    //private Client clientSelected;
+    //private Employee employeeSelected;
     
     public CasaDorada() {
         listAdmins = new ArrayList<>();
@@ -286,17 +290,81 @@ public class CasaDorada implements Serializable {
         return adminActive;
     }
     
+    private int adminIndex;
+    
     public void selectedAdmin(Admin adminNew){
         for(int i = 0; i<listAdmins.size(); i++){
             if(listAdmins.get(i) == adminNew){
                 adminIndex = i; 
-                adminSelected = adminNew;
+                //adminSelected = adminNew;
             }
         }
     }
-    private int adminIndex;
     
-    public void setNewAdmin(Admin newAdmin){
+    public void setNewAdmin(Admin newAdmin) throws IOException{
         listAdmins.set(adminIndex, newAdmin);
+        saveDataAdmin();
+    }
+    
+    private int ingredientIndex;
+    
+    public void selectedIngredient(Ingredient ingredientNew){
+        for(int i = 0; i<listIngredients.size(); i++){
+            if(listIngredients.get(i) == ingredientNew){
+                ingredientIndex = i;
+                //ingredientSelected = ingredientNew;
+            }
+        }
+    }
+    
+    public void setNewIngredient(Ingredient newIngredient) throws IOException{
+        listIngredients.set(ingredientIndex, newIngredient);
+        saveDataIngredient();
+    }
+    
+    private int typeProductIndex;
+    
+    public void selectedTypeIngredient(TypeProduct typeProductNew){
+        for(int i = 0; i<listTypeProducts.size(); i++){
+            if(listTypeProducts.get(i) == typeProductNew){
+                typeProductIndex = i;
+                //typeProductSelected = typeProductNew;
+            }
+        }
+    }
+    
+    public void setNewTypeProduct(TypeProduct newTypeProduct) throws IOException{
+        listTypeProducts.set(typeProductIndex, newTypeProduct);
+        saveDataTypeProduct();
+    }
+    
+    private int employeeIndex;
+    
+    public void selectedEmployee(Employee employeeNew){
+        for(int i = 0; i<listEmployees.size(); i++){
+            if(listEmployees.get(i) == employeeNew){
+                employeeIndex = 1;
+            }
+        }
+    }
+    
+    public void setNewEmployee(Employee newEmployee) throws IOException{
+        listEmployees.set(employeeIndex, newEmployee);
+        saveDataEmployee();
+    }
+    
+    private int clientIndex;
+    
+    public void selectedClient(Client clientNew){
+        for(int i = 0; i<listClients.size(); i++){
+            if(listClients.get(i) == clientNew){
+                clientIndex = i;
+            }
+        }
+    }
+    
+    public void setNewClient(Client newClient) throws IOException{
+        listClients.set(clientIndex, newClient);
+        saveDataClient();
     }
 }

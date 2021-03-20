@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-
 <StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;">
@@ -43,7 +42,7 @@
                         <Font size="18.0" />
                      </font>
                   </JFXTextField>
-                  <JFXTextField fx:id="txtUsername" alignment="CENTER" focusColor="BLACK" layoutX="84.0" layoutY="259.0" prefHeight="39.0" prefWidth="259.0" promptText="Telefono" text="Usuario" unFocusColor="#efb810">
+                  <JFXTextField fx:id="txtUsername" alignment="CENTER" focusColor="BLACK" layoutX="84.0" layoutY="259.0" prefHeight="39.0" prefWidth="259.0" promptText="Usuario" unFocusColor="#efb810">
                      <font>
                         <Font size="18.0" />
                      </font>

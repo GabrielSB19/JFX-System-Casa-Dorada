@@ -31,7 +31,7 @@
                         <Font size="18.0" />
                      </font>
                   </JFXTextField>
-                  <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="403.0" onAction="#addIngredient" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Agregar">
+                  <JFXButton fx:id="btnAddIngredient" buttonType="RAISED" layoutX="84.0" layoutY="403.0" onAction="#addIngredient" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Agregar">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -41,7 +41,7 @@
                         <Font size="18.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="457.0" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Actualizar">
+                  <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="457.0" onAction="#onUptadeIngredient" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Actualizar">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -49,7 +49,7 @@
                   <JFXToggleButton fx:id="tbStateIngredients" layoutX="142.0" layoutY="312.0" text="Habilitado" toggleColor="#efb810" toggleLineColor="#fee99b" />
                </children>
             </Pane>
-            <TableView fx:id="tblIngredient" layoutX="49.0" layoutY="52.0" prefHeight="647.0" prefWidth="735.0" style="-fx-background-color: #ffffff; -fx-border-color: #efb810;">
+            <TableView fx:id="tblIngredient" layoutX="49.0" layoutY="52.0" onMouseClicked="#onSelectIngredient" prefHeight="647.0" prefWidth="735.0" style="-fx-background-color: #ffffff; -fx-border-color: #efb810;">
                <columns>
                   <TableColumn fx:id="tblIngredientNameGestion" prefWidth="366.0" text="Nombre" />
                   <TableColumn fx:id="tblIngredientState" prefWidth="366.0" text="Estado" />

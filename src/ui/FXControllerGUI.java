@@ -121,7 +121,9 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     private JFXPasswordField txtConfirmPassword;
-
+    
+    @FXML
+    private JFXToggleButton tbStateUserName;
     
     @FXML
     private TableView<Admin> tblAdmin;
@@ -156,6 +158,9 @@ public class FXControllerGUI implements Initializable {
     private JFXToggleButton tbStateEmployee;
     
     @FXML
+    private JFXButton btnAddEmployee;
+    
+    @FXML
     private TableView<Employee> tblEmployee;
 
     @FXML
@@ -176,6 +181,9 @@ public class FXControllerGUI implements Initializable {
     
     @FXML
     private JFXToggleButton tbStateIngredients;
+    
+    @FXML
+    private JFXButton btnAddIngredient;
 
     @FXML
     private TableView<Ingredient> tblIngredient;
@@ -194,6 +202,9 @@ public class FXControllerGUI implements Initializable {
     
     @FXML
     private JFXToggleButton tbStateTypeProduct;
+    
+    @FXML
+    private JFXButton btnAddTypeProduct;
     
      @FXML
     private TableView<TypeProduct> tblTypeProduct;
@@ -254,6 +265,9 @@ public class FXControllerGUI implements Initializable {
         
     @FXML
     private JFXToggleButton tbStateClient;
+    
+    @FXML
+    private JFXButton btnAddClient;
     
     @FXML
     private TableView<Client> tblClients;
@@ -857,6 +871,43 @@ public class FXControllerGUI implements Initializable {
         /*
         Actualizar Ingrediente
         */
+     
+    @FXML
+    public void onSelectIngredient(MouseEvent event) {
+        JFXDialogLayout content = new JFXDialogLayout();
+        JFXButton button = new JFXButton("Okay");
+        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                dialog.close();
+            }
+        });
+        content.setActions(button);
+        Ingredient ingredientSelected;
+        if(event.getClickCount() == 2){
+            ingredientSelected = tblIngredient.getSelectionModel().getSelectedItem();
+            if(ingredientSelected != null){
+                btnAddIngredient.setVisible(false);
+                casaDorada.selectedIngredient(ingredientSelected);
+                content.setHeading(new Text("¡Listo!"));
+                content.setBody(new Text("El ingrediente "+ingredientSelected.getIngredientsName()+" fue seleccionado exitosamente."));
+                dialog.show();
+                txtIngName.setText(ingredientSelected.getIngredientsName());
+            }
+        }
+    }
+
+    @FXML
+    public void onUptadeIngredient(ActionEvent event) throws IOException {
+        Ingredient newIngredient = new Ingredient(0, txtIngName.getText(), tbStateIngredients.isSelected(), 
+                casaDorada.getAdminActive(), casaDorada.getAdminActive());
+        casaDorada.setNewIngredient(newIngredient);
+        btnAddIngredient.setVisible(true);
+        onTableIngredient();
+
+    }
+    
         /*
         Deshabiliatar Ingrediente
         */
@@ -912,6 +963,42 @@ public class FXControllerGUI implements Initializable {
         /*
         Actualizar tipo de producto
         */
+       
+    @FXML
+    public void onSelectType(MouseEvent event) {
+        JFXDialogLayout content = new JFXDialogLayout();
+        JFXButton button = new JFXButton("Okay");
+        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                dialog.close();
+            }
+        });
+        content.setActions(button);
+        TypeProduct typeProductSelected;
+        if(event.getClickCount() == 2){
+            typeProductSelected = tblTypeProduct.getSelectionModel().getSelectedItem();
+            if(typeProductSelected != null){
+                btnAddTypeProduct.setVisible(false);
+                casaDorada.selectedTypeIngredient(typeProductSelected);
+                content.setHeading(new Text("¡Listo!"));
+                content.setBody(new Text("El tipo de producto "+typeProductSelected.getTypeName()+" fue seleccionado exitosamente."));
+                dialog.show();
+                txtTpName.setText(typeProductSelected.getTypeName());
+            }
+        }
+    }
+
+    @FXML
+    public void onUptadeType(ActionEvent event) throws IOException {
+        TypeProduct newTypeProduct = new TypeProduct(0, txtTpName.getText(), tbStateTypeProduct.isSelected(),
+                casaDorada.getAdminActive(), casaDorada.getAdminActive());
+        casaDorada.setNewTypeProduct(newTypeProduct);
+        btnAddTypeProduct.setVisible(true);
+        onTableTypeProduct();
+    }
+    
          /*
         Deshabiliatar tipo de producto
         */
@@ -1012,6 +1099,51 @@ public class FXControllerGUI implements Initializable {
        }
     
         /*
+        Actualizar Admin
+        */
+    
+    @FXML
+    public void onSelectAdmin (MouseEvent event) {
+        JFXDialogLayout content = new JFXDialogLayout();
+        JFXButton button = new JFXButton("Okay");
+        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                dialog.close();
+            }
+        });
+        content.setActions(button);
+        Admin adminSelected;
+        if(event.getClickCount() == 2){
+            adminSelected = tblAdmin.getSelectionModel().getSelectedItem();
+            if(adminSelected != null){
+                casaDorada.selectedAdmin(adminSelected);
+                content.setHeading(new Text("¡Listo!"));
+                content.setBody(new Text("El usuario "+adminSelected.getName()+" fue seleccionado exitosamente."));
+                dialog.show();
+                txtNameAdmin.setText(adminSelected.getName());
+                txtLastNameAdmin.setText(adminSelected.getLastName());
+                txtIDAdmin.setText(adminSelected.getID()+"");
+                txtUsername.setText(adminSelected.getUsername());
+                txtPassword.setText(adminSelected.getPassword());
+                txtConfirmPassword.setText(adminSelected.getPassword());
+                
+            }
+
+        }
+    }
+
+    @FXML
+    public void onUptadeAdmin(ActionEvent event) throws IOException {
+        Admin newAdmin = new Admin(txtUsername.getText(), txtPassword.getText(), 0, tbStateUserName.isSelected(), 
+                casaDorada.getAdminActive(), txtNameAdmin.getText(),
+                        txtLastNameAdmin.getText(), Integer.parseInt(txtIDAdmin.getText()) , null);
+        casaDorada.setNewAdmin(newAdmin);
+        onTableAdmin(); 
+    }
+    
+        /*
         Eliminar producto
         */
         /*
@@ -1087,6 +1219,44 @@ public class FXControllerGUI implements Initializable {
         /*
         Actualizar empleado
         */
+    
+    @FXML
+    public void onSelecetEmployee(MouseEvent event) {
+        JFXDialogLayout content = new JFXDialogLayout();
+        JFXButton button = new JFXButton("Okay");
+        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                dialog.close();
+            }
+        });
+        content.setActions(button);
+        Employee employeeSelected;
+        if(event.getClickCount() == 2){
+            employeeSelected = tblEmployee.getSelectionModel().getSelectedItem();
+            if(employeeSelected != null){
+                btnAddEmployee.setVisible(false);
+                casaDorada.selectedEmployee(employeeSelected);
+                content.setHeading(new Text("¡Listo!"));
+                content.setBody(new Text("El empleado "+employeeSelected.getName()+" fue seleccionado exitosamente."));
+                dialog.show();
+                txtEmpName.setText(employeeSelected.getName());
+                txtEmpLastName.setText(employeeSelected.getLastName());
+                txtEmpID.setText(employeeSelected.getID()+"");
+            }
+        }
+    }
+
+    @FXML
+    public void onUptadeEmployee(ActionEvent event) throws IOException {
+        Employee newEmployee = new Employee(0, tbStateEmployee.isSelected(), casaDorada.getAdminActive(), 
+                txtEmpName.getText(), txtEmpLastName.getText(), Integer.parseInt(txtEmpID.getText()), casaDorada.getAdminActive());
+        casaDorada.setNewEmployee(newEmployee);
+        btnAddEmployee.setVisible(true);
+        onTableEmployee();
+    }
+    
         /*
         Deshabiliatar empleado
         */
@@ -1163,12 +1333,54 @@ public class FXControllerGUI implements Initializable {
         tblClientObservationsGestion.setCellValueFactory(new PropertyValueFactory<>("cObservations"));
         tblClientStateGestion.setCellValueFactory(new PropertyValueFactory<>("cState"));
     }
-    /*
+    
+        /*
         Eliminar Cliente
         */
         /*
         Actualizar Cliente
         */
+        
+    @FXML
+    public void onSelectClient(MouseEvent event) {
+        JFXDialogLayout content = new JFXDialogLayout();
+        JFXButton button = new JFXButton("Okay");
+        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                dialog.close();
+            }
+        });
+        content.setActions(button);
+        Client clientSelected;
+        if(event.getClickCount() == 2){
+            clientSelected = tblClients.getSelectionModel().getSelectedItem();
+            if(clientSelected != null){
+                btnAddClient.setVisible(false);
+                casaDorada.selectedClient(clientSelected);
+                content.setHeading(new Text("¡Listo!"));
+                content.setBody(new Text("El cliente "+clientSelected.getName()+" fue seleccionado exitosamente."));
+                dialog.show();
+                txtCName.setText(clientSelected.getName());
+                txtCLastName.setText(clientSelected.getLastName());
+                txtCID.setText(clientSelected.getID()+"");
+                txtCPhone.setText(clientSelected.getCPhone()+"");
+                txtCAddress.setText(clientSelected.getCAddress());
+                txtCObser.setText(clientSelected.getCObservations());
+            }
+        }
+    }
+
+    @FXML
+    public void onUptadeClient(ActionEvent event) throws IOException {
+        Client newClient = new Client(txtCAddress.getText(), Integer.parseInt(txtCPhone.getText()), txtCObser.getText(), 
+                tbStateClient.isSelected(), casaDorada.getAdminActive(), txtCName.getText(), txtCLastName.getText(),
+                Integer.parseInt(txtCID.getText()), casaDorada.getAdminActive());
+        casaDorada.setNewClient(newClient);
+        btnAddClient.setVisible(true);
+        onTableClient();
+    }
         /*
         Deshabiliatar Cliente
         */
@@ -1265,63 +1477,4 @@ public class FXControllerGUI implements Initializable {
         /*
         Listar productos
         */
-    
-    
-    @FXML
-    public void onSelectAdmin (MouseEvent event) {
-        JFXDialogLayout content = new JFXDialogLayout();
-        JFXButton button = new JFXButton("Okay");
-        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                dialog.close();
-            }
-        });
-        content.setActions(button);
-        Admin adminSelected;
-        if(event.getClickCount() == 2){
-            adminSelected = tblAdmin.getSelectionModel().getSelectedItem();
-            if(adminSelected != null){
-                casaDorada.selectedAdmin(adminSelected);
-                content.setHeading(new Text("¡Listo!"));
-                content.setBody(new Text("El usuario "+adminSelected.getName()+" fue seleccionado exitosamente."));
-                dialog.show();
-                txtNameAdmin.setText(adminSelected.getName());
-                txtLastNameAdmin.setText(adminSelected.getLastName());
-                txtIDAdmin.setText(adminSelected.getID()+"");
-                txtUsername.setText(adminSelected.getUsername());
-                txtPassword.setText(adminSelected.getPassword());
-                txtConfirmPassword.setText(adminSelected.getPassword());
-                
-            }
-
-        }
-    }
-
-    @FXML
-    private JFXToggleButton tbStateUserName;
-
-    @FXML
-    public void onUptadeAdmin(ActionEvent event) {
-        Admin newAdmin = new Admin(txtUsername.getText(), txtPassword.getText(), 0, tbStateUserName.isSelected(), 
-                casaDorada.getAdminActive(), txtNameAdmin.getText(),
-                        txtLastNameAdmin.getText(), Integer.parseInt(txtIDAdmin.getText()) , null);
-        casaDorada.setNewAdmin(newAdmin);
-        onTableAdmin();
-        
-        
-    }
-
-    /*
-    @FXML
-    public void onSelectIngredientToProducto(ActionEvent event) {
-        Ingredient selectIngredient;
-        selectIngredient = tblChooseIngredient.getSelectionModel().getSelectedItem();
-        if(selectIngredient != null){
-            System.out.println("xd");
-        }
-        System.out.println("f");
-    }
-*/
 }
