@@ -14,8 +14,12 @@ import java.util.List;
 public class CasaDorada implements Serializable {
 
     private static final long serialVersionUID = 1;
-    private CasaDorada cd;
-    private String SAVE_PATH_FILE_PROGRAM = "data/Program.cgd";
+    
+    private final String SAVE_PATH_FILE_ADMIN = "data/Admin.cgd";
+    private final String SAVE_PATH_FILE_INGREDIENT = "data/Ingredient.cgd";
+    private final String SAVE_PATH_FILE_TYPEPRODUCT = "data/TypeProduc.cgd";
+    
+    
     private List<Admin> listAdmins;
     private List<Client> listClients;
     private List<Employee> listEmployees;
@@ -26,27 +30,91 @@ public class CasaDorada implements Serializable {
     
     public CasaDorada() {
         listAdmins = new ArrayList<>();
+        listIngredients = new ArrayList<>();
+        listTypeProducts = new ArrayList<>();
     }
 
-    //LOAD INFO
-    public void loadData() throws IOException {
+    /*
+    Metodos relacionados con cargar la informacion
+    Desserializar la informacion
+    */
+    
+    //Cargar lista de Admins
+    
+    public void loadDataAdmin() throws IOException {
         try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE_PROGRAM)));
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE_ADMIN)));
             listAdmins = (List) ois.readObject();
             ois.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-    //SAVE INFO
-    public void saveData() throws IOException {
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_PROGRAM));
+    
+    //Cargar lista de ingredientes
+        
+    public void loadDataIngredient() throws IOException {
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE_INGREDIENT)));
+            listIngredients = (List) ois.readObject();
+            ois.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    //Cargar lista de tipo de producto
+            
+    public void loadDatTypeProduct() throws IOException {
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE_TYPEPRODUCT)));
+            listTypeProducts = (List) ois.readObject();
+            ois.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    /*
+    Metodos relacionados  con guardar la informacion
+    Serializacion de la informacion
+    */
+    
+    //Guardar lista de admin
+    
+    public void saveDataAdmin() throws IOException {
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_ADMIN));
         oos.writeObject(listAdmins);
         oos.close();
     }
+    
+    //Guardar lista de ingredientes
+    
+    public void saveDataIngredient() throws IOException {
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_INGREDIENT));
+        oos.writeObject(listIngredients);
+        oos.close();
+    }
+    
+    //Guardar lista de productos
+        
+    public void saveDataTypeProduct() throws IOException {
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_TYPEPRODUCT));
+        oos.writeObject(listTypeProducts);
+        oos.close();
+    }
+    
+    /*
+    Metodos para gestionar los  objetos
+    */
 
-    //Agregar Admin
+        /*
+        Metodos relacionados con los admin
+        */
+    
+            //Agregar admin
+    
     public void addAdmin(String userName, String password, int numOrder, boolean eState, Admin mAdmin,
             String name, String lastName, int ID, Admin cAdmin) throws IOException {
 
@@ -54,9 +122,35 @@ public class CasaDorada implements Serializable {
         Admin newAdmin = new Admin(userName, password, numOrder, eState, mAdmin,
                 name, lastName, ID, cAdmin);
         listAdmins.add(newAdmin);
-        saveData();
+        saveDataAdmin();
+    }
+
+    
+        /*
+        Metodos relacionados con los ingredientes
+        */
+    
+            //Agregar ingrediente
+    
+    public void addIngredient(int ingCode, String ingredientsName, boolean ingredientsState, Admin ciAdmin, Admin miAdmin) throws IOException{
+        Ingredient newIngredient = new Ingredient(ingCode, ingredientsName, ingredientsState, ciAdmin, miAdmin);
+        listIngredients.add(newIngredient);
+        saveDataIngredient();
     }
     
+        
+        /*
+        Metodos relacionados con los tipo de productos
+        */
+    
+            //Agregar tipo de producto
+    public void addTypeProduct(int tpCode, String typeName, boolean typeState, Admin ctpAdmin, Admin mtpAdmin) throws IOException{
+        TypeProduct newTypeProduct = new TypeProduct(tpCode, typeName, typeState, ctpAdmin, mtpAdmin);
+        listTypeProducts.add(newTypeProduct);
+        saveDataTypeProduct();
+    }
+    
+        
     public void login(String username){
         for (int i = 0; i < listAdmins.size(); i++) {
             if (listAdmins.get(i).getUsername().equals(username)) {

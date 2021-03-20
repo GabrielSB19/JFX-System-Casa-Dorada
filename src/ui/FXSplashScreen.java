@@ -1,5 +1,6 @@
 package ui;
 
+import java.io.IOException;
 import javafx.application.Preloader;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,7 +16,7 @@ public class FXSplashScreen extends Preloader{
     private Stage preloaderStage;
     private Scene scene;
 
-    public FXSplashScreen() {
+    public FXSplashScreen() throws IOException {
         casaDorada = new CasaDorada();
         fxControllerGUI = new FXControllerGUI(casaDorada);
     }  

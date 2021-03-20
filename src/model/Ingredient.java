@@ -2,19 +2,26 @@ package model;
 
 public class Ingredient {
     
-    private int ingCode = 0;
+    private int ingCode;
     private String ingredientsName;
-    private Boolean ingredientsState;
+    private boolean ingredientsState;
     private Admin ciAdmin;
     private Admin miAdmin;
 
-    public Ingredient(String ingredientsName, Boolean ingredientsState) {
-        ingCode++;
+    public Ingredient(int ingCode, String ingredientsName, boolean ingredientsState, Admin ciAdmin, Admin miAdmin) {
         this.ingCode = ingCode;
         this.ingredientsName = ingredientsName;
         this.ingredientsState = ingredientsState;
         this.ciAdmin = ciAdmin;
         this.miAdmin = miAdmin;
+    }
+
+    public int getIngCode() {
+        return ingCode;
+    }
+
+    public void setIngCode(int ingCode) {
+        this.ingCode = ingCode;
     }
 
     public String getIngredientsName() {
@@ -25,12 +32,28 @@ public class Ingredient {
         this.ingredientsName = ingredientsName;
     }
 
-    public Boolean getIngredientsState() {
+    public boolean isIngredientsState() {
         return ingredientsState;
     }
 
-    public void setIngredientsState(Boolean ingredientsState) {
+    public void setIngredientsState(boolean ingredientsState) {
         this.ingredientsState = ingredientsState;
+    }
+
+    public Admin getCiAdmin() {
+        return ciAdmin;
+    }
+
+    public void setCiAdmin(Admin ciAdmin) {
+        this.ciAdmin = ciAdmin;
+    }
+
+    public Admin getMiAdmin() {
+        return miAdmin;
+    }
+
+    public void setMiAdmin(Admin miAdmin) {
+        this.miAdmin = miAdmin;
     }
     
     
