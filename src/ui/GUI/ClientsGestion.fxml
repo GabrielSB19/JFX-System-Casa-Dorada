@@ -27,32 +27,32 @@
                         <Font name="SansSerif Regular" size="30.0" />
                      </font>
                   </Label>
-                  <JFXTextField alignment="CENTER" focusColor="BLACK" layoutX="84.0" layoutY="102.0" prefHeight="39.0" prefWidth="259.0" promptText="Nombre" unFocusColor="#efb810">
+                  <JFXTextField fx:id="txtCName" alignment="CENTER" focusColor="BLACK" layoutX="84.0" layoutY="102.0" prefHeight="39.0" prefWidth="259.0" promptText="Nombre" unFocusColor="#efb810">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </JFXTextField>
-                  <JFXTextField alignment="CENTER" focusColor="BLACK" layoutX="84.0" layoutY="153.0" prefHeight="39.0" prefWidth="259.0" promptText="Apellido" unFocusColor="#efb810">
+                  <JFXTextField fx:id="txtCLastName" alignment="CENTER" focusColor="BLACK" layoutX="84.0" layoutY="153.0" prefHeight="39.0" prefWidth="259.0" promptText="Apellido" unFocusColor="#efb810">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </JFXTextField>
-                  <JFXTextField alignment="CENTER" focusColor="BLACK" layoutX="84.0" layoutY="205.0" prefHeight="39.0" prefWidth="259.0" promptText="Identificación" unFocusColor="#efb810">
+                  <JFXTextField fx:id="txtCID" alignment="CENTER" focusColor="BLACK" layoutX="84.0" layoutY="205.0" prefHeight="39.0" prefWidth="259.0" promptText="Identificación" unFocusColor="#efb810">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </JFXTextField>
-                  <JFXTextField alignment="CENTER" focusColor="BLACK" layoutX="84.0" layoutY="259.0" prefHeight="39.0" prefWidth="259.0" promptText="Telefono" unFocusColor="#efb810">
+                  <JFXTextField fx:id="txtCPhone" alignment="CENTER" focusColor="BLACK" layoutX="84.0" layoutY="259.0" prefHeight="39.0" prefWidth="259.0" promptText="Telefono" unFocusColor="#efb810">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </JFXTextField>
-                  <JFXTextField alignment="CENTER" focusColor="BLACK" layoutX="84.0" layoutY="312.0" prefHeight="39.0" prefWidth="259.0" promptText="Dirección" unFocusColor="#efb810">
+                  <JFXTextField fx:id="txtCAddress" alignment="CENTER" focusColor="BLACK" layoutX="84.0" layoutY="312.0" prefHeight="39.0" prefWidth="259.0" promptText="Dirección" unFocusColor="#efb810">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </JFXTextField>
-                  <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="468.0" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Agregar">
+                  <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="468.0" onAction="#addClient" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Agregar">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -68,21 +68,22 @@
                      </font>
                   </JFXButton>
                   <JFXToggleButton layoutX="142.0" layoutY="559.0" text="Habilitado" toggleColor="#efb810" toggleLineColor="#fee99b" />
-                  <JFXTextField alignment="CENTER" focusColor="BLACK" layoutX="84.0" layoutY="365.0" prefHeight="86.0" prefWidth="259.0" promptText="Observaciones" unFocusColor="#efb810">
+                  <JFXTextField fx:id="txtCObser" alignment="CENTER" focusColor="BLACK" layoutX="84.0" layoutY="365.0" prefHeight="86.0" prefWidth="259.0" promptText="Observaciones" unFocusColor="#efb810">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </JFXTextField>
                </children>
             </Pane>
-            <TableView layoutX="49.0" layoutY="52.0" prefHeight="647.0" prefWidth="735.0" style="-fx-background-color: #ffffff; -fx-border-color: #efb810;">
+            <TableView fx:id="tblClients" layoutX="49.0" layoutY="52.0" prefHeight="647.0" prefWidth="735.0" style="-fx-background-color: #ffffff; -fx-border-color: #efb810;">
                <columns>
-                  <TableColumn prefWidth="122.0" style="-fx-background-color: #ffffff;" text="Nombre" />
-                  <TableColumn prefWidth="122.0" style="-fx-background-color: #ffffff;" text="Apellido" />
-                  <TableColumn prefWidth="122.0" style="-fx-background-color: #ffffff;" text="ID" />
-                  <TableColumn prefWidth="122.0" style="-fx-background-color: #ffffff;" text="Telefono" />
-                  <TableColumn prefWidth="122.0" style="-fx-background-color: #ffffff;" text="Dirección" />
-                  <TableColumn prefWidth="122.0" style="-fx-background-color: #ffffff;" text="Observaciones" />
+                  <TableColumn fx:id="tblClientNameGestion" prefWidth="105.0" text="Nombre" />
+                  <TableColumn fx:id="tblClientLNGestion" prefWidth="105.0" text="Apellido" />
+                  <TableColumn fx:id="tblClientIDGestion" prefWidth="105.0" text="ID" />
+                  <TableColumn fx:id="tblClientPhoneGestion" prefWidth="105.0" text="Telefono" />
+                  <TableColumn fx:id="tblClientAddressGestion" prefWidth="105.0" text="Dirección" />
+                  <TableColumn fx:id="tblClientObservationsGestion" prefWidth="105.0" text="Observaciones" />
+                  <TableColumn fx:id="tblClientStateGestion" prefWidth="105.0" text="Estado" />
                </columns>
             </TableView>
          </children>

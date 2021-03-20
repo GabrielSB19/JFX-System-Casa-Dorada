@@ -1,6 +1,10 @@
 package model;
 
-public class Client extends Person {
+import java.io.Serializable;
+
+public class Client extends Person implements Serializable {
+    
+    private static final long serialVersionUID = 1;
 
     private String cAddress;
     private int cPhone;
@@ -8,7 +12,7 @@ public class Client extends Person {
     private boolean cState;
     private Admin mcAdmin;
 
-    public Client(String cAddress, int cPhone, String cObservations, boolean cState,
+    public Client(String cAddress, int cPhone, String cObservations, boolean cState, Admin mcAdmin,
             String name, String lastName, int ID, Admin cAdmin) {
 
         super(name, lastName, ID, cAdmin);
@@ -19,36 +23,43 @@ public class Client extends Person {
         this.mcAdmin = mcAdmin;
     }
 
-    public String getcAddress() {
+    public String getCAddress() {
         return cAddress;
     }
 
-    public void setcAddress(String cAddress) {
+    public void setCAddress(String cAddress) {
         this.cAddress = cAddress;
     }
 
-    public int getcPhone() {
+    public int getCPhone() {
         return cPhone;
     }
 
-    public void setcPhone(int cPhone) {
+    public void setCPhone(int cPhone) {
         this.cPhone = cPhone;
     }
 
-    public String getcObservations() {
+    public String getCObservations() {
         return cObservations;
     }
 
-    public void setcObservations(String cObservations) {
+    public void setCObservations(String cObservations) {
         this.cObservations = cObservations;
     }
 
-    public boolean iscState() {
+    public boolean getCState() {
         return cState;
     }
 
-    public void setcState(boolean cState) {
+    public void setCState(boolean cState) {
         this.cState = cState;
     }
 
+    public Admin getMcAdmin(){
+        return mcAdmin;
+    }
+    
+    public void setMcAdmin(Admin mcAdmin) {
+        this.mcAdmin = mcAdmin;
+    }
 }
