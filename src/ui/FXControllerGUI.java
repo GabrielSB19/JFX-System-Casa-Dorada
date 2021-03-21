@@ -11,6 +11,7 @@ import com.jfoenix.controls.JFXToggleButton;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -250,6 +251,29 @@ public class FXControllerGUI implements Initializable {
     @FXML
     private JFXToggleButton tbStateProduct;
     
+    
+    @FXML
+    private TableView<Product> tblProduct;
+
+    @FXML
+    private TableColumn<Product, String> tblProductName;
+
+    @FXML
+    private TableColumn<Product, String> tblProductIng;
+
+    @FXML
+    private TableColumn<Product, String> tblProductTp;
+
+    @FXML
+    private TableColumn<Product, String> tblProductSize;
+    
+    @FXML
+    private TableColumn<Product, Double> tblProductPrice;
+    
+    @FXML
+    private TableColumn<Product, Boolean> tblProductState;
+
+    
         //Atributos para gestionar los clientes
     
     @FXML
@@ -377,6 +401,7 @@ public class FXControllerGUI implements Initializable {
         casaDorada.loadDataIngredient();
         casaDorada.loadDatTypeProduct();
         casaDorada.loadDataClient();
+        casaDorada.loadDataProduct();
     }
 
     @Override
@@ -616,6 +641,7 @@ public class FXControllerGUI implements Initializable {
 
         pNewOption.getChildren().clear();
         pNewOption.getChildren().setAll(productsGestion);
+        onTableProduct();
     }
 
     @FXML
@@ -744,6 +770,7 @@ public class FXControllerGUI implements Initializable {
     
     @FXML
     void onExitChooseIngredient(ActionEvent event) {
+        
         Stage stage= (Stage) pChooseIng.getScene().getWindow();
         stage.close();
     }
@@ -920,6 +947,8 @@ public class FXControllerGUI implements Initializable {
             ingredientSelected = tblIngredient.getSelectionModel().getSelectedItem();
             if(ingredientSelected != null){
                 btnAddIngredient.setVisible(false);
+                btnRemoveIngredient.setVisible(true);
+                btnUptadeIngredient.setVisible(true);
                 casaDorada.selectedIngredient(ingredientSelected);
                 content.setHeading(new Text("¡Listo!"));
                 content.setBody(new Text("El ingrediente "+ingredientSelected.getIngredientsName()+" fue seleccionado exitosamente."));
@@ -1070,7 +1099,7 @@ public class FXControllerGUI implements Initializable {
         Agregar producto
         */
     @FXML
-    public void onAddProduct(ActionEvent event) {
+    public void onAddProduct(ActionEvent event) throws IOException{
         JFXDialogLayout content = new JFXDialogLayout();
         JFXButton button = new JFXButton("Okay");
         JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
@@ -1088,7 +1117,15 @@ public class FXControllerGUI implements Initializable {
             String productSize = txtProductSize.getText();
             double productPrice = Double.parseDouble(txtProductPrice.getText());
 
-            casaDorada.addProduct(0, productName, productSize, productPrice, tbStateProduct.isSelected(), 0, casaDorada.getAdminActive(), null);
+            casaDorada.addProduct(0, productName, productSize, productPrice, tbStateProduct.isSelected(), 0, 
+                    casaDorada.getAdminActive(), null);
+            casaDorada.addIngredientToProductArray(ingredientsInP);
+            content.setHeading(new Text("¡Listo!"));
+            content.setBody(new Text("El producto se ha agregado exitosamente"));
+            dialog.show();
+            onTableProduct();
+            ingredientsInP = new ArrayList<>();
+            
         } else {
             content.setHeading(new Text("¡Error!"));
             content.setBody(new Text("Debes colocarle un nombre al tipo de producto que deseas crear."));
@@ -1096,15 +1133,19 @@ public class FXControllerGUI implements Initializable {
         }
     }
     
-    
     private Ingredient ingredientSelect;
+    
     @FXML
     public void onAddIngredientToP(ActionEvent event) {
         if(cbxIngDisp.getValue() != null){
             ingredientSelect = cbxIngDisp.getValue();
+            ingredientsInP.add(ingredientSelect);
         }
+        System.out.println(ingredientsInP.size());
         onTableChooseIngredient();
     }
+    
+    
     
     private TypeProduct typeProductSelect;
     
@@ -1136,11 +1177,11 @@ public class FXControllerGUI implements Initializable {
         cbxIngDisp.setItems(obs);
     }
     
+    private ArrayList<Ingredient> ingredientsInP = new ArrayList<>();
+    
     public void onTableChooseIngredient() {
-        ArrayList<Ingredient> dispChooseIngredient = casaDorada.addIngredientToProduct(ingredientSelect);
-
         ObservableList<Ingredient> newTableIngredient;
-        newTableIngredient = FXCollections.observableArrayList(dispChooseIngredient);
+        newTableIngredient = FXCollections.observableArrayList(ingredientsInP);
 
         tblChooseIngredient.setItems(newTableIngredient);
         tblIngName.setCellValueFactory(new PropertyValueFactory<>("ingredientsName"));
@@ -1181,6 +1222,19 @@ public class FXControllerGUI implements Initializable {
         tblChooseTypeProduct.setItems(newTableTypeProduct);
         tblTypeProductName.setCellValueFactory(new PropertyValueFactory<>("typeName"));
     }
+    
+    public void onTableProduct() {
+        List<Product> products = casaDorada.getProduct();
+        ObservableList<Product> newTableProduct;
+        newTableProduct = FXCollections.observableArrayList(products);
+
+        tblProduct.setItems(newTableProduct);
+        tblProductName.setCellValueFactory(new PropertyValueFactory<>("prName"));
+        tblProductSize.setCellValueFactory(new PropertyValueFactory<>("prSize"));
+        tblProductPrice.setCellValueFactory(new PropertyValueFactory<>("prPrice"));
+        tblProductState.setCellValueFactory(new PropertyValueFactory<>("prState"));
+    }
+      
 
         /*
         Eliminar producto

@@ -169,7 +169,7 @@ public class CasaDorada implements Serializable {
     
     public void saveDataProduct() throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_PRODUCT));
-        oos.writeObject(listTypeProducts);
+        oos.writeObject(listProducts);
         oos.close();
     }
     
@@ -270,16 +270,26 @@ public class CasaDorada implements Serializable {
     
             //Agregar Producto
     
-    public void addProduct(int pCode, String pName, String pSize, double pPrice, boolean pState, int pNumOrder, Admin cpAdmin, Admin mpAdmin){
+    public void addProduct(int pCode, String pName, String pSize, double pPrice, boolean pState, int pNumOrder, Admin cpAdmin, Admin mpAdmin) throws IOException{
         Product newProduct = new Product(pCode, pName, pSize, pPrice, pState, pNumOrder, cpAdmin, mpAdmin);
         listProducts.add(newProduct);
+        saveDataProduct();
     }
     
-    ArrayList<Ingredient> ingredientInProduct = new ArrayList<>();
+    Ingredient ingredientInProduct;
     
-    public ArrayList<Ingredient> addIngredientToProduct(Ingredient ingredientSelect){
-        ingredientInProduct.add(ingredientSelect);
-        return ingredientInProduct;
+    public Ingredient addIngredientToProduct(Ingredient ingredientSelect){
+        if(ingredientSelect != null){
+            ingredientInProduct = ingredientSelect;
+            return ingredientInProduct;
+        } else {
+            return null;    
+        }
+    }
+    
+    public void addIngredientToProductArray(ArrayList<Ingredient> ingredients){
+        int index = listProducts.size()-1;
+        listProducts.get(index).setIngredientInProduct(ingredients);
     }
     
     public List<Product> getProduct(){

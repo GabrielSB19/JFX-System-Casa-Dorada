@@ -31,12 +31,12 @@
                         <Font size="18.0" />
                      </font>
                   </JFXTextField>
-                  <JFXTextField fx:id="txtProductSize" alignment="CENTER" focusColor="BLACK" layoutX="84.0" layoutY="282.0" prefHeight="39.0" prefWidth="259.0" promptText="Telefono" text="Tamaño" unFocusColor="#efb810">
+                  <JFXTextField fx:id="txtProductSize" alignment="CENTER" focusColor="BLACK" layoutX="84.0" layoutY="282.0" prefHeight="39.0" prefWidth="259.0" promptText="Tamaño" unFocusColor="#efb810">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </JFXTextField>
-                  <JFXTextField fx:id="txtProductPrice" alignment="CENTER" editable="false" focusColor="BLACK" layoutX="84.0" layoutY="335.0" prefHeight="39.0" prefWidth="259.0" promptText="Dirección" text="Precio" unFocusColor="#efb810">
+                  <JFXTextField fx:id="txtProductPrice" alignment="CENTER" focusColor="BLACK" layoutX="84.0" layoutY="335.0" prefHeight="39.0" prefWidth="259.0" promptText="Precio" unFocusColor="#efb810">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -69,14 +69,14 @@
                   </JFXButton>
                </children>
             </Pane>
-            <TableView layoutX="49.0" layoutY="52.0" prefHeight="647.0" prefWidth="735.0" style="-fx-background-color: #ffffff; -fx-border-color: #efb810;">
+            <TableView fx:id="tblProduct" layoutX="49.0" layoutY="52.0" prefHeight="647.0" prefWidth="735.0" style="-fx-background-color: #ffffff; -fx-border-color: #efb810;">
                <columns>
-                  <TableColumn prefWidth="122.0" text="Nombre" />
-                  <TableColumn prefWidth="122.0" text="Ingredientes" />
-                  <TableColumn prefWidth="122.0" text="Tipo de Producto" />
-                  <TableColumn prefWidth="122.0" text="Tamaño" />
-                  <TableColumn prefWidth="122.0" text="Precio" />
-                  <TableColumn prefWidth="122.0" text="Estado" />
+                  <TableColumn fx:id="tblProductName" prefWidth="122.0" text="Nombre" />
+                  <TableColumn fx:id="tblProductIng" prefWidth="122.0" text="Ingredientes" />
+                  <TableColumn fx:id="tblProductTp" prefWidth="122.0" text="Tipo de Producto" />
+                  <TableColumn fx:id="tblProductSize" prefWidth="122.0" text="Tamaño" />
+                  <TableColumn fx:id="tblProductPrice" prefWidth="122.0" text="Precio" />
+                  <TableColumn fx:id="tblProductState" prefWidth="122.0" text="Estado" />
                </columns>
             </TableView>
          </children>
