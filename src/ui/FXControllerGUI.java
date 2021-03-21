@@ -641,6 +641,7 @@ public class FXControllerGUI implements Initializable {
 
         pNewOption.getChildren().clear();
         pNewOption.getChildren().setAll(productsGestion);
+        ingredientsInP = new ArrayList<>();
         onTableProduct();
     }
 
@@ -929,6 +930,56 @@ public class FXControllerGUI implements Initializable {
     @FXML
     private JFXButton btnUptadeIngredient;
 
+    //ads
+    @FXML
+    private JFXButton btnAddProduct;
+
+    @FXML
+    private JFXButton btnRemoveProduct;
+
+    @FXML
+    private JFXButton btnUpdateProduct;
+    
+    @FXML
+    public void onSelectedProduct(MouseEvent event) {
+        JFXDialogLayout content = new JFXDialogLayout();
+        JFXButton button = new JFXButton("Okay");
+        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                dialog.close();
+            }
+        });
+        content.setActions(button);
+        Product productSelected;
+        if (event.getClickCount() == 2) {
+            productSelected = tblProduct.getSelectionModel().getSelectedItem();
+            if (productSelected != null) {
+                btnAddProduct.setVisible(false);
+                btnRemoveProduct.setVisible(true);
+                btnUpdateProduct.setVisible(true);
+                casaDorada.selectedProduct(productSelected);
+                content.setHeading(new Text("¡Listo!"));
+                content.setBody(new Text("El ingrediente " + productSelected.getPrName()+ " fue seleccionado exitosamente."));
+                dialog.show();
+                ingredientsInP = productSelected.getIngredientInProduct();
+                txtProductName.setText(productSelected.getPrName());
+                txtProductSize.setText(productSelected.getPrSize());
+                txtProductPrice.setText(String.valueOf(productSelected.getPrPrice()));
+                tbStateProduct.setSelected(productSelected.getPrState());
+            }
+        } else if (event.getClickCount() == 1) {
+            txtProductName.clear();
+            txtProductSize.clear();
+            txtProductPrice.clear();
+            ingredientsInP = new ArrayList<>();
+            tbStateProduct.setSelected(false);
+            btnAddProduct.setVisible(true);
+            btnRemoveProduct.setVisible(false);
+            btnUpdateProduct.setVisible(false);
+        }
+    }
     
     @FXML
     public void onSelectIngredient(MouseEvent event) {
@@ -1065,6 +1116,8 @@ public class FXControllerGUI implements Initializable {
             typeProductSelected = tblTypeProduct.getSelectionModel().getSelectedItem();
             if(typeProductSelected != null){
                 btnAddTypeProduct.setVisible(false);
+                btnRemoveType.setVisible(true);
+                btnUptadeType.setVisible(true);
                 casaDorada.selectedTypeIngredient(typeProductSelected);
                 content.setHeading(new Text("¡Listo!"));
                 content.setBody(new Text("El tipo de producto "+typeProductSelected.getTypeName()+" fue seleccionado exitosamente."));
@@ -1072,6 +1125,7 @@ public class FXControllerGUI implements Initializable {
                 txtTpName.setText(typeProductSelected.getTypeName());
             }
         } else if (event.getClickCount() == 1){
+            btnAddTypeProduct.setVisible(true);
             btnRemoveType.setVisible(false);
             btnUptadeType.setVisible(false);
         }
@@ -1117,7 +1171,7 @@ public class FXControllerGUI implements Initializable {
             String productSize = txtProductSize.getText();
             double productPrice = Double.parseDouble(txtProductPrice.getText());
 
-            casaDorada.addProduct(0, productName, productSize, productPrice, tbStateProduct.isSelected(), 0, 
+            casaDorada.addProduct(0, productName, productSize, productPrice, tbStateProduct.isSelected(), 0,
                     casaDorada.getAdminActive(), null);
             casaDorada.addIngredientToProductArray(ingredientsInP);
             content.setHeading(new Text("¡Listo!"));
@@ -1149,11 +1203,25 @@ public class FXControllerGUI implements Initializable {
     
     private TypeProduct typeProductSelect;
     
+    private ArrayList<TypeProduct> typeProductsInP = new ArrayList<>();
+    
     @FXML
     public void onAddTypeToP(ActionEvent event) {
-        typeProductSelect = cbxTypeDisp.getValue();
+        if(cbxTypeDisp.getValue() != null){
+            typeProductSelect = cbxTypeDisp.getValue();
+            typeProductsInP.add(typeProductSelect);
+        }
+        onTableChooseTypeProduct();
     }
 
+    public void onTableChooseTypeProduct() {
+        ObservableList<TypeProduct> newTableTypeProduct;
+        newTableTypeProduct = FXCollections.observableArrayList(typeProductsInP);
+
+        tblChooseTypeProduct.setItems(newTableTypeProduct);
+        tblTypeProductName.setCellValueFactory(new PropertyValueFactory<>("typeName"));
+    }
+    
 
             /*
             Listar los ingredientes disponibles
@@ -1294,6 +1362,8 @@ public class FXControllerGUI implements Initializable {
             adminSelected = tblAdmin.getSelectionModel().getSelectedItem();
             if(adminSelected != null){
                 casaDorada.selectedAdmin(adminSelected);
+                btnRemoveUsername.setVisible(true);
+                btnUptadeUsername.setVisible(true);
                 content.setHeading(new Text("¡Listo!"));
                 content.setBody(new Text("El usuario "+adminSelected.getName()+" fue seleccionado exitosamente."));
                 dialog.show();
@@ -1438,6 +1508,8 @@ public class FXControllerGUI implements Initializable {
             employeeSelected = tblEmployee.getSelectionModel().getSelectedItem();
             if(employeeSelected != null){
                 btnAddEmployee.setVisible(false);
+                btnUpatedEmployee.setVisible(true);
+                btnRemoveEmployee.setVisible(true);
                 casaDorada.selectedEmployee(employeeSelected);
                 content.setHeading(new Text("¡Listo!"));
                 content.setBody(new Text("El empleado "+employeeSelected.getName()+" fue seleccionado exitosamente."));
@@ -1446,9 +1518,10 @@ public class FXControllerGUI implements Initializable {
                 txtEmpLastName.setText(employeeSelected.getLastName());
                 txtEmpID.setText(employeeSelected.getID()+"");
             }
-        } else if (event.getClickCount() == 1){
-             btnUpatedEmployee.setVisible(false);
-             btnRemoveEmployee.setVisible(false);
+        } else if (event.getClickCount() == 1) {
+            btnAddEmployee.setVisible(true);
+            btnUpatedEmployee.setVisible(false);
+            btnRemoveEmployee.setVisible(false);
         }
     }
     
@@ -1586,6 +1659,8 @@ public class FXControllerGUI implements Initializable {
             clientSelected = tblClients.getSelectionModel().getSelectedItem();
             if(clientSelected != null){
                 btnAddClient.setVisible(false);
+                btnUptadeClient.setVisible(true);
+                btnRemoveClient.setVisible(true);
                 casaDorada.selectedClient(clientSelected);
                 content.setHeading(new Text("¡Listo!"));
                 content.setBody(new Text("El cliente "+clientSelected.getName()+" fue seleccionado exitosamente."));
@@ -1598,6 +1673,7 @@ public class FXControllerGUI implements Initializable {
                 txtCObser.setText(clientSelected.getCObservations());
             }
         } else if (event.getClickCount() == 1){
+            btnAddClient.setVisible(true);
             btnUptadeClient.setVisible(false);
             btnRemoveClient.setVisible(false);
         }
@@ -1744,4 +1820,5 @@ public class FXControllerGUI implements Initializable {
         content.setBody(new Text("Se ha eliminaod este elemento correctamente"));
         dialog.show();
     }
+    
 }

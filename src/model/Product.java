@@ -116,4 +116,8 @@ public class Product implements Serializable {
     public ArrayList<TypeProduct> getTypeProductInProduct(){
         return typeProducts;
     }
+    
+    public void setTypeProductInProduct(ArrayList<TypeProduct> typeProducts){
+        this.typeProducts = typeProducts;
+    }
 }
