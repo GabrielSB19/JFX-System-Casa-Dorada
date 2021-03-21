@@ -906,11 +906,16 @@ public class FXControllerGUI implements Initializable {
             }
         }
     }
+    
+    public Admin adminCreaterIngredient(){
+        int index = casaDorada.getIngredientIndex();
+        return casaDorada.getIngredient().get(index).getCiAdmin();
+    }
 
     @FXML
     public void onUptadeIngredient(ActionEvent event) throws IOException {
         Ingredient newIngredient = new Ingredient(0, txtIngName.getText(), tbStateIngredients.isSelected(), 
-                casaDorada.getAdminActive(), casaDorada.getAdminActive());
+                adminCreaterIngredient(), casaDorada.getAdminActive());
         casaDorada.setNewIngredient(newIngredient);
         btnAddIngredient.setVisible(true);
         onTableIngredient();
@@ -1005,11 +1010,16 @@ public class FXControllerGUI implements Initializable {
             }
         }
     }
+    
+    public Admin adminCreaterTP(){
+        int index = casaDorada.getTypeProductIndex();
+        return casaDorada.getTypeProduc().get(index).getCtpAdmin();
+    }
 
     @FXML
     public void onUptadeType(ActionEvent event) throws IOException {
         TypeProduct newTypeProduct = new TypeProduct(0, txtTpName.getText(), tbStateTypeProduct.isSelected(),
-                casaDorada.getAdminActive(), casaDorada.getAdminActive());
+                adminCreaterTP(), casaDorada.getAdminActive());
         casaDorada.setNewTypeProduct(newTypeProduct);
         btnAddTypeProduct.setVisible(true);
         onTableTypeProduct();
@@ -1146,7 +1156,7 @@ public class FXControllerGUI implements Initializable {
 
         }
     }
-
+    
     @FXML
     public void onUptadeAdmin(ActionEvent event) throws IOException {
         Admin newAdmin = new Admin(txtUsername.getText(), txtPassword.getText(), 0, tbStateUserName.isSelected(), 
@@ -1276,11 +1286,16 @@ public class FXControllerGUI implements Initializable {
             }
         }
     }
+    
+    public Admin adminCreaterEmployee(){
+        int index = casaDorada.getEmployeeIndex();
+        return casaDorada.getEmployee().get(index).getCAdmin();
+    }
 
     @FXML
     public void onUptadeEmployee(ActionEvent event) throws IOException {
         Employee newEmployee = new Employee(0, tbStateEmployee.isSelected(), casaDorada.getAdminActive(), 
-                txtEmpName.getText(), txtEmpLastName.getText(), Integer.parseInt(txtEmpID.getText()), casaDorada.getAdminActive());
+                txtEmpName.getText(), txtEmpLastName.getText(), Integer.parseInt(txtEmpID.getText()), adminCreaterEmployee());
         casaDorada.setNewEmployee(newEmployee);
         btnAddEmployee.setVisible(true);
         onTableEmployee();
@@ -1411,12 +1426,17 @@ public class FXControllerGUI implements Initializable {
             }
         }
     }
+        
+    public Admin adminCreaterClient(){
+        int index = casaDorada.getClientIndex();
+        return casaDorada.getClient().get(index).getCAdmin();
+    }
 
     @FXML
     public void onUptadeClient(ActionEvent event) throws IOException {
         Client newClient = new Client(txtCAddress.getText(), Integer.parseInt(txtCPhone.getText()), txtCObser.getText(), 
                 tbStateClient.isSelected(), casaDorada.getAdminActive(), txtCName.getText(), txtCLastName.getText(),
-                Integer.parseInt(txtCID.getText()), casaDorada.getAdminActive());
+                Integer.parseInt(txtCID.getText()), adminCreaterClient());
         casaDorada.setNewClient(newClient);
         btnAddClient.setVisible(true);
         onTableClient();

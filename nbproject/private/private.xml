@@ -11,7 +11,6 @@
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< HEAD
         <group>
             <file>file:/C:/Users/usuario/Desktop/Universidad/Semestre%203/Algoritmos%20y%20Programacion%20II/JFX-System-Casa-Dorada/src/model/Admin.java</file>
             <file>file:/C:/Users/usuario/Desktop/Universidad/Semestre%203/Algoritmos%20y%20Programacion%20II/JFX-System-Casa-Dorada/src/model/CasaDorada.java</file>
@@ -23,8 +22,5 @@
             <file>file:/C:/Users/usuario/Desktop/Universidad/Semestre%203/Algoritmos%20y%20Programacion%20II/JFX-System-Casa-Dorada/src/model/Client.java</file>
             <file>file:/C:/Users/usuario/Desktop/Universidad/Semestre%203/Algoritmos%20y%20Programacion%20II/JFX-System-Casa-Dorada/src/ui/FXControllerGUI.java</file>
         </group>
-=======
-        <group/>
->>>>>>> 291d341830990dec8c35283bc714d5c82e7db98a
     </open-files>
 </project-private>
