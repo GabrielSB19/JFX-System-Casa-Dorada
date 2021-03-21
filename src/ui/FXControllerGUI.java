@@ -868,6 +868,15 @@ public class FXControllerGUI implements Initializable {
         /*
         Eliminar Ingrediente
         */
+    
+    @FXML
+    public void onRemoveIngredient(ActionEvent event) throws IOException {
+        int index = casaDorada.getIngredientIndex();
+        casaDorada.removeIngredient(index);
+        btnAddIngredient.setVisible(true);
+        onTableIngredient();
+        txtIngName.clear();
+    }
         /*
         Actualizar Ingrediente
         */
@@ -908,9 +917,6 @@ public class FXControllerGUI implements Initializable {
 
     }
     
-        /*
-        Deshabiliatar Ingrediente
-        */
     /*
     Gestionar tipo de productos
     */
@@ -960,6 +966,16 @@ public class FXControllerGUI implements Initializable {
         /*
         Eliminar tipo de producto
         */
+    
+    @FXML
+    public void onRemoveTypeProduct(ActionEvent event) throws IOException {
+        int index = casaDorada.getTypeProductIndex();
+        casaDorada.removeTypeProduct(index);
+        btnAddTypeProduct.setVisible(true);
+        onTableTypeProduct();
+        txtTpName.clear();
+    }
+    
         /*
         Actualizar tipo de producto
         */
@@ -999,9 +1015,6 @@ public class FXControllerGUI implements Initializable {
         onTableTypeProduct();
     }
     
-         /*
-        Deshabiliatar tipo de producto
-        */
     /*
     Gestionar Producto
      */
@@ -1144,16 +1157,20 @@ public class FXControllerGUI implements Initializable {
     }
     
         /*
-        Eliminar producto
+        Eliminar Admin
         */
-        /*
-        Actualizar producto
-        */
-        /*
-        Deshabiliatar producto
-        */
-    
-       
+    @FXML
+    public void onRemoveAdmin(ActionEvent event) throws IOException {
+        int index = casaDorada.getAdminIndex();
+        casaDorada.removeAdmin(index);
+        onTableAdmin();
+        txtNameAdmin.clear();
+        txtLastNameAdmin.clear();
+        txtIDAdmin.clear();
+        txtUsername.clear();
+        txtPassword.clear();
+        txtConfirmPassword.clear();
+    }
 
      /*
      Gestionar Empleado
@@ -1216,6 +1233,18 @@ public class FXControllerGUI implements Initializable {
         /*
         Eliminar empleado
         */
+    
+    @FXML
+    public void onRemoveEmployee(ActionEvent event) throws IOException {
+        int index = casaDorada.getEmployeeIndex();
+        casaDorada.removeEmployee(index);
+        btnAddEmployee.setVisible(true);
+        onTableEmployee();
+        txtEmpName.clear();
+        txtEmpLastName.clear();
+        txtEmpID.clear();
+    }
+    
         /*
         Actualizar empleado
         */
@@ -1256,10 +1285,6 @@ public class FXControllerGUI implements Initializable {
         btnAddEmployee.setVisible(true);
         onTableEmployee();
     }
-    
-        /*
-        Deshabiliatar empleado
-        */
        
      /*
      Gestionar Cliente
@@ -1337,6 +1362,21 @@ public class FXControllerGUI implements Initializable {
         /*
         Eliminar Cliente
         */
+        
+    @FXML
+    public void onRemoveClient(ActionEvent event) throws IOException {
+        int index = casaDorada.getClientIndex();
+        casaDorada.removeClient(index);
+        btnAddClient.setVisible(true);
+        onTableClient();
+        txtCName.clear();
+        txtCLastName.clear();
+        txtCID.clear();
+        txtCPhone.clear();
+        txtCAddress.clear();
+        txtCObser.clear();
+    }
+    
         /*
         Actualizar Cliente
         */
@@ -1381,9 +1421,7 @@ public class FXControllerGUI implements Initializable {
         btnAddClient.setVisible(true);
         onTableClient();
     }
-        /*
-        Deshabiliatar Cliente
-        */
+
     
     /*
     Listar las arrayList de los objetos

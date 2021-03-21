@@ -46,7 +46,7 @@
                         <Font size="18.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="553.0" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Eliminar">
+                  <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="553.0" onAction="#onRemoveEmployee" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Eliminar">
                      <font>
                         <Font size="18.0" />
                      </font>

@@ -292,6 +292,10 @@ public class CasaDorada implements Serializable {
     
     private int adminIndex;
     
+    public int getAdminIndex(){
+        return adminIndex;
+    }
+    
     public void selectedAdmin(Admin adminNew){
         for(int i = 0; i<listAdmins.size(); i++){
             if(listAdmins.get(i) == adminNew){
@@ -300,13 +304,22 @@ public class CasaDorada implements Serializable {
             }
         }
     }
-    
+
     public void setNewAdmin(Admin newAdmin) throws IOException{
         listAdmins.set(adminIndex, newAdmin);
         saveDataAdmin();
     }
+            
+    public void removeAdmin(int indexAdmin) throws IOException{
+        listAdmins.remove(indexAdmin);
+        saveDataAdmin();
+    }
     
     private int ingredientIndex;
+    
+    public int getIngredientIndex(){
+        return ingredientIndex;
+    }
     
     public void selectedIngredient(Ingredient ingredientNew){
         for(int i = 0; i<listIngredients.size(); i++){
@@ -322,7 +335,17 @@ public class CasaDorada implements Serializable {
         saveDataIngredient();
     }
     
+                
+    public void removeIngredient(int indexIngredient) throws IOException{
+        listIngredients.remove(indexIngredient);
+        saveDataAdmin();
+    }
+    
     private int typeProductIndex;
+    
+    public int getTypeProductIndex(){
+        return typeProductIndex;
+    }
     
     public void selectedTypeIngredient(TypeProduct typeProductNew){
         for(int i = 0; i<listTypeProducts.size(); i++){
@@ -337,13 +360,22 @@ public class CasaDorada implements Serializable {
         listTypeProducts.set(typeProductIndex, newTypeProduct);
         saveDataTypeProduct();
     }
+                
+    public void removeTypeProduct(int indexTypeProduct) throws IOException{
+        listTypeProducts.remove(indexTypeProduct);
+        saveDataAdmin();
+    }
     
     private int employeeIndex;
+    
+    public int getEmployeeIndex(){
+        return employeeIndex;
+    }
     
     public void selectedEmployee(Employee employeeNew){
         for(int i = 0; i<listEmployees.size(); i++){
             if(listEmployees.get(i) == employeeNew){
-                employeeIndex = 1;
+                employeeIndex = i;
             }
         }
     }
@@ -352,8 +384,17 @@ public class CasaDorada implements Serializable {
         listEmployees.set(employeeIndex, newEmployee);
         saveDataEmployee();
     }
+                
+    public void removeEmployee(int indexEmployee) throws IOException{
+        listEmployees.remove(indexEmployee);
+        saveDataEmployee();
+    }
     
     private int clientIndex;
+    
+    public int getClientIndex(){
+        return clientIndex;
+    }
     
     public void selectedClient(Client clientNew){
         for(int i = 0; i<listClients.size(); i++){
@@ -365,6 +406,11 @@ public class CasaDorada implements Serializable {
     
     public void setNewClient(Client newClient) throws IOException{
         listClients.set(clientIndex, newClient);
+        saveDataClient();
+    }
+    
+    public void removeClient(int indexClient) throws IOException{
+        listClients.remove(indexClient);
         saveDataClient();
     }
 }
