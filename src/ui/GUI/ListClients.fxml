@@ -22,15 +22,14 @@
             </Label>
          </children>
       </Pane>
-      <TableView layoutX="105.0" layoutY="128.0" prefHeight="565.0" prefWidth="989.0" style="-fx-background-color: #ffffff; -fx-border-color: #efb810;">
+      <TableView fx:id="tblDispClient" layoutX="105.0" layoutY="128.0" prefHeight="565.0" prefWidth="989.0" style="-fx-background-color: #ffffff; -fx-border-color: #efb810;">
          <columns>
-            <TableColumn prefWidth="140.0" style="-fx-background-color: #ffffff;" text="Nombre" />
-            <TableColumn prefWidth="140.0" style="-fx-background-color: #ffffff;" text="Apellido" />
-            <TableColumn prefWidth="140.0" style="-fx-background-color: #ffffff;" text="ID" />
-            <TableColumn prefWidth="140.0" style="-fx-background-color: #ffffff;" text="Dirección" />
-            <TableColumn prefWidth="140.0" style="-fx-background-color: #ffffff;" text="Telefono" />
-            <TableColumn prefWidth="145.0" style="-fx-background-color: #ffffff;" text="Observaciones" />
-            <TableColumn prefWidth="140.0" style="-fx-background-color: #ffffff;" text="Estado" />
+            <TableColumn fx:id="tblDispNameClient" prefWidth="164.0" text="Nombre" />
+            <TableColumn fx:id="tblDispLNClient" prefWidth="164.0" text="Apellido" />
+            <TableColumn fx:id="tblDispIDClient" prefWidth="164.0" text="ID" />
+            <TableColumn fx:id="tblDispAddressClient" prefWidth="164.0" text="Dirección" />
+            <TableColumn fx:id="tblDispPhoneClient" prefWidth="164.0" text="Telefono" />
+            <TableColumn fx:id="tblDispObserClient" prefWidth="164.0" text="Observaciones" />
          </columns>
       </TableView>
    </children>

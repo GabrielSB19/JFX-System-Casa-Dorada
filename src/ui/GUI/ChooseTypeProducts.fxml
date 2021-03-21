@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -19,12 +20,12 @@
             <Font name="SansSerif Regular" size="30.0" />
          </font>
       </Label>
-      <JFXButton buttonType="RAISED" layoutX="263.0" layoutY="80.0" prefHeight="39.0" prefWidth="110.0" style="-fx-background-color: #efb810;" text="Agregar">
+      <JFXButton buttonType="RAISED" layoutX="408.0" layoutY="80.0" onAction="#onAddTypeToP" prefHeight="39.0" prefWidth="110.0" style="-fx-background-color: #efb810;" text="Agregar">
          <font>
             <Font size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="391.0" layoutY="80.0" prefHeight="39.0" prefWidth="110.0" style="-fx-background-color: #efb810;" text="Eliminar">
+      <JFXButton buttonType="RAISED" layoutX="538.0" layoutY="80.0" prefHeight="39.0" prefWidth="110.0" style="-fx-background-color: #efb810;" text="Eliminar">
          <font>
             <Font size="18.0" />
          </font>
@@ -34,5 +35,6 @@
             <Font size="18.0" />
          </font>
       </JFXButton>
+      <JFXComboBox fx:id="cbxTypeDisp" focusColor="BLACK" layoutX="117.0" layoutY="80.0" prefHeight="39.0" prefWidth="259.0" promptText="                 Tipo de producto" unFocusColor="#efb810" />
    </children>
 </Pane>

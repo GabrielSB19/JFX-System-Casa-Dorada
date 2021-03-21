@@ -60,5 +60,8 @@ public class TypeProduct implements Serializable{
         this.mtpAdmin = mtpAdmin;
     }
     
-    
+    @Override
+    public String toString(){
+        return getTypeName();
+    }
 }

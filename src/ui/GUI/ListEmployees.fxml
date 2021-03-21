@@ -22,12 +22,11 @@
             </Label>
          </children>
       </Pane>
-      <TableView layoutX="105.0" layoutY="128.0" prefHeight="565.0" prefWidth="989.0" style="-fx-background-color: #ffffff; -fx-border-color: #efb810;">
+      <TableView fx:id="tblEmployeeDisp" layoutX="105.0" layoutY="128.0" prefHeight="565.0" prefWidth="989.0" style="-fx-background-color: #ffffff; -fx-border-color: #efb810;">
          <columns>
-            <TableColumn prefWidth="246.0" style="-fx-background-color: #ffffff;" text="Nombre" />
-            <TableColumn prefWidth="246.0" style="-fx-background-color: #ffffff;" text="Apellido" />
-            <TableColumn prefWidth="246.0" style="-fx-background-color: #ffffff;" text="ID" />
-            <TableColumn prefWidth="246.0" style="-fx-background-color: #ffffff;" text="Estado" />
+            <TableColumn fx:id="tblEmployeeNameDisp" prefWidth="328.0" style="-fx-background-color: #ffffff;" text="Nombre" />
+            <TableColumn fx:id="tblEmployeeLNDisp" prefWidth="339.0" style="-fx-background-color: #ffffff;" text="Apellido" />
+            <TableColumn fx:id="tblEmployeeIDDisp" prefWidth="317.0" style="-fx-background-color: #ffffff;" text="ID" />
          </columns>
       </TableView>
    </children>

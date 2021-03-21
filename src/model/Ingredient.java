@@ -60,5 +60,9 @@ public class Ingredient implements Serializable{
         this.miAdmin = miAdmin;
     }
     
+    @Override
+    public String toString(){
+        return getIngredientsName();
+    }
     
 }

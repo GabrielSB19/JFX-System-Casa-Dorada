@@ -41,4 +41,8 @@ public abstract class Person implements Serializable {
         this.ID = ID;
     }
     
+    public Admin getCAdmin(){
+        return cAdmin;
+    }
+    
 }

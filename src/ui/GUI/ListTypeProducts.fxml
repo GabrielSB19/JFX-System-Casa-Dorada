@@ -22,10 +22,9 @@
             </Label>
          </children>
       </Pane>
-      <TableView layoutX="105.0" layoutY="128.0" prefHeight="565.0" prefWidth="989.0" style="-fx-background-color: #ffffff; -fx-border-color: #efb810;">
+      <TableView fx:id="tblDispTP" layoutX="105.0" layoutY="128.0" prefHeight="565.0" prefWidth="989.0" style="-fx-background-color: #ffffff; -fx-border-color: #efb810;">
          <columns>
-            <TableColumn prefWidth="493.0" style="-fx-background-color: #ffffff;" text="Nombre" />
-            <TableColumn prefWidth="493.0" style="-fx-background-color: #ffffff;" text="Estado" />
+            <TableColumn fx:id="tblDispNameTP" prefWidth="986.0" text="Nombre" />
          </columns>
       </TableView>
    </children>

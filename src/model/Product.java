@@ -104,4 +104,12 @@ public class Product implements Serializable {
     public void addTypeProductInProduct(TypeProduct newTypeProduct){
         typeProducts.add(newTypeProduct);
     }
+    
+    public ArrayList<Ingredient> getIngredientInProduct(){
+        return ingredients;
+    }
+    
+    public ArrayList<TypeProduct> getTypeProductInProduct(){
+        return typeProducts;
+    }
 }
