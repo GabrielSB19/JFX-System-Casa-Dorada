@@ -176,7 +176,8 @@ public class FXControllerGUI implements Initializable {
     @FXML
     private TableColumn<Employee, Boolean> tblEmployeeState;
 
-    //Atributos para gestionar los ingredients
+         //Atributos para gestionar los ingredients
+    
     @FXML
     private JFXTextField txtIngName;
     
@@ -196,7 +197,7 @@ public class FXControllerGUI implements Initializable {
     private TableColumn<Ingredient, Boolean> tblIngredientState;
     
 
-        //Atribtuos para gestionar los tipo de ingrediente
+         //Atribtuos para gestionar los tipo de ingrediente
     
     @FXML
     private JFXTextField txtTpName;
@@ -218,13 +219,15 @@ public class FXControllerGUI implements Initializable {
 
         //Atributos para gestionar los productos
 
-    private Pane pChooseIngredients;
-
+    
+    @FXML
+    private Pane pChooseIng;
+    
     @FXML
     private TableView<Ingredient> tblChooseIngredient;
 
     @FXML
-    private TableColumn<Ingredient, String> tblIngredientName;
+    private TableColumn<Ingredient, String> tblIngName;
 
     @FXML
     private TableView<TypeProduct> tblChooseTypeProduct;
@@ -243,6 +246,9 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     private JFXTextField txtProductPrice;
+    
+    @FXML
+    private JFXToggleButton tbStateProduct;
     
         //Atributos para gestionar los clientes
     
@@ -723,22 +729,25 @@ public class FXControllerGUI implements Initializable {
     }
 
     //Gestion del producto
+    
     @FXML
-    public void onAddIngredientsToProduct(ActionEvent event) throws IOException {
+    public void onAddIngredientsToProduct (ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ChooseIngredients.fxml"));
 
         fxmlLoader.setController(this);
         Parent chooseIngredient = fxmlLoader.load();
         newStage(chooseIngredient);
-        showIngredientsDisp();
         onTableChooseIngredient();
+        showIngredientsDisp();
+        
     }
-
+    
     @FXML
-    public void onExitChooseIngredient(ActionEvent event) {
-        Stage stage = (Stage) pChooseIngredients.getScene().getWindow();
+    void onExitChooseIngredient(ActionEvent event) {
+        Stage stage= (Stage) pChooseIng.getScene().getWindow();
         stage.close();
     }
+
 
     @FXML
     public void onAddTypeToProduct(ActionEvent event) throws IOException {
@@ -747,8 +756,9 @@ public class FXControllerGUI implements Initializable {
         fxmlLoader.setController(this);
         Parent chooseTypeProduct = fxmlLoader.load();
         newStage(chooseTypeProduct);
-        showTPDisp();
         onTableChooseTypeProduct();
+        showTPDisp();
+        
     }
 
     @FXML
@@ -1060,7 +1070,7 @@ public class FXControllerGUI implements Initializable {
         Agregar producto
         */
     @FXML
-    void onAddProduct(ActionEvent event) {
+    public void onAddProduct(ActionEvent event) {
         JFXDialogLayout content = new JFXDialogLayout();
         JFXButton button = new JFXButton("Okay");
         JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
@@ -1078,13 +1088,31 @@ public class FXControllerGUI implements Initializable {
             String productSize = txtProductSize.getText();
             double productPrice = Double.parseDouble(txtProductPrice.getText());
 
-            casaDorada.addProduct(0, productName, productSize, productPrice, true, 0, casaDorada.getAdminActive(), null);
+            casaDorada.addProduct(0, productName, productSize, productPrice, tbStateProduct.isSelected(), 0, casaDorada.getAdminActive(), null);
         } else {
             content.setHeading(new Text("¡Error!"));
             content.setBody(new Text("Debes colocarle un nombre al tipo de producto que deseas crear."));
             dialog.show();
         }
     }
+    
+    
+    private Ingredient ingredientSelect;
+    @FXML
+    public void onAddIngredientToP(ActionEvent event) {
+        if(cbxIngDisp.getValue() != null){
+            ingredientSelect = cbxIngDisp.getValue();
+        }
+        onTableChooseIngredient();
+    }
+    
+    private TypeProduct typeProductSelect;
+    
+    @FXML
+    public void onAddTypeToP(ActionEvent event) {
+        typeProductSelect = cbxTypeDisp.getValue();
+    }
+
 
             /*
             Listar los ingredientes disponibles
@@ -1092,7 +1120,7 @@ public class FXControllerGUI implements Initializable {
     
     
     @FXML
-    private JFXComboBox<Ingredient> cbxIngredientsDisp;
+    private JFXComboBox<Ingredient> cbxIngDisp;
     
     public void showIngredientsDisp(){
         ArrayList<Ingredient> ingredientToProduct = new ArrayList<>();
@@ -1105,22 +1133,17 @@ public class FXControllerGUI implements Initializable {
         ObservableList<Ingredient> obs;
         obs = FXCollections.observableArrayList(ingredientToProduct);
         
-        cbxIngredientsDisp.setItems(obs);
+        cbxIngDisp.setItems(obs);
     }
     
     public void onTableChooseIngredient() {
-        ArrayList<Ingredient> dispChooseIngredient = new ArrayList<>();
-        List<Ingredient> chooseIngredients = casaDorada.getIngredient();
-        for(int i =0; i<chooseIngredients.size(); i++){
-            if(chooseIngredients.get(i).getIngredientsState()){
-                dispChooseIngredient.add(chooseIngredients.get(i));
-            }
-        }
+        ArrayList<Ingredient> dispChooseIngredient = casaDorada.addIngredientToProduct(ingredientSelect);
+
         ObservableList<Ingredient> newTableIngredient;
         newTableIngredient = FXCollections.observableArrayList(dispChooseIngredient);
 
         tblChooseIngredient.setItems(newTableIngredient);
-        tblIngredientName.setCellValueFactory(new PropertyValueFactory<>("ingredientsName"));
+        tblIngName.setCellValueFactory(new PropertyValueFactory<>("ingredientsName"));
     }
     
             /*
@@ -1148,7 +1171,7 @@ public class FXControllerGUI implements Initializable {
         ArrayList<TypeProduct> dispChooseTypeProduct = new ArrayList<>();
         List<TypeProduct> chooseTypeProduct = casaDorada.getTypeProduc();
         for(int i = 0; i<chooseTypeProduct.size(); i++){
-            if(chooseTypeProduct.get(i).getTypeState()){
+            if(chooseTypeProduct.get(i) == cbxTypeDisp.getValue()){
                 dispChooseTypeProduct.add(chooseTypeProduct.get(i));
             }
         }

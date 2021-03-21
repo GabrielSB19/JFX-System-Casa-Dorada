@@ -275,6 +275,17 @@ public class CasaDorada implements Serializable {
         listProducts.add(newProduct);
     }
     
+    ArrayList<Ingredient> ingredientInProduct = new ArrayList<>();
+    
+    public ArrayList<Ingredient> addIngredientToProduct(Ingredient ingredientSelect){
+        ingredientInProduct.add(ingredientSelect);
+        return ingredientInProduct;
+    }
+    
+    public List<Product> getProduct(){
+        return listProducts;
+    }
+    
         
     public boolean login(String username, String password){
         for (int i = 0; i < listAdmins.size(); i++) {
