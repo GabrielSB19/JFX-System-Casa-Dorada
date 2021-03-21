@@ -385,6 +385,15 @@ public class CasaDorada implements Serializable {
         return typeProductIndex;
     }
     
+    private int productIndex;
+    public void selectedProduct(Product productNew) {
+        for (int i = 0; i < listProducts.size(); i++) {
+            if (listProducts.get(i) == productNew) {
+                productIndex = i;
+            }
+        }
+    }
+    
     public void selectedTypeIngredient(TypeProduct typeProductNew){
         for(int i = 0; i<listTypeProducts.size(); i++){
             if(listTypeProducts.get(i) == typeProductNew){
@@ -450,5 +459,21 @@ public class CasaDorada implements Serializable {
     public void removeClient(int indexClient) throws IOException{
         listClients.remove(indexClient);
         saveDataClient();
+    }
+    
+    private TypeProduct typeProductInProduct;
+
+    public TypeProduct addTypeProductToProduct(TypeProduct typeProductSelect) {
+        if (typeProductSelect != null) {
+            typeProductInProduct = typeProductSelect;
+            return typeProductInProduct;
+        } else {
+            return null;
+        }
+    }
+
+    public void addTypeProductToProductArray(ArrayList<TypeProduct> typeProducts) {
+        int index = listProducts.size() - 1;
+        listProducts.get(index).setTypeProductInProduct(typeProducts);
     }
 }
