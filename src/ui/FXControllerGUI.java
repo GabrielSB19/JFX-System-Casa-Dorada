@@ -1153,6 +1153,18 @@ public class FXControllerGUI implements Initializable {
     public void onAddTypeToP(ActionEvent event) {
         typeProductSelect = cbxTypeDisp.getValue();
     }
+    /*
+    private ArrayList<TypeProduct> typeProductsInP = new ArrayList<>();
+    
+    @FXML
+    public void onAddTypeToP(ActionEvent event) {
+        if(cbxTypeDisp.getValue() != null){
+            typeProductSelect = cbxTypeProduct.getValue();
+            typeProudtsInP.add(typeProductSelect);
+        }
+        onTableChooseTypeIngredient();
+    }
+    */
 
 
             /*
@@ -1234,6 +1246,16 @@ public class FXControllerGUI implements Initializable {
         tblProductPrice.setCellValueFactory(new PropertyValueFactory<>("prPrice"));
         tblProductState.setCellValueFactory(new PropertyValueFactory<>("prState"));
     }
+    
+    /*
+    public void onTableChooseTypeProduc() {
+        ObservableList<TypeProduct> newTableTypeProduct;
+        newTableTypeProduct = FXCollections.observableArrayList(tyeProductsInP);
+
+        tblChooseTypeProduct.setItems(newTableIngredient);
+        tblTypeProductName.setCellValueFactory(new PropertyValueFactory<>("typeName"));
+    }
+    */
       
 
         /*
