@@ -36,12 +36,12 @@
                         <Font size="18.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="513.0" onAction="#onRemoveIngredient" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Eliminar">
+                  <JFXButton fx:id="btnRemoveIngredient" buttonType="RAISED" layoutX="84.0" layoutY="513.0" onAction="#onRemoveIngredient" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Eliminar">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="457.0" onAction="#onUptadeIngredient" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Actualizar">
+                  <JFXButton fx:id="btnUptadeIngredient" buttonType="RAISED" layoutX="84.0" layoutY="457.0" onAction="#onUptadeIngredient" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Actualizar">
                      <font>
                         <Font size="18.0" />
                      </font>

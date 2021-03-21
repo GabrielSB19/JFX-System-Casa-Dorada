@@ -1,6 +1,7 @@
 package ui;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXPasswordField;
@@ -729,6 +730,7 @@ public class FXControllerGUI implements Initializable {
         fxmlLoader.setController(this);
         Parent chooseIngredient = fxmlLoader.load();
         newStage(chooseIngredient);
+        showIngredientsDisp();
         onTableChooseIngredient();
     }
 
@@ -745,6 +747,7 @@ public class FXControllerGUI implements Initializable {
         fxmlLoader.setController(this);
         Parent chooseTypeProduct = fxmlLoader.load();
         newStage(chooseTypeProduct);
+        showTPDisp();
         onTableChooseTypeProduct();
     }
 
@@ -874,6 +877,7 @@ public class FXControllerGUI implements Initializable {
         int index = casaDorada.getIngredientIndex();
         casaDorada.removeIngredient(index);
         btnAddIngredient.setVisible(true);
+        DialogEliminated();
         onTableIngredient();
         txtIngName.clear();
     }
@@ -881,6 +885,14 @@ public class FXControllerGUI implements Initializable {
         Actualizar Ingrediente
         */
      
+    
+    @FXML
+    private JFXButton btnRemoveIngredient;
+
+    @FXML
+    private JFXButton btnUptadeIngredient;
+
+    
     @FXML
     public void onSelectIngredient(MouseEvent event) {
         JFXDialogLayout content = new JFXDialogLayout();
@@ -904,6 +916,9 @@ public class FXControllerGUI implements Initializable {
                 dialog.show();
                 txtIngName.setText(ingredientSelected.getIngredientsName());
             }
+        } else if (event.getClickCount() == 1){
+            btnRemoveIngredient.setVisible(false);
+            btnUptadeIngredient.setVisible(false);
         }
     }
     
@@ -918,6 +933,7 @@ public class FXControllerGUI implements Initializable {
                 adminCreaterIngredient(), casaDorada.getAdminActive());
         casaDorada.setNewIngredient(newIngredient);
         btnAddIngredient.setVisible(true);
+        DialogUptade();
         onTableIngredient();
 
     }
@@ -977,6 +993,7 @@ public class FXControllerGUI implements Initializable {
         int index = casaDorada.getTypeProductIndex();
         casaDorada.removeTypeProduct(index);
         btnAddTypeProduct.setVisible(true);
+        DialogEliminated();
         onTableTypeProduct();
         txtTpName.clear();
     }
@@ -984,6 +1001,13 @@ public class FXControllerGUI implements Initializable {
         /*
         Actualizar tipo de producto
         */
+    
+    
+    @FXML
+    private JFXButton btnRemoveType;
+
+    @FXML
+    private JFXButton btnUptadeType;
        
     @FXML
     public void onSelectType(MouseEvent event) {
@@ -1008,6 +1032,9 @@ public class FXControllerGUI implements Initializable {
                 dialog.show();
                 txtTpName.setText(typeProductSelected.getTypeName());
             }
+        } else if (event.getClickCount() == 1){
+            btnRemoveType.setVisible(false);
+            btnUptadeType.setVisible(false);
         }
     }
     
@@ -1022,6 +1049,7 @@ public class FXControllerGUI implements Initializable {
                 adminCreaterTP(), casaDorada.getAdminActive());
         casaDorada.setNewTypeProduct(newTypeProduct);
         btnAddTypeProduct.setVisible(true);
+        DialogUptade();
         onTableTypeProduct();
     }
     
@@ -1058,9 +1086,28 @@ public class FXControllerGUI implements Initializable {
         }
     }
 
-    /*
+            /*
             Listar los ingredientes disponibles
-     */
+            */
+    
+    
+    @FXML
+    private JFXComboBox<Ingredient> cbxIngredientsDisp;
+    
+    public void showIngredientsDisp(){
+        ArrayList<Ingredient> ingredientToProduct = new ArrayList<>();
+        List<Ingredient> ingredients = casaDorada.getIngredient();
+        for(int i = 0; i<ingredients.size(); i++){
+            if(ingredients.get(i).getIngredientsState()){
+                ingredientToProduct.add(ingredients.get(i));
+            }
+        }
+        ObservableList<Ingredient> obs;
+        obs = FXCollections.observableArrayList(ingredientToProduct);
+        
+        cbxIngredientsDisp.setItems(obs);
+    }
+    
     public void onTableChooseIngredient() {
         ArrayList<Ingredient> dispChooseIngredient = new ArrayList<>();
         List<Ingredient> chooseIngredients = casaDorada.getIngredient();
@@ -1074,6 +1121,27 @@ public class FXControllerGUI implements Initializable {
 
         tblChooseIngredient.setItems(newTableIngredient);
         tblIngredientName.setCellValueFactory(new PropertyValueFactory<>("ingredientsName"));
+    }
+    
+            /*
+            Listar los tipos de producto disponibles
+            */
+    
+    @FXML
+    private JFXComboBox<TypeProduct> cbxTypeDisp;
+    
+    public void showTPDisp(){
+        ArrayList<TypeProduct> typeProductToProduct = new ArrayList<>();
+        List<TypeProduct> typeProducts = casaDorada.getTypeProduc();
+        for(int i = 0; i<typeProducts.size(); i++){
+            if(typeProducts.get(i).getTypeState()){
+                typeProductToProduct.add(typeProducts.get(i));
+            }
+        }
+        ObservableList<TypeProduct> obs;
+        obs = FXCollections.observableArrayList(typeProductToProduct);
+        
+        cbxTypeDisp.setItems(obs);
     }
 
     public void onTableChooseTypeProduct() {
@@ -1125,6 +1193,13 @@ public class FXControllerGUI implements Initializable {
         Actualizar Admin
         */
     
+    
+    @FXML
+    private JFXButton btnRemoveUsername;
+
+    @FXML
+    private JFXButton btnUptadeUsername;
+    
     @FXML
     public void onSelectAdmin (MouseEvent event) {
         JFXDialogLayout content = new JFXDialogLayout();
@@ -1151,9 +1226,10 @@ public class FXControllerGUI implements Initializable {
                 txtUsername.setText(adminSelected.getUsername());
                 txtPassword.setText(adminSelected.getPassword());
                 txtConfirmPassword.setText(adminSelected.getPassword());
-                
             }
-
+        } else if (event.getClickCount() == 1){
+            btnRemoveUsername.setVisible(false);
+            btnUptadeUsername.setVisible(false);
         }
     }
     
@@ -1163,6 +1239,7 @@ public class FXControllerGUI implements Initializable {
                 casaDorada.getAdminActive(), txtNameAdmin.getText(),
                         txtLastNameAdmin.getText(), Integer.parseInt(txtIDAdmin.getText()) , null);
         casaDorada.setNewAdmin(newAdmin);
+        DialogUptade();
         onTableAdmin(); 
     }
     
@@ -1173,6 +1250,7 @@ public class FXControllerGUI implements Initializable {
     public void onRemoveAdmin(ActionEvent event) throws IOException {
         int index = casaDorada.getAdminIndex();
         casaDorada.removeAdmin(index);
+        DialogEliminated();
         onTableAdmin();
         txtNameAdmin.clear();
         txtLastNameAdmin.clear();
@@ -1249,6 +1327,7 @@ public class FXControllerGUI implements Initializable {
         int index = casaDorada.getEmployeeIndex();
         casaDorada.removeEmployee(index);
         btnAddEmployee.setVisible(true);
+        DialogEliminated();
         onTableEmployee();
         txtEmpName.clear();
         txtEmpLastName.clear();
@@ -1258,6 +1337,12 @@ public class FXControllerGUI implements Initializable {
         /*
         Actualizar empleado
         */
+    
+    @FXML
+    private JFXButton btnUpatedEmployee;
+
+    @FXML
+    private JFXButton btnRemoveEmployee;
     
     @FXML
     public void onSelecetEmployee(MouseEvent event) {
@@ -1284,6 +1369,9 @@ public class FXControllerGUI implements Initializable {
                 txtEmpLastName.setText(employeeSelected.getLastName());
                 txtEmpID.setText(employeeSelected.getID()+"");
             }
+        } else if (event.getClickCount() == 1){
+             btnUpatedEmployee.setVisible(false);
+             btnRemoveEmployee.setVisible(false);
         }
     }
     
@@ -1298,6 +1386,7 @@ public class FXControllerGUI implements Initializable {
                 txtEmpName.getText(), txtEmpLastName.getText(), Integer.parseInt(txtEmpID.getText()), adminCreaterEmployee());
         casaDorada.setNewEmployee(newEmployee);
         btnAddEmployee.setVisible(true);
+        DialogUptade();
         onTableEmployee();
     }
        
@@ -1383,6 +1472,7 @@ public class FXControllerGUI implements Initializable {
         int index = casaDorada.getClientIndex();
         casaDorada.removeClient(index);
         btnAddClient.setVisible(true);
+        DialogEliminated();
         onTableClient();
         txtCName.clear();
         txtCLastName.clear();
@@ -1394,8 +1484,14 @@ public class FXControllerGUI implements Initializable {
     
         /*
         Actualizar Cliente
-        */
-        
+        */    
+    
+    @FXML
+    private JFXButton btnRemoveClient;
+
+    @FXML
+    private JFXButton btnUptadeClient;
+    
     @FXML
     public void onSelectClient(MouseEvent event) {
         JFXDialogLayout content = new JFXDialogLayout();
@@ -1424,6 +1520,9 @@ public class FXControllerGUI implements Initializable {
                 txtCAddress.setText(clientSelected.getCAddress());
                 txtCObser.setText(clientSelected.getCObservations());
             }
+        } else if (event.getClickCount() == 1){
+            btnUptadeClient.setVisible(false);
+            btnRemoveClient.setVisible(false);
         }
     }
         
@@ -1439,6 +1538,7 @@ public class FXControllerGUI implements Initializable {
                 Integer.parseInt(txtCID.getText()), adminCreaterClient());
         casaDorada.setNewClient(newClient);
         btnAddClient.setVisible(true);
+        DialogUptade();
         onTableClient();
     }
 
@@ -1535,4 +1635,36 @@ public class FXControllerGUI implements Initializable {
         /*
         Listar productos
         */
+
+    public void DialogUptade(){
+        JFXDialogLayout content = new JFXDialogLayout();
+        JFXButton button = new JFXButton("Okay");
+        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                dialog.close();
+            }
+        });
+        content.setActions(button);
+        content.setHeading(new Text("¡Listo!"));
+        content.setBody(new Text("Se ha actualizado este elemento correctamente"));
+        dialog.show();
+    }
+    
+    public void DialogEliminated(){
+        JFXDialogLayout content = new JFXDialogLayout();
+        JFXButton button = new JFXButton("Okay");
+        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                dialog.close();
+            }
+        });
+        content.setActions(button);
+        content.setHeading(new Text("¡Listo!"));
+        content.setBody(new Text("Se ha eliminaod este elemento correctamente"));
+        dialog.show();
+    }
 }

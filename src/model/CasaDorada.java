@@ -338,7 +338,7 @@ public class CasaDorada implements Serializable {
                 
     public void removeIngredient(int indexIngredient) throws IOException{
         listIngredients.remove(indexIngredient);
-        saveDataAdmin();
+        saveDataIngredient();
     }
     
     private int typeProductIndex;
@@ -363,7 +363,7 @@ public class CasaDorada implements Serializable {
                 
     public void removeTypeProduct(int indexTypeProduct) throws IOException{
         listTypeProducts.remove(indexTypeProduct);
-        saveDataAdmin();
+        saveDataTypeProduct();
     }
     
     private int employeeIndex;

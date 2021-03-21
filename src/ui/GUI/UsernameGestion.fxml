@@ -47,12 +47,12 @@
                         <Font size="18.0" />
                      </font>
                   </JFXTextField>
-                  <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="582.0" onAction="#onRemoveAdmin" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Eliminar">
+                  <JFXButton fx:id="btnRemoveUsername" buttonType="RAISED" layoutX="84.0" layoutY="582.0" onAction="#onRemoveAdmin" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Eliminar">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="526.0" onAction="#onUptadeAdmin" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Actualizar">
+                  <JFXButton fx:id="btnUptadeUsername" buttonType="RAISED" layoutX="84.0" layoutY="526.0" onAction="#onUptadeAdmin" prefHeight="39.0" prefWidth="259.0" style="-fx-background-color: #efb810;" text="Actualizar">
                      <font>
                         <Font size="18.0" />
                      </font>
