@@ -754,46 +754,7 @@ public class FXControllerGUI implements Initializable {
         Parent selectDate = fxmlLoader.load();
         newStage(selectDate);
     }
-
-    //Gestion del producto
     
-    @FXML
-    public void onAddIngredientsToProduct (ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ChooseIngredients.fxml"));
-
-        fxmlLoader.setController(this);
-        Parent chooseIngredient = fxmlLoader.load();
-        newStage(chooseIngredient);
-        onTableChooseIngredient();
-        showIngredientsDisp();
-        
-    }
-    
-    @FXML
-    void onExitChooseIngredient(ActionEvent event) {
-        
-        Stage stage= (Stage) pChooseIng.getScene().getWindow();
-        stage.close();
-    }
-
-
-    @FXML
-    public void onAddTypeToProduct(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ChooseTypeProducts.fxml"));
-
-        fxmlLoader.setController(this);
-        Parent chooseTypeProduct = fxmlLoader.load();
-        newStage(chooseTypeProduct);
-        onTableChooseTypeProduct();
-        showTPDisp();
-        
-    }
-
-    @FXML
-    public void onExitChooseType(ActionEvent event) {
-        Stage stage = (Stage) pChooseType.getScene().getWindow();
-        stage.close();
-    }
 
     //Gestion de los pedidos
     @FXML
@@ -860,6 +821,172 @@ public class FXControllerGUI implements Initializable {
         stage.close();
     }
 
+    /*
+    Gestionar Producto
+     */
+        /*
+        Agregar producto
+        */
+    
+    private Ingredient ingredientSelect;
+    private TypeProduct typeProductSelect;
+    private ArrayList<TypeProduct> typeProductsInP = new ArrayList<>();
+    private ArrayList<Ingredient> ingredientsInP = new ArrayList<>();
+    
+    @FXML
+    private JFXComboBox<Ingredient> cbxIngDisp;
+    
+    @FXML
+    private JFXComboBox<TypeProduct> cbxTypeDisp;
+    
+    @FXML
+    public void onAddIngredientsToProduct (ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ChooseIngredients.fxml"));
+
+        fxmlLoader.setController(this);
+        Parent chooseIngredient = fxmlLoader.load();
+        newStage(chooseIngredient);
+        onTableChooseIngredient();
+        showIngredientsDisp();
+    }
+
+    @FXML
+    public void onAddTypeToProduct(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ChooseTypeProducts.fxml"));
+
+        fxmlLoader.setController(this);
+        Parent chooseTypeProduct = fxmlLoader.load();
+        newStage(chooseTypeProduct);
+        onTableChooseTypeProduct();
+        showTPDisp();
+        
+    }
+    
+    @FXML
+    public void onExitChooseIngredient(ActionEvent event) {
+        Stage stage= (Stage) pChooseIng.getScene().getWindow();
+        stage.close();
+    }
+    
+    @FXML
+    public void onExitChooseType(ActionEvent event) {
+        Stage stage = (Stage) pChooseType.getScene().getWindow();
+        stage.close();
+    }
+
+    
+    @FXML
+    public void onAddProduct(ActionEvent event) throws IOException{
+        JFXDialogLayout content = new JFXDialogLayout();
+        JFXButton button = new JFXButton("Okay");
+        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                dialog.close();
+            }
+        });
+        content.setActions(button);
+        if (!(txtProductName.getText().equals("")) && !(txtProductSize.getText().equals(""))
+                && !(txtProductPrice.getText().equals(""))) {
+
+            String productName = txtProductName.getText();
+            String productSize = txtProductSize.getText();
+            double productPrice = Double.parseDouble(txtProductPrice.getText());
+
+            casaDorada.addProduct(0, productName, productSize, productPrice, tbStateProduct.isSelected(), 0,
+                    casaDorada.getAdminActive(), null);
+            casaDorada.addIngredientToProductArray(ingredientsInP);
+            casaDorada.addTypeProductToProductArray(typeProductsInP);
+            System.out.println(typeProductsInP.size());
+            content.setHeading(new Text("¡Listo!"));
+            content.setBody(new Text("El producto se ha agregado exitosamente"));
+            dialog.show();
+            onTableProduct();
+            ingredientsInP = new ArrayList<>();
+            typeProductsInP = new ArrayList<>();
+        } else {
+            content.setHeading(new Text("¡Error!"));
+            content.setBody(new Text("Debes colocarle un nombre al tipo de producto que deseas crear."));
+            dialog.show();
+        }
+    }
+    
+    @FXML
+    public void onAddIngredientToP(ActionEvent event) {
+        if(cbxIngDisp.getValue() != null){
+            ingredientSelect = cbxIngDisp.getValue();
+            ingredientsInP.add(ingredientSelect);
+        }
+        onTableChooseIngredient();
+    }
+    
+    @FXML
+    public void onAddTypeToP(ActionEvent event) {
+        if(cbxTypeDisp.getValue() != null){
+            typeProductSelect = cbxTypeDisp.getValue();
+            typeProductsInP.add(typeProductSelect);
+        }
+        onTableChooseTypeProduct();
+    }
+
+    public void showIngredientsDisp(){
+        ArrayList<Ingredient> ingredientToProduct = new ArrayList<>();
+        List<Ingredient> ingredients = casaDorada.getIngredient();
+        for(int i = 0; i<ingredients.size(); i++){
+            if(ingredients.get(i).getIngredientsState()){
+                ingredientToProduct.add(ingredients.get(i));
+            }
+        }
+        ObservableList<Ingredient> obs;
+        obs = FXCollections.observableArrayList(ingredientToProduct);
+        
+        cbxIngDisp.setItems(obs);
+    }
+    
+    public void showTPDisp(){
+        ArrayList<TypeProduct> typeProductToProduct = new ArrayList<>();
+        List<TypeProduct> typeProducts = casaDorada.getTypeProduc();
+        for(int i = 0; i<typeProducts.size(); i++){
+            if(typeProducts.get(i).getTypeState()){
+                typeProductToProduct.add(typeProducts.get(i));
+            }
+        }
+        ObservableList<TypeProduct> obs;
+        obs = FXCollections.observableArrayList(typeProductToProduct);
+        
+        cbxTypeDisp.setItems(obs);
+    }
+    
+    public void onTableChooseIngredient() {
+        ObservableList<Ingredient> newTableIngredient;
+        newTableIngredient = FXCollections.observableArrayList(ingredientsInP);
+
+        tblChooseIngredient.setItems(newTableIngredient);
+        tblIngName.setCellValueFactory(new PropertyValueFactory<>("ingredientsName"));
+    }
+    
+    public void onTableChooseTypeProduct() {
+        ObservableList<TypeProduct> newTableTypeProduct;
+        newTableTypeProduct = FXCollections.observableArrayList(typeProductsInP);
+
+        tblChooseTypeProduct.setItems(newTableTypeProduct);
+        tblTypeProductName.setCellValueFactory(new PropertyValueFactory<>("typeName"));
+    }
+    
+    public void onTableProduct() {
+        List<Product> products = casaDorada.getProduct();
+        ObservableList<Product> newTableProduct;
+        newTableProduct = FXCollections.observableArrayList(products);
+
+        tblProduct.setItems(newTableProduct);
+        tblProductName.setCellValueFactory(new PropertyValueFactory<>("prName"));
+        tblProductSize.setCellValueFactory(new PropertyValueFactory<>("prSize"));
+        tblProductPrice.setCellValueFactory(new PropertyValueFactory<>("prPrice"));
+        tblProductState.setCellValueFactory(new PropertyValueFactory<>("prState"));
+    }
+    
+    
     /*
     Gestionar Ingredientes
      */
@@ -964,6 +1091,7 @@ public class FXControllerGUI implements Initializable {
                 content.setBody(new Text("El ingrediente " + productSelected.getPrName()+ " fue seleccionado exitosamente."));
                 dialog.show();
                 ingredientsInP = productSelected.getIngredientInProduct();
+                typeProductsInP = productSelected.getTypeProductInProduct();
                 txtProductName.setText(productSelected.getPrName());
                 txtProductSize.setText(productSelected.getPrSize());
                 txtProductPrice.setText(String.valueOf(productSelected.getPrPrice()));
@@ -974,6 +1102,7 @@ public class FXControllerGUI implements Initializable {
             txtProductSize.clear();
             txtProductPrice.clear();
             ingredientsInP = new ArrayList<>();
+            typeProductsInP = new ArrayList<>();
             tbStateProduct.setSelected(false);
             btnAddProduct.setVisible(true);
             btnRemoveProduct.setVisible(false);
@@ -1146,181 +1275,8 @@ public class FXControllerGUI implements Initializable {
         onTableTypeProduct();
     }
     
-    /*
-    Gestionar Producto
-     */
-        /*
-        Agregar producto
-        */
-    @FXML
-    public void onAddProduct(ActionEvent event) throws IOException{
-        JFXDialogLayout content = new JFXDialogLayout();
-        JFXButton button = new JFXButton("Okay");
-        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                dialog.close();
-            }
-        });
-        content.setActions(button);
-        if (!(txtProductName.getText().equals("")) && !(txtProductSize.getText().equals(""))
-                && !(txtProductPrice.getText().equals(""))) {
-
-            String productName = txtProductName.getText();
-            String productSize = txtProductSize.getText();
-            double productPrice = Double.parseDouble(txtProductPrice.getText());
-
-            casaDorada.addProduct(0, productName, productSize, productPrice, tbStateProduct.isSelected(), 0,
-                    casaDorada.getAdminActive(), null);
-            casaDorada.addIngredientToProductArray(ingredientsInP);
-            content.setHeading(new Text("¡Listo!"));
-            content.setBody(new Text("El producto se ha agregado exitosamente"));
-            dialog.show();
-            onTableProduct();
-            ingredientsInP = new ArrayList<>();
-            
-        } else {
-            content.setHeading(new Text("¡Error!"));
-            content.setBody(new Text("Debes colocarle un nombre al tipo de producto que deseas crear."));
-            dialog.show();
-        }
-    }
     
-    private Ingredient ingredientSelect;
-    
-    @FXML
-    public void onAddIngredientToP(ActionEvent event) {
-        if(cbxIngDisp.getValue() != null){
-            ingredientSelect = cbxIngDisp.getValue();
-            ingredientsInP.add(ingredientSelect);
-        }
-        System.out.println(ingredientsInP.size());
-        onTableChooseIngredient();
-    }
-    
-    
-    
-    private TypeProduct typeProductSelect;
-    
-    private ArrayList<TypeProduct> typeProductsInP = new ArrayList<>();
-    
-    @FXML
-    public void onAddTypeToP(ActionEvent event) {
-        if(cbxTypeDisp.getValue() != null){
-            typeProductSelect = cbxTypeDisp.getValue();
-            typeProductsInP.add(typeProductSelect);
-        }
-        onTableChooseTypeProduct();
-    }
-    /*
-    private ArrayList<TypeProduct> typeProductsInP = new ArrayList<>();
-    
-    @FXML
-    public void onAddTypeToP(ActionEvent event) {
-        if(cbxTypeDisp.getValue() != null){
-            typeProductSelect = cbxTypeProduct.getValue();
-            typeProudtsInP.add(typeProductSelect);
-        }
-        onTableChooseTypeIngredient();
-    }
-    */
-
-    public void onTableChooseTypeProduct() {
-        ObservableList<TypeProduct> newTableTypeProduct;
-        newTableTypeProduct = FXCollections.observableArrayList(typeProductsInP);
-
-        tblChooseTypeProduct.setItems(newTableTypeProduct);
-        tblTypeProductName.setCellValueFactory(new PropertyValueFactory<>("typeName"));
-    }
-    
-
-            /*
-            Listar los ingredientes disponibles
-            */
-    
-    
-    @FXML
-    private JFXComboBox<Ingredient> cbxIngDisp;
-    
-    public void showIngredientsDisp(){
-        ArrayList<Ingredient> ingredientToProduct = new ArrayList<>();
-        List<Ingredient> ingredients = casaDorada.getIngredient();
-        for(int i = 0; i<ingredients.size(); i++){
-            if(ingredients.get(i).getIngredientsState()){
-                ingredientToProduct.add(ingredients.get(i));
-            }
-        }
-        ObservableList<Ingredient> obs;
-        obs = FXCollections.observableArrayList(ingredientToProduct);
-        
-        cbxIngDisp.setItems(obs);
-    }
-    
-    private ArrayList<Ingredient> ingredientsInP = new ArrayList<>();
-    
-    public void onTableChooseIngredient() {
-        ObservableList<Ingredient> newTableIngredient;
-        newTableIngredient = FXCollections.observableArrayList(ingredientsInP);
-
-        tblChooseIngredient.setItems(newTableIngredient);
-        tblIngName.setCellValueFactory(new PropertyValueFactory<>("ingredientsName"));
-    }
-    
-            /*
-            Listar los tipos de producto disponibles
-            */
-    
-    @FXML
-    private JFXComboBox<TypeProduct> cbxTypeDisp;
-    
-    public void showTPDisp(){
-        ArrayList<TypeProduct> typeProductToProduct = new ArrayList<>();
-        List<TypeProduct> typeProducts = casaDorada.getTypeProduc();
-        for(int i = 0; i<typeProducts.size(); i++){
-            if(typeProducts.get(i).getTypeState()){
-                typeProductToProduct.add(typeProducts.get(i));
-            }
-        }
-        ObservableList<TypeProduct> obs;
-        obs = FXCollections.observableArrayList(typeProductToProduct);
-        
-        cbxTypeDisp.setItems(obs);
-    }
-    
-    public void onTableProduct() {
-        List<Product> products = casaDorada.getProduct();
-        ObservableList<Product> newTableProduct;
-        newTableProduct = FXCollections.observableArrayList(products);
-
-        tblProduct.setItems(newTableProduct);
-        tblProductName.setCellValueFactory(new PropertyValueFactory<>("prName"));
-        tblProductSize.setCellValueFactory(new PropertyValueFactory<>("prSize"));
-        tblProductPrice.setCellValueFactory(new PropertyValueFactory<>("prPrice"));
-        tblProductState.setCellValueFactory(new PropertyValueFactory<>("prState"));
-    }
-    
-    /*
-    public void onTableChooseTypeProduc() {
-        ObservableList<TypeProduct> newTableTypeProduct;
-        newTableTypeProduct = FXCollections.observableArrayList(tyeProductsInP);
-
-        tblChooseTypeProduct.setItems(newTableIngredient);
-        tblTypeProductName.setCellValueFactory(new PropertyValueFactory<>("typeName"));
-    }
-    */
-      
-
-        /*
-        Eliminar producto
-        */
-        /*
-        Actualizar producto
-        */
-        /*
-        Deshabiliatar producto
-        */
-    
+   
     /*
     Gestionar Admin
     */

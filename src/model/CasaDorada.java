@@ -29,11 +29,6 @@ public class CasaDorada implements Serializable {
     private List<Product> listProducts;
     private List<TypeProduct> listTypeProducts;
     private Admin adminActive;
-    //private Admin adminSelected;
-    //private Ingredient ingredientSelected;
-    //private TypeProduct typeProductSelected;
-    //private Client clientSelected;
-    //private Employee employeeSelected;
     
     public CasaDorada() {
         listAdmins = new ArrayList<>();
@@ -49,8 +44,6 @@ public class CasaDorada implements Serializable {
     Desserializar la informacion
     */
     
-    //Cargar lista de Admins
-    
     public void loadDataAdmin() throws IOException {
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE_ADMIN)));
@@ -60,8 +53,6 @@ public class CasaDorada implements Serializable {
             e.printStackTrace();
         }
     }
-    
-    //Cargar lista de Cliente
     
     public void loadDataClient() throws IOException {
         try {
@@ -73,7 +64,6 @@ public class CasaDorada implements Serializable {
         }
     }
 
-    //Cargar lista de Empleado
     public void loadDataEMmployee() throws IOException {
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE_EMPLOYEE)));
@@ -84,8 +74,6 @@ public class CasaDorada implements Serializable {
         }
     }
 
-    //Cargar lista de ingredientes
-        
     public void loadDataIngredient() throws IOException {
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE_INGREDIENT)));
@@ -96,8 +84,6 @@ public class CasaDorada implements Serializable {
         }
     }
     
-    //Cargar lista de tipo de producto
-            
     public void loadDatTypeProduct() throws IOException {
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE_TYPEPRODUCT)));
@@ -107,8 +93,6 @@ public class CasaDorada implements Serializable {
             e.printStackTrace();
         }
     }
-    
-    //Cargar lista de productos
     
     public void loadDataProduct() throws IOException {
         try {
@@ -125,15 +109,11 @@ public class CasaDorada implements Serializable {
     Serializacion de la informacion
     */
     
-    //Guardar lista de admin
-    
     public void saveDataAdmin() throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_ADMIN));
         oos.writeObject(listAdmins);
         oos.close();
     }
-    
-    //Guardar lista de Clientes
     
     public void saveDataClient() throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_CLIENT));
@@ -141,15 +121,11 @@ public class CasaDorada implements Serializable {
         oos.close();
     }
     
-    //Guardar lista de Empleados
-    
     public void saveDataEmployee() throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_EMPLOYEE));
         oos.writeObject(listEmployees);
         oos.close();
     }
-    
-    //Guardar lista de ingredientes
     
     public void saveDataIngredient() throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_INGREDIENT));
@@ -157,20 +133,26 @@ public class CasaDorada implements Serializable {
         oos.close();
     }
     
-    //Guardar lista de productos
-        
     public void saveDataTypeProduct() throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_TYPEPRODUCT));
         oos.writeObject(listTypeProducts);
         oos.close();
     }
     
-    //Guardar lista de productos
-    
     public void saveDataProduct() throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_PRODUCT));
         oos.writeObject(listProducts);
         oos.close();
+    }
+    
+    public boolean login(String username, String password){
+        for (int i = 0; i < listAdmins.size(); i++) {
+            if (listAdmins.get(i).getUsername().equals(username) && listAdmins.get(i).getPassword().equals(password)) {
+                adminActive = listAdmins.get(i);
+                return true;
+            }
+        }
+        return false;
     }
     
     /*
@@ -181,12 +163,11 @@ public class CasaDorada implements Serializable {
         Metodos relacionados con los admin
         */
     
-            //Agregar admin
+    private int adminIndex;
     
     public void addAdmin(String userName, String password, int numOrder, boolean eState, Admin mAdmin,
             String name, String lastName, int ID, Admin cAdmin) throws IOException {
 
-        //Al crearse la primer vez, no hay modificador y nunca va a tener creador.
         Admin newAdmin = new Admin(userName, password, numOrder, eState, mAdmin,
                 name, lastName, ID, cAdmin);
         listAdmins.add(newAdmin);
@@ -197,9 +178,37 @@ public class CasaDorada implements Serializable {
         return listAdmins;
     }
     
-            /*
+        
+    public Admin getAdminActive(){
+        return adminActive;
+    }
+    
+    public int getAdminIndex(){
+        return adminIndex;
+    }
+    
+    public void selectedAdmin(Admin adminNew){
+        for(int i = 0; i<listAdmins.size(); i++){
+            if(listAdmins.get(i) == adminNew){
+                adminIndex = i; 
+            }
+        }
+    }
+
+    public void setNewAdmin(Admin newAdmin) throws IOException{
+        listAdmins.set(adminIndex, newAdmin);
+        saveDataAdmin();
+    }
+            
+    public void removeAdmin(int indexAdmin) throws IOException{
+        listAdmins.remove(indexAdmin);
+        saveDataAdmin();
+    }
+    
+        /*
         Metodos relacionados con los clientes
         */
+    
     public void addClient(String cAddress, int cPhone, String cObservations, boolean cState, Admin mcAdmin,
             String name, String lastName, int ID, Admin cAdmin) throws IOException{
         
@@ -214,7 +223,7 @@ public class CasaDorada implements Serializable {
         return listClients;
     }
     
-            /*
+        /*
         Metodos relacionados con los Empleados
         */
     
@@ -238,6 +247,8 @@ public class CasaDorada implements Serializable {
     
             //Agregar ingrediente
     
+    private int ingredientIndex;
+    
     public void addIngredient(int ingCode, String ingredientsName, boolean ingredientsState, Admin ciAdmin, Admin miAdmin) throws IOException{
         Ingredient newIngredient = new Ingredient(ingCode, ingredientsName, ingredientsState, ciAdmin, miAdmin);
         listIngredients.add(newIngredient);
@@ -248,112 +259,7 @@ public class CasaDorada implements Serializable {
         return listIngredients;
     }
     
-        
-        /*
-        Metodos relacionados con los tipo de productos
-        */
     
-            //Agregar tipo de producto
-    public void addTypeProduct(int tpCode, String typeName, boolean typeState, Admin ctpAdmin, Admin mtpAdmin) throws IOException{
-        TypeProduct newTypeProduct = new TypeProduct(tpCode, typeName, typeState, ctpAdmin, mtpAdmin);
-        listTypeProducts.add(newTypeProduct);
-        saveDataTypeProduct();
-    }
-    
-    public List<TypeProduct> getTypeProduc(){
-        return listTypeProducts;
-    }
-    
-        /*
-        Metodos relacionados con los productos
-        */
-    
-            //Agregar Producto
-    
-    public void addProduct(int pCode, String pName, String pSize, double pPrice, boolean pState, int pNumOrder, Admin cpAdmin, Admin mpAdmin) throws IOException{
-        Product newProduct = new Product(pCode, pName, pSize, pPrice, pState, pNumOrder, cpAdmin, mpAdmin);
-        listProducts.add(newProduct);
-        saveDataProduct();
-    }
-    
-    Ingredient ingredientInProduct;
-    
-    public Ingredient addIngredientToProduct(Ingredient ingredientSelect){
-        if(ingredientSelect != null){
-            ingredientInProduct = ingredientSelect;
-            return ingredientInProduct;
-        } else {
-            return null;    
-        }
-    }
-    
-    public void addIngredientToProductArray(ArrayList<Ingredient> ingredients){
-        int index = listProducts.size()-1;
-        listProducts.get(index).setIngredientInProduct(ingredients);
-    }
-    /*
-    TypeProduct typeProductInProduct;
-    
-    public TypeProduct addTypeProductToProduct(TypeProduct typeProductSelect){
-        if(typeProductSelect != null) {
-            typeProductIntProduct = typeProductSelect;
-            return typeProductIntProduct;
-        } else {
-            return null;
-        }
-    }
-    
-    public void addTypeProductToProductArray(ArrayList<TypeProduct> typeProducts){
-        int index = listProduct.size()-1;
-        listProducts.get(index).setTypeProductInProduct(typeProducts);
-    }
-    */
-    
-    public List<Product> getProduct(){
-        return listProducts;
-    }
-    
-        
-    public boolean login(String username, String password){
-        for (int i = 0; i < listAdmins.size(); i++) {
-            if (listAdmins.get(i).getUsername().equals(username) && listAdmins.get(i).getPassword().equals(password)) {
-                adminActive = listAdmins.get(i);
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    public Admin getAdminActive(){
-        return adminActive;
-    }
-    
-    private int adminIndex;
-    
-    public int getAdminIndex(){
-        return adminIndex;
-    }
-    
-    public void selectedAdmin(Admin adminNew){
-        for(int i = 0; i<listAdmins.size(); i++){
-            if(listAdmins.get(i) == adminNew){
-                adminIndex = i; 
-                //adminSelected = adminNew;
-            }
-        }
-    }
-
-    public void setNewAdmin(Admin newAdmin) throws IOException{
-        listAdmins.set(adminIndex, newAdmin);
-        saveDataAdmin();
-    }
-            
-    public void removeAdmin(int indexAdmin) throws IOException{
-        listAdmins.remove(indexAdmin);
-        saveDataAdmin();
-    }
-    
-    private int ingredientIndex;
     
     public int getIngredientIndex(){
         return ingredientIndex;
@@ -363,7 +269,6 @@ public class CasaDorada implements Serializable {
         for(int i = 0; i<listIngredients.size(); i++){
             if(listIngredients.get(i) == ingredientNew){
                 ingredientIndex = i;
-                //ingredientSelected = ingredientNew;
             }
         }
     }
@@ -378,6 +283,70 @@ public class CasaDorada implements Serializable {
         listIngredients.remove(indexIngredient);
         saveDataIngredient();
     }
+    
+        
+        /*
+        Metodos relacionados con los tipo de productos
+        */
+    
+    public void addTypeProduct(int tpCode, String typeName, boolean typeState, Admin ctpAdmin, Admin mtpAdmin) throws IOException{
+        TypeProduct newTypeProduct = new TypeProduct(tpCode, typeName, typeState, ctpAdmin, mtpAdmin);
+        listTypeProducts.add(newTypeProduct);
+        saveDataTypeProduct();
+    }
+    
+    public List<TypeProduct> getTypeProduc(){
+        return listTypeProducts;
+    }
+    
+        /*
+        Metodos relacionados con los productos
+        */
+    
+    private Ingredient ingredientInProduct;
+    private TypeProduct typeProductInProduct;
+    
+    public void addProduct(int pCode, String pName, String pSize, double pPrice, boolean pState, int pNumOrder, Admin cpAdmin, Admin mpAdmin) throws IOException{
+        Product newProduct = new Product(pCode, pName, pSize, pPrice, pState, pNumOrder, cpAdmin, mpAdmin);
+        listProducts.add(newProduct);
+        saveDataProduct();
+    }
+    
+    public List<Product> getProduct() {
+        return listProducts;
+    }
+    
+    public Ingredient addIngredientToProduct(Ingredient ingredientSelect){
+        if(ingredientSelect != null){
+            ingredientInProduct = ingredientSelect;
+            return ingredientInProduct;
+        } else {
+            return null;    
+        }
+    }
+    
+    public TypeProduct addTypeProductToProduct(TypeProduct typeProductSelect) {
+        if (typeProductSelect != null) {
+            typeProductInProduct = typeProductSelect;
+            return typeProductInProduct;
+        } else {
+            return null;
+        }
+    }
+    
+    public void addIngredientToProductArray(ArrayList<Ingredient> ingredients){
+        int index = listProducts.size()-1;
+        listProducts.get(index).setIngredientInProduct(ingredients);
+    }
+    
+    public void addTypeProductToProductArray(ArrayList<TypeProduct> typeProducts) {
+        int index = listProducts.size()-1;
+        listProducts.get(index).setTypeProductInProduct(typeProducts);
+    }
+    
+
+
+
     
     private int typeProductIndex;
     
@@ -398,7 +367,6 @@ public class CasaDorada implements Serializable {
         for(int i = 0; i<listTypeProducts.size(); i++){
             if(listTypeProducts.get(i) == typeProductNew){
                 typeProductIndex = i;
-                //typeProductSelected = typeProductNew;
             }
         }
     }
@@ -459,21 +427,5 @@ public class CasaDorada implements Serializable {
     public void removeClient(int indexClient) throws IOException{
         listClients.remove(indexClient);
         saveDataClient();
-    }
-    
-    private TypeProduct typeProductInProduct;
-
-    public TypeProduct addTypeProductToProduct(TypeProduct typeProductSelect) {
-        if (typeProductSelect != null) {
-            typeProductInProduct = typeProductSelect;
-            return typeProductInProduct;
-        } else {
-            return null;
-        }
-    }
-
-    public void addTypeProductToProductArray(ArrayList<TypeProduct> typeProducts) {
-        int index = listProducts.size() - 1;
-        listProducts.get(index).setTypeProductInProduct(typeProducts);
     }
 }
