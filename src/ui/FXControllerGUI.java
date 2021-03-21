@@ -1275,21 +1275,6 @@ public class FXControllerGUI implements Initializable {
         
         cbxTypeDisp.setItems(obs);
     }
-
-    public void onTableChooseTypeProduct() {
-        ArrayList<TypeProduct> dispChooseTypeProduct = new ArrayList<>();
-        List<TypeProduct> chooseTypeProduct = casaDorada.getTypeProduc();
-        for(int i = 0; i<chooseTypeProduct.size(); i++){
-            if(chooseTypeProduct.get(i) == cbxTypeDisp.getValue()){
-                dispChooseTypeProduct.add(chooseTypeProduct.get(i));
-            }
-        }
-        ObservableList<TypeProduct> newTableTypeProduct;
-        newTableTypeProduct = FXCollections.observableArrayList(dispChooseTypeProduct);
-
-        tblChooseTypeProduct.setItems(newTableTypeProduct);
-        tblTypeProductName.setCellValueFactory(new PropertyValueFactory<>("typeName"));
-    }
     
     public void onTableProduct() {
         List<Product> products = casaDorada.getProduct();
