@@ -171,11 +171,10 @@ public class CasaDorada implements Serializable {
     /*
     Metodos relacionados con los admin
      */
-
     public List<Admin> getListAdmins() {
         return listAdmins;
     }
-    
+
     public void addAdmin(String username, String password, int numOrder, boolean eState, Admin mAdmin, int pCode, String name, String lastName, int ID, Admin cAdmin) throws IOException {
         Admin newAdmin = new Admin(username, password, numOrder, true, null, 0, code++, name, lastName, ID, cAdmin);
         listAdmins.add(newAdmin);
@@ -212,6 +211,8 @@ public class CasaDorada implements Serializable {
 
     public boolean removeAdmin(int code) throws IOException {
         for (int i = 0; i < listAdmins.size(); i++) {
+            System.out.println(listAdmins.get(i).getName());
+            System.out.println(listAdmins.get(i).getPRef());
             if (listAdmins.get(i).getPCode() == code && listAdmins.get(i).getPRef() == 0) {
                 listAdmins.remove(i);
                 saveDataAdmin();
@@ -229,35 +230,104 @@ public class CasaDorada implements Serializable {
         }
         return false;
     }
-    
+
     /*
     Metodos relacionados con los Empleados
      */
-    
     public List<Employee> getEmployee() {
         return listEmployees;
     }
-    
+
     public void addEmployee(int numOrder, boolean eState, Admin mAdmin, int pRef, int pCode, String name, String lastName, int ID, Admin cAdmin) throws IOException {
         Employee newEmployee = new Employee(0, true, null, 0, code++, name, lastName, ID, cAdmin);
         listEmployees.add(newEmployee);
-        adminActive.setPRef(adminActive.getPRef()+1);
+        for (int i = 0; i < listAdmins.size(); i++) {
+            if (listAdmins.get(i) == adminActive) {
+                System.out.println(listAdmins.get(i).getName() + " antes: " + listAdmins.get(i).getPRef());
+                listAdmins.get(i).setPRef(listAdmins.get(i).getPRef() + 1);
+                System.out.println(listAdmins.get(i).getName() + " despues: " + listAdmins.get(i).getPRef());
+            }
+        }
         saveDataCode();
         saveDataAdmin();
         saveDataEmployee();
     }
-    
+
     public void uptadeEmployee(int code, boolean eState, Admin mAdmin, String name, String lastName, int ID) throws IOException {
-        for(int i = 0; i<listEmployees.size(); i++){
-            if(listEmployees.get(i).getPCode() == code){
+        for (int i = 0; i < listEmployees.size(); i++) {
+            if (listEmployees.get(i).getPCode() == code) {
                 listEmployees.get(i).setEState(eState);
-                listEmployees.get(i).setCAdmin(mAdmin);
                 listEmployees.get(i).setName(name);
                 listEmployees.get(i).setLastName(lastName);
                 listEmployees.get(i).setID(ID);
-                saveDataEmployee();
-                adminActive.setPRef(adminActive.getPRef()+1);
-                saveDataAdmin();
+                if (listEmployees.get(i).getMAdmin() != null) {
+                    boolean aux = false;
+                    for (int j = 0; j < listAdmins.size() && !aux; j++) {
+                        if (listAdmins.get(j) == listEmployees.get(i).getMAdmin()) {
+                            System.out.println("---");
+                            System.out.println("Modificador viejo " + listAdmins.get(j).getName() + " antes: " + listAdmins.get(j).getPRef());
+                            listAdmins.get(j).setPRef(listAdmins.get(j).getPRef() - 1);
+                            System.out.println("Modificador viejo " + listAdmins.get(j).getName() + " despues: " + listAdmins.get(j).getPRef());
+                            System.out.println("---");
+                            listEmployees.get(i).setMAdmin(mAdmin);
+                            for (int k = 0; k < listAdmins.size() && !aux; k++) {
+                                if (listAdmins.get(k) == listEmployees.get(i).getMAdmin()) {
+                                    System.out.println("---");
+                                    System.out.println("Modificador nuevo " + listAdmins.get(k).getName() + " antes: " + listAdmins.get(k).getPRef());
+                                    listAdmins.get(k).setPRef(listAdmins.get(k).getPRef() + 1);
+                                    System.out.println("Modificador nuevo " + listAdmins.get(k).getName() + " despues: " + listAdmins.get(k).getPRef());
+                                    System.out.println("-----");
+                                    aux = true;
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    listEmployees.get(i).setMAdmin(mAdmin);
+                    boolean aux = false;
+                    for (int k = 0; k < listAdmins.size() && !aux; k++) {
+                        if (listAdmins.get(k) == listEmployees.get(i).getMAdmin()) {
+                            System.out.println("---");
+                            System.out.println("Modificador nuevo " + listAdmins.get(k).getName() + " antes: " + listAdmins.get(k).getPRef());
+                            listAdmins.get(k).setPRef(listAdmins.get(k).getPRef() + 1);
+                            System.out.println("Modificador nuevo " + listAdmins.get(k).getName() + " despues: " + listAdmins.get(k).getPRef());
+                            System.out.println("-----");
+                            aux = true;
+                        }
+                    }
+                }
+
+                /*
+                if (listEmployees.get(i).getMAdmin() != adminActive) {
+                    for (int j = 0; j < listAdmins.size(); j++) {
+                        if (listAdmins.get(j).getPCode() == mAdmin.getPCode()) {
+                            if (listEmployees.get(i).getMAdmin() != null) {
+                                System.out.println("---");
+                                System.out.println("Modificador viejo " + listEmployees.get(j).getMAdmin().getName() + " antes: " + listAdmins.get(j).getPRef());
+                                listAdmins.get(j).setPRef(listAdmins.get(j).getPRef() - 1);
+                                System.out.println("Modificador viejo " + listEmployees.get(j).getMAdmin().getName() + " despues: " + listAdmins.get(j).getPRef());
+                                System.out.println("---");
+                            }
+                            listEmployees.get(i).setMAdmin(mAdmin);
+                            for (int k = 0; k < listAdmins.size(); k++) {
+                                if (listAdmins.get(k) == mAdmin) {
+                                    System.out.println("---");
+                                    System.out.println("Modificador nuevo " + listAdmins.get(k).getName() + " antes: " + listAdmins.get(k).getPRef());
+                                    listAdmins.get(k).setPRef(listAdmins.get(k).getPRef() + 1);
+                                    System.out.println("Modificador nuevo " + listAdmins.get(k).getName() + " despues: " + listAdmins.get(k).getPRef());
+                                    System.out.println("-----");
+                                    break;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                    saveDataEmployee();
+                    saveDataAdmin();
+                    break;
+                }
+                break;
+                 */
             }
         }
     }
@@ -268,13 +338,17 @@ public class CasaDorada implements Serializable {
                 boolean out = false;
                 boolean out1 = false;
                 for (int j = 0; j < listAdmins.size() && (!out && !out1); j++) {
-                    if(listEmployees.get(i).getCAdmin() == listAdmins.get(j) && !out){
-                        listAdmins.get(j).setPRef(listAdmins.get(j).getPRef()-1);
+                    if (listEmployees.get(i).getCAdmin() == listAdmins.get(j) && !out) {
+                        System.out.println("Creador antes:" + listAdmins.get(j).getPRef());
+                        listAdmins.get(j).setPRef(listAdmins.get(j).getPRef() - 1);
+                        System.out.println("Creador despues:" + listAdmins.get(j).getPRef());
                         out = true;
                     }
                     try {
                         if (listEmployees.get(i).getMAdmin() == listAdmins.get(j) && !out1) {
+                            System.out.println("Modificador antes:" + listAdmins.get(j).getPRef());
                             listAdmins.get(j).setPRef(listAdmins.get(j).getPRef() - 1);
+                            System.out.println("Modificador despues:" + listAdmins.get(j).getPRef());
                             out1 = true;
                         }
                     } catch (Exception e) {
@@ -293,7 +367,6 @@ public class CasaDorada implements Serializable {
     /*
     Metodos relacionados con los clientes
      */
-
     public void addClient(String cAddress, int cPhone, String cObservations, boolean cState, Admin mcAdmin, int pCode, String name, String lastName, int ID, Admin cAdmin) throws IOException {
 
         //Client newClient = new Client(cAddress, cPhone, cObservations, cState, null, code++, name, lastName, ID, cAdmin);
@@ -303,6 +376,7 @@ public class CasaDorada implements Serializable {
     }
 
     private int clientIndex;
+
     public List<Client> getClient() {
         return listClients;
     }
