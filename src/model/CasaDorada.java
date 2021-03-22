@@ -171,6 +171,11 @@ public class CasaDorada implements Serializable {
     /*
     Metodos relacionados con los admin
      */
+    
+    public Admin getAdminActive() {
+        return adminActive;
+    }
+    
     public List<Admin> getListAdmins() {
         return listAdmins;
     }
@@ -205,10 +210,6 @@ public class CasaDorada implements Serializable {
         return false;
     }
 
-    public Admin getAdminActive() {
-        return adminActive;
-    }
-
     public boolean removeAdmin(int code) throws IOException {
         for (int i = 0; i < listAdmins.size(); i++) {
             System.out.println(listAdmins.get(i).getName());
@@ -234,6 +235,7 @@ public class CasaDorada implements Serializable {
     /*
     Metodos relacionados con los Empleados
      */
+    
     public List<Employee> getEmployee() {
         return listEmployees;
     }
@@ -322,14 +324,17 @@ public class CasaDorada implements Serializable {
                             break;
                         }
                     }
-                    saveDataEmployee();
-                    saveDataAdmin();
                     break;
                 }
                 break;
                  */
             }
+            
         }
+        
+        saveDataEmployee();
+        saveDataAdmin();
+        
     }
 
     public boolean removeEmployee(int code) throws IOException {
@@ -367,42 +372,71 @@ public class CasaDorada implements Serializable {
     /*
     Metodos relacionados con los clientes
      */
-    public void addClient(String cAddress, int cPhone, String cObservations, boolean cState, Admin mcAdmin, int pCode, String name, String lastName, int ID, Admin cAdmin) throws IOException {
-
-        //Client newClient = new Client(cAddress, cPhone, cObservations, cState, null, code++, name, lastName, ID, cAdmin);
-        //listClients.add(newClient);
-        saveDataCode();
-        saveDataClient();
-    }
-
-    private int clientIndex;
-
+    
     public List<Client> getClient() {
         return listClients;
     }
+     
+    public boolean addClient(String cAddress, int cPhone, String cObservations, boolean cState, Admin mcAdmin, int pRef, int pCode, String name, String lastName, int ID, Admin cAdmin) throws IOException {
+        Client newClient = new Client(cAddress, cPhone, cObservations, cState, null, 0, code++, name, lastName, ID, cAdmin);
+        if (!listClients.isEmpty()) {
+            for (int j = 0; j < listClients.size(); j++) {
+                if (listClients.get(j).getID() != newClient.getID()) {
+                    System.out.println("xd");
+                    listClients.add(newClient);
+                    for (int i = 0; i < listAdmins.size(); i++) {
+                        if (listAdmins.get(i) == adminActive) {
+                            listAdmins.get(i).setPRef(listAdmins.get(i).getPRef() + 1);
+                        }
+                    }
+                    return true;
+                }
 
-    public int getClientIndex() {
-        return clientIndex;
+            }
+        } else {
+            listClients.add(newClient);
+            return true;
+        }
+        saveDataAdmin();
+        saveDataCode();
+        saveDataClient();
+        return false;
     }
 
-    public void selectedClient(Client clientNew) {
+    public boolean updateClient(int code, String cAddress, int cPhone, String cObservations, boolean cState, Admin mcAdmin, String name, String lastName, int ID) throws IOException {
         for (int i = 0; i < listClients.size(); i++) {
-            if (listClients.get(i) == clientNew) {
-                clientIndex = i;
+            if (listClients.get(i).getPCode() == code) {
+                listClients.get(i).setCAddress(cAddress);
+                listClients.get(i).setCPhone(cPhone);
+                listClients.get(i).setCObservations(cObservations);
+                listClients.get(i).setCState(cState);
+                listClients.get(i).setMcAdmin(mcAdmin);
+                listClients.get(i).setName(name);
+                listClients.get(i).setLastName(lastName);
+                listClients.get(i).setID(ID);
+                if(listClients.get(i).getID() != ID){
+                    return true;
+                }
             }
         }
-    }
-
-    public void setNewClient(Client newClient) throws IOException {
-        listClients.set(clientIndex, newClient);
         saveDataClient();
+        saveDataAdmin();
+        return false;
     }
 
-    public void removeClient(int indexClient) throws IOException {
-        listClients.remove(indexClient);
-        saveDataClient();
-    }
+    public boolean removeClient(int code) throws IOException {
+        boolean out = false;
+        for (int i = 0; i < listClients.size() && !out; i++) {
+            if (listClients.get(i).getPCode() == code && listClients.get(i).getPRef() == 0) {
+                listClients.remove(i);
+                saveDataAdmin();
+                saveDataClient();
+                out = true;
+            }
+        }
 
+        return out;
+    }
 
     /*
     Metodos relacionados con los ingredientes

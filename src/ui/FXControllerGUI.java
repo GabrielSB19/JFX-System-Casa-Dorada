@@ -465,7 +465,6 @@ public class FXControllerGUI implements Initializable {
         }
     }
     
-    
     @FXML
     public void onUpdateEmployee(ActionEvent event) throws IOException {
         casaDorada.uptadeEmployee(code, tbStateEmployee.isSelected(), casaDorada.getAdminActive(), txtEmpName.getText(),
@@ -475,10 +474,7 @@ public class FXControllerGUI implements Initializable {
         showAlert(true, "Se ha actualizado este elemento correctamente");
         tblEmployee.refresh();
     }
-    
  
-
-    
     @FXML
     public void onRemoveEmployee(ActionEvent event) throws IOException {
         if(casaDorada.removeEmployee(code)){
@@ -492,7 +488,6 @@ public class FXControllerGUI implements Initializable {
         }
     }
   
-
     @FXML
     private TableView<Employee> tblEmployee;
 
@@ -564,6 +559,226 @@ public class FXControllerGUI implements Initializable {
         tblEmployeeNameDisp.setCellValueFactory(new PropertyValueFactory<>("name"));
         tblEmployeeLNDisp.setCellValueFactory(new PropertyValueFactory<>("lastname"));
         tblEmployeeIDDisp.setCellValueFactory(new PropertyValueFactory<>("ID"));
+    }
+    
+    //Gestionar Clientes
+    
+    @FXML
+    public void onGestionClients(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ClientsGestion.fxml"));
+
+        fxmlLoader.setController(this);
+        Parent clientsGestion = fxmlLoader.load();
+
+        pNewOption.getChildren().clear();
+        pNewOption.getChildren().setAll(clientsGestion);
+        onTableClient();
+    }
+        
+    @FXML
+    private JFXButton btnAddClient;
+   
+    @FXML
+    private JFXButton btnRemoveClient;
+
+    @FXML
+    private JFXButton btnUptadeClient;
+    
+    @FXML
+    public void onSelectClient(MouseEvent event) {
+        Client clientSelected;
+        if (event.getClickCount() == 2) {
+            clientSelected = tblClients.getSelectionModel().getSelectedItem();
+            if (clientSelected != null) {
+                code = clientSelected.getPCode();
+                btnAddClient.setVisible(false);
+                btnUptadeClient.setVisible(true);
+                btnRemoveClient.setVisible(true);
+                showAlert(true, "Se ha seleccionado correctamente al cliente");
+                txtCName.setText(clientSelected.getName());
+                txtCLastName.setText(clientSelected.getLastName());
+                txtCID.setText(clientSelected.getID() + "");
+                txtCPhone.setText(clientSelected.getCPhone() + "");
+                txtCAddress.setText(clientSelected.getCAddress());
+                txtCObser.setText(clientSelected.getCObservations());
+                tbStateClient.setSelected(clientSelected.getCState());
+            }
+        } else if (event.getClickCount() == 1) {
+            btnAddClient.setVisible(true);
+            btnUptadeClient.setVisible(false);
+            btnRemoveClient.setVisible(false);
+        }
+    }
+    
+    @FXML
+    private JFXTextField txtCName;
+
+    @FXML
+    private JFXTextField txtCLastName;
+
+    @FXML
+    private JFXTextField txtCID;
+
+    @FXML
+    private JFXTextField txtCPhone;
+
+    @FXML
+    private JFXTextField txtCAddress;
+
+    @FXML
+    private JFXTextField txtCObser;
+
+    @FXML
+    private JFXToggleButton tbStateClient;
+        
+    @FXML
+    public void addClient(ActionEvent event) throws IOException {
+        try {
+            if (!(txtCName.getText().equals("")) && !(txtCLastName.getText().equals("")) && !(txtCID.getText().equals(""))
+                    && !(txtCPhone.getText().equals("")) && !(txtCAddress.getText().equals(""))) {
+                if(casaDorada.addClient(txtCAddress.getText(), Integer.parseInt(txtCPhone.getText()), txtCObser.getText(), tbStateClient.isSelected(), null,
+                   0, casaDorada.getCode(), txtCName.getText(), txtCLastName.getText(), Integer.parseInt(txtCID.getText()), casaDorada.getAdminActive())) {
+                   showAlert(true, "Se ha agregado correctamente el cliente"); 
+                } else {
+                    showAlert(false, "No se ha agregado el cliente debido a que ya existe otro con la misma Identificación");
+                }
+
+                txtCName.clear();
+                txtCLastName.clear();
+                txtCID.clear();
+                txtCPhone.clear();
+                txtCAddress.clear();
+                txtCObser.clear();
+                onTableClient();
+            } else {
+                showAlert(false, "Debes de llenar todos los campos");
+            }
+        } catch (Exception e) {
+            showAlert(false, "Ingresaste letras en un campo que son para valores numericos");
+            txtCID.clear();
+            txtCPhone.clear();
+        }
+
+    }
+    
+    @FXML
+    public void onUptadeClient(ActionEvent event) throws IOException {
+        if (casaDorada.updateClient(code, txtCAddress.getText(), Integer.parseInt(txtCPhone.getText()), txtCObser.getText(), tbStateClient.isSelected(),
+                casaDorada.getAdminActive(), txtCName.getText(), txtCLastName.getText(), Integer.parseInt(txtCID.getText()))){
+            showAlert(true, "Se ha actualizodo correctamente el cliente");
+        } else {
+            showAlert(false, "Ingresaste una identificación que ya le pertenece a otro usuario, no se actualizo");
+        }
+        btnAddClient.setVisible(true);
+        tblClients.refresh();
+    }
+    
+    @FXML
+    public void onRemoveClient(ActionEvent event) throws IOException {
+        if (casaDorada.removeClient(code)) {
+            showAlert(true, "Se ha eliminado el cliente seleccionado");
+            txtCName.clear();
+            txtCLastName.clear();
+            txtCID.clear();
+            txtCPhone.clear();
+            txtCAddress.clear();
+            txtCObser.clear();
+            onTableClient();
+        } else {
+            showAlert(false, "No se ha podido eliminar, \nel cliente esta referenciado");
+        }
+    }
+    
+    @FXML
+    private TableView<Client> tblClients;
+
+    @FXML
+    private TableColumn<Client, String> tblClientNameGestion;
+
+    @FXML
+    private TableColumn<Client, String> tblClientLNGestion;
+
+    @FXML
+    private TableColumn<Client, Integer> tblClientIDGestion;
+
+    @FXML
+    private TableColumn<Client, Integer> tblClientPhoneGestion;
+
+    @FXML
+    private TableColumn<Client, String> tblClientAddressGestion;
+
+    @FXML
+    private TableColumn<Client, String> tblClientObservationsGestion;
+
+    @FXML
+    private TableColumn<Client, Boolean> tblClientStateGestion;
+    
+    public void onTableClient() {
+        List<Client> clients = casaDorada.getClient();
+        ObservableList<Client> newTableClient;
+        newTableClient = FXCollections.observableArrayList(clients);
+
+        tblClients.setItems(newTableClient);
+        tblClientNameGestion.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tblClientLNGestion.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        tblClientIDGestion.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        tblClientAddressGestion.setCellValueFactory(new PropertyValueFactory<>("cAddress"));
+        tblClientPhoneGestion.setCellValueFactory(new PropertyValueFactory<>("cPhone"));
+        tblClientObservationsGestion.setCellValueFactory(new PropertyValueFactory<>("cObservations"));
+        tblClientStateGestion.setCellValueFactory(new PropertyValueFactory<>("cState"));
+    }
+    
+    @FXML
+    public void onLIstClients(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ListClients.fxml"));
+
+        fxmlLoader.setController(this);
+        Parent listClients = fxmlLoader.load();
+
+        pNewOption.getChildren().clear();
+        pNewOption.getChildren().setAll(listClients);
+        showListClient();
+    }
+    
+    @FXML
+    private TableView<Client> tblDispClient;
+
+    @FXML
+    private TableColumn<Client, String> tblDispNameClient;
+
+    @FXML
+    private TableColumn<Client, String> tblDispLNClient;
+
+    @FXML
+    private TableColumn<Client, Integer> tblDispIDClient;
+
+    @FXML
+    private TableColumn<Client, String> tblDispAddressClient;
+
+    @FXML
+    private TableColumn<Client, Integer> tblDispPhoneClient;
+
+    @FXML
+    private TableColumn<Client, String> tblDispObserClient;
+
+    public void showListClient() {
+        ArrayList<Client> dispClient = new ArrayList<>();
+        List<Client> clients = casaDorada.getClient();
+        for (int i = 0; i < clients.size(); i++) {
+            if (clients.get(i).getCState()) {
+                dispClient.add(clients.get(i));
+            }
+        }
+        ObservableList<Client> newTableClient;
+        newTableClient = FXCollections.observableArrayList(dispClient);
+
+        tblDispClient.setItems(newTableClient);
+        tblDispNameClient.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tblDispLNClient.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        tblDispIDClient.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        tblDispAddressClient.setCellValueFactory(new PropertyValueFactory<>("cAddress"));
+        tblDispPhoneClient.setCellValueFactory(new PropertyValueFactory<>("cPhone"));
+        tblDispObserClient.setCellValueFactory(new PropertyValueFactory<>("cObservations"));
     }
 
     //Gestionar Ingrediente
@@ -731,57 +946,6 @@ public class FXControllerGUI implements Initializable {
     private TableColumn<TypeProduct, Boolean> tblTypeProductState;
 
     /*
-    Gestion Cliente
-     */
-    @FXML
-    private JFXTextField txtCName;
-
-    @FXML
-    private JFXTextField txtCLastName;
-
-    @FXML
-    private JFXTextField txtCID;
-
-    @FXML
-    private JFXTextField txtCPhone;
-
-    @FXML
-    private JFXTextField txtCAddress;
-
-    @FXML
-    private JFXTextField txtCObser;
-
-    @FXML
-    private JFXToggleButton tbStateClient;
-
-    @FXML
-    private JFXButton btnAddClient;
-
-    @FXML
-    private TableView<Client> tblClients;
-
-    @FXML
-    private TableColumn<Client, String> tblClientNameGestion;
-
-    @FXML
-    private TableColumn<Client, String> tblClientLNGestion;
-
-    @FXML
-    private TableColumn<Client, Integer> tblClientIDGestion;
-
-    @FXML
-    private TableColumn<Client, Integer> tblClientPhoneGestion;
-
-    @FXML
-    private TableColumn<Client, String> tblClientAddressGestion;
-
-    @FXML
-    private TableColumn<Client, String> tblClientObservationsGestion;
-
-    @FXML
-    private TableColumn<Client, Boolean> tblClientStateGestion;
-
-    /*
     Gestionar Productos
      */
     @FXML
@@ -852,26 +1016,7 @@ public class FXControllerGUI implements Initializable {
     private TableColumn<TypeProduct, String> tblDispNameTP;
 
     //Atributos cliente
-    @FXML
-    private TableView<Client> tblDispClient;
 
-    @FXML
-    private TableColumn<Client, String> tblDispNameClient;
-
-    @FXML
-    private TableColumn<Client, String> tblDispLNClient;
-
-    @FXML
-    private TableColumn<Client, Integer> tblDispIDClient;
-
-    @FXML
-    private TableColumn<Client, String> tblDispAddressClient;
-
-    @FXML
-    private TableColumn<Client, Integer> tblDispPhoneClient;
-
-    @FXML
-    private TableColumn<Client, String> tblDispObserClient;
 
     //Atributos empleado
     //Buscar cliente para los pedidos
@@ -892,17 +1037,7 @@ public class FXControllerGUI implements Initializable {
  /*
         Gestion de los objetos 
      */
-    @FXML
-    public void onGestionClients(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ClientsGestion.fxml"));
 
-        fxmlLoader.setController(this);
-        Parent clientsGestion = fxmlLoader.load();
-
-        pNewOption.getChildren().clear();
-        pNewOption.getChildren().setAll(clientsGestion);
-        onTableClient();
-    }
 
     @FXML
     public void onGestionProducts(ActionEvent event) throws IOException {
@@ -943,17 +1078,7 @@ public class FXControllerGUI implements Initializable {
     /*
         Listar los objetos
      */
-    @FXML
-    public void onLIstClients(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ListClients.fxml"));
 
-        fxmlLoader.setController(this);
-        Parent listClients = fxmlLoader.load();
-
-        pNewOption.getChildren().clear();
-        pNewOption.getChildren().setAll(listClients);
-        showListClient();
-    }
 
     @FXML
     public void onLIstProducts(ActionEvent event) throws IOException {
@@ -1395,150 +1520,8 @@ public class FXControllerGUI implements Initializable {
  /*
         Agregar Cliente
      */
-    @FXML
-    public void addClient(ActionEvent event) throws IOException {
-        JFXDialogLayout content = new JFXDialogLayout();
-        JFXButton button = new JFXButton("Okay");
-        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                dialog.close();
-            }
-        });
-        content.setActions(button);
-        try {
-            if (!(txtCName.getText().equals("")) && !(txtCLastName.getText().equals("")) && !(txtCID.getText().equals(""))
-                    && !(txtCPhone.getText().equals("")) && !(txtCAddress.getText().equals(""))) {
 
-                String cName = txtCName.getText();
-                String cLastName = txtCLastName.getText();
-                int cID = Integer.parseInt(txtCID.getText());
-                int cPhone = Integer.parseInt(txtCPhone.getText());
-                String cAddress = txtCAddress.getText();
-                String cObser = txtCObser.getText();
-                casaDorada.addClient(cAddress, cPhone, cObser, tbStateClient.isSelected(), null, casaDorada.getCode(),
-                        cName, cLastName, cID, casaDorada.getAdminActive());
-
-                content.setHeading(new Text("¡Listo!"));
-                content.setBody(new Text("El Cliente fue creado exitosamente."));
-                dialog.show();
-                onTableClient();
-                txtCName.clear();
-                txtCLastName.clear();
-                txtCID.clear();
-                txtCPhone.clear();
-                txtCAddress.clear();
-                txtCObser.clear();
-            } else {
-                content.setHeading(new Text("¡Error!"));
-                content.setBody(new Text("Todos los campos son obligatorios, menos las observaciones."));
-                dialog.show();
-            }
-        } catch (Exception e) {
-            content.setHeading(new Text("¡Error!"));
-            content.setBody(new Text("No puedes ingresar letras en la identificación o el numero de telefono."));
-            dialog.show();
-            txtCID.clear();
-            txtCPhone.clear();
-        }
-
-    }
-
-    public void onTableClient() {
-        List<Client> clients = casaDorada.getClient();
-        ObservableList<Client> newTableClient;
-        newTableClient = FXCollections.observableArrayList(clients);
-
-        tblClients.setItems(newTableClient);
-        tblClientNameGestion.setCellValueFactory(new PropertyValueFactory<>("name"));
-        tblClientLNGestion.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-        tblClientIDGestion.setCellValueFactory(new PropertyValueFactory<>("ID"));
-        tblClientAddressGestion.setCellValueFactory(new PropertyValueFactory<>("cAddress"));
-        tblClientPhoneGestion.setCellValueFactory(new PropertyValueFactory<>("cPhone"));
-        tblClientObservationsGestion.setCellValueFactory(new PropertyValueFactory<>("cObservations"));
-        tblClientStateGestion.setCellValueFactory(new PropertyValueFactory<>("cState"));
-    }
-
-    /*
-        Eliminar Cliente
-     */
-    @FXML
-    public void onRemoveClient(ActionEvent event) throws IOException {
-        int index = casaDorada.getClientIndex();
-        casaDorada.removeClient(index);
-        btnAddClient.setVisible(true);
-        //DialogEliminated();
-        onTableClient();
-        txtCName.clear();
-        txtCLastName.clear();
-        txtCID.clear();
-        txtCPhone.clear();
-        txtCAddress.clear();
-        txtCObser.clear();
-    }
-
-    /*
-        Actualizar Cliente
-     */
-    @FXML
-    private JFXButton btnRemoveClient;
-
-    @FXML
-    private JFXButton btnUptadeClient;
-
-    @FXML
-    public void onSelectClient(MouseEvent event) {
-        JFXDialogLayout content = new JFXDialogLayout();
-        JFXButton button = new JFXButton("Okay");
-        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                dialog.close();
-            }
-        });
-        content.setActions(button);
-        Client clientSelected;
-        if (event.getClickCount() == 2) {
-            clientSelected = tblClients.getSelectionModel().getSelectedItem();
-            if (clientSelected != null) {
-                btnAddClient.setVisible(false);
-                btnUptadeClient.setVisible(true);
-                btnRemoveClient.setVisible(true);
-                casaDorada.selectedClient(clientSelected);
-                content.setHeading(new Text("¡Listo!"));
-                content.setBody(new Text("El cliente " + clientSelected.getName() + " fue seleccionado exitosamente."));
-                dialog.show();
-                txtCName.setText(clientSelected.getName());
-                txtCLastName.setText(clientSelected.getLastName());
-                txtCID.setText(clientSelected.getID() + "");
-                txtCPhone.setText(clientSelected.getCPhone() + "");
-                txtCAddress.setText(clientSelected.getCAddress());
-                txtCObser.setText(clientSelected.getCObservations());
-            }
-        } else if (event.getClickCount() == 1) {
-            btnAddClient.setVisible(true);
-            btnUptadeClient.setVisible(false);
-            btnRemoveClient.setVisible(false);
-        }
-    }
-
-    public Admin adminCreaterClient() {
-        int index = casaDorada.getClientIndex();
-        return casaDorada.getClient().get(index).getCAdmin();
-    }
-
-    @FXML
-    public void onUptadeClient(ActionEvent event) throws IOException {
-        //Client newClient = new Client(txtCAddress.getText(), Integer.parseInt(txtCPhone.getText()), txtCObser.getText(),
-                //tbStateClient.isSelected(), casaDorada.getAdminActive(), casaDorada.getCode(), txtCName.getText(), txtCLastName.getText(),
-                //Integer.parseInt(txtCID.getText()), adminCreaterClient());
-        //casaDorada.setNewClient(newClient);
-        btnAddClient.setVisible(true);
-        //DialogUptade();
-        onTableClient();
-    }
+    
 
     /*
     Listar las arrayList de los objetos
@@ -1570,25 +1553,7 @@ public class FXControllerGUI implements Initializable {
  /*
         Listar clientes
      */
-    public void showListClient() {
-        ArrayList<Client> dispClient = new ArrayList<>();
-        List<Client> clients = casaDorada.getClient();
-        for (int i = 0; i < clients.size(); i++) {
-            if (clients.get(i).getCState()) {
-                dispClient.add(clients.get(i));
-            }
-        }
-        ObservableList<Client> newTableClient;
-        newTableClient = FXCollections.observableArrayList(dispClient);
 
-        tblDispClient.setItems(newTableClient);
-        tblDispNameClient.setCellValueFactory(new PropertyValueFactory<>("name"));
-        tblDispLNClient.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-        tblDispIDClient.setCellValueFactory(new PropertyValueFactory<>("ID"));
-        tblDispAddressClient.setCellValueFactory(new PropertyValueFactory<>("cAddress"));
-        tblDispPhoneClient.setCellValueFactory(new PropertyValueFactory<>("cPhone"));
-        tblDispObserClient.setCellValueFactory(new PropertyValueFactory<>("cObservations"));
-    }
 
     /*
         Listar productos
