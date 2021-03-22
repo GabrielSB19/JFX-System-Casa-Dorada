@@ -373,70 +373,110 @@ public class CasaDorada implements Serializable {
     Metodos relacionados con los clientes
      */
     
+    private Admin test;
+    
     public List<Client> getClient() {
         return listClients;
     }
      
     public boolean addClient(String cAddress, int cPhone, String cObservations, boolean cState, Admin mcAdmin, int pRef, int pCode, String name, String lastName, int ID, Admin cAdmin) throws IOException {
         Client newClient = new Client(cAddress, cPhone, cObservations, cState, null, 0, code++, name, lastName, ID, cAdmin);
-        if (!listClients.isEmpty()) {
-            for (int j = 0; j < listClients.size(); j++) {
-                if (listClients.get(j).getID() != newClient.getID()) {
-                    System.out.println("xd");
-                    listClients.add(newClient);
-                    for (int i = 0; i < listAdmins.size(); i++) {
-                        if (listAdmins.get(i) == adminActive) {
-                            listAdmins.get(i).setPRef(listAdmins.get(i).getPRef() + 1);
-                        }
-                    }
-                    return true;
-                }
-
-            }
-        } else {
+        if (listClients.isEmpty()) {
             listClients.add(newClient);
+            saveDataAdmin();
+            saveDataCode();
+            saveDataClient();
             return true;
+        } else {
+            for (int i = 0; i < listClients.size(); i++) {
+                if(listClients.get(i).getID() != ID){
+                    listClients.add(newClient);
+                    saveDataAdmin();
+                    saveDataCode();
+                    saveDataClient();
+                    return true;
+                } else {
+                    return false;
+                }
+            }
         }
-        saveDataAdmin();
-        saveDataCode();
-        saveDataClient();
         return false;
     }
 
     public boolean updateClient(int code, String cAddress, int cPhone, String cObservations, boolean cState, Admin mcAdmin, String name, String lastName, int ID) throws IOException {
-        for (int i = 0; i < listClients.size(); i++) {
-            if (listClients.get(i).getPCode() == code) {
-                listClients.get(i).setCAddress(cAddress);
-                listClients.get(i).setCPhone(cPhone);
-                listClients.get(i).setCObservations(cObservations);
-                listClients.get(i).setCState(cState);
-                listClients.get(i).setMcAdmin(mcAdmin);
-                listClients.get(i).setName(name);
-                listClients.get(i).setLastName(lastName);
-                listClients.get(i).setID(ID);
-                if(listClients.get(i).getID() != ID){
-                    return true;
+        if(listClients.size() == 1){
+            listClients.get(0).setCAddress(cAddress);
+            listClients.get(0).setCPhone(cPhone);
+            listClients.get(0).setCObservations(cObservations);
+            listClients.get(0).setCState(cState);
+            listClients.get(0).setMcAdmin(mcAdmin);
+            listClients.get(0).setName(name);
+            listClients.get(0).setLastName(lastName);
+            listClients.get(0).setID(ID);
+            return true;
+        } else {
+            for (int i = 0; i < listClients.size(); i++) {
+                if (listClients.get(i).getPCode() == code) {
+                    for (int j = 0; j < listClients.size(); j++) {
+                        if (listClients.get(i).getID() != listClients.get(j).getID() && listClients.get(i).getID() != ID) {
+                            listClients.get(i).setCAddress(cAddress);
+                            listClients.get(i).setCPhone(cPhone);
+                            listClients.get(i).setCObservations(cObservations);
+                            listClients.get(i).setCState(cState);
+                            listClients.get(i).setMcAdmin(mcAdmin);
+                            listClients.get(i).setName(name);
+                            listClients.get(i).setLastName(lastName);
+                            listClients.get(i).setID(ID);
+                            return true;
+                        }
+                    }
+
                 }
             }
         }
-        saveDataClient();
         saveDataAdmin();
+        saveDataClient();
         return false;
     }
+    
+    /*
 
+    */
+    
+    /*
+
+    */
+    
     public boolean removeClient(int code) throws IOException {
         boolean out = false;
+        boolean test1 = false;
         for (int i = 0; i < listClients.size() && !out; i++) {
             if (listClients.get(i).getPCode() == code && listClients.get(i).getPRef() == 0) {
+                for (int j = 0; j < listAdmins.size() && !test1; j++) {
+                    if (listAdmins.get(j) == listClients.get(i).getCAdmin()) {
+                        listAdmins.get(j).setPRef(listAdmins.get(i).getPRef() - 1);
+                        test1 = true;
+                    }
+                    if (test == listAdmins.get(j)) {
+                        listAdmins.get(j).setPRef(listAdmins.get(j).getPRef() - 1);
+                    }
+                }
                 listClients.remove(i);
                 saveDataAdmin();
                 saveDataClient();
+                test = null;
                 out = true;
             }
         }
-
         return out;
     }
+
+    
+
+
+/*
+     
+    */
 
     /*
     Metodos relacionados con los ingredientes

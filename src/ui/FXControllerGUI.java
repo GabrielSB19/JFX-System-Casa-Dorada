@@ -676,6 +676,7 @@ public class FXControllerGUI implements Initializable {
     @FXML
     public void onRemoveClient(ActionEvent event) throws IOException {
         if (casaDorada.removeClient(code)) {
+            System.out.println(casaDorada.getListAdmins().get(0).getPRef());
             showAlert(true, "Se ha eliminado el cliente seleccionado");
             txtCName.clear();
             txtCLastName.clear();
