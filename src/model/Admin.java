@@ -5,14 +5,13 @@ import java.io.Serializable;
 public class Admin extends Employee implements Serializable {
 
     private static final long serialVersionUID = 1;
+    
     private String username;
     private String password;
 
-    public Admin(String userName, String password, int numOrder, boolean eState, Admin mAdmin,
-            String name, String lastName, int ID, Admin cAdmin) {
-
-        super(numOrder, eState, mAdmin, name, lastName, ID, cAdmin);
-        this.username = userName;
+    public Admin(String username, String password, int numOrder, boolean eState, Admin mAdmin, int pCode, String name, String lastName, int ID, Admin cAdmin) {
+        super(numOrder, eState, mAdmin, pCode, name, lastName, ID, cAdmin);
+        this.username = username;
         this.password = password;
     }
 
@@ -31,4 +30,6 @@ public class Admin extends Employee implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
 }

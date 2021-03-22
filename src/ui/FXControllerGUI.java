@@ -11,11 +11,8 @@ import com.jfoenix.controls.JFXToggleButton;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -44,7 +41,9 @@ import model.*;
 
 public class FXControllerGUI implements Initializable {
 
-    //Atributos para el funcionamiento de SplashScreen
+    /*
+    Atributos y metodos y constructor que son generales de la GUI.
+    */
     
     public static ImageView imageView;
 
@@ -57,13 +56,111 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     private ImageView ivWelcome;
-
-    //Pantalla para las advertencias
     
     @FXML
     private StackPane stackPane;
+    
+    public FXControllerGUI(CasaDorada casaDorada) throws IOException {
+        this.casaDorada = casaDorada;
+        casaDorada.loadDataAdmin();
+        casaDorada.loadDataEMmployee();
+        casaDorada.loadDataClient();
+        casaDorada.loadDataIngredient();
+        casaDorada.loadDatTypeProduct();
+        casaDorada.loadDataClient();
+        casaDorada.loadDataProduct();
+        casaDorada.loadDataCode();
+    }
 
-    //Primera Pantalla (Login)
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        imageView = ivWelcome;
+        if (!FXMain.loaded) {
+            try {
+                timeline = new Timeline(
+                        new KeyFrame(
+                                Duration.ZERO,
+                                new KeyValue(jfxSpinner.progressProperty(), 0)
+                        ),
+                        new KeyFrame(
+                                Duration.seconds(2),
+                                new KeyValue(jfxSpinner.progressProperty(), 1)
+                        )
+                );
+            } catch (Exception e) {
+            }
+            timeline.setCycleCount(1);
+            timeline.play();
+            setImageWelcome();
+            FXMain.loaded = true;
+        }
+    }
+
+    public void newStage(Parent root) {
+        Stage newStage = new Stage();
+        Scene scene = new Scene(root);
+        newStage.setScene(scene);
+        newStage.setTitle("Casa Dorada");
+        newStage.setResizable(false);
+        newStage.show();
+    }
+
+    public void closeStage() {
+        Stage stage = (Stage) bpMain.getScene().getWindow();
+        stage.close();
+    }
+
+    public void setImageWelcome() {
+        try {
+            ivWelcome.setImage(new Image("image/CasaDoradaNew.png"));
+        } catch (Exception e) {
+        }
+    }
+
+    public void changeScreen() {
+        try {
+            closeStage();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/Login.fxml"));
+            fxmlLoader.setController(this);
+            Parent root = fxmlLoader.load();
+            newStage(root);
+        } catch (IOException e) {
+        }
+    }
+    
+    public void showAlert(int st, String msg){
+        JFXDialogLayout content = new JFXDialogLayout();
+        JFXButton button = new JFXButton("Okay");
+        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                dialog.close();
+            }
+        });
+        content.setActions(button);
+        switch(st){
+            case 1:
+                content.setHeading(new Text("¡Listo!"));
+                content.setBody(new Text(msg));
+                dialog.show();
+            break;
+            case 2:
+                content.setHeading(new Text("¡Error!"));
+                content.setBody(new Text(msg));
+                dialog.show();
+            break;
+            case 3:
+                content.setHeading(new Text("¡Error!"));
+                content.setBody(new Text(msg));
+                dialog.show();
+            break;
+        }
+    }
+
+    /*
+    Atributos y metodos que solo se usan en el Login
+    */
     
     @FXML
     private BorderPane bpMain;
@@ -73,8 +170,45 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     private JFXPasswordField txtPassWordLogin;
+        
+    @FXML
+    public void onCreateAccount(ActionEvent event) throws IOException {
+        closeStage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/Register.fxml"));
+        fxmlLoader.setController(this);
+        Parent root = fxmlLoader.load();
+        newStage(root);
+    }
 
-    //Pantalla de registrarse
+    @FXML
+    public void onLogIn(ActionEvent event) throws IOException {
+        JFXDialogLayout content = new JFXDialogLayout();
+        JFXButton button = new JFXButton("Okay");
+        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                dialog.close();
+            }
+        });
+        content.setActions(button);
+        if (casaDorada.login(txtUserLogin.getText(), txtPassWordLogin.getText())) {
+            closeStage();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/Menu.fxml"));
+            fxmlLoader.setController(this);
+            Parent root = fxmlLoader.load();
+            ivGoldHouse.setImage(new Image("image/CasaDoradaNew.png"));
+            newStage(root);
+        } else {
+            content.setHeading(new Text("¡Error!"));
+            content.setBody(new Text("El usuario no fue encontrado en la base de datos."));
+            dialog.show();
+        }
+    }
+
+    /*
+    Atributos y metodos que solo se usan en el Register
+    */
     
     @FXML
     private JFXTextField txtRegisterName;
@@ -90,11 +224,50 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     private JFXPasswordField txtRegisterPassword;
+    
+    @FXML
+    public void onIhaveAccount(ActionEvent event) throws IOException {
+        closeStage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/Login.fxml"));
+        fxmlLoader.setController(this);
+        Parent root = fxmlLoader.load();
+        newStage(root);
+    }
 
-    //Atribtuos del Menu
+    @FXML
+    public void onRegister(ActionEvent event) throws IOException {
+        String msg;
+        int st;
+        try {
+            if (!txtRegisterName.getText().equals("") && !txtRegisterLastName.getText().equals("")
+                    && !txtRegisterID.getText().equals("") && !txtRegisterUserName.getText().equals("")
+                    && !txtRegisterPassword.getText().equals("")) {
+                casaDorada.addAdmin(txtRegisterUserName.getText(), txtRegisterPassword.getText(), 0, true, null, casaDorada.getCode(), 
+                        txtRegisterName.getText(), txtRegisterLastName.getText(), Integer.parseInt(txtRegisterID.getText()), null);
+                msg = "El usuario fue agregado correctamente";
+                st = 1;
+
+                closeStage();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/Login.fxml"));
+                fxmlLoader.setController(this);
+                Parent root = fxmlLoader.load();
+                newStage(root);
+               
+            } else {
+                msg = "El usuario debe de tener todos los campos llenos";
+                st = 2;
+            }
+        } catch (Exception e) {
+            msg = "La Identificación debe ser un numero y no letras";
+            st = 3;
+        }
+        showAlert(st, msg);
+    }
     
-        //Atribtuos generales
-    
+    /*
+    Atributos del menu y metodos
+    */
+        
     @FXML
     private ImageView ivGoldHouse;
 
@@ -104,9 +277,26 @@ public class FXControllerGUI implements Initializable {
     @FXML
     private Pane pNewOption;
     
-        //Atributos para gestionar los Admin
+    @FXML
+    public void onExitProgram(ActionEvent event) {
+        System.exit(0);
+    }
+
+    @FXML
+    public void onLogOut(ActionEvent event) throws IOException {
+        Stage stage = (Stage) bpMenu.getScene().getWindow();
+        stage.close();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/Login.fxml"));
+        fxmlLoader.setController(this);
+        Parent root = fxmlLoader.load();
+        newStage(root);
+    }
     
-     @FXML
+    /*
+    Gestionar Administradores
+    */
+    
+    @FXML
     private JFXTextField txtNameAdmin;
 
     @FXML
@@ -144,8 +334,22 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     private TableColumn<Admin, Boolean> tblAdminState;
+        
+    @FXML
+    public void onGestionUser(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/UsernameGestion.fxml"));
+
+        fxmlLoader.setController(this);
+        Parent usernameGestion = fxmlLoader.load();
+
+        pNewOption.getChildren().clear();
+        pNewOption.getChildren().setAll(usernameGestion);
+        onTableAdmin();
+    }
     
-        //Atributos para gestionar los Empleados
+    /*
+    Gestionar Empleado
+    */
     
     @FXML
     private JFXTextField txtEmpName;
@@ -177,7 +381,9 @@ public class FXControllerGUI implements Initializable {
     @FXML
     private TableColumn<Employee, Boolean> tblEmployeeState;
 
-         //Atributos para gestionar los ingredients
+    /*
+    Gestionar Ingrediente
+    */
     
     @FXML
     private JFXTextField txtIngName;
@@ -197,8 +403,9 @@ public class FXControllerGUI implements Initializable {
     @FXML
     private TableColumn<Ingredient, Boolean> tblIngredientState;
     
-
-         //Atribtuos para gestionar los tipo de ingrediente
+    /*
+    Gestionar Tipo de producto
+    */
     
     @FXML
     private JFXTextField txtTpName;
@@ -217,8 +424,62 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     private TableColumn<TypeProduct, Boolean> tblTypeProductState;
+    
+    /*
+    Gestion Cliente
+    */
+    
+    @FXML
+    private JFXTextField txtCName;
 
-        //Atributos para gestionar los productos
+    @FXML
+    private JFXTextField txtCLastName;
+
+    @FXML
+    private JFXTextField txtCID;
+
+    @FXML
+    private JFXTextField txtCPhone;
+
+    @FXML
+    private JFXTextField txtCAddress;
+
+    @FXML
+    private JFXTextField txtCObser;
+        
+    @FXML
+    private JFXToggleButton tbStateClient;
+    
+    @FXML
+    private JFXButton btnAddClient;
+    
+    @FXML
+    private TableView<Client> tblClients;
+
+    @FXML
+    private TableColumn<Client, String> tblClientNameGestion;
+
+    @FXML
+    private TableColumn<Client, String> tblClientLNGestion;
+
+    @FXML
+    private TableColumn<Client, Integer> tblClientIDGestion;
+
+    @FXML
+    private TableColumn<Client, Integer> tblClientPhoneGestion;
+
+    @FXML
+    private TableColumn<Client, String> tblClientAddressGestion;
+
+    @FXML
+    private TableColumn<Client, String> tblClientObservationsGestion;
+        
+    @FXML
+    private TableColumn<Client, Boolean> tblClientStateGestion;
+
+    /*
+    Gestionar Productos
+    */
 
     
     @FXML
@@ -273,58 +534,9 @@ public class FXControllerGUI implements Initializable {
     @FXML
     private TableColumn<Product, Boolean> tblProductState;
 
-    
-        //Atributos para gestionar los clientes
-    
-    @FXML
-    private JFXTextField txtCName;
-
-    @FXML
-    private JFXTextField txtCLastName;
-
-    @FXML
-    private JFXTextField txtCID;
-
-    @FXML
-    private JFXTextField txtCPhone;
-
-    @FXML
-    private JFXTextField txtCAddress;
-
-    @FXML
-    private JFXTextField txtCObser;
-        
-    @FXML
-    private JFXToggleButton tbStateClient;
-    
-    @FXML
-    private JFXButton btnAddClient;
-    
-    @FXML
-    private TableView<Client> tblClients;
-
-    @FXML
-    private TableColumn<Client, String> tblClientNameGestion;
-
-    @FXML
-    private TableColumn<Client, String> tblClientLNGestion;
-
-    @FXML
-    private TableColumn<Client, Integer> tblClientIDGestion;
-
-    @FXML
-    private TableColumn<Client, Integer> tblClientPhoneGestion;
-
-    @FXML
-    private TableColumn<Client, String> tblClientAddressGestion;
-
-    @FXML
-    private TableColumn<Client, String> tblClientObservationsGestion;
-        
-    @FXML
-    private TableColumn<Client, Boolean> tblClientStateGestion;
-
-        //Atributos para gestionar los pedidos
+    /*
+    Gestionar Pedidos
+    */
     
     @FXML
     private Pane pChooseProduct;
@@ -392,172 +604,6 @@ public class FXControllerGUI implements Initializable {
     @FXML
     private Pane pSelectDate;
 
-    //Inicializable y concstructos de la clase
-    public FXControllerGUI(CasaDorada casaDorada) throws IOException {
-        this.casaDorada = casaDorada;
-        casaDorada.loadDataAdmin();
-        casaDorada.loadDataEMmployee();
-        casaDorada.loadDataClient();
-        casaDorada.loadDataIngredient();
-        casaDorada.loadDatTypeProduct();
-        casaDorada.loadDataClient();
-        casaDorada.loadDataProduct();
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        imageView = ivWelcome;
-        if (!FXMain.loaded) {
-            try {
-                timeline = new Timeline(
-                        new KeyFrame(
-                                Duration.ZERO,
-                                new KeyValue(jfxSpinner.progressProperty(), 0)
-                        ),
-                        new KeyFrame(
-                                Duration.seconds(2),
-                                new KeyValue(jfxSpinner.progressProperty(), 1)
-                        )
-                );
-            } catch (Exception e) {
-            }
-            timeline.setCycleCount(1);
-            timeline.play();
-            setImageWelcome();
-            FXMain.loaded = true;
-        }
-    }
-
-    //Cambios de Scene
-    public void newStage(Parent root) {
-        Stage newStage = new Stage();
-        Scene scene = new Scene(root);
-        newStage.setScene(scene);
-        newStage.setTitle("Casa Dorada");
-        newStage.setResizable(false);
-        newStage.show();
-    }
-
-    public void closeStage() {
-        Stage stage = (Stage) bpMain.getScene().getWindow();
-        stage.close();
-    }
-
-    //Metodos relacionados para que el splash screen funcione Correctamente
-    public void setImageWelcome() {
-        try {
-            ivWelcome.setImage(new Image("image/CasaDoradaNew.png"));
-        } catch (Exception e) {
-        }
-    }
-
-    public void changeScreen() {
-        try {
-            closeStage();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/Login.fxml"));
-            fxmlLoader.setController(this);
-            Parent root = fxmlLoader.load();
-            newStage(root);
-        } catch (IOException e) {
-        }
-    }
-
-    /*
-    Botones primera pantalla
-    Login
-     */
-    
-    @FXML
-    public void onCreateAccount(ActionEvent event) throws IOException {
-        closeStage();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/Register.fxml"));
-        fxmlLoader.setController(this);
-        Parent root = fxmlLoader.load();
-        newStage(root);
-    }
-
-    @FXML
-    public void onLogIn(ActionEvent event) throws IOException {
-        JFXDialogLayout content = new JFXDialogLayout();
-        JFXButton button = new JFXButton("Okay");
-        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                dialog.close();
-            }
-        });
-        content.setActions(button);
-        if (casaDorada.login(txtUserLogin.getText(), txtPassWordLogin.getText())) {
-            closeStage();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/Menu.fxml"));
-            fxmlLoader.setController(this);
-            Parent root = fxmlLoader.load();
-            ivGoldHouse.setImage(new Image("image/CasaDoradaNew.png"));
-            newStage(root);
-        } else {
-            content.setHeading(new Text("¡Error!"));
-            content.setBody(new Text("El usuario no fue encontrado en la base de datos."));
-            dialog.show();
-        }
-    }
-
-    /*
-    Botones para la pantalla de
-    Register
-     */
-    
-    @FXML
-    public void onIhaveAccount(ActionEvent event) throws IOException {
-        closeStage();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/Login.fxml"));
-        fxmlLoader.setController(this);
-        Parent root = fxmlLoader.load();
-        newStage(root);
-    }
-
-    @FXML
-    public void onRegister(ActionEvent event) throws IOException {
-        JFXDialogLayout content = new JFXDialogLayout();
-        JFXButton button = new JFXButton("Okay");
-        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                dialog.close();
-            }
-        });
-        content.setActions(button);
-        try {
-            if (!txtRegisterName.getText().equals("") && !txtRegisterLastName.getText().equals("")
-                    && !txtRegisterID.getText().equals("") && !txtRegisterUserName.getText().equals("")
-                    && !txtRegisterPassword.getText().equals("")) {
-
-                casaDorada.addAdmin(txtRegisterUserName.getText(), txtRegisterPassword.getText(),
-                        0, true, null, txtRegisterName.getText(),
-                        txtRegisterLastName.getText(), Integer.parseInt(txtRegisterID.getText()), null);
-
-                content.setHeading(new Text("¡Listo!"));
-                content.setBody(new Text("El usuario fue creado exitosamente."));
-                dialog.show();
-
-                closeStage();
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/Login.fxml"));
-                fxmlLoader.setController(this);
-                Parent root = fxmlLoader.load();
-                newStage(root);
-            } else {
-                content.setHeading(new Text("¡Error!"));
-                content.setBody(new Text("Debes llenar todos los datos para crear el usuario."));
-                dialog.show();
-            }
-        } catch (Exception e) {
-            content.setHeading(new Text("¡Error!"));
-            content.setBody(new Text("No puedes poner letras en la identificacion."));
-            dialog.show();
-        }
-    }
-
     /*
     Funciones de los botones del
     MenuBar
@@ -565,36 +611,12 @@ public class FXControllerGUI implements Initializable {
         /*
         Salir del programa y cuenta
         */
-    @FXML
-    public void onExitProgram(ActionEvent event) {
-        System.exit(0);
-    }
 
-    @FXML
-    public void onLogOut(ActionEvent event) throws IOException {
-        Stage stage = (Stage) bpMenu.getScene().getWindow();
-        stage.close();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/Login.fxml"));
-        fxmlLoader.setController(this);
-        Parent root = fxmlLoader.load();
-        newStage(root);
-    }
 
     /*
         Gestion de los objetos 
      */
-    
-    @FXML
-    public void onGestionUser(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/UsernameGestion.fxml"));
 
-        fxmlLoader.setController(this);
-        Parent usernameGestion = fxmlLoader.load();
-
-        pNewOption.getChildren().clear();
-        pNewOption.getChildren().setAll(usernameGestion);
-        onTableAdmin();
-    }
 
     @FXML
     public void onGestionClients(ActionEvent event) throws IOException {
@@ -1345,9 +1367,8 @@ public class FXControllerGUI implements Initializable {
     
     @FXML
     public void onUptadeAdmin(ActionEvent event) throws IOException {
-        Admin newAdmin = new Admin(txtUsername.getText(), txtPassword.getText(), 0, tbStateUserName.isSelected(), 
-                casaDorada.getAdminActive(), txtNameAdmin.getText(),
-                        txtLastNameAdmin.getText(), Integer.parseInt(txtIDAdmin.getText()) , null);
+        Admin newAdmin = new Admin(txtUsername.getText(), txtPassword.getText(), 0, tbStateUserName.isSelected(), casaDorada.getAdminActive(), 
+                casaDorada.getCode(), txtNameAdmin.getText(), txtLastNameAdmin.getText(), Integer.parseInt(txtIDAdmin.getText()) , null);
         casaDorada.setNewAdmin(newAdmin);
         DialogUptade();
         onTableAdmin(); 
@@ -1394,7 +1415,7 @@ public class FXControllerGUI implements Initializable {
            if (!txtEmpName.getText().equals("") && !txtEmpLastName.getText().equals("")
                 && !txtEmpID.getText().equals("")) {
 
-                casaDorada.addEmployee(0, tbStateEmployee.isSelected(), null, txtEmpName.getText(),
+                casaDorada.addEmployee(0, tbStateEmployee.isSelected(), null, casaDorada.getCode(), txtEmpName.getText(),
                     txtEmpLastName.getText(), Integer.parseInt(txtEmpID.getText()),casaDorada.getAdminActive());
                 content.setHeading(new Text("¡Listo!"));
                 content.setBody(new Text("El empleado fue creado exitosamente."));
@@ -1490,12 +1511,12 @@ public class FXControllerGUI implements Initializable {
     
     public Admin adminCreaterEmployee(){
         int index = casaDorada.getEmployeeIndex();
-        return casaDorada.getEmployee().get(index).getCAdmin();
+        return casaDorada.getEmployee().get(index).getcAdmin();
     }
 
     @FXML
     public void onUptadeEmployee(ActionEvent event) throws IOException {
-        Employee newEmployee = new Employee(0, tbStateEmployee.isSelected(), casaDorada.getAdminActive(), 
+        Employee newEmployee = new Employee(0, tbStateEmployee.isSelected(), casaDorada.getAdminActive(), casaDorada.getCode(),
                 txtEmpName.getText(), txtEmpLastName.getText(), Integer.parseInt(txtEmpID.getText()), adminCreaterEmployee());
         casaDorada.setNewEmployee(newEmployee);
         btnAddEmployee.setVisible(true);
@@ -1532,8 +1553,7 @@ public class FXControllerGUI implements Initializable {
                 int cPhone = Integer.parseInt(txtCPhone.getText());
                 String cAddress = txtCAddress.getText();
                 String cObser = txtCObser.getText();
-            
-                casaDorada.addClient(cAddress, cPhone, cObser, tbStateClient.isSelected(), null,
+                casaDorada.addClient(cAddress, cPhone, cObser, tbStateClient.isSelected(), null, casaDorada.getCode(),
                     cName, cLastName, cID, casaDorada.getAdminActive());
             
                 content.setHeading(new Text("¡Listo!"));
@@ -1644,13 +1664,13 @@ public class FXControllerGUI implements Initializable {
         
     public Admin adminCreaterClient(){
         int index = casaDorada.getClientIndex();
-        return casaDorada.getClient().get(index).getCAdmin();
+        return casaDorada.getClient().get(index).getcAdmin();
     }
 
     @FXML
     public void onUptadeClient(ActionEvent event) throws IOException {
         Client newClient = new Client(txtCAddress.getText(), Integer.parseInt(txtCPhone.getText()), txtCObser.getText(), 
-                tbStateClient.isSelected(), casaDorada.getAdminActive(), txtCName.getText(), txtCLastName.getText(),
+                tbStateClient.isSelected(), casaDorada.getAdminActive(), casaDorada.getCode(), txtCName.getText(), txtCLastName.getText(),
                 Integer.parseInt(txtCID.getText()), adminCreaterClient());
         casaDorada.setNewClient(newClient);
         btnAddClient.setVisible(true);

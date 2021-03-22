@@ -12,16 +12,16 @@ public class Client extends Person implements Serializable {
     private boolean cState;
     private Admin mcAdmin;
 
-    public Client(String cAddress, int cPhone, String cObservations, boolean cState, Admin mcAdmin,
-            String name, String lastName, int ID, Admin cAdmin) {
-
-        super(name, lastName, ID, cAdmin);
+    public Client(String cAddress, int cPhone, String cObservations, boolean cState, Admin mcAdmin, int pCode, String name, String lastName, int ID, Admin cAdmin) {
+        super(pCode, name, lastName, ID, cAdmin);
         this.cAddress = cAddress;
         this.cPhone = cPhone;
         this.cObservations = cObservations;
         this.cState = cState;
         this.mcAdmin = mcAdmin;
     }
+
+
 
     public String getCAddress() {
         return cAddress;

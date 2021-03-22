@@ -5,18 +5,29 @@ import java.io.Serializable;
 public abstract class Person implements Serializable {
 
     private static final long serialVersionUID = 1;
+    
+    private int pCode;
     private String name;
     private String lastName;
     private int ID;
     private Admin cAdmin;
 
-    public Person(String name, String lastName, int ID, Admin cAdmin) {
+    public Person(int pCode, String name, String lastName, int ID, Admin cAdmin) {
+        this.pCode = pCode;
         this.name = name;
         this.lastName = lastName;
         this.ID = ID;
         this.cAdmin = cAdmin;
     }
 
+    public int getpCode() {
+        return pCode;
+    }
+
+    public void setpCode(int pCode) {
+        this.pCode = pCode;
+    }
+    
     public String getName() {
         return name;
     }
@@ -40,9 +51,12 @@ public abstract class Person implements Serializable {
     public void setID(int ID) {
         this.ID = ID;
     }
-    
-    public Admin getCAdmin(){
+
+    public Admin getcAdmin() {
         return cAdmin;
     }
-    
+
+    public void setcAdmin(Admin cAdmin) {
+        this.cAdmin = cAdmin;
+    }
 }

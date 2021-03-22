@@ -64,5 +64,4 @@ public class Ingredient implements Serializable{
     public String toString(){
         return getIngredientsName();
     }
-    
 }

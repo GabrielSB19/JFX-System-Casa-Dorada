@@ -20,7 +20,9 @@ public class CasaDorada implements Serializable {
     private final String SAVE_PATH_FILE_INGREDIENT = "data/Ingredient.cgd";
     private final String SAVE_PATH_FILE_TYPEPRODUCT = "data/TypeProduc.cgd";
     private final String SAVE_PATH_FILE_PRODUCT = "data/Product.cgd";
+    private final String SAVE_PATH_FILE_CODE = "data/Code.cgd";
     
+    private int code;
     private List<Admin> listAdmins;
     private List<Client> listClients;
     private List<Employee> listEmployees;
@@ -37,12 +39,8 @@ public class CasaDorada implements Serializable {
         listIngredients = new ArrayList<>();
         listTypeProducts = new ArrayList<>();
         listProducts = new ArrayList<>();
+        code = 0;
     }
-
-    /*
-    Metodos relacionados con cargar la informacion
-    Desserializar la informacion
-    */
     
     public void loadDataAdmin() throws IOException {
         try {
@@ -103,11 +101,16 @@ public class CasaDorada implements Serializable {
             e.printStackTrace();
         }
     }
-    
-    /*
-    Metodos relacionados  con guardar la informacion
-    Serializacion de la informacion
-    */
+
+    public void loadDataCode() throws IOException {
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE_CODE)));
+            code = (int) ois.readObject();
+            ois.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
     public void saveDataAdmin() throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_ADMIN));
@@ -145,6 +148,12 @@ public class CasaDorada implements Serializable {
         oos.close();
     }
     
+    public void saveDataCode() throws IOException{
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_CODE));
+        oos.writeObject(code);
+        oos.close();
+    }
+    
     public boolean login(String username, String password){
         for (int i = 0; i < listAdmins.size(); i++) {
             if (listAdmins.get(i).getUsername().equals(username) && listAdmins.get(i).getPassword().equals(password)) {
@@ -155,22 +164,21 @@ public class CasaDorada implements Serializable {
         return false;
     }
     
-    /*
-    Metodos para gestionar los  objetos
-    */
+    public int getCode(){
+        return code;
+    }
 
-        /*
-        Metodos relacionados con los admin
-        */
+    /*
+    Metodos relacionados con los admin
+    */
     
     private int adminIndex;
     
-    public void addAdmin(String userName, String password, int numOrder, boolean eState, Admin mAdmin,
-            String name, String lastName, int ID, Admin cAdmin) throws IOException {
+    public void addAdmin(String username, String password, int numOrder, boolean eState, Admin mAdmin, int pCode, String name, String lastName, int ID, Admin cAdmin) throws IOException {
 
-        Admin newAdmin = new Admin(userName, password, numOrder, eState, mAdmin,
-                name, lastName, ID, cAdmin);
+        Admin newAdmin = new Admin(username, password, numOrder, true, null, code++, name, lastName, ID, cAdmin);
         listAdmins.add(newAdmin);
+        saveDataCode();
         saveDataAdmin();
     }
     
@@ -205,47 +213,90 @@ public class CasaDorada implements Serializable {
         saveDataAdmin();
     }
     
-        /*
-        Metodos relacionados con los clientes
-        */
+    /*
+    Metodos relacionados con los clientes
+    */
     
-    public void addClient(String cAddress, int cPhone, String cObservations, boolean cState, Admin mcAdmin,
-            String name, String lastName, int ID, Admin cAdmin) throws IOException{
+    private int clientIndex;
+    
+    public void addClient(String cAddress, int cPhone, String cObservations, boolean cState, Admin mcAdmin, int pCode, String name, String lastName, int ID, Admin cAdmin) throws IOException{
         
-        Client newClient = new Client(cAddress, cPhone, cObservations, cState, mcAdmin,
-            name, lastName, ID, cAdmin);
-        
+        Client newClient = new Client(cAddress, cPhone, cObservations, cState, null, code++, name, lastName, ID, cAdmin);      
         listClients.add(newClient);
+        saveDataCode();
         saveDataClient();
     }
     
     public List<Client> getClient(){
         return listClients;
     }
-    
-        /*
-        Metodos relacionados con los Empleados
-        */
-    
-    public void addEmployee(int numOrder, boolean eState, Admin mAdmin, String name, String lastName,
-            int ID, Admin cAdmin) throws IOException{
         
-        Employee newEmployee = new Employee(numOrder, eState, mAdmin, name, lastName,
-            ID, cAdmin);
+    public int getClientIndex(){
+        return clientIndex;
+    }
+    
+    public void selectedClient(Client clientNew){
+        for(int i = 0; i<listClients.size(); i++){
+            if(listClients.get(i) == clientNew){
+                clientIndex = i;
+            }
+        }
+    }
+    
+    public void setNewClient(Client newClient) throws IOException{
+        listClients.set(clientIndex, newClient);
+        saveDataClient();
+    }
+    
+    public void removeClient(int indexClient) throws IOException{
+        listClients.remove(indexClient);
+        saveDataClient();
+    }
+    
+    /*
+    Metodos relacionados con los Empleados
+    */
+    
+    public void addEmployee(int numOrder, boolean eState, Admin mAdmin, int pCode, String name, String lastName, int ID, Admin cAdmin) throws IOException{
         
+        Employee newEmployee = new Employee(numOrder, true, null, code++, name, lastName, ID, cAdmin);
         listEmployees.add(newEmployee);
         saveDataEmployee();
+        saveDataCode();
+        
     }
     
     public List<Employee> getEmployee(){
         return listEmployees;
     }
+        
+    private int employeeIndex;
     
-        /*
-        Metodos relacionados con los ingredientes
-        */
+    public int getEmployeeIndex(){
+        return employeeIndex;
+    }
     
-            //Agregar ingrediente
+    public void selectedEmployee(Employee employeeNew){
+        for(int i = 0; i<listEmployees.size(); i++){
+            if(listEmployees.get(i) == employeeNew){
+                employeeIndex = i;
+            }
+        }
+    }
+    
+    public void setNewEmployee(Employee newEmployee) throws IOException{
+        listEmployees.set(employeeIndex, newEmployee);
+        saveDataEmployee();
+    }
+                
+    public void removeEmployee(int indexEmployee) throws IOException{
+        listEmployees.remove(indexEmployee);
+        saveDataEmployee();
+    }
+    
+    /*
+    Metodos relacionados con los ingredientes
+    */
     
     private int ingredientIndex;
     
@@ -258,8 +309,6 @@ public class CasaDorada implements Serializable {
     public List<Ingredient> getIngredient(){
         return listIngredients;
     }
-    
-    
     
     public int getIngredientIndex(){
         return ingredientIndex;
@@ -284,10 +333,11 @@ public class CasaDorada implements Serializable {
         saveDataIngredient();
     }
     
-        
-        /*
-        Metodos relacionados con los tipo de productos
-        */
+    /*
+    Metodos relacionados con los tipo de productos
+    */
+    
+    private int typeProductIndex;
     
     public void addTypeProduct(int tpCode, String typeName, boolean typeState, Admin ctpAdmin, Admin mtpAdmin) throws IOException{
         TypeProduct newTypeProduct = new TypeProduct(tpCode, typeName, typeState, ctpAdmin, mtpAdmin);
@@ -299,12 +349,44 @@ public class CasaDorada implements Serializable {
         return listTypeProducts;
     }
     
-        /*
-        Metodos relacionados con los productos
-        */
+    public int getTypeProductIndex(){
+        return typeProductIndex;
+    }
+    
+    public void selectedProduct(Product productNew) {
+        for (int i = 0; i < listProducts.size(); i++) {
+            if (listProducts.get(i) == productNew) {
+                productIndex = i;
+            }
+        }
+    }
+    
+    public void selectedTypeIngredient(TypeProduct typeProductNew){
+        for(int i = 0; i<listTypeProducts.size(); i++){
+            if(listTypeProducts.get(i) == typeProductNew){
+                typeProductIndex = i;
+            }
+        }
+    }
+    
+    public void setNewTypeProduct(TypeProduct newTypeProduct) throws IOException{
+        listTypeProducts.set(typeProductIndex, newTypeProduct);
+        saveDataTypeProduct();
+    }
+                
+    public void removeTypeProduct(int indexTypeProduct) throws IOException{
+        listTypeProducts.remove(indexTypeProduct);
+        saveDataTypeProduct();
+    }
+    
+    
+    /*
+    Metodos relacionados con los productos
+    */
     
     private Ingredient ingredientInProduct;
     private TypeProduct typeProductInProduct;
+    private int productIndex;
     
     public void addProduct(int pCode, String pName, String pSize, double pPrice, boolean pState, int pNumOrder, Admin cpAdmin, Admin mpAdmin) throws IOException{
         Product newProduct = new Product(pCode, pName, pSize, pPrice, pState, pNumOrder, cpAdmin, mpAdmin);
@@ -342,90 +424,5 @@ public class CasaDorada implements Serializable {
     public void addTypeProductToProductArray(ArrayList<TypeProduct> typeProducts) {
         int index = listProducts.size()-1;
         listProducts.get(index).setTypeProductInProduct(typeProducts);
-    }
-    
-
-
-
-    
-    private int typeProductIndex;
-    
-    public int getTypeProductIndex(){
-        return typeProductIndex;
-    }
-    
-    private int productIndex;
-    public void selectedProduct(Product productNew) {
-        for (int i = 0; i < listProducts.size(); i++) {
-            if (listProducts.get(i) == productNew) {
-                productIndex = i;
-            }
-        }
-    }
-    
-    public void selectedTypeIngredient(TypeProduct typeProductNew){
-        for(int i = 0; i<listTypeProducts.size(); i++){
-            if(listTypeProducts.get(i) == typeProductNew){
-                typeProductIndex = i;
-            }
-        }
-    }
-    
-    public void setNewTypeProduct(TypeProduct newTypeProduct) throws IOException{
-        listTypeProducts.set(typeProductIndex, newTypeProduct);
-        saveDataTypeProduct();
-    }
-                
-    public void removeTypeProduct(int indexTypeProduct) throws IOException{
-        listTypeProducts.remove(indexTypeProduct);
-        saveDataTypeProduct();
-    }
-    
-    private int employeeIndex;
-    
-    public int getEmployeeIndex(){
-        return employeeIndex;
-    }
-    
-    public void selectedEmployee(Employee employeeNew){
-        for(int i = 0; i<listEmployees.size(); i++){
-            if(listEmployees.get(i) == employeeNew){
-                employeeIndex = i;
-            }
-        }
-    }
-    
-    public void setNewEmployee(Employee newEmployee) throws IOException{
-        listEmployees.set(employeeIndex, newEmployee);
-        saveDataEmployee();
-    }
-                
-    public void removeEmployee(int indexEmployee) throws IOException{
-        listEmployees.remove(indexEmployee);
-        saveDataEmployee();
-    }
-    
-    private int clientIndex;
-    
-    public int getClientIndex(){
-        return clientIndex;
-    }
-    
-    public void selectedClient(Client clientNew){
-        for(int i = 0; i<listClients.size(); i++){
-            if(listClients.get(i) == clientNew){
-                clientIndex = i;
-            }
-        }
-    }
-    
-    public void setNewClient(Client newClient) throws IOException{
-        listClients.set(clientIndex, newClient);
-        saveDataClient();
-    }
-    
-    public void removeClient(int indexClient) throws IOException{
-        listClients.remove(indexClient);
-        saveDataClient();
     }
 }
