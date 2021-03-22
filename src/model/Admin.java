@@ -9,8 +9,8 @@ public class Admin extends Employee implements Serializable {
     private String username;
     private String password;
 
-    public Admin(String username, String password, int numOrder, boolean eState, Admin mAdmin, int pCode, String name, String lastName, int ID, Admin cAdmin) {
-        super(numOrder, eState, mAdmin, pCode, name, lastName, ID, cAdmin);
+    public Admin(String username, String password, int numOrder, boolean eState, Admin mAdmin, int pRef, int pCode, String name, String lastName, int ID, Admin cAdmin) {
+        super(numOrder, eState, mAdmin, pRef, pCode, name, lastName, ID, cAdmin);
         this.username = username;
         this.password = password;
     }

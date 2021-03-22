@@ -43,11 +43,10 @@ public class FXControllerGUI implements Initializable {
 
     /*
     Atributos y metodos y constructor que son generales de la GUI.
-    */
-    
+     */
     public static ImageView imageView;
 
-    private CasaDorada casaDorada;
+    private final CasaDorada casaDorada;
 
     public static Timeline timeline;
 
@@ -56,10 +55,10 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     private ImageView ivWelcome;
-    
+
     @FXML
     private StackPane stackPane;
-    
+
     public FXControllerGUI(CasaDorada casaDorada) throws IOException {
         this.casaDorada = casaDorada;
         casaDorada.loadDataAdmin();
@@ -127,7 +126,7 @@ public class FXControllerGUI implements Initializable {
         } catch (IOException e) {
         }
     }
-    
+
     public void openSelectDate() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/SelectDate.fxml"));
 
@@ -135,8 +134,8 @@ public class FXControllerGUI implements Initializable {
         Parent selectDate = fxmlLoader.load();
         newStage(selectDate);
     }
-    
-    public void showAlert(int st, String msg){
+
+    public void showAlert(boolean success, String msg) {
         JFXDialogLayout content = new JFXDialogLayout();
         JFXButton button = new JFXButton("Okay");
         JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
@@ -144,32 +143,27 @@ public class FXControllerGUI implements Initializable {
             dialog.close();
         });
         content.setActions(button);
-        switch(st){
-            case 1:
-                content.setHeading(new Text("¡Listo!"));
-                content.setBody(new Text(msg));
-                dialog.show();
-            break;
-            case 2:
-                content.setHeading(new Text("¡Error!"));
-                content.setBody(new Text(msg));
-                dialog.show();
-            break;
-            case 3:
-                content.setHeading(new Text("¡Error!"));
-                content.setBody(new Text(msg));
-                dialog.show();
-            break;
+        if (success) {
+            content.setHeading(new Text("¡Listo!"));
+            content.setBody(new Text(msg));
+            dialog.show();
+        } else {
+            content.setHeading(new Text("¡Error!"));
+            content.setBody(new Text(msg));
+            dialog.show();
         }
     }
 
-    /*
-    Atributos y metodos que solo se usan en el Login
-    */
-    
+    //Atributos y metodos que solo se usan en el Login
     @FXML
     private BorderPane bpMain;
-        
+
+    @FXML
+    private JFXTextField txtUserLogin;
+
+    @FXML
+    private JFXPasswordField txtPassWordLogin;
+
     @FXML
     public void onCreateAccount(ActionEvent event) throws IOException {
         closeStage();
@@ -178,17 +172,9 @@ public class FXControllerGUI implements Initializable {
         Parent root = fxmlLoader.load();
         newStage(root);
     }
-    
-    @FXML
-    private JFXTextField txtUserLogin;
-
-    @FXML
-    private JFXPasswordField txtPassWordLogin;
 
     @FXML
     public void onLogIn(ActionEvent event) throws IOException {
-        String msg;
-        int st;
         if (casaDorada.login(txtUserLogin.getText(), txtPassWordLogin.getText())) {
             closeStage();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/Menu.fxml"));
@@ -197,17 +183,11 @@ public class FXControllerGUI implements Initializable {
             ivGoldHouse.setImage(new Image("image/CasaDoradaNew.png"));
             newStage(root);
         } else {
-            msg = "El usuarion no existe en nuestra base de datos, vuelve a comprobar los datos ingresado";
-            st = 1;
-            showAlert(st, msg);
+            showAlert(false, "El usuario no existe en nuestra base de datos,\nvuelve a comprobar los datos ingresado");
         }
-        
     }
 
-    /*
-    Atributos y metodos que solo se usan en el Register
-    */
-    
+    //Atributos y metodos que solo se usan en el Register
     @FXML
     private JFXTextField txtRegisterName;
 
@@ -222,37 +202,31 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     private JFXPasswordField txtRegisterPassword;
-    
+
     @FXML
     public void onRegister(ActionEvent event) throws IOException {
-        String msg;
-        int st;
         try {
             if (!txtRegisterName.getText().equals("") && !txtRegisterLastName.getText().equals("")
                     && !txtRegisterID.getText().equals("") && !txtRegisterUserName.getText().equals("")
                     && !txtRegisterPassword.getText().equals("")) {
-                casaDorada.addAdmin(txtRegisterUserName.getText(), txtRegisterPassword.getText(), 0, true, null, casaDorada.getCode(), 
-                        txtRegisterName.getText(), txtRegisterLastName.getText(), Integer.parseInt(txtRegisterID.getText()), null);
-                msg = "El usuario fue agregado correctamente";
-                st = 1;
 
+                casaDorada.addAdmin(txtRegisterUserName.getText(), txtRegisterPassword.getText(), 0, true, null, casaDorada.getCode(),
+                        txtRegisterName.getText(), txtRegisterLastName.getText(), Integer.parseInt(txtRegisterID.getText()), null);
+
+                showAlert(true, "El usuario fue agregado correctamente");
                 closeStage();
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/Login.fxml"));
                 fxmlLoader.setController(this);
                 Parent root = fxmlLoader.load();
                 newStage(root);
-               
             } else {
-                msg = "El usuario debe de tener todos los campos llenos";
-                st = 2;
+                showAlert(false, "El usuario debe de tener todos los campos llenos");
             }
         } catch (Exception e) {
-            msg = "La Identificación debe ser un numero y no letras";
-            st = 3;
+            showAlert(false, "La Identificación debe ser un numero y no letras");
         }
-        showAlert(st, msg);
     }
-    
+
     @FXML
     public void onIhaveAccount(ActionEvent event) throws IOException {
         closeStage();
@@ -262,10 +236,7 @@ public class FXControllerGUI implements Initializable {
         newStage(root);
     }
 
-    /*
-    Atributos del menu y metodos
-    */
-        
+    //Atributos del menu y metodos
     @FXML
     private ImageView ivGoldHouse;
 
@@ -274,7 +245,7 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     private Pane pNewOption;
-    
+
     @FXML
     public void onExitProgram(ActionEvent event) {
         System.exit(0);
@@ -289,10 +260,13 @@ public class FXControllerGUI implements Initializable {
         Parent root = fxmlLoader.load();
         newStage(root);
     }
-    
-    /*
-    Gestionar Administradores
-    */
+
+    //Gestionar Administradores
+    @FXML
+    private JFXButton btnRemoveUsername;
+
+    @FXML
+    private JFXButton btnUptadeUsername;
 
     @FXML
     public void onGestionUser(ActionEvent event) throws IOException {
@@ -305,40 +279,32 @@ public class FXControllerGUI implements Initializable {
         pNewOption.getChildren().setAll(usernameGestion);
         onTableAdmin();
     }
-    
-    @FXML
-    private JFXButton btnRemoveUsername;
 
-    @FXML
-    private JFXButton btnUptadeUsername;
+    private int code;
     
     @FXML
-    public void onSelectAdmin (MouseEvent event) {
-        String msg;
-        int st;
+    public void onSelectAdmin(MouseEvent event) {
         Admin adminSelected;
-        if(event.getClickCount() == 2){
+        if (event.getClickCount() == 2) {
             adminSelected = tblAdmin.getSelectionModel().getSelectedItem();
-            if(adminSelected != null){
-                casaDorada.selectedAdmin(adminSelected);
+            if (adminSelected != null) {
+                code = adminSelected.getPCode();
                 btnRemoveUsername.setVisible(true);
                 btnUptadeUsername.setVisible(true);
-                msg = "Se ha seleccionado el administrador correctamente";
-                st = 1;
-                showAlert(st, msg);
+                showAlert(true, "Se ha seleccionado el administrador correctamente");
                 txtNameAdmin.setText(adminSelected.getName());
                 txtLastNameAdmin.setText(adminSelected.getLastName());
-                txtIDAdmin.setText(adminSelected.getID()+"");
+                txtIDAdmin.setText(adminSelected.getID() + "");
                 txtUsername.setText(adminSelected.getUsername());
                 txtPassword.setText(adminSelected.getPassword());
-                txtConfirmPassword.setText(adminSelected.getPassword());
+                tbStateUserName.setSelected(adminSelected.getEState());
             }
-        } else if (event.getClickCount() == 1){
+        } else if (event.getClickCount() == 1) {
             btnRemoveUsername.setVisible(false);
             btnUptadeUsername.setVisible(false);
         }
     }
-        
+
     @FXML
     private JFXTextField txtNameAdmin;
 
@@ -355,34 +321,40 @@ public class FXControllerGUI implements Initializable {
     private JFXPasswordField txtPassword;
 
     @FXML
-    private JFXPasswordField txtConfirmPassword;
-    
-    @FXML
     private JFXToggleButton tbStateUserName;
-    
+
     @FXML
     public void onUptadeAdmin(ActionEvent event) throws IOException {
-        Admin newAdmin = new Admin(txtUsername.getText(), txtPassword.getText(), 0, tbStateUserName.isSelected(), casaDorada.getAdminActive(), 
-                casaDorada.getCode(), txtNameAdmin.getText(), txtLastNameAdmin.getText(), Integer.parseInt(txtIDAdmin.getText()) , null);
-        casaDorada.setNewAdmin(newAdmin);
-        DialogUptade();
-        onTableAdmin(); 
+        boolean isActive = casaDorada.updateAdmin(code, txtUsername.getText(), txtPassword.getText(), tbStateUserName.isSelected(), casaDorada.getAdminActive(),
+                txtNameAdmin.getText(), txtLastNameAdmin.getText(), Integer.parseInt(txtIDAdmin.getText()));
+        if (!isActive) {
+            showAlert(true, "Se ha actualizado este elemento correctamente");
+            tblAdmin.refresh();
+        } else {
+            onLogOut(event);
+        }
     }
 
     @FXML
     public void onRemoveAdmin(ActionEvent event) throws IOException {
-        int index = casaDorada.getAdminIndex();
-        casaDorada.removeAdmin(index);
-        DialogEliminated();
-        onTableAdmin();
-        txtNameAdmin.clear();
-        txtLastNameAdmin.clear();
-        txtIDAdmin.clear();
-        txtUsername.clear();
-        txtPassword.clear();
-        txtConfirmPassword.clear();
+        boolean isActive = casaDorada.verifyAdmin(code);
+        if (casaDorada.removeAdmin(code)) {
+            showAlert(true, "Se ha eliminado este elemento correctamente");
+            if (casaDorada.getListAdmins().isEmpty() || isActive) {
+                onLogOut(event);
+            } else {
+                onTableAdmin();
+                txtNameAdmin.clear();
+                txtLastNameAdmin.clear();
+                txtIDAdmin.clear();
+                txtUsername.clear();
+                txtPassword.clear();
+            }
+        } else {
+            showAlert(false, "No se ha podido eliminar,\nAdmin se encuentra referenciado");
+        }
     }
-        
+
     @FXML
     private TableView<Admin> tblAdmin;
 
@@ -400,9 +372,9 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     private TableColumn<Admin, Boolean> tblAdminState;
-    
-    public void onTableAdmin(){
-        List<Admin> admin = casaDorada.getAdmin();
+
+    public void onTableAdmin() {
+        List<Admin> admin = casaDorada.getListAdmins();
         ObservableList<Admin> newTableAdmin;
         newTableAdmin = FXCollections.observableArrayList(admin);
 
@@ -412,12 +384,9 @@ public class FXControllerGUI implements Initializable {
         tblAdminID.setCellValueFactory(new PropertyValueFactory<>("ID"));
         tblAdminUserName.setCellValueFactory(new PropertyValueFactory<>("username"));
         tblAdminState.setCellValueFactory(new PropertyValueFactory<>("eState"));
-       }
+    }
 
-    /*
-    Gestionar Empleado
-    */
-    
+    //Gestionar Empleado
     @FXML
     public void onGestionEmployee(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/EmployeesGestion.fxml"));
@@ -429,34 +398,30 @@ public class FXControllerGUI implements Initializable {
         pNewOption.getChildren().setAll(employeesGestion);
         onTableEmployee();
     }
-        
+
     @FXML
     private JFXButton btnAddEmployee;
-    
+
     @FXML
     private JFXButton btnUpatedEmployee;
 
     @FXML
     private JFXButton btnRemoveEmployee;
-    
+
     @FXML
     public void onSelecetEmployee(MouseEvent event) {
-        String msg;
-        int st;
         Employee employeeSelected;
-        if(event.getClickCount() == 2){
+        if (event.getClickCount() == 2) {
             employeeSelected = tblEmployee.getSelectionModel().getSelectedItem();
-            if(employeeSelected != null){
+            if (employeeSelected != null) {
                 btnAddEmployee.setVisible(false);
                 btnUpatedEmployee.setVisible(true);
                 btnRemoveEmployee.setVisible(true);
                 casaDorada.selectedEmployee(employeeSelected);
-                msg = "Se ha seleccionado el empleado correctamente";
-                st = 1;
-                showAlert(st, msg);
+                showAlert(true, "Se ha seleccionado el empleado correctamente");
                 txtEmpName.setText(employeeSelected.getName());
                 txtEmpLastName.setText(employeeSelected.getLastName());
-                txtEmpID.setText(employeeSelected.getID()+"");
+                txtEmpID.setText(employeeSelected.getID() + "");
             }
         } else if (event.getClickCount() == 1) {
             btnAddEmployee.setVisible(true);
@@ -473,36 +438,30 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     private JFXTextField txtEmpID;
-        
+
     @FXML
     private JFXToggleButton tbStateEmployee;
-        
+
     @FXML
     public void addEmployee(ActionEvent event) throws IOException {
-        String msg;
-        int st;
-        try{
-           if (!txtEmpName.getText().equals("") && !txtEmpLastName.getText().equals("")
-                && !txtEmpID.getText().equals("")) {
+        try {
+            if (!txtEmpName.getText().equals("") && !txtEmpLastName.getText().equals("")
+                    && !txtEmpID.getText().equals("")) {
 
                 casaDorada.addEmployee(0, tbStateEmployee.isSelected(), null, casaDorada.getCode(), txtEmpName.getText(),
-                    txtEmpLastName.getText(), Integer.parseInt(txtEmpID.getText()),casaDorada.getAdminActive());
-                msg = "El empleado ha sido agregado correctamente";
-                st = 1;
+                        txtEmpLastName.getText(), Integer.parseInt(txtEmpID.getText()), casaDorada.getAdminActive());
+
+                showAlert(true, "El empleado ha sido agregado correctamente");
                 txtEmpName.clear();
                 txtEmpLastName.clear();
                 txtEmpID.clear();
                 onTableEmployee();
             } else {
-               msg = "Debes de llenar todos los campos";
-               st = 2;
-            }     
-        } catch (Exception e){
-            msg = "Ingresaste una letra en una casilla numerica, revisa tus datos";
-            st = 3;
+                showAlert(false, "Debes de llenar todos los campos");
+            }
+        } catch (Exception e) {
+            showAlert(false, "Ingresaste una letra en una casilla numerica, revisa tus datos");
         }
-        showAlert(st, msg);
-        
     }
 
     @FXML
@@ -510,29 +469,28 @@ public class FXControllerGUI implements Initializable {
         int index = casaDorada.getEmployeeIndex();
         casaDorada.removeEmployee(index);
         btnAddEmployee.setVisible(true);
-        DialogEliminated();
+        //DialogEliminated();
         onTableEmployee();
         txtEmpName.clear();
         txtEmpLastName.clear();
         txtEmpID.clear();
     }
 
-    
-    public Admin adminCreaterEmployee(){
+    public Admin adminCreaterEmployee() {
         int index = casaDorada.getEmployeeIndex();
-        return casaDorada.getEmployee().get(index).getcAdmin();
+        return casaDorada.getEmployee().get(index).getCAdmin();
     }
 
     @FXML
     public void onUptadeEmployee(ActionEvent event) throws IOException {
-        Employee newEmployee = new Employee(0, tbStateEmployee.isSelected(), casaDorada.getAdminActive(), casaDorada.getCode(),
-                txtEmpName.getText(), txtEmpLastName.getText(), Integer.parseInt(txtEmpID.getText()), adminCreaterEmployee());
-        casaDorada.setNewEmployee(newEmployee);
+        //Employee newEmployee = new Employee(0, tbStateEmployee.isSelected(), casaDorada.getAdminActive(), casaDorada.getCode(),
+                //txtEmpName.getText(), txtEmpLastName.getText(), Integer.parseInt(txtEmpID.getText()), adminCreaterEmployee());
+        //casaDorada.setNewEmployee(newEmployee);
         btnAddEmployee.setVisible(true);
-        DialogUptade();
+        //DialogUptade();
         onTableEmployee();
     }
-        
+
     @FXML
     private TableView<Employee> tblEmployee;
 
@@ -547,7 +505,7 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     private TableColumn<Employee, Boolean> tblEmployeeState;
-    
+
     public void onTableEmployee() {
         List<Employee> employee = casaDorada.getEmployee();
         ObservableList<Employee> newTableEmployee;
@@ -559,7 +517,7 @@ public class FXControllerGUI implements Initializable {
         tblEmployeeID.setCellValueFactory(new PropertyValueFactory<>("ID"));
         tblEmployeeState.setCellValueFactory(new PropertyValueFactory<>("eState"));
     }
-    
+
     @FXML
     public void onLIstEmployees(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ListEmployees.fxml"));
@@ -571,12 +529,12 @@ public class FXControllerGUI implements Initializable {
         pNewOption.getChildren().setAll(listEmployees);
         showListEmployee();
     }
-        
+
     @FXML
     public void onReportEmployee(ActionEvent event) throws IOException {
         openSelectDate();
     }
-        
+
     @FXML
     private TableView<Employee> tblEmployeeDisp;
 
@@ -588,29 +546,25 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     private TableColumn<Employee, Integer> tblEmployeeIDDisp;
-    
-    public void showListEmployee(){
+
+    public void showListEmployee() {
         ArrayList<Employee> dispEmployees = new ArrayList<>();
         List<Employee> employees = casaDorada.getEmployee();
-        for(int i = 0; i<employees.size(); i++){
-            if(employees.get(i).getEState()){
+        for (int i = 0; i < employees.size(); i++) {
+            if (employees.get(i).getEState()) {
                 dispEmployees.add(employees.get(i));
             }
         }
         ObservableList<Employee> newTableEmployee;
         newTableEmployee = FXCollections.observableArrayList(dispEmployees);
-        
+
         tblEmployeeDisp.setItems(newTableEmployee);
         tblEmployeeNameDisp.setCellValueFactory(new PropertyValueFactory<>("name"));
         tblEmployeeLNDisp.setCellValueFactory(new PropertyValueFactory<>("lastname"));
         tblEmployeeIDDisp.setCellValueFactory(new PropertyValueFactory<>("ID"));
     }
-       
 
-    /*
-    Gestionar Ingrediente
-    */
-    
+    //Gestionar Ingrediente
     @FXML
     public void onGestionIngredients(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/IngredientsGestion.fxml"));
@@ -622,86 +576,76 @@ public class FXControllerGUI implements Initializable {
         pNewOption.getChildren().setAll(ingredientsGestion);
         onTableIngredient();
     }
-    
+
     @FXML
     private JFXButton btnAddIngredient;
-        
+
     @FXML
     private JFXButton btnRemoveIngredient;
 
     @FXML
     private JFXButton btnUptadeIngredient;
-    
+
     @FXML
     public void onSelectIngredient(MouseEvent event) {
-        String msg;
-        int st;
         Ingredient ingredientSelected;
-        if(event.getClickCount() == 2){
+        if (event.getClickCount() == 2) {
             ingredientSelected = tblIngredient.getSelectionModel().getSelectedItem();
-            if(ingredientSelected != null){
+            if (ingredientSelected != null) {
                 btnAddIngredient.setVisible(false);
                 btnRemoveIngredient.setVisible(true);
                 btnUptadeIngredient.setVisible(true);
                 casaDorada.selectedIngredient(ingredientSelected);
-                msg = "Se ha seleccionado correctamente el ingrediente";
-                st = 1;
-                showAlert(st, msg);
+                showAlert(true, "Se ha seleccionado correctamente el ingrediente");
                 txtIngName.setText(ingredientSelected.getIngredientsName());
             }
-        } else if (event.getClickCount() == 1){
+        } else if (event.getClickCount() == 1) {
             btnRemoveIngredient.setVisible(false);
             btnUptadeIngredient.setVisible(false);
         }
     }
-        
+
     @FXML
     private JFXTextField txtIngName;
-    
+
     @FXML
     private JFXToggleButton tbStateIngredients;
-        
+
     @FXML
     public void addIngredient(ActionEvent event) throws IOException {
-        String msg;
-        int st;
         if (!(txtIngName.getText().equals(""))) {
-
             String ingredientsName = txtIngName.getText();
             casaDorada.addIngredient(0, ingredientsName, tbStateIngredients.isSelected(), casaDorada.getAdminActive(), null);
-            msg = "El ingrediente se ha agregado correctamente";
-            st = 1;
+            showAlert(true, "El ingrediente se ha agregado correctamente");
             txtIngName.clear();
             onTableIngredient();
         } else {
-            msg = "No puede agregar un ingrediente sin el nombre";
-            st = 2;
+            showAlert(false, "No puede agregar un ingrediente sin el nombre");
         }
-        showAlert(st, msg);
     }
-    
+
     @FXML
     public void onRemoveIngredient(ActionEvent event) throws IOException {
         int index = casaDorada.getIngredientIndex();
         casaDorada.removeIngredient(index);
         btnAddIngredient.setVisible(true);
-        DialogEliminated();
+        //DialogEliminated();
         onTableIngredient();
         txtIngName.clear();
     }
-    
-    public Admin adminCreaterIngredient(){
+
+    public Admin adminCreaterIngredient() {
         int index = casaDorada.getIngredientIndex();
         return casaDorada.getIngredient().get(index).getCiAdmin();
     }
 
     @FXML
     public void onUptadeIngredient(ActionEvent event) throws IOException {
-        Ingredient newIngredient = new Ingredient(0, txtIngName.getText(), tbStateIngredients.isSelected(), 
+        Ingredient newIngredient = new Ingredient(0, txtIngName.getText(), tbStateIngredients.isSelected(),
                 adminCreaterIngredient(), casaDorada.getAdminActive());
         casaDorada.setNewIngredient(newIngredient);
         btnAddIngredient.setVisible(true);
-        DialogUptade();
+        //DialogUptade();
         onTableIngredient();
 
     }
@@ -714,17 +658,17 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     private TableColumn<Ingredient, Boolean> tblIngredientState;
-    
-    public void onTableIngredient(){
+
+    public void onTableIngredient() {
         List<Ingredient> ingredients = casaDorada.getIngredient();
         ObservableList<Ingredient> newTableIngredient;
         newTableIngredient = FXCollections.observableArrayList(ingredients);
-        
+
         tblIngredient.setItems(newTableIngredient);
         tblIngredientNameGestion.setCellValueFactory(new PropertyValueFactory<>("ingredientsName"));
         tblIngredientState.setCellValueFactory(new PropertyValueFactory<>("ingredientsState"));
     }
-    
+
     @FXML
     public void onLIstIngredients(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ListIngredients.fxml"));
@@ -736,48 +680,46 @@ public class FXControllerGUI implements Initializable {
         pNewOption.getChildren().setAll(listIngredients);
         showListIngredient();
     }
-    
+
     @FXML
     public void onReportIngredients(ActionEvent event) throws IOException {
         openSelectDate();
     }
-    
+
     @FXML
     private TableView<Ingredient> tblIngredientDisp;
 
     @FXML
     private TableColumn<Ingredient, String> tblIngredientNameDisp;
-    
-    public void showListIngredient(){
+
+    public void showListIngredient() {
         ArrayList<Ingredient> dispIngredients = new ArrayList<>();
         List<Ingredient> ingredients = casaDorada.getIngredient();
-        for(int i = 0; i<ingredients.size(); i++){
-            if(ingredients.get(i).getIngredientsState()){
+        for (int i = 0; i < ingredients.size(); i++) {
+            if (ingredients.get(i).getIngredientsState()) {
                 dispIngredients.add(ingredients.get(i));
             }
         }
         ObservableList<Ingredient> newTableIngredient;
         newTableIngredient = FXCollections.observableArrayList(dispIngredients);
-        
+
         tblIngredientDisp.setItems(newTableIngredient);
         tblIngredientNameDisp.setCellValueFactory(new PropertyValueFactory<>("ingredientsName"));
     }
-    
-    
+
     /*
     Gestionar Tipo de producto
-    */
-    
+     */
     @FXML
     private JFXTextField txtTpName;
-    
+
     @FXML
     private JFXToggleButton tbStateTypeProduct;
-    
+
     @FXML
     private JFXButton btnAddTypeProduct;
-    
-     @FXML
+
+    @FXML
     private TableView<TypeProduct> tblTypeProduct;
 
     @FXML
@@ -785,11 +727,10 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     private TableColumn<TypeProduct, Boolean> tblTypeProductState;
-    
+
     /*
     Gestion Cliente
-    */
-    
+     */
     @FXML
     private JFXTextField txtCName;
 
@@ -807,13 +748,13 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     private JFXTextField txtCObser;
-        
+
     @FXML
     private JFXToggleButton tbStateClient;
-    
+
     @FXML
     private JFXButton btnAddClient;
-    
+
     @FXML
     private TableView<Client> tblClients;
 
@@ -834,18 +775,16 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     private TableColumn<Client, String> tblClientObservationsGestion;
-        
+
     @FXML
     private TableColumn<Client, Boolean> tblClientStateGestion;
 
     /*
     Gestionar Productos
-    */
-
-    
+     */
     @FXML
     private Pane pChooseIng;
-    
+
     @FXML
     private TableView<Ingredient> tblChooseIngredient;
 
@@ -869,11 +808,10 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     private JFXTextField txtProductPrice;
-    
+
     @FXML
     private JFXToggleButton tbStateProduct;
-    
-    
+
     @FXML
     private TableView<Product> tblProduct;
 
@@ -888,35 +826,30 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     private TableColumn<Product, String> tblProductSize;
-    
+
     @FXML
     private TableColumn<Product, Double> tblProductPrice;
-    
+
     @FXML
     private TableColumn<Product, Boolean> tblProductState;
 
     /*
     Gestionar Pedidos
-    */
-    
+     */
     @FXML
     private Pane pChooseProduct;
 
     /*
     Listar
-    */
-
-    
-        //Atributos tipo de producto
-        
+     */
+    //Atributos tipo de producto
     @FXML
     private TableView<TypeProduct> tblDispTP;
 
     @FXML
     private TableColumn<TypeProduct, String> tblDispNameTP;
-    
-        //Atributos cliente
 
+    //Atributos cliente
     @FXML
     private TableView<Client> tblDispClient;
 
@@ -937,10 +870,8 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     private TableColumn<Client, String> tblDispObserClient;
-    
-        //Atributos empleado
 
-    
+    //Atributos empleado
     //Buscar cliente para los pedidos
     @FXML
     private Pane pSearchClient;
@@ -953,16 +884,12 @@ public class FXControllerGUI implements Initializable {
     Funciones de los botones del
     MenuBar
      */
-        /*
+ /*
         Salir del programa y cuenta
-        */
-
-
-    /*
+     */
+ /*
         Gestion de los objetos 
      */
-
-
     @FXML
     public void onGestionClients(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ClientsGestion.fxml"));
@@ -1014,7 +941,6 @@ public class FXControllerGUI implements Initializable {
     /*
         Listar los objetos
      */
-    
     @FXML
     public void onLIstClients(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ListClients.fxml"));
@@ -1026,8 +952,6 @@ public class FXControllerGUI implements Initializable {
         pNewOption.getChildren().setAll(listClients);
         showListClient();
     }
-
-
 
     @FXML
     public void onLIstProducts(ActionEvent event) throws IOException {
@@ -1063,13 +987,10 @@ public class FXControllerGUI implements Initializable {
         pNewOption.getChildren().setAll(listOrder);
     }
 
-        /*
+    /*
         Metodo para generar los reportes
         Solo muestra la pantalla
-        */
-
-    
-
+     */
     //Gestion de los pedidos
     @FXML
     public void onChooseClient(ActionEvent event) throws IOException {
@@ -1104,9 +1025,6 @@ public class FXControllerGUI implements Initializable {
     /*
     Seleccionar el reporte que se desea generar
      */
-
-
-
     @FXML
     public void onReportOrder(ActionEvent event) throws IOException {
         openSelectDate();
@@ -1120,7 +1038,6 @@ public class FXControllerGUI implements Initializable {
     /*
         Salir de la pantalla de generar reportes
      */
-    
     @FXML
     public void onExitSelectDate(ActionEvent event) {
         Stage stage = (Stage) pSelectDate.getScene().getWindow();
@@ -1130,23 +1047,22 @@ public class FXControllerGUI implements Initializable {
     /*
     Gestionar Producto
      */
-        /*
+ /*
         Agregar producto
-        */
-    
+     */
     private Ingredient ingredientSelect;
     private TypeProduct typeProductSelect;
     private ArrayList<TypeProduct> typeProductsInP = new ArrayList<>();
     private ArrayList<Ingredient> ingredientsInP = new ArrayList<>();
-    
+
     @FXML
     private JFXComboBox<Ingredient> cbxIngDisp;
-    
+
     @FXML
     private JFXComboBox<TypeProduct> cbxTypeDisp;
-    
+
     @FXML
-    public void onAddIngredientsToProduct (ActionEvent event) throws IOException {
+    public void onAddIngredientsToProduct(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ChooseIngredients.fxml"));
 
         fxmlLoader.setController(this);
@@ -1165,24 +1081,23 @@ public class FXControllerGUI implements Initializable {
         newStage(chooseTypeProduct);
         onTableChooseTypeProduct();
         showTPDisp();
-        
+
     }
-    
+
     @FXML
     public void onExitChooseIngredient(ActionEvent event) {
-        Stage stage= (Stage) pChooseIng.getScene().getWindow();
+        Stage stage = (Stage) pChooseIng.getScene().getWindow();
         stage.close();
     }
-    
+
     @FXML
     public void onExitChooseType(ActionEvent event) {
         Stage stage = (Stage) pChooseType.getScene().getWindow();
         stage.close();
     }
 
-    
     @FXML
-    public void onAddProduct(ActionEvent event) throws IOException{
+    public void onAddProduct(ActionEvent event) throws IOException {
         JFXDialogLayout content = new JFXDialogLayout();
         JFXButton button = new JFXButton("Okay");
         JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
@@ -1217,53 +1132,53 @@ public class FXControllerGUI implements Initializable {
             dialog.show();
         }
     }
-    
+
     @FXML
     public void onAddIngredientToP(ActionEvent event) {
-        if(cbxIngDisp.getValue() != null){
+        if (cbxIngDisp.getValue() != null) {
             ingredientSelect = cbxIngDisp.getValue();
             ingredientsInP.add(ingredientSelect);
         }
         onTableChooseIngredient();
     }
-    
+
     @FXML
     public void onAddTypeToP(ActionEvent event) {
-        if(cbxTypeDisp.getValue() != null){
+        if (cbxTypeDisp.getValue() != null) {
             typeProductSelect = cbxTypeDisp.getValue();
             typeProductsInP.add(typeProductSelect);
         }
         onTableChooseTypeProduct();
     }
 
-    public void showIngredientsDisp(){
+    public void showIngredientsDisp() {
         ArrayList<Ingredient> ingredientToProduct = new ArrayList<>();
         List<Ingredient> ingredients = casaDorada.getIngredient();
-        for(int i = 0; i<ingredients.size(); i++){
-            if(ingredients.get(i).getIngredientsState()){
+        for (int i = 0; i < ingredients.size(); i++) {
+            if (ingredients.get(i).getIngredientsState()) {
                 ingredientToProduct.add(ingredients.get(i));
             }
         }
         ObservableList<Ingredient> obs;
         obs = FXCollections.observableArrayList(ingredientToProduct);
-        
+
         cbxIngDisp.setItems(obs);
     }
-    
-    public void showTPDisp(){
+
+    public void showTPDisp() {
         ArrayList<TypeProduct> typeProductToProduct = new ArrayList<>();
         List<TypeProduct> typeProducts = casaDorada.getTypeProduc();
-        for(int i = 0; i<typeProducts.size(); i++){
-            if(typeProducts.get(i).getTypeState()){
+        for (int i = 0; i < typeProducts.size(); i++) {
+            if (typeProducts.get(i).getTypeState()) {
                 typeProductToProduct.add(typeProducts.get(i));
             }
         }
         ObservableList<TypeProduct> obs;
         obs = FXCollections.observableArrayList(typeProductToProduct);
-        
+
         cbxTypeDisp.setItems(obs);
     }
-    
+
     public void onTableChooseIngredient() {
         ObservableList<Ingredient> newTableIngredient;
         newTableIngredient = FXCollections.observableArrayList(ingredientsInP);
@@ -1271,7 +1186,7 @@ public class FXControllerGUI implements Initializable {
         tblChooseIngredient.setItems(newTableIngredient);
         tblIngName.setCellValueFactory(new PropertyValueFactory<>("ingredientsName"));
     }
-    
+
     public void onTableChooseTypeProduct() {
         ObservableList<TypeProduct> newTableTypeProduct;
         newTableTypeProduct = FXCollections.observableArrayList(typeProductsInP);
@@ -1279,7 +1194,7 @@ public class FXControllerGUI implements Initializable {
         tblChooseTypeProduct.setItems(newTableTypeProduct);
         tblTypeProductName.setCellValueFactory(new PropertyValueFactory<>("typeName"));
     }
-    
+
     public void onTableProduct() {
         List<Product> products = casaDorada.getProduct();
         ObservableList<Product> newTableProduct;
@@ -1291,28 +1206,20 @@ public class FXControllerGUI implements Initializable {
         tblProductPrice.setCellValueFactory(new PropertyValueFactory<>("prPrice"));
         tblProductState.setCellValueFactory(new PropertyValueFactory<>("prState"));
     }
-    
-    
+
     /*
     Gestionar Ingredientes
      */
-        /*
+ /*
         Agregar Ingrediente
-        */
-
-    
-    
-    
-        /*
+     */
+ /*
         Eliminar Ingrediente
-        */
+     */
 
-        /*
+ /*
         Actualizar Ingrediente
-        */
-     
-
-
+     */
     //ads
     @FXML
     private JFXButton btnAddProduct;
@@ -1322,7 +1229,7 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     private JFXButton btnUpdateProduct;
-    
+
     @FXML
     public void onSelectedProduct(MouseEvent event) {
         JFXDialogLayout content = new JFXDialogLayout();
@@ -1344,7 +1251,7 @@ public class FXControllerGUI implements Initializable {
                 btnUpdateProduct.setVisible(true);
                 casaDorada.selectedProduct(productSelected);
                 content.setHeading(new Text("¡Listo!"));
-                content.setBody(new Text("El ingrediente " + productSelected.getPrName()+ " fue seleccionado exitosamente."));
+                content.setBody(new Text("El ingrediente " + productSelected.getPrName() + " fue seleccionado exitosamente."));
                 dialog.show();
                 ingredientsInP = productSelected.getIngredientInProduct();
                 typeProductsInP = productSelected.getTypeProductInProduct();
@@ -1365,15 +1272,13 @@ public class FXControllerGUI implements Initializable {
             btnUpdateProduct.setVisible(false);
         }
     }
-    
-    
+
     /*
     Gestionar tipo de productos
-    */
-        /*
+     */
+ /*
         Agregar tipo de producto
-        */
-    
+     */
     @FXML
     public void addTypeProduct(ActionEvent event) throws IOException {
         JFXDialogLayout content = new JFXDialogLayout();
@@ -1402,42 +1307,39 @@ public class FXControllerGUI implements Initializable {
             dialog.show();
         }
     }
-    
-    public void onTableTypeProduct(){
+
+    public void onTableTypeProduct() {
         List<TypeProduct> typeProducts = casaDorada.getTypeProduc();
         ObservableList<TypeProduct> newTableTypeProduct;
         newTableTypeProduct = FXCollections.observableArrayList(typeProducts);
-        
+
         tblTypeProduct.setItems(newTableTypeProduct);
         tblTypeProductNameGestion.setCellValueFactory(new PropertyValueFactory<>("typeName"));
         tblTypeProductState.setCellValueFactory(new PropertyValueFactory<>("typeState"));
     }
-        
-        /*
+
+    /*
         Eliminar tipo de producto
-        */
-    
+     */
     @FXML
     public void onRemoveTypeProduct(ActionEvent event) throws IOException {
         int index = casaDorada.getTypeProductIndex();
         casaDorada.removeTypeProduct(index);
         btnAddTypeProduct.setVisible(true);
-        DialogEliminated();
+        //DialogEliminated();
         onTableTypeProduct();
         txtTpName.clear();
     }
-    
-        /*
+
+    /*
         Actualizar tipo de producto
-        */
-    
-    
+     */
     @FXML
     private JFXButton btnRemoveType;
 
     @FXML
     private JFXButton btnUptadeType;
-       
+
     @FXML
     public void onSelectType(MouseEvent event) {
         JFXDialogLayout content = new JFXDialogLayout();
@@ -1451,26 +1353,26 @@ public class FXControllerGUI implements Initializable {
         });
         content.setActions(button);
         TypeProduct typeProductSelected;
-        if(event.getClickCount() == 2){
+        if (event.getClickCount() == 2) {
             typeProductSelected = tblTypeProduct.getSelectionModel().getSelectedItem();
-            if(typeProductSelected != null){
+            if (typeProductSelected != null) {
                 btnAddTypeProduct.setVisible(false);
                 btnRemoveType.setVisible(true);
                 btnUptadeType.setVisible(true);
                 casaDorada.selectedTypeIngredient(typeProductSelected);
                 content.setHeading(new Text("¡Listo!"));
-                content.setBody(new Text("El tipo de producto "+typeProductSelected.getTypeName()+" fue seleccionado exitosamente."));
+                content.setBody(new Text("El tipo de producto " + typeProductSelected.getTypeName() + " fue seleccionado exitosamente."));
                 dialog.show();
                 txtTpName.setText(typeProductSelected.getTypeName());
             }
-        } else if (event.getClickCount() == 1){
+        } else if (event.getClickCount() == 1) {
             btnAddTypeProduct.setVisible(true);
             btnRemoveType.setVisible(false);
             btnUptadeType.setVisible(false);
         }
     }
-    
-    public Admin adminCreaterTP(){
+
+    public Admin adminCreaterTP() {
         int index = casaDorada.getTypeProductIndex();
         return casaDorada.getTypeProduc().get(index).getCtpAdmin();
     }
@@ -1481,17 +1383,16 @@ public class FXControllerGUI implements Initializable {
                 adminCreaterTP(), casaDorada.getAdminActive());
         casaDorada.setNewTypeProduct(newTypeProduct);
         btnAddTypeProduct.setVisible(true);
-        DialogUptade();
+        //DialogUptade();
         onTableTypeProduct();
     }
 
-     /*
+    /*
      Gestionar Cliente
      */
-        /*
+ /*
         Agregar Cliente
-        */
-
+     */
     @FXML
     public void addClient(ActionEvent event) throws IOException {
         JFXDialogLayout content = new JFXDialogLayout();
@@ -1504,10 +1405,10 @@ public class FXControllerGUI implements Initializable {
             }
         });
         content.setActions(button);
-        try{
-           if(!(txtCName.getText().equals("")) && !(txtCLastName.getText().equals("")) && !(txtCID.getText().equals(""))
-                && !(txtCPhone.getText().equals("")) && !(txtCAddress.getText().equals(""))){
-            
+        try {
+            if (!(txtCName.getText().equals("")) && !(txtCLastName.getText().equals("")) && !(txtCID.getText().equals(""))
+                    && !(txtCPhone.getText().equals("")) && !(txtCAddress.getText().equals(""))) {
+
                 String cName = txtCName.getText();
                 String cLastName = txtCLastName.getText();
                 int cID = Integer.parseInt(txtCID.getText());
@@ -1515,8 +1416,8 @@ public class FXControllerGUI implements Initializable {
                 String cAddress = txtCAddress.getText();
                 String cObser = txtCObser.getText();
                 casaDorada.addClient(cAddress, cPhone, cObser, tbStateClient.isSelected(), null, casaDorada.getCode(),
-                    cName, cLastName, cID, casaDorada.getAdminActive());
-            
+                        cName, cLastName, cID, casaDorada.getAdminActive());
+
                 content.setHeading(new Text("¡Listo!"));
                 content.setBody(new Text("El Cliente fue creado exitosamente."));
                 dialog.show();
@@ -1528,25 +1429,25 @@ public class FXControllerGUI implements Initializable {
                 txtCAddress.clear();
                 txtCObser.clear();
             } else {
-            content.setHeading(new Text("¡Error!"));
-            content.setBody(new Text("Todos los campos son obligatorios, menos las observaciones."));
-            dialog.show();  
-            } 
-        } catch (Exception e){
+                content.setHeading(new Text("¡Error!"));
+                content.setBody(new Text("Todos los campos son obligatorios, menos las observaciones."));
+                dialog.show();
+            }
+        } catch (Exception e) {
             content.setHeading(new Text("¡Error!"));
             content.setBody(new Text("No puedes ingresar letras en la identificación o el numero de telefono."));
             dialog.show();
-                txtCID.clear();
-                txtCPhone.clear();
+            txtCID.clear();
+            txtCPhone.clear();
         }
-        
+
     }
-    
-    public  void onTableClient(){
+
+    public void onTableClient() {
         List<Client> clients = casaDorada.getClient();
         ObservableList<Client> newTableClient;
         newTableClient = FXCollections.observableArrayList(clients);
-        
+
         tblClients.setItems(newTableClient);
         tblClientNameGestion.setCellValueFactory(new PropertyValueFactory<>("name"));
         tblClientLNGestion.setCellValueFactory(new PropertyValueFactory<>("lastName"));
@@ -1556,17 +1457,16 @@ public class FXControllerGUI implements Initializable {
         tblClientObservationsGestion.setCellValueFactory(new PropertyValueFactory<>("cObservations"));
         tblClientStateGestion.setCellValueFactory(new PropertyValueFactory<>("cState"));
     }
-    
-        /*
+
+    /*
         Eliminar Cliente
-        */
-        
+     */
     @FXML
     public void onRemoveClient(ActionEvent event) throws IOException {
         int index = casaDorada.getClientIndex();
         casaDorada.removeClient(index);
         btnAddClient.setVisible(true);
-        DialogEliminated();
+        //DialogEliminated();
         onTableClient();
         txtCName.clear();
         txtCLastName.clear();
@@ -1575,17 +1475,16 @@ public class FXControllerGUI implements Initializable {
         txtCAddress.clear();
         txtCObser.clear();
     }
-    
-        /*
+
+    /*
         Actualizar Cliente
-        */    
-    
+     */
     @FXML
     private JFXButton btnRemoveClient;
 
     @FXML
     private JFXButton btnUptadeClient;
-    
+
     @FXML
     public void onSelectClient(MouseEvent event) {
         JFXDialogLayout content = new JFXDialogLayout();
@@ -1599,98 +1498,87 @@ public class FXControllerGUI implements Initializable {
         });
         content.setActions(button);
         Client clientSelected;
-        if(event.getClickCount() == 2){
+        if (event.getClickCount() == 2) {
             clientSelected = tblClients.getSelectionModel().getSelectedItem();
-            if(clientSelected != null){
+            if (clientSelected != null) {
                 btnAddClient.setVisible(false);
                 btnUptadeClient.setVisible(true);
                 btnRemoveClient.setVisible(true);
                 casaDorada.selectedClient(clientSelected);
                 content.setHeading(new Text("¡Listo!"));
-                content.setBody(new Text("El cliente "+clientSelected.getName()+" fue seleccionado exitosamente."));
+                content.setBody(new Text("El cliente " + clientSelected.getName() + " fue seleccionado exitosamente."));
                 dialog.show();
                 txtCName.setText(clientSelected.getName());
                 txtCLastName.setText(clientSelected.getLastName());
-                txtCID.setText(clientSelected.getID()+"");
-                txtCPhone.setText(clientSelected.getCPhone()+"");
+                txtCID.setText(clientSelected.getID() + "");
+                txtCPhone.setText(clientSelected.getCPhone() + "");
                 txtCAddress.setText(clientSelected.getCAddress());
                 txtCObser.setText(clientSelected.getCObservations());
             }
-        } else if (event.getClickCount() == 1){
+        } else if (event.getClickCount() == 1) {
             btnAddClient.setVisible(true);
             btnUptadeClient.setVisible(false);
             btnRemoveClient.setVisible(false);
         }
     }
-        
-    public Admin adminCreaterClient(){
+
+    public Admin adminCreaterClient() {
         int index = casaDorada.getClientIndex();
-        return casaDorada.getClient().get(index).getcAdmin();
+        return casaDorada.getClient().get(index).getCAdmin();
     }
 
     @FXML
     public void onUptadeClient(ActionEvent event) throws IOException {
-        Client newClient = new Client(txtCAddress.getText(), Integer.parseInt(txtCPhone.getText()), txtCObser.getText(), 
-                tbStateClient.isSelected(), casaDorada.getAdminActive(), casaDorada.getCode(), txtCName.getText(), txtCLastName.getText(),
-                Integer.parseInt(txtCID.getText()), adminCreaterClient());
-        casaDorada.setNewClient(newClient);
+        //Client newClient = new Client(txtCAddress.getText(), Integer.parseInt(txtCPhone.getText()), txtCObser.getText(),
+                //tbStateClient.isSelected(), casaDorada.getAdminActive(), casaDorada.getCode(), txtCName.getText(), txtCLastName.getText(),
+                //Integer.parseInt(txtCID.getText()), adminCreaterClient());
+        //casaDorada.setNewClient(newClient);
         btnAddClient.setVisible(true);
-        DialogUptade();
+        //DialogUptade();
         onTableClient();
     }
 
-    
     /*
     Listar las arrayList de los objetos
-    */
-        /*
+     */
+ /*
         Listar ingredientes
-        */
-    
-
-    
-        /*
+     */
+ /*
         Listar tipo de productos
-        */
-
-    
-    public void showListTypeProduct(){
+     */
+    public void showListTypeProduct() {
         ArrayList<TypeProduct> dispTypeProduct = new ArrayList<>();
         List<TypeProduct> typeProducts = casaDorada.getTypeProduc();
-        for(int i = 0; i<typeProducts.size(); i++){
-            if(typeProducts.get(i).getTypeState()){
+        for (int i = 0; i < typeProducts.size(); i++) {
+            if (typeProducts.get(i).getTypeState()) {
                 dispTypeProduct.add(typeProducts.get(i));
             }
         }
         ObservableList<TypeProduct> newTableTypeProduct;
         newTableTypeProduct = FXCollections.observableArrayList(dispTypeProduct);
-        
+
         tblDispTP.setItems(newTableTypeProduct);
         tblDispNameTP.setCellValueFactory(new PropertyValueFactory<>("typeName"));
     }
-    
-        /*
+
+    /*
         Listar empleados
-        */
-
-
-        
-        /*
+     */
+ /*
         Listar clientes
-        */
-
-    
-    public void showListClient(){
+     */
+    public void showListClient() {
         ArrayList<Client> dispClient = new ArrayList<>();
         List<Client> clients = casaDorada.getClient();
-        for(int i = 0; i<clients.size(); i++){
-            if(clients.get(i).getCState()){
+        for (int i = 0; i < clients.size(); i++) {
+            if (clients.get(i).getCState()) {
                 dispClient.add(clients.get(i));
             }
         }
         ObservableList<Client> newTableClient;
         newTableClient = FXCollections.observableArrayList(dispClient);
-        
+
         tblDispClient.setItems(newTableClient);
         tblDispNameClient.setCellValueFactory(new PropertyValueFactory<>("name"));
         tblDispLNClient.setCellValueFactory(new PropertyValueFactory<>("lastName"));
@@ -1700,40 +1588,7 @@ public class FXControllerGUI implements Initializable {
         tblDispObserClient.setCellValueFactory(new PropertyValueFactory<>("cObservations"));
     }
 
-        /*
+    /*
         Listar productos
-        */
-
-    public void DialogUptade(){
-        JFXDialogLayout content = new JFXDialogLayout();
-        JFXButton button = new JFXButton("Okay");
-        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                dialog.close();
-            }
-        });
-        content.setActions(button);
-        content.setHeading(new Text("¡Listo!"));
-        content.setBody(new Text("Se ha actualizado este elemento correctamente"));
-        dialog.show();
-    }
-    
-    public void DialogEliminated(){
-        JFXDialogLayout content = new JFXDialogLayout();
-        JFXButton button = new JFXButton("Okay");
-        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                dialog.close();
-            }
-        });
-        content.setActions(button);
-        content.setHeading(new Text("¡Listo!"));
-        content.setBody(new Text("Se ha eliminaod este elemento correctamente"));
-        dialog.show();
-    }
-    
+     */
 }

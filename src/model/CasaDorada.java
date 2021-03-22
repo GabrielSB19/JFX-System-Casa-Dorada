@@ -13,15 +13,15 @@ import java.util.List;
 public class CasaDorada implements Serializable {
 
     private static final long serialVersionUID = 1;
-    
+
     private final String SAVE_PATH_FILE_ADMIN = "data/Admin.cgd";
     private final String SAVE_PATH_FILE_CLIENT = "data/Client.cgd";
     private final String SAVE_PATH_FILE_EMPLOYEE = "data/Employee.cgd";
     private final String SAVE_PATH_FILE_INGREDIENT = "data/Ingredient.cgd";
-    private final String SAVE_PATH_FILE_TYPEPRODUCT = "data/TypeProduc.cgd";
+    private final String SAVE_PATH_FILE_TYPEPRODUCT = "data/TypeProduct.cgd";
     private final String SAVE_PATH_FILE_PRODUCT = "data/Product.cgd";
     private final String SAVE_PATH_FILE_CODE = "data/Code.cgd";
-    
+
     private int code;
     private List<Admin> listAdmins;
     private List<Client> listClients;
@@ -31,7 +31,7 @@ public class CasaDorada implements Serializable {
     private List<Product> listProducts;
     private List<TypeProduct> listTypeProducts;
     private Admin adminActive;
-    
+
     public CasaDorada() {
         listAdmins = new ArrayList<>();
         listClients = new ArrayList<>();
@@ -41,7 +41,7 @@ public class CasaDorada implements Serializable {
         listProducts = new ArrayList<>();
         code = 0;
     }
-    
+
     public void loadDataAdmin() throws IOException {
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE_ADMIN)));
@@ -51,7 +51,7 @@ public class CasaDorada implements Serializable {
             e.printStackTrace();
         }
     }
-    
+
     public void loadDataClient() throws IOException {
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE_CLIENT)));
@@ -81,7 +81,7 @@ public class CasaDorada implements Serializable {
             e.printStackTrace();
         }
     }
-    
+
     public void loadDatTypeProduct() throws IOException {
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE_TYPEPRODUCT)));
@@ -91,7 +91,7 @@ public class CasaDorada implements Serializable {
             e.printStackTrace();
         }
     }
-    
+
     public void loadDataProduct() throws IOException {
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE_PRODUCT)));
@@ -111,248 +111,261 @@ public class CasaDorada implements Serializable {
             e.printStackTrace();
         }
     }
-    
+
     public void saveDataAdmin() throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_ADMIN));
         oos.writeObject(listAdmins);
         oos.close();
     }
-    
+
     public void saveDataClient() throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_CLIENT));
         oos.writeObject(listClients);
         oos.close();
     }
-    
+
     public void saveDataEmployee() throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_EMPLOYEE));
         oos.writeObject(listEmployees);
         oos.close();
     }
-    
+
     public void saveDataIngredient() throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_INGREDIENT));
         oos.writeObject(listIngredients);
         oos.close();
     }
-    
+
     public void saveDataTypeProduct() throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_TYPEPRODUCT));
         oos.writeObject(listTypeProducts);
         oos.close();
     }
-    
+
     public void saveDataProduct() throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_PRODUCT));
         oos.writeObject(listProducts);
         oos.close();
     }
-    
-    public void saveDataCode() throws IOException{
+
+    public void saveDataCode() throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_CODE));
         oos.writeObject(code);
         oos.close();
     }
-    
-    public boolean login(String username, String password){
+
+    public boolean login(String username, String password) {
         for (int i = 0; i < listAdmins.size(); i++) {
-            if (listAdmins.get(i).getUsername().equals(username) && listAdmins.get(i).getPassword().equals(password)) {
+            if (listAdmins.get(i).getUsername().equals(username) && listAdmins.get(i).getPassword().equals(password) && listAdmins.get(i).getEState()) {
                 adminActive = listAdmins.get(i);
                 return true;
             }
         }
         return false;
     }
-    
-    public int getCode(){
+
+    public int getCode() {
         return code;
     }
 
     /*
     Metodos relacionados con los admin
-    */
-    
+     */
     private int adminIndex;
-    
-    public void addAdmin(String username, String password, int numOrder, boolean eState, Admin mAdmin, int pCode, String name, String lastName, int ID, Admin cAdmin) throws IOException {
 
-        Admin newAdmin = new Admin(username, password, numOrder, true, null, code++, name, lastName, ID, cAdmin);
+    public void addAdmin(String username, String password, int numOrder, boolean eState, Admin mAdmin, int pCode, String name, String lastName, int ID, Admin cAdmin) throws IOException {
+        Admin newAdmin = new Admin(username, password, numOrder, true, null, 0, code++, name, lastName, ID, cAdmin);
         listAdmins.add(newAdmin);
         saveDataCode();
         saveDataAdmin();
     }
-    
-    public List<Admin> getAdmin(){
-        return listAdmins;
-    }
-    
-        
-    public Admin getAdminActive(){
-        return adminActive;
-    }
-    
-    public int getAdminIndex(){
-        return adminIndex;
-    }
-    
-    public void selectedAdmin(Admin adminNew){
-        for(int i = 0; i<listAdmins.size(); i++){
-            if(listAdmins.get(i) == adminNew){
-                adminIndex = i; 
+
+    public boolean updateAdmin(int code, String username, String password, boolean eState, Admin mAdmin, String name, String lastName, int ID) throws IOException {
+        for (int i = 0; i < listAdmins.size(); i++) {
+            if (listAdmins.get(i).getPCode() == code) {
+                listAdmins.get(i).setUsername(username);
+                listAdmins.get(i).setPassword(password);
+                listAdmins.get(i).setEState(eState);
+                listAdmins.get(i).setMAdmin(mAdmin);
+                listAdmins.get(i).setName(name);
+                listAdmins.get(i).setLastName(lastName);
+                listAdmins.get(i).setID(ID);
+                saveDataAdmin();
+                System.out.println(adminActive.getName());
+                System.out.println(listAdmins.get(i).getName());
+                System.out.println(listAdmins.get(i).getEState());
+                if (!listAdmins.get(i).getEState() && listAdmins.get(i) == adminActive) {
+                    return true;
+                }
+                break;
             }
         }
+        return false;
     }
 
-    public void setNewAdmin(Admin newAdmin) throws IOException{
-        listAdmins.set(adminIndex, newAdmin);
-        saveDataAdmin();
+    public List<Admin> getListAdmins() {
+        return listAdmins;
     }
-            
-    public void removeAdmin(int indexAdmin) throws IOException{
-        listAdmins.remove(indexAdmin);
-        saveDataAdmin();
+
+    public Admin getAdminActive() {
+        return adminActive;
     }
-    
+
+    public boolean removeAdmin(int code) throws IOException {
+        for (int i = 0; i < listAdmins.size(); i++) {
+            if (listAdmins.get(i).getPCode() == code && listAdmins.get(i).getPRef() == 0) {
+                listAdmins.remove(i);
+                saveDataAdmin();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean verifyAdmin(int code) throws IOException {
+        for (int i = 0; i < listAdmins.size(); i++) {
+            if (listAdmins.get(i).getPCode() == code && listAdmins.get(i) == adminActive) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /*
     Metodos relacionados con los clientes
-    */
-    
+     */
     private int clientIndex;
-    
-    public void addClient(String cAddress, int cPhone, String cObservations, boolean cState, Admin mcAdmin, int pCode, String name, String lastName, int ID, Admin cAdmin) throws IOException{
-        
-        Client newClient = new Client(cAddress, cPhone, cObservations, cState, null, code++, name, lastName, ID, cAdmin);      
-        listClients.add(newClient);
+
+    public void addClient(String cAddress, int cPhone, String cObservations, boolean cState, Admin mcAdmin, int pCode, String name, String lastName, int ID, Admin cAdmin) throws IOException {
+
+        //Client newClient = new Client(cAddress, cPhone, cObservations, cState, null, code++, name, lastName, ID, cAdmin);
+        //listClients.add(newClient);
         saveDataCode();
         saveDataClient();
     }
-    
-    public List<Client> getClient(){
+
+    public List<Client> getClient() {
         return listClients;
     }
-        
-    public int getClientIndex(){
+
+    public int getClientIndex() {
         return clientIndex;
     }
-    
-    public void selectedClient(Client clientNew){
-        for(int i = 0; i<listClients.size(); i++){
-            if(listClients.get(i) == clientNew){
+
+    public void selectedClient(Client clientNew) {
+        for (int i = 0; i < listClients.size(); i++) {
+            if (listClients.get(i) == clientNew) {
                 clientIndex = i;
             }
         }
     }
-    
-    public void setNewClient(Client newClient) throws IOException{
+
+    public void setNewClient(Client newClient) throws IOException {
         listClients.set(clientIndex, newClient);
         saveDataClient();
     }
-    
-    public void removeClient(int indexClient) throws IOException{
+
+    public void removeClient(int indexClient) throws IOException {
         listClients.remove(indexClient);
         saveDataClient();
     }
-    
+
     /*
     Metodos relacionados con los Empleados
-    */
-    
-    public void addEmployee(int numOrder, boolean eState, Admin mAdmin, int pCode, String name, String lastName, int ID, Admin cAdmin) throws IOException{
-        
-        Employee newEmployee = new Employee(numOrder, true, null, code++, name, lastName, ID, cAdmin);
-        listEmployees.add(newEmployee);
+     */
+    public void addEmployee(int numOrder, boolean eState, Admin mAdmin, int pCode, String name, String lastName, int ID, Admin cAdmin) throws IOException {
+
+        //Employee newEmployee = new Employee(numOrder, true, null, code++, name, lastName, ID, cAdmin);
+        //listEmployees.add(newEmployee);
         saveDataEmployee();
         saveDataCode();
-        
+
     }
-    
-    public List<Employee> getEmployee(){
+
+    public List<Employee> getEmployee() {
         return listEmployees;
     }
-        
+
     private int employeeIndex;
-    
-    public int getEmployeeIndex(){
+
+    public int getEmployeeIndex() {
         return employeeIndex;
     }
-    
-    public void selectedEmployee(Employee employeeNew){
-        for(int i = 0; i<listEmployees.size(); i++){
-            if(listEmployees.get(i) == employeeNew){
+
+    public void selectedEmployee(Employee employeeNew) {
+        for (int i = 0; i < listEmployees.size(); i++) {
+            if (listEmployees.get(i) == employeeNew) {
                 employeeIndex = i;
             }
         }
     }
-    
-    public void setNewEmployee(Employee newEmployee) throws IOException{
+
+    public void setNewEmployee(Employee newEmployee) throws IOException {
         listEmployees.set(employeeIndex, newEmployee);
         saveDataEmployee();
     }
-                
-    public void removeEmployee(int indexEmployee) throws IOException{
+
+    public void removeEmployee(int indexEmployee) throws IOException {
         listEmployees.remove(indexEmployee);
         saveDataEmployee();
     }
-    
+
     /*
     Metodos relacionados con los ingredientes
-    */
-    
+     */
     private int ingredientIndex;
-    
-    public void addIngredient(int ingCode, String ingredientsName, boolean ingredientsState, Admin ciAdmin, Admin miAdmin) throws IOException{
+
+    public void addIngredient(int ingCode, String ingredientsName, boolean ingredientsState, Admin ciAdmin, Admin miAdmin) throws IOException {
         Ingredient newIngredient = new Ingredient(ingCode, ingredientsName, ingredientsState, ciAdmin, miAdmin);
         listIngredients.add(newIngredient);
         saveDataIngredient();
     }
-    
-    public List<Ingredient> getIngredient(){
+
+    public List<Ingredient> getIngredient() {
         return listIngredients;
     }
-    
-    public int getIngredientIndex(){
+
+    public int getIngredientIndex() {
         return ingredientIndex;
     }
-    
-    public void selectedIngredient(Ingredient ingredientNew){
-        for(int i = 0; i<listIngredients.size(); i++){
-            if(listIngredients.get(i) == ingredientNew){
+
+    public void selectedIngredient(Ingredient ingredientNew) {
+        for (int i = 0; i < listIngredients.size(); i++) {
+            if (listIngredients.get(i) == ingredientNew) {
                 ingredientIndex = i;
             }
         }
     }
-    
-    public void setNewIngredient(Ingredient newIngredient) throws IOException{
+
+    public void setNewIngredient(Ingredient newIngredient) throws IOException {
         listIngredients.set(ingredientIndex, newIngredient);
         saveDataIngredient();
     }
-    
-                
-    public void removeIngredient(int indexIngredient) throws IOException{
+
+    public void removeIngredient(int indexIngredient) throws IOException {
         listIngredients.remove(indexIngredient);
         saveDataIngredient();
     }
-    
+
     /*
     Metodos relacionados con los tipo de productos
-    */
-    
+     */
     private int typeProductIndex;
-    
-    public void addTypeProduct(int tpCode, String typeName, boolean typeState, Admin ctpAdmin, Admin mtpAdmin) throws IOException{
+
+    public void addTypeProduct(int tpCode, String typeName, boolean typeState, Admin ctpAdmin, Admin mtpAdmin) throws IOException {
         TypeProduct newTypeProduct = new TypeProduct(tpCode, typeName, typeState, ctpAdmin, mtpAdmin);
         listTypeProducts.add(newTypeProduct);
         saveDataTypeProduct();
     }
-    
-    public List<TypeProduct> getTypeProduc(){
+
+    public List<TypeProduct> getTypeProduc() {
         return listTypeProducts;
     }
-    
-    public int getTypeProductIndex(){
+
+    public int getTypeProductIndex() {
         return typeProductIndex;
     }
-    
+
     public void selectedProduct(Product productNew) {
         for (int i = 0; i < listProducts.size(); i++) {
             if (listProducts.get(i) == productNew) {
@@ -360,53 +373,51 @@ public class CasaDorada implements Serializable {
             }
         }
     }
-    
-    public void selectedTypeIngredient(TypeProduct typeProductNew){
-        for(int i = 0; i<listTypeProducts.size(); i++){
-            if(listTypeProducts.get(i) == typeProductNew){
+
+    public void selectedTypeIngredient(TypeProduct typeProductNew) {
+        for (int i = 0; i < listTypeProducts.size(); i++) {
+            if (listTypeProducts.get(i) == typeProductNew) {
                 typeProductIndex = i;
             }
         }
     }
-    
-    public void setNewTypeProduct(TypeProduct newTypeProduct) throws IOException{
+
+    public void setNewTypeProduct(TypeProduct newTypeProduct) throws IOException {
         listTypeProducts.set(typeProductIndex, newTypeProduct);
         saveDataTypeProduct();
     }
-                
-    public void removeTypeProduct(int indexTypeProduct) throws IOException{
+
+    public void removeTypeProduct(int indexTypeProduct) throws IOException {
         listTypeProducts.remove(indexTypeProduct);
         saveDataTypeProduct();
     }
-    
-    
+
     /*
     Metodos relacionados con los productos
-    */
-    
+     */
     private Ingredient ingredientInProduct;
     private TypeProduct typeProductInProduct;
     private int productIndex;
-    
-    public void addProduct(int pCode, String pName, String pSize, double pPrice, boolean pState, int pNumOrder, Admin cpAdmin, Admin mpAdmin) throws IOException{
+
+    public void addProduct(int pCode, String pName, String pSize, double pPrice, boolean pState, int pNumOrder, Admin cpAdmin, Admin mpAdmin) throws IOException {
         Product newProduct = new Product(pCode, pName, pSize, pPrice, pState, pNumOrder, cpAdmin, mpAdmin);
         listProducts.add(newProduct);
         saveDataProduct();
     }
-    
+
     public List<Product> getProduct() {
         return listProducts;
     }
-    
-    public Ingredient addIngredientToProduct(Ingredient ingredientSelect){
-        if(ingredientSelect != null){
+
+    public Ingredient addIngredientToProduct(Ingredient ingredientSelect) {
+        if (ingredientSelect != null) {
             ingredientInProduct = ingredientSelect;
             return ingredientInProduct;
         } else {
-            return null;    
+            return null;
         }
     }
-    
+
     public TypeProduct addTypeProductToProduct(TypeProduct typeProductSelect) {
         if (typeProductSelect != null) {
             typeProductInProduct = typeProductSelect;
@@ -415,14 +426,14 @@ public class CasaDorada implements Serializable {
             return null;
         }
     }
-    
-    public void addIngredientToProductArray(ArrayList<Ingredient> ingredients){
-        int index = listProducts.size()-1;
+
+    public void addIngredientToProductArray(ArrayList<Ingredient> ingredients) {
+        int index = listProducts.size() - 1;
         listProducts.get(index).setIngredientInProduct(ingredients);
     }
-    
+
     public void addTypeProductToProductArray(ArrayList<TypeProduct> typeProducts) {
-        int index = listProducts.size()-1;
+        int index = listProducts.size() - 1;
         listProducts.get(index).setTypeProductInProduct(typeProducts);
     }
 }

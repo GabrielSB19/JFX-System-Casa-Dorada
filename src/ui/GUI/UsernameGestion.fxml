@@ -57,13 +57,8 @@
                         <Font size="18.0" />
                      </font>
                   </JFXButton>
-                  <JFXToggleButton fx:id="tbStateUserName" layoutX="142.0" layoutY="418.0" text="Habilitado" toggleColor="#efb810" toggleLineColor="#fee99b" />
+                  <JFXToggleButton fx:id="tbStateUserName" layoutX="151.0" layoutY="380.0" text="Habilitado" toggleColor="#efb810" toggleLineColor="#fee99b" />
                   <JFXPasswordField fx:id="txtPassword" alignment="CENTER" focusColor="BLACK" layoutX="84.0" layoutY="313.0" prefHeight="39.0" prefWidth="259.0" promptText="Contraseña" unFocusColor="#efb810">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </JFXPasswordField>
-                  <JFXPasswordField fx:id="txtConfirmPassword" alignment="CENTER" focusColor="BLACK" layoutX="84.0" layoutY="365.0" prefHeight="39.0" prefWidth="259.0" promptText="Confirma la Contraseña" unFocusColor="#efb810">
                      <font>
                         <Font size="18.0" />
                      </font>
