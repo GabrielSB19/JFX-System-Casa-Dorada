@@ -414,14 +414,15 @@ public class FXControllerGUI implements Initializable {
         if (event.getClickCount() == 2) {
             employeeSelected = tblEmployee.getSelectionModel().getSelectedItem();
             if (employeeSelected != null) {
+                code = employeeSelected.getPCode();
                 btnAddEmployee.setVisible(false);
                 btnUpatedEmployee.setVisible(true);
                 btnRemoveEmployee.setVisible(true);
-                casaDorada.selectedEmployee(employeeSelected);
                 showAlert(true, "Se ha seleccionado el empleado correctamente");
                 txtEmpName.setText(employeeSelected.getName());
                 txtEmpLastName.setText(employeeSelected.getLastName());
                 txtEmpID.setText(employeeSelected.getID() + "");
+                tbStateEmployee.setSelected(employeeSelected.getEState());
             }
         } else if (event.getClickCount() == 1) {
             btnAddEmployee.setVisible(true);
@@ -448,8 +449,8 @@ public class FXControllerGUI implements Initializable {
             if (!txtEmpName.getText().equals("") && !txtEmpLastName.getText().equals("")
                     && !txtEmpID.getText().equals("")) {
 
-                casaDorada.addEmployee(0, tbStateEmployee.isSelected(), null, casaDorada.getCode(), txtEmpName.getText(),
-                        txtEmpLastName.getText(), Integer.parseInt(txtEmpID.getText()), casaDorada.getAdminActive());
+                casaDorada.addEmployee(0, tbStateEmployee.isSelected(), null, 0, casaDorada.getCode(), txtEmpName.getText(), 
+                                       txtEmpLastName.getText(), Integer.parseInt(txtEmpID.getText()), casaDorada.getAdminActive());
 
                 showAlert(true, "El empleado ha sido agregado correctamente");
                 txtEmpName.clear();
@@ -463,33 +464,34 @@ public class FXControllerGUI implements Initializable {
             showAlert(false, "Ingresaste una letra en una casilla numerica, revisa tus datos");
         }
     }
+    
+    
+    @FXML
+    public void onUpdateEmployee(ActionEvent event) throws IOException {
+        casaDorada.uptadeEmployee(code, tbStateEmployee.isSelected(), casaDorada.getAdminActive(), txtEmpName.getText(),
+                                  txtEmpLastName.getText(), Integer.parseInt(txtEmpID.getText()));
+        
+        btnAddEmployee.setVisible(true);
+        showAlert(true, "Se ha actualizado este elemento correctamente");
+        tblEmployee.refresh();
+    }
+    
+ 
 
+    
     @FXML
     public void onRemoveEmployee(ActionEvent event) throws IOException {
-        int index = casaDorada.getEmployeeIndex();
-        casaDorada.removeEmployee(index);
-        btnAddEmployee.setVisible(true);
-        //DialogEliminated();
-        onTableEmployee();
-        txtEmpName.clear();
-        txtEmpLastName.clear();
-        txtEmpID.clear();
+        if(casaDorada.removeEmployee(code)){
+            showAlert(true, "Se ha eliminado este elemento correctamente");
+            txtEmpLastName.clear();
+            txtEmpName.clear();
+            txtEmpID.clear();
+            onTableEmployee();
+        } else {
+            showAlert(false, "No se ha podido eliminar,\nel empleado se encuentra referenciado");
+        }
     }
-
-    public Admin adminCreaterEmployee() {
-        int index = casaDorada.getEmployeeIndex();
-        return casaDorada.getEmployee().get(index).getCAdmin();
-    }
-
-    @FXML
-    public void onUptadeEmployee(ActionEvent event) throws IOException {
-        //Employee newEmployee = new Employee(0, tbStateEmployee.isSelected(), casaDorada.getAdminActive(), casaDorada.getCode(),
-                //txtEmpName.getText(), txtEmpLastName.getText(), Integer.parseInt(txtEmpID.getText()), adminCreaterEmployee());
-        //casaDorada.setNewEmployee(newEmployee);
-        btnAddEmployee.setVisible(true);
-        //DialogUptade();
-        onTableEmployee();
-    }
+  
 
     @FXML
     private TableView<Employee> tblEmployee;

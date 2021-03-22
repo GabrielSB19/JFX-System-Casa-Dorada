@@ -171,8 +171,11 @@ public class CasaDorada implements Serializable {
     /*
     Metodos relacionados con los admin
      */
-    private int adminIndex;
 
+    public List<Admin> getListAdmins() {
+        return listAdmins;
+    }
+    
     public void addAdmin(String username, String password, int numOrder, boolean eState, Admin mAdmin, int pCode, String name, String lastName, int ID, Admin cAdmin) throws IOException {
         Admin newAdmin = new Admin(username, password, numOrder, true, null, 0, code++, name, lastName, ID, cAdmin);
         listAdmins.add(newAdmin);
@@ -203,10 +206,6 @@ public class CasaDorada implements Serializable {
         return false;
     }
 
-    public List<Admin> getListAdmins() {
-        return listAdmins;
-    }
-
     public Admin getAdminActive() {
         return adminActive;
     }
@@ -230,11 +229,70 @@ public class CasaDorada implements Serializable {
         }
         return false;
     }
+    
+    /*
+    Metodos relacionados con los Empleados
+     */
+    
+    public List<Employee> getEmployee() {
+        return listEmployees;
+    }
+    
+    public void addEmployee(int numOrder, boolean eState, Admin mAdmin, int pRef, int pCode, String name, String lastName, int ID, Admin cAdmin) throws IOException {
+        Employee newEmployee = new Employee(0, true, null, 0, code++, name, lastName, ID, cAdmin);
+        listEmployees.add(newEmployee);
+        adminActive.setPRef(adminActive.getPRef()+1);
+        saveDataCode();
+        saveDataAdmin();
+        saveDataEmployee();
+    }
+    
+    public void uptadeEmployee(int code, boolean eState, Admin mAdmin, String name, String lastName, int ID) throws IOException {
+        for(int i = 0; i<listEmployees.size(); i++){
+            if(listEmployees.get(i).getPCode() == code){
+                listEmployees.get(i).setEState(eState);
+                listEmployees.get(i).setCAdmin(mAdmin);
+                listEmployees.get(i).setName(name);
+                listEmployees.get(i).setLastName(lastName);
+                listEmployees.get(i).setID(ID);
+                saveDataEmployee();
+                adminActive.setPRef(adminActive.getPRef()+1);
+                saveDataAdmin();
+            }
+        }
+    }
+
+    public boolean removeEmployee(int code) throws IOException {
+        for (int i = 0; i < listEmployees.size(); i++) {
+            if (listEmployees.get(i).getPCode() == code && listEmployees.get(i).getPRef() == 0) {
+                boolean out = false;
+                boolean out1 = false;
+                for (int j = 0; j < listAdmins.size() && (!out && !out1); j++) {
+                    if(listEmployees.get(i).getCAdmin() == listAdmins.get(j) && !out){
+                        listAdmins.get(j).setPRef(listAdmins.get(j).getPRef()-1);
+                        out = true;
+                    }
+                    try {
+                        if (listEmployees.get(i).getMAdmin() == listAdmins.get(j) && !out1) {
+                            listAdmins.get(j).setPRef(listAdmins.get(j).getPRef() - 1);
+                            out1 = true;
+                        }
+                    } catch (Exception e) {
+                        out1 = true;
+                    }
+                }
+                listEmployees.remove(i);
+                saveDataAdmin();
+                saveDataEmployee();
+                return true;
+            }
+        }
+        return false;
+    }
 
     /*
     Metodos relacionados con los clientes
      */
-    private int clientIndex;
 
     public void addClient(String cAddress, int cPhone, String cObservations, boolean cState, Admin mcAdmin, int pCode, String name, String lastName, int ID, Admin cAdmin) throws IOException {
 
@@ -244,6 +302,7 @@ public class CasaDorada implements Serializable {
         saveDataClient();
     }
 
+    private int clientIndex;
     public List<Client> getClient() {
         return listClients;
     }
@@ -270,45 +329,6 @@ public class CasaDorada implements Serializable {
         saveDataClient();
     }
 
-    /*
-    Metodos relacionados con los Empleados
-     */
-    public void addEmployee(int numOrder, boolean eState, Admin mAdmin, int pCode, String name, String lastName, int ID, Admin cAdmin) throws IOException {
-
-        //Employee newEmployee = new Employee(numOrder, true, null, code++, name, lastName, ID, cAdmin);
-        //listEmployees.add(newEmployee);
-        saveDataEmployee();
-        saveDataCode();
-
-    }
-
-    public List<Employee> getEmployee() {
-        return listEmployees;
-    }
-
-    private int employeeIndex;
-
-    public int getEmployeeIndex() {
-        return employeeIndex;
-    }
-
-    public void selectedEmployee(Employee employeeNew) {
-        for (int i = 0; i < listEmployees.size(); i++) {
-            if (listEmployees.get(i) == employeeNew) {
-                employeeIndex = i;
-            }
-        }
-    }
-
-    public void setNewEmployee(Employee newEmployee) throws IOException {
-        listEmployees.set(employeeIndex, newEmployee);
-        saveDataEmployee();
-    }
-
-    public void removeEmployee(int indexEmployee) throws IOException {
-        listEmployees.remove(indexEmployee);
-        saveDataEmployee();
-    }
 
     /*
     Metodos relacionados con los ingredientes
