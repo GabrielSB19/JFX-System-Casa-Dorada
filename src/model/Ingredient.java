@@ -6,13 +6,15 @@ public class Ingredient implements Serializable{
     
     private static final long serialVersionUID = 1;
     
+    private int iRef;
     private int ingCode;
     private String ingredientsName;
     private boolean ingredientsState;
     private Admin ciAdmin;
     private Admin miAdmin;
 
-    public Ingredient(int ingCode, String ingredientsName, boolean ingredientsState, Admin ciAdmin, Admin miAdmin) {
+    public Ingredient(int iRef, int ingCode, String ingredientsName, boolean ingredientsState, Admin ciAdmin, Admin miAdmin) {
+        this.iRef = iRef;
         this.ingCode = ingCode;
         this.ingredientsName = ingredientsName;
         this.ingredientsState = ingredientsState;
@@ -20,6 +22,15 @@ public class Ingredient implements Serializable{
         this.miAdmin = miAdmin;
     }
 
+    
+    public int getIRef() {
+        return iRef;
+    }
+
+    public void setIRef(int iRef) {
+        this.iRef = iRef;
+    }
+    
     public int getIngCode() {
         return ingCode;
     }
@@ -64,4 +75,5 @@ public class Ingredient implements Serializable{
     public String toString(){
         return getIngredientsName();
     }
+
 }

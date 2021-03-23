@@ -484,49 +484,80 @@ public class CasaDorada implements Serializable {
         }
         return false;
     }
-
     
 
-
-/*
-     
-    */
-
-    /*
-    Metodos relacionados con los ingredientes
-     */
-    private int ingredientIndex;
-
-    public void addIngredient(int ingCode, String ingredientsName, boolean ingredientsState, Admin ciAdmin, Admin miAdmin) throws IOException {
-        Ingredient newIngredient = new Ingredient(ingCode, ingredientsName, ingredientsState, ciAdmin, miAdmin);
-        listIngredients.add(newIngredient);
-        saveDataIngredient();
-    }
-
-    public List<Ingredient> getIngredient() {
+    //Metodos relacionados con los ingredientes
+    
+     public List<Ingredient> getIngredient() {
         return listIngredients;
     }
 
-    public int getIngredientIndex() {
-        return ingredientIndex;
-    }
-
-    public void selectedIngredient(Ingredient ingredientNew) {
-        for (int i = 0; i < listIngredients.size(); i++) {
-            if (listIngredients.get(i) == ingredientNew) {
-                ingredientIndex = i;
+    public void addIngredient(int iRef, int IngCode, String ingredientsName, boolean ingredientsState, Admin ciAdmin, Admin miAdmin) throws IOException {
+        Ingredient newIngredient = new Ingredient(0, code++, ingredientsName, ingredientsState, ciAdmin, null);
+        listIngredients.add(newIngredient);
+        for (int i = 0; i < listAdmins.size(); i++) {
+            if(listAdmins.get(i) == adminActive){
+                listAdmins.get(i).setPRef(listAdmins.get(i).getPRef()+1);
             }
         }
-    }
-
-    public void setNewIngredient(Ingredient newIngredient) throws IOException {
-        listIngredients.set(ingredientIndex, newIngredient);
+        saveDataAdmin();
         saveDataIngredient();
     }
 
-    public void removeIngredient(int indexIngredient) throws IOException {
-        listIngredients.remove(indexIngredient);
+    public void updateIngredient(int code, String ingredientsName, boolean ingredientsState, Admin miAdmin) throws IOException {
+        for(int i = 0; i<listIngredients.size(); i++){
+            if(listIngredients.get(i).getIngCode() == code){
+                listIngredients.get(i).setIngredientsName(ingredientsName);
+                listIngredients.get(i).setIngredientsState(ingredientsState);
+                for (int j = 0; j < listAdmins.size(); j++) {
+                    if(listIngredients.get(i).getMiAdmin() == listAdmins.get(j)){
+                        listAdmins.get(j).setPRef(listAdmins.get(j).getPRef()-1);
+                    }
+                }
+                listIngredients.get(i).setMiAdmin(miAdmin);
+            }
+        }
+        for (int i = 0; i < listAdmins.size(); i++) {
+            if(listAdmins.get(i) == adminActive){
+                listAdmins.get(i).setPRef(listAdmins.get(i).getPRef() + 1);
+                System.out.println("xd"+listAdmins.get(i).getPRef());
+            }
+        }
+        saveDataAdmin();
         saveDataIngredient();
+    }
+
+    public boolean removeIngredient(int code) throws IOException {
+        boolean exit = false;
+        for (int i = 0; i < listIngredients.size(); i++) {
+            if(listIngredients.get(i).getIngCode() == code && listIngredients.get(i).getIRef() == 0){
+                boolean out = false;
+                boolean out1 = false;
+                for (int j = 0; j < listAdmins.size() && !(out && out1); j++) {
+                    if (listIngredients.get(i).getCiAdmin() == listAdmins.get(j) && !out) {
+                        System.out.println("Creador antes:" + listAdmins.get(j).getPRef());
+                        listAdmins.get(j).setPRef(listAdmins.get(j).getPRef() - 1);
+                        System.out.println("Creador despues:" + listAdmins.get(j).getPRef());
+                        out = true;
+                    }
+                    try {
+                        if (listIngredients.get(i).getMiAdmin() == listAdmins.get(j) && !out1) {
+                            System.out.println("Modificador antes:" + listAdmins.get(j).getPRef());
+                            listAdmins.get(j).setPRef(listAdmins.get(j).getPRef() - 1);
+                            System.out.println("Modificador despues:" + listAdmins.get(j).getPRef());
+                            out1 = true;
+                        }
+                    } catch (Exception e) {
+                        out1 = true;
+                    }
+                }
+            listIngredients.remove(i);
+            exit = true;
+            }
+        }
+        saveDataAdmin();
+        saveDataIngredient();
+        return exit;
     }
 
     /*

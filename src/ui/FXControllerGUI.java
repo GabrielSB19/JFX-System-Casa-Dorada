@@ -810,14 +810,16 @@ public class FXControllerGUI implements Initializable {
         if (event.getClickCount() == 2) {
             ingredientSelected = tblIngredient.getSelectionModel().getSelectedItem();
             if (ingredientSelected != null) {
+                code = ingredientSelected.getIngCode();
                 btnAddIngredient.setVisible(false);
                 btnRemoveIngredient.setVisible(true);
                 btnUptadeIngredient.setVisible(true);
-                casaDorada.selectedIngredient(ingredientSelected);
                 showAlert(true, "Se ha seleccionado correctamente el ingrediente");
                 txtIngName.setText(ingredientSelected.getIngredientsName());
+                tbStateIngredients.setSelected(ingredientSelected.getIngredientsState());
             }
         } else if (event.getClickCount() == 1) {
+            btnAddIngredient.setVisible(true);
             btnRemoveIngredient.setVisible(false);
             btnUptadeIngredient.setVisible(false);
         }
@@ -832,40 +834,32 @@ public class FXControllerGUI implements Initializable {
     @FXML
     public void addIngredient(ActionEvent event) throws IOException {
         if (!(txtIngName.getText().equals(""))) {
-            String ingredientsName = txtIngName.getText();
-            casaDorada.addIngredient(0, ingredientsName, tbStateIngredients.isSelected(), casaDorada.getAdminActive(), null);
+            casaDorada.addIngredient(0, casaDorada.getCode(), txtIngName.getText(), tbStateIngredients.isSelected(), casaDorada.getAdminActive(), null);
             showAlert(true, "El ingrediente se ha agregado correctamente");
+            System.out.println(casaDorada.getCode());
             txtIngName.clear();
             onTableIngredient();
         } else {
             showAlert(false, "No puede agregar un ingrediente sin el nombre");
         }
     }
+    
+    @FXML
+    public void onUptadeIngredient(ActionEvent event) throws IOException {
+        casaDorada.updateIngredient(code, txtIngName.getText(), tbStateIngredients.isSelected(), casaDorada.getAdminActive());
+        showAlert(true, "Se ha actualizado el ingrediente con exito");
+        btnAddIngredient.setVisible(true);
+        tblIngredient.refresh();
+    }
 
     @FXML
     public void onRemoveIngredient(ActionEvent event) throws IOException {
-        int index = casaDorada.getIngredientIndex();
-        casaDorada.removeIngredient(index);
-        btnAddIngredient.setVisible(true);
-        //DialogEliminated();
-        onTableIngredient();
-        txtIngName.clear();
-    }
-
-    public Admin adminCreaterIngredient() {
-        int index = casaDorada.getIngredientIndex();
-        return casaDorada.getIngredient().get(index).getCiAdmin();
-    }
-
-    @FXML
-    public void onUptadeIngredient(ActionEvent event) throws IOException {
-        Ingredient newIngredient = new Ingredient(0, txtIngName.getText(), tbStateIngredients.isSelected(),
-                adminCreaterIngredient(), casaDorada.getAdminActive());
-        casaDorada.setNewIngredient(newIngredient);
-        btnAddIngredient.setVisible(true);
-        //DialogUptade();
-        onTableIngredient();
-
+        if(casaDorada.removeIngredient(code)){
+            showAlert(true, "Se ha eliminado el ingrediente correctamnet");
+            txtIngName.clear();
+        } else {
+            showAlert(false, "No se ha eliminado el ingrediente,\n el ingrediente se encuntra referenciado");
+        }
     }
 
     @FXML
@@ -1335,20 +1329,6 @@ public class FXControllerGUI implements Initializable {
         tblProductState.setCellValueFactory(new PropertyValueFactory<>("prState"));
     }
 
-    /*
-    Gestionar Ingredientes
-     */
- /*
-        Agregar Ingrediente
-     */
- /*
-        Eliminar Ingrediente
-     */
-
- /*
-        Actualizar Ingrediente
-     */
-    //ads
     @FXML
     private JFXButton btnAddProduct;
 
@@ -1515,24 +1495,6 @@ public class FXControllerGUI implements Initializable {
         onTableTypeProduct();
     }
 
-    /*
-     Gestionar Cliente
-     */
- /*
-        Agregar Cliente
-     */
-
-    
-
-    /*
-    Listar las arrayList de los objetos
-     */
- /*
-        Listar ingredientes
-     */
- /*
-        Listar tipo de productos
-     */
     public void showListTypeProduct() {
         ArrayList<TypeProduct> dispTypeProduct = new ArrayList<>();
         List<TypeProduct> typeProducts = casaDorada.getTypeProduc();
@@ -1547,16 +1509,4 @@ public class FXControllerGUI implements Initializable {
         tblDispTP.setItems(newTableTypeProduct);
         tblDispNameTP.setCellValueFactory(new PropertyValueFactory<>("typeName"));
     }
-
-    /*
-        Listar empleados
-     */
- /*
-        Listar clientes
-     */
-
-
-    /*
-        Listar productos
-     */
 }
