@@ -563,46 +563,75 @@ public class CasaDorada implements Serializable {
     /*
     Metodos relacionados con los tipo de productos
      */
-    private int typeProductIndex;
-
-    public void addTypeProduct(int tpCode, String typeName, boolean typeState, Admin ctpAdmin, Admin mtpAdmin) throws IOException {
-        TypeProduct newTypeProduct = new TypeProduct(tpCode, typeName, typeState, ctpAdmin, mtpAdmin);
-        listTypeProducts.add(newTypeProduct);
-        saveDataTypeProduct();
-    }
-
     public List<TypeProduct> getTypeProduc() {
         return listTypeProducts;
     }
-
-    public int getTypeProductIndex() {
-        return typeProductIndex;
-    }
-
-    public void selectedProduct(Product productNew) {
-        for (int i = 0; i < listProducts.size(); i++) {
-            if (listProducts.get(i) == productNew) {
-                productIndex = i;
+    
+    public void addTypeProduct(int tpRef, int tpCode, String typeName, boolean typeState, Admin ctpAdmin, Admin mtpAdmin) throws IOException {
+        TypeProduct newTypeProduct = new TypeProduct(0, code++, typeName, typeState, ctpAdmin, mtpAdmin);
+        listTypeProducts.add(newTypeProduct);
+        for (int i = 0; i < listAdmins.size(); i++) {
+            if(listAdmins.get(i) == adminActive){
+                listAdmins.get(i).setPRef(listAdmins.get(i).getPRef()+1);
             }
         }
+        saveDataAdmin();
+        saveDataTypeProduct();
     }
 
-    public void selectedTypeIngredient(TypeProduct typeProductNew) {
+    public void updateTypeProduct(int code, String ingredientsName, boolean ingredientsState, Admin miAdmin) throws IOException {
         for (int i = 0; i < listTypeProducts.size(); i++) {
-            if (listTypeProducts.get(i) == typeProductNew) {
-                typeProductIndex = i;
+            if(listTypeProducts.get(i).getTpCode() == code){
+                listTypeProducts.get(i).setTypeName(ingredientsName);
+                listTypeProducts.get(i).setTypeState(ingredientsState);
+                for (int j = 0; j < listAdmins.size(); j++) {
+                    if(listTypeProducts.get(i).getMtpAdmin() == listAdmins.get(i)){
+                        listAdmins.get(j).setPRef(listAdmins.get(i).getPRef()-1);
+                    }
+                }
+                listTypeProducts.get(i).setMtpAdmin(miAdmin);
             }
         }
-    }
-
-    public void setNewTypeProduct(TypeProduct newTypeProduct) throws IOException {
-        listTypeProducts.set(typeProductIndex, newTypeProduct);
+        for (int i = 0; i < listAdmins.size(); i++) {
+            if(listAdmins.get(i) == adminActive){
+                listAdmins.get(i).setPRef(listAdmins.get(i).getPRef()+1);
+            }
+        }
+        saveDataAdmin();
         saveDataTypeProduct();
     }
 
-    public void removeTypeProduct(int indexTypeProduct) throws IOException {
-        listTypeProducts.remove(indexTypeProduct);
+    public boolean removeTypeProduct(int code) throws IOException {
+        boolean exit = false;
+        for (int i = 0; i < listTypeProducts.size(); i++) {
+            if (listTypeProducts.get(i).getTpCode() == code && listTypeProducts.get(i).getTpRef() == 0){
+                boolean out = false;
+                boolean out1 = false;
+                for (int j = 0; j < listAdmins.size() && !(out && out1); j++) {
+                    if (listTypeProducts.get(i).getCtpAdmin() == listAdmins.get(j) && !out) {
+                        System.out.println("Creador antes:" + listAdmins.get(j).getPRef());
+                        listAdmins.get(j).setPRef(listAdmins.get(j).getPRef() - 1);
+                        System.out.println("Creador despues:" + listAdmins.get(j).getPRef());
+                        out = true;
+                    }
+                    try {
+                        if (listTypeProducts.get(i).getMtpAdmin() == listAdmins.get(j) && !out1) {
+                            System.out.println("Modificador antes:" + listAdmins.get(j).getPRef());
+                            listAdmins.get(j).setPRef(listAdmins.get(j).getPRef() - 1);
+                            System.out.println("Modificador despues:" + listAdmins.get(j).getPRef());
+                            out1 = true;
+                        }
+                    } catch (Exception e) {
+                        out1 = true;
+                    }
+                }
+                listTypeProducts.remove(i);
+                exit = true;
+            }
+        }
+        saveDataAdmin();
         saveDataTypeProduct();
+        return exit;
     }
 
     /*
@@ -611,6 +640,14 @@ public class CasaDorada implements Serializable {
     private Ingredient ingredientInProduct;
     private TypeProduct typeProductInProduct;
     private int productIndex;
+    
+    public void selectedProduct(Product productNew) {
+        for (int i = 0; i < listProducts.size(); i++) {
+            if (listProducts.get(i) == productNew) {
+                productIndex = i;
+            }
+        }
+    }
 
     public void addProduct(int pCode, String pName, String pSize, double pPrice, boolean pState, int pNumOrder, Admin cpAdmin, Admin mpAdmin) throws IOException {
         Product newProduct = new Product(pCode, pName, pSize, pPrice, pState, pNumOrder, cpAdmin, mpAdmin);

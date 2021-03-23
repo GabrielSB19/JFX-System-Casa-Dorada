@@ -783,6 +783,7 @@ public class FXControllerGUI implements Initializable {
     }
 
     //Gestionar Ingrediente
+    
     @FXML
     public void onGestionIngredients(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/IngredientsGestion.fxml"));
@@ -918,18 +919,88 @@ public class FXControllerGUI implements Initializable {
         tblIngredientDisp.setItems(newTableIngredient);
         tblIngredientNameDisp.setCellValueFactory(new PropertyValueFactory<>("ingredientsName"));
     }
-
+    
     /*
     Gestionar Tipo de producto
      */
+    
+    @FXML
+    public void onGestionTypeProduct(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/TypeProductsGestion.fxml"));
+
+        fxmlLoader.setController(this);
+        Parent typeProductsGestion = fxmlLoader.load();
+
+        pNewOption.getChildren().clear();
+        pNewOption.getChildren().setAll(typeProductsGestion);
+        onTableTypeProduct();
+    }
+    
+    @FXML
+    private JFXButton btnAddTypeProduct;
+    
+    @FXML
+    private JFXButton btnRemoveType;
+
+    @FXML
+    private JFXButton btnUptadeType;
+    
+    
+    @FXML
+    public void onSelectType(MouseEvent event) {
+        TypeProduct typeProductSelected;
+        if (event.getClickCount() == 2) {
+            typeProductSelected = tblTypeProduct.getSelectionModel().getSelectedItem();
+            if (typeProductSelected != null) {
+                code = typeProductSelected.getTpCode();
+                btnAddTypeProduct.setVisible(false);
+                btnRemoveType.setVisible(true);
+                btnUptadeType.setVisible(true);
+                showAlert(true, "Se ha seleccionado el tipo de producto correctamente");
+                txtTpName.setText(typeProductSelected.getTypeName());
+                tbStateTypeProduct.setSelected(typeProductSelected.getTypeState());
+            }
+        } else if (event.getClickCount() == 1) {
+            btnAddTypeProduct.setVisible(true);
+            btnRemoveType.setVisible(false);
+            btnUptadeType.setVisible(false);
+        }
+    }
+    
     @FXML
     private JFXTextField txtTpName;
 
     @FXML
     private JFXToggleButton tbStateTypeProduct;
-
+            
     @FXML
-    private JFXButton btnAddTypeProduct;
+    public void addTypeProduct(ActionEvent event) throws IOException {;
+        if (!(txtTpName.getText().equals(""))) {
+            casaDorada.addTypeProduct(0, casaDorada.getCode(), txtTpName.getText(), tbStateTypeProduct.isSelected(), casaDorada.getAdminActive(), null);
+            showAlert(true, "Se ha agregado el producto correctamente");
+            txtTpName.clear();
+            onTableTypeProduct();
+        } else {
+            showAlert(false, "Debes de ingresarle un nombre al tipo de producto");
+        }
+    }
+    
+    @FXML
+    public void onUptadeType(ActionEvent event) throws IOException {
+        casaDorada.updateTypeProduct(code, txtTpName.getText(), tbStateTypeProduct.isSelected(), casaDorada.getAdminActive());
+        showAlert(true, "Se ha actualizado el tipo de producto correctamente");
+        btnAddTypeProduct.setVisible(true);
+        tblTypeProduct.refresh();
+    }
+    
+    @FXML
+    public void onRemoveTypeProduct(ActionEvent event) throws IOException {
+        if (casaDorada.removeTypeProduct(code)){
+            showAlert(true, "Se ha eliminado el tipo de producto correctamente");
+        } else {
+            showAlert(false, "No se ha eliminado el tipo de producto,\nel tipo de producto esta referenciado");
+        }
+    }
 
     @FXML
     private TableView<TypeProduct> tblTypeProduct;
@@ -939,6 +1010,50 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     private TableColumn<TypeProduct, Boolean> tblTypeProductState;
+
+
+    public void onTableTypeProduct() {
+        List<TypeProduct> typeProducts = casaDorada.getTypeProduc();
+        ObservableList<TypeProduct> newTableTypeProduct;
+        newTableTypeProduct = FXCollections.observableArrayList(typeProducts);
+
+        tblTypeProduct.setItems(newTableTypeProduct);
+        tblTypeProductNameGestion.setCellValueFactory(new PropertyValueFactory<>("typeName"));
+        tblTypeProductState.setCellValueFactory(new PropertyValueFactory<>("typeState"));
+    }
+    
+    @FXML
+    public void onLIstTypeProduct(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ListTypeProducts.fxml"));
+
+        fxmlLoader.setController(this);
+        Parent listTypeProducts = fxmlLoader.load();
+
+        pNewOption.getChildren().clear();
+        pNewOption.getChildren().setAll(listTypeProducts);
+        showListTypeProduct();
+    }
+    
+    @FXML
+    private TableView<TypeProduct> tblDispTP;
+
+    @FXML
+    private TableColumn<TypeProduct, String> tblDispNameTP;
+
+    public void showListTypeProduct() {
+        ArrayList<TypeProduct> dispTypeProduct = new ArrayList<>();
+        List<TypeProduct> typeProducts = casaDorada.getTypeProduc();
+        for (int i = 0; i < typeProducts.size(); i++) {
+            if (typeProducts.get(i).getTypeState()) {
+                dispTypeProduct.add(typeProducts.get(i));
+            }
+        }
+        ObservableList<TypeProduct> newTableTypeProduct;
+        newTableTypeProduct = FXCollections.observableArrayList(dispTypeProduct);
+
+        tblDispTP.setItems(newTableTypeProduct);
+        tblDispNameTP.setCellValueFactory(new PropertyValueFactory<>("typeName"));
+    }
 
     /*
     Gestionar Productos
@@ -1004,11 +1119,7 @@ public class FXControllerGUI implements Initializable {
     Listar
      */
     //Atributos tipo de producto
-    @FXML
-    private TableView<TypeProduct> tblDispTP;
 
-    @FXML
-    private TableColumn<TypeProduct, String> tblDispNameTP;
 
     //Atributos cliente
 
@@ -1047,17 +1158,6 @@ public class FXControllerGUI implements Initializable {
         onTableProduct();
     }
 
-    @FXML
-    public void onGestionTypeProduct(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/TypeProductsGestion.fxml"));
-
-        fxmlLoader.setController(this);
-        Parent typeProductsGestion = fxmlLoader.load();
-
-        pNewOption.getChildren().clear();
-        pNewOption.getChildren().setAll(typeProductsGestion);
-        onTableTypeProduct();
-    }
 
     @FXML
     public void onGestionOrder(ActionEvent event) throws IOException {
@@ -1086,17 +1186,6 @@ public class FXControllerGUI implements Initializable {
         pNewOption.getChildren().setAll(listProducts);
     }
 
-    @FXML
-    public void onLIstTypeProduct(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ListTypeProducts.fxml"));
-
-        fxmlLoader.setController(this);
-        Parent listTypeProducts = fxmlLoader.load();
-
-        pNewOption.getChildren().clear();
-        pNewOption.getChildren().setAll(listTypeProducts);
-        showListTypeProduct();
-    }
 
     @FXML
     public void onListOrder(ActionEvent event) throws IOException {
@@ -1381,132 +1470,4 @@ public class FXControllerGUI implements Initializable {
         }
     }
 
-    /*
-    Gestionar tipo de productos
-     */
- /*
-        Agregar tipo de producto
-     */
-    @FXML
-    public void addTypeProduct(ActionEvent event) throws IOException {
-        JFXDialogLayout content = new JFXDialogLayout();
-        JFXButton button = new JFXButton("Okay");
-        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                dialog.close();
-            }
-        });
-        content.setActions(button);
-        if (!(txtTpName.getText().equals(""))) {
-            //tpCode++;
-
-            String typeName = txtTpName.getText();
-            casaDorada.addTypeProduct(0, typeName, tbStateTypeProduct.isSelected(), casaDorada.getAdminActive(), null);
-            content.setHeading(new Text("¡Listo!"));
-            content.setBody(new Text("El tipo de producto fue creado exitosamente."));
-            txtTpName.clear();
-            dialog.show();
-            onTableTypeProduct();
-        } else {
-            content.setHeading(new Text("¡Error!"));
-            content.setBody(new Text("Debes colocarle un nombre al tipo de producto que deseas crear."));
-            dialog.show();
-        }
-    }
-
-    public void onTableTypeProduct() {
-        List<TypeProduct> typeProducts = casaDorada.getTypeProduc();
-        ObservableList<TypeProduct> newTableTypeProduct;
-        newTableTypeProduct = FXCollections.observableArrayList(typeProducts);
-
-        tblTypeProduct.setItems(newTableTypeProduct);
-        tblTypeProductNameGestion.setCellValueFactory(new PropertyValueFactory<>("typeName"));
-        tblTypeProductState.setCellValueFactory(new PropertyValueFactory<>("typeState"));
-    }
-
-    /*
-        Eliminar tipo de producto
-     */
-    @FXML
-    public void onRemoveTypeProduct(ActionEvent event) throws IOException {
-        int index = casaDorada.getTypeProductIndex();
-        casaDorada.removeTypeProduct(index);
-        btnAddTypeProduct.setVisible(true);
-        //DialogEliminated();
-        onTableTypeProduct();
-        txtTpName.clear();
-    }
-
-    /*
-        Actualizar tipo de producto
-     */
-    @FXML
-    private JFXButton btnRemoveType;
-
-    @FXML
-    private JFXButton btnUptadeType;
-
-    @FXML
-    public void onSelectType(MouseEvent event) {
-        JFXDialogLayout content = new JFXDialogLayout();
-        JFXButton button = new JFXButton("Okay");
-        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                dialog.close();
-            }
-        });
-        content.setActions(button);
-        TypeProduct typeProductSelected;
-        if (event.getClickCount() == 2) {
-            typeProductSelected = tblTypeProduct.getSelectionModel().getSelectedItem();
-            if (typeProductSelected != null) {
-                btnAddTypeProduct.setVisible(false);
-                btnRemoveType.setVisible(true);
-                btnUptadeType.setVisible(true);
-                casaDorada.selectedTypeIngredient(typeProductSelected);
-                content.setHeading(new Text("¡Listo!"));
-                content.setBody(new Text("El tipo de producto " + typeProductSelected.getTypeName() + " fue seleccionado exitosamente."));
-                dialog.show();
-                txtTpName.setText(typeProductSelected.getTypeName());
-            }
-        } else if (event.getClickCount() == 1) {
-            btnAddTypeProduct.setVisible(true);
-            btnRemoveType.setVisible(false);
-            btnUptadeType.setVisible(false);
-        }
-    }
-
-    public Admin adminCreaterTP() {
-        int index = casaDorada.getTypeProductIndex();
-        return casaDorada.getTypeProduc().get(index).getCtpAdmin();
-    }
-
-    @FXML
-    public void onUptadeType(ActionEvent event) throws IOException {
-        TypeProduct newTypeProduct = new TypeProduct(0, txtTpName.getText(), tbStateTypeProduct.isSelected(),
-                adminCreaterTP(), casaDorada.getAdminActive());
-        casaDorada.setNewTypeProduct(newTypeProduct);
-        btnAddTypeProduct.setVisible(true);
-        //DialogUptade();
-        onTableTypeProduct();
-    }
-
-    public void showListTypeProduct() {
-        ArrayList<TypeProduct> dispTypeProduct = new ArrayList<>();
-        List<TypeProduct> typeProducts = casaDorada.getTypeProduc();
-        for (int i = 0; i < typeProducts.size(); i++) {
-            if (typeProducts.get(i).getTypeState()) {
-                dispTypeProduct.add(typeProducts.get(i));
-            }
-        }
-        ObservableList<TypeProduct> newTableTypeProduct;
-        newTableTypeProduct = FXCollections.observableArrayList(dispTypeProduct);
-
-        tblDispTP.setItems(newTableTypeProduct);
-        tblDispNameTP.setCellValueFactory(new PropertyValueFactory<>("typeName"));
-    }
 }

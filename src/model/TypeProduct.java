@@ -6,19 +6,31 @@ public class TypeProduct implements Serializable{
     
     private static final long serialVersionUID = 1;
 
+    private int tpRef;
     private int tpCode;
     private String typeName;
     private boolean typeState;
     private Admin ctpAdmin;
     private Admin mtpAdmin;
 
-    public TypeProduct(int tpCode, String typeName, boolean typeState, Admin ctpAdmin, Admin mtpAdmin) {
+    public TypeProduct(int tpRef, int tpCode, String typeName, boolean typeState, Admin ctpAdmin, Admin mtpAdmin) {
+        this.tpRef = tpRef;
         this.tpCode = tpCode;
         this.typeName = typeName;
         this.typeState = typeState;
         this.ctpAdmin = ctpAdmin;
         this.mtpAdmin = mtpAdmin;
     }
+
+    public int getTpRef() {
+        return tpRef;
+    }
+
+    public void setTpRef(int tpRef) {
+        this.tpRef = tpRef;
+    }
+    
+    
 
     public int getTpCode() {
         return tpCode;
