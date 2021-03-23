@@ -467,11 +467,15 @@ public class FXControllerGUI implements Initializable {
     
     @FXML
     public void onUpdateEmployee(ActionEvent event) throws IOException {
-        casaDorada.uptadeEmployee(code, tbStateEmployee.isSelected(), casaDorada.getAdminActive(), txtEmpName.getText(),
-                                  txtEmpLastName.getText(), Integer.parseInt(txtEmpID.getText()));
-        
+        if(casaDorada.uptadeEmployee(code, tbStateEmployee.isSelected(), casaDorada.getAdminActive(), txtEmpName.getText(),
+           txtEmpLastName.getText(), Integer.parseInt(txtEmpID.getText()))){
+            btnAddEmployee.setVisible(true);
+            showAlert(true, "Se ha actualizado este elemento correctamente");
+            tblEmployee.refresh();
+        } else {
+            showAlert(true, "No se ha acutalizado el empleado \notro empleado tiene la misma identificación");
+        }
         btnAddEmployee.setVisible(true);
-        showAlert(true, "Se ha actualizado este elemento correctamente");
         tblEmployee.refresh();
     }
  
@@ -676,7 +680,6 @@ public class FXControllerGUI implements Initializable {
     @FXML
     public void onRemoveClient(ActionEvent event) throws IOException {
         if (casaDorada.removeClient(code)) {
-            System.out.println(casaDorada.getListAdmins().get(0).getPRef());
             showAlert(true, "Se ha eliminado el cliente seleccionado");
             txtCName.clear();
             txtCLastName.clear();
