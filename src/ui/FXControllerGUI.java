@@ -1063,6 +1063,146 @@ public class FXControllerGUI implements Initializable {
      */
     @FXML
     private Pane pChooseIng;
+    
+    @FXML
+    private Pane pChooseType;
+    
+    @FXML
+    public void onGestionProducts(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ProductsGestion.fxml"));
+
+        fxmlLoader.setController(this);
+        Parent productsGestion = fxmlLoader.load();
+
+        pNewOption.getChildren().clear();
+        pNewOption.getChildren().setAll(productsGestion);
+        ingredientsInP = new ArrayList<>();
+        onTableProduct();
+    }
+    
+    @FXML
+    public void onAddIngredientsToProduct(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ChooseIngredients.fxml"));
+
+        fxmlLoader.setController(this);
+        Parent chooseIngredient = fxmlLoader.load();
+        newStage(chooseIngredient);
+        onTableChooseIngredient();
+        showIngredientsDisp();
+    }
+    
+    @FXML
+    public void onExitChooseIngredient(ActionEvent event) {
+        Stage stage = (Stage) pChooseIng.getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    public void onAddTypeToProduct(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ChooseTypeProducts.fxml"));
+
+        fxmlLoader.setController(this);
+        Parent chooseTypeProduct = fxmlLoader.load();
+        newStage(chooseTypeProduct);
+        onTableChooseTypeProduct();
+        showTPDisp();
+
+    }
+
+    @FXML
+    public void onExitChooseType(ActionEvent event) {
+        Stage stage = (Stage) pChooseType.getScene().getWindow();
+        stage.close();
+    }
+    
+    @FXML
+    private JFXButton btnAddProduct;
+
+    @FXML
+    private JFXButton btnRemoveProduct;
+
+    @FXML
+    private JFXButton btnUpdateProduct;
+
+    @FXML
+    public void onSelectedProduct(MouseEvent event) {
+        Product productSelected;
+        if (event.getClickCount() == 2) {
+            productSelected = tblProduct.getSelectionModel().getSelectedItem();
+            if (productSelected != null) {
+                code = productSelected.getPrCode();
+                btnAddProduct.setVisible(false);
+                btnRemoveProduct.setVisible(true);
+                btnUpdateProduct.setVisible(true);
+                showAlert(true, "Se ha seleccionado el producto correctamente");
+                txtProductName.setText(productSelected.getPrName());
+                txtProductSize.setText(productSelected.getPrSize());
+                txtProductPrice.setText(String.valueOf(productSelected.getPrPrice()));
+                tbStateProduct.setSelected(productSelected.getPrState());
+            }
+        } else if (event.getClickCount() == 1) {
+            btnAddProduct.setVisible(true);
+            btnRemoveProduct.setVisible(false);
+            btnUpdateProduct.setVisible(false);
+        }
+    }
+
+    @FXML
+    private JFXTextField txtProductName;
+
+    @FXML
+    private JFXTextField txtProductSize;
+
+    @FXML
+    private JFXTextField txtProductPrice;
+
+    @FXML
+    private JFXToggleButton tbStateProduct;
+    
+    @FXML
+    public void onAddProduct(ActionEvent event) throws IOException {
+        try{
+            if (!(txtProductName.getText().equals("")) && !(txtProductSize.getText().equals("")) && !(txtProductPrice.getText().equals(""))) {
+                casaDorada.addProduct(casaDorada.getCode(), 0, txtProductName.getText(), txtProductSize.getText(), Double.parseDouble(txtProductPrice.getText()),
+                        tbStateProduct.isSelected(), 0, casaDorada.getAdminActive(), null);
+                showAlert(true, "El producto se ha añadido correctamente");
+                txtProductName.clear();
+                txtProductSize.clear();
+                txtProductPrice.clear();
+                onTableProduct();
+            } else {
+                showAlert(false, "Debes de ingresar todos los campos");
+            }
+        } catch (Exception e){
+          showAlert(false, "Has ingresado letras en el campo de precios");
+          txtProductPrice.clear();
+        }
+
+    }
+    
+    @FXML
+    public void onUpdateProduct(ActionEvent event) throws IOException {
+        casaDorada.updateProduct(code, txtProductName.getText(), txtProductSize.getText(), Double.parseDouble(txtProductPrice.getText()), 
+                                 tbStateProduct.isSelected(), casaDorada.getAdminActive());
+        showAlert(true, "Se ha actualizado el producto correctamenta");
+        btnAddProduct.setVisible(true);
+        tblProduct.refresh();
+    }
+    
+    @FXML
+    public void onRemoveProduct(ActionEvent event) throws IOException {
+        if(casaDorada.removeProduct(code)){
+            showAlert(true, "Se ha eliminado correctamente el producto");
+        } else {
+            showAlert(false, "No se ha eliminado el producto,\nel producto se encuentra referenciado");
+        }
+    }
+        
+    @FXML
+    private JFXComboBox<Ingredient> cbxIngDisp;
+
+    @FXML
+    private JFXComboBox<TypeProduct> cbxTypeDisp;
 
     @FXML
     private TableView<Ingredient> tblChooseIngredient;
@@ -1076,20 +1216,7 @@ public class FXControllerGUI implements Initializable {
     @FXML
     private TableColumn<TypeProduct, String> tblTypeProductName;
 
-    @FXML
-    private Pane pChooseType;
 
-    @FXML
-    private JFXTextField txtProductName;
-
-    @FXML
-    private JFXTextField txtProductSize;
-
-    @FXML
-    private JFXTextField txtProductPrice;
-
-    @FXML
-    private JFXToggleButton tbStateProduct;
 
     @FXML
     private TableView<Product> tblProduct;
@@ -1115,8 +1242,7 @@ public class FXControllerGUI implements Initializable {
     /*
     Gestionar Pedidos
      */
-    @FXML
-    private Pane pChooseProduct;
+
 
     /*
     Listar
@@ -1148,19 +1274,9 @@ public class FXControllerGUI implements Initializable {
      */
 
 
+
     @FXML
-    public void onGestionProducts(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ProductsGestion.fxml"));
-
-        fxmlLoader.setController(this);
-        Parent productsGestion = fxmlLoader.load();
-
-        pNewOption.getChildren().clear();
-        pNewOption.getChildren().setAll(productsGestion);
-        ingredientsInP = new ArrayList<>();
-        onTableProduct();
-    }
-
+    private Pane pChooseProduct;
 
     @FXML
     public void onGestionOrder(ActionEvent event) throws IOException {
@@ -1269,83 +1385,8 @@ public class FXControllerGUI implements Initializable {
     private ArrayList<TypeProduct> typeProductsInP = new ArrayList<>();
     private ArrayList<Ingredient> ingredientsInP = new ArrayList<>();
 
-    @FXML
-    private JFXComboBox<Ingredient> cbxIngDisp;
 
-    @FXML
-    private JFXComboBox<TypeProduct> cbxTypeDisp;
 
-    @FXML
-    public void onAddIngredientsToProduct(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ChooseIngredients.fxml"));
-
-        fxmlLoader.setController(this);
-        Parent chooseIngredient = fxmlLoader.load();
-        newStage(chooseIngredient);
-        onTableChooseIngredient();
-        showIngredientsDisp();
-    }
-
-    @FXML
-    public void onAddTypeToProduct(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ChooseTypeProducts.fxml"));
-
-        fxmlLoader.setController(this);
-        Parent chooseTypeProduct = fxmlLoader.load();
-        newStage(chooseTypeProduct);
-        onTableChooseTypeProduct();
-        showTPDisp();
-
-    }
-
-    @FXML
-    public void onExitChooseIngredient(ActionEvent event) {
-        Stage stage = (Stage) pChooseIng.getScene().getWindow();
-        stage.close();
-    }
-
-    @FXML
-    public void onExitChooseType(ActionEvent event) {
-        Stage stage = (Stage) pChooseType.getScene().getWindow();
-        stage.close();
-    }
-
-    @FXML
-    public void onAddProduct(ActionEvent event) throws IOException {
-        JFXDialogLayout content = new JFXDialogLayout();
-        JFXButton button = new JFXButton("Okay");
-        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                dialog.close();
-            }
-        });
-        content.setActions(button);
-        if (!(txtProductName.getText().equals("")) && !(txtProductSize.getText().equals(""))
-                && !(txtProductPrice.getText().equals(""))) {
-
-            String productName = txtProductName.getText();
-            String productSize = txtProductSize.getText();
-            double productPrice = Double.parseDouble(txtProductPrice.getText());
-
-            casaDorada.addProduct(0, productName, productSize, productPrice, tbStateProduct.isSelected(), 0,
-                    casaDorada.getAdminActive(), null);
-            casaDorada.addIngredientToProductArray(ingredientsInP);
-            casaDorada.addTypeProductToProductArray(typeProductsInP);
-            System.out.println(typeProductsInP.size());
-            content.setHeading(new Text("¡Listo!"));
-            content.setBody(new Text("El producto se ha agregado exitosamente"));
-            dialog.show();
-            onTableProduct();
-            ingredientsInP = new ArrayList<>();
-            typeProductsInP = new ArrayList<>();
-        } else {
-            content.setHeading(new Text("¡Error!"));
-            content.setBody(new Text("Debes colocarle un nombre al tipo de producto que deseas crear."));
-            dialog.show();
-        }
-    }
 
     @FXML
     public void onAddIngredientToP(ActionEvent event) {
@@ -1421,56 +1462,5 @@ public class FXControllerGUI implements Initializable {
         tblProductState.setCellValueFactory(new PropertyValueFactory<>("prState"));
     }
 
-    @FXML
-    private JFXButton btnAddProduct;
-
-    @FXML
-    private JFXButton btnRemoveProduct;
-
-    @FXML
-    private JFXButton btnUpdateProduct;
-
-    @FXML
-    public void onSelectedProduct(MouseEvent event) {
-        JFXDialogLayout content = new JFXDialogLayout();
-        JFXButton button = new JFXButton("Okay");
-        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                dialog.close();
-            }
-        });
-        content.setActions(button);
-        Product productSelected;
-        if (event.getClickCount() == 2) {
-            productSelected = tblProduct.getSelectionModel().getSelectedItem();
-            if (productSelected != null) {
-                btnAddProduct.setVisible(false);
-                btnRemoveProduct.setVisible(true);
-                btnUpdateProduct.setVisible(true);
-                casaDorada.selectedProduct(productSelected);
-                content.setHeading(new Text("¡Listo!"));
-                content.setBody(new Text("El ingrediente " + productSelected.getPrName() + " fue seleccionado exitosamente."));
-                dialog.show();
-                ingredientsInP = productSelected.getIngredientInProduct();
-                typeProductsInP = productSelected.getTypeProductInProduct();
-                txtProductName.setText(productSelected.getPrName());
-                txtProductSize.setText(productSelected.getPrSize());
-                txtProductPrice.setText(String.valueOf(productSelected.getPrPrice()));
-                tbStateProduct.setSelected(productSelected.getPrState());
-            }
-        } else if (event.getClickCount() == 1) {
-            txtProductName.clear();
-            txtProductSize.clear();
-            txtProductPrice.clear();
-            ingredientsInP = new ArrayList<>();
-            typeProductsInP = new ArrayList<>();
-            tbStateProduct.setSelected(false);
-            btnAddProduct.setVisible(true);
-            btnRemoveProduct.setVisible(false);
-            btnUpdateProduct.setVisible(false);
-        }
-    }
 
 }

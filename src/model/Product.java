@@ -8,6 +8,7 @@ public class Product implements Serializable {
     private static final long serialVersionUID = 1;
 
     private int prCode;
+    private int prRef;
     private String prName;
     private String prSize;
     private double prPrice;
@@ -19,8 +20,9 @@ public class Product implements Serializable {
     private ArrayList<Ingredient> ingredients;
     private ArrayList<TypeProduct> typeProducts;
 
-    public Product(int prCode, String prName, String prSize, double prPrice, boolean prState, int prNumOrder, Admin cpAdmin, Admin mpAdmin) {
+    public Product(int prCode, int prRef, String prName, String prSize, double prPrice, boolean prState, int prNumOrder, Admin cpAdmin, Admin mpAdmin) {
         this.prCode = prCode;
+        this.prRef = prRef;
         this.prName = prName;
         this.prSize = prSize;
         this.prPrice = prPrice;
@@ -40,6 +42,32 @@ public class Product implements Serializable {
     public void setPrCode(int prCode) {
         this.prCode = prCode;
     }
+
+    public int getPrRef() {
+        return prRef;
+    }
+
+    public void setPrRef(int prRef) {
+        this.prRef = prRef;
+    }
+
+    public ArrayList<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(ArrayList<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public ArrayList<TypeProduct> getTypeProducts() {
+        return typeProducts;
+    }
+
+    public void setTypeProducts(ArrayList<TypeProduct> typeProducts) {
+        this.typeProducts = typeProducts;
+    }
+    
+    
 
     public String getPrName() {
         return prName;
