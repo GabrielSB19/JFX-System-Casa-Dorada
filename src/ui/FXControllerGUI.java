@@ -1080,40 +1080,6 @@ public class FXControllerGUI implements Initializable {
         onTableProduct();
     }
     
-    @FXML
-    public void onAddIngredientsToProduct(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ChooseIngredients.fxml"));
-
-        fxmlLoader.setController(this);
-        Parent chooseIngredient = fxmlLoader.load();
-        newStage(chooseIngredient);
-        onTableChooseIngredient();
-        showIngredientsDisp();
-    }
-    
-    @FXML
-    public void onExitChooseIngredient(ActionEvent event) {
-        Stage stage = (Stage) pChooseIng.getScene().getWindow();
-        stage.close();
-    }
-
-    @FXML
-    public void onAddTypeToProduct(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ChooseTypeProducts.fxml"));
-
-        fxmlLoader.setController(this);
-        Parent chooseTypeProduct = fxmlLoader.load();
-        newStage(chooseTypeProduct);
-        onTableChooseTypeProduct();
-        showTPDisp();
-
-    }
-
-    @FXML
-    public void onExitChooseType(ActionEvent event) {
-        Stage stage = (Stage) pChooseType.getScene().getWindow();
-        stage.close();
-    }
     
     @FXML
     private JFXButton btnAddProduct;
@@ -1197,27 +1163,7 @@ public class FXControllerGUI implements Initializable {
             showAlert(false, "No se ha eliminado el producto,\nel producto se encuentra referenciado");
         }
     }
-        
-    @FXML
-    private JFXComboBox<Ingredient> cbxIngDisp;
-
-    @FXML
-    private JFXComboBox<TypeProduct> cbxTypeDisp;
-
-    @FXML
-    private TableView<Ingredient> tblChooseIngredient;
-
-    @FXML
-    private TableColumn<Ingredient, String> tblIngName;
-
-    @FXML
-    private TableView<TypeProduct> tblChooseTypeProduct;
-
-    @FXML
-    private TableColumn<TypeProduct, String> tblTypeProductName;
-
-
-
+    
     @FXML
     private TableView<Product> tblProduct;
 
@@ -1238,41 +1184,167 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     private TableColumn<Product, Boolean> tblProductState;
+    
+    public void onTableProduct() {
+        List<Product> products = casaDorada.getProduct();
+        ObservableList<Product> newTableProduct;
+        newTableProduct = FXCollections.observableArrayList(products);
 
-    /*
-    Gestionar Pedidos
-     */
+        tblProduct.setItems(newTableProduct);
+        tblProductName.setCellValueFactory(new PropertyValueFactory<>("prName"));
+        tblProductSize.setCellValueFactory(new PropertyValueFactory<>("prSize"));
+        tblProductPrice.setCellValueFactory(new PropertyValueFactory<>("prPrice"));
+        tblProductState.setCellValueFactory(new PropertyValueFactory<>("prState"));
+    }
+    
+    @FXML
+    public void onLIstProducts(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ListProducts.fxml"));
+
+        fxmlLoader.setController(this);
+        Parent listProducts = fxmlLoader.load();
+
+        pNewOption.getChildren().clear();
+        pNewOption.getChildren().setAll(listProducts);
+    }
+
+    @FXML
+    private JFXComboBox<Ingredient> cbxIngDisp;
+    
+    @FXML
+    private TableView<Ingredient> tblChooseIngredient;
+
+    @FXML
+    private TableColumn<Ingredient, String> tblIngName;
+    
+    @FXML
+    public void onAddIngredientsToProduct(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ChooseIngredients.fxml"));
+
+        fxmlLoader.setController(this);
+        Parent chooseIngredient = fxmlLoader.load();
+        newStage(chooseIngredient);
+        onTableChooseIngredient();
+        showIngredientsDisp();
+    }
+    
+    private ArrayList<Ingredient> ingredientsInP = new ArrayList<>();
+    
+    public void showIngredientsDisp() {
+        ArrayList<Ingredient> ingredientToProduct = new ArrayList<>();
+        List<Ingredient> ingredients = casaDorada.getIngredient();
+        for (int i = 0; i < ingredients.size(); i++) {
+            if (ingredients.get(i).getIngredientsState()) {
+                ingredientToProduct.add(ingredients.get(i));
+            }
+        }
+        ObservableList<Ingredient> obs;
+        obs = FXCollections.observableArrayList(ingredientToProduct);
+
+        cbxIngDisp.setItems(obs);
+    }
+    
+    @FXML
+    public void onAddIngredientToP(ActionEvent event) {
+        if (cbxIngDisp.getValue() != null) {
+            ingredientsInP.add(cbxIngDisp.getValue());
+        }
+        onTableChooseIngredient();
+    }
+    
+    public void onTableChooseIngredient() {
+        ObservableList<Ingredient> newTableIngredient;
+        newTableIngredient = FXCollections.observableArrayList(ingredientsInP);
+
+        tblChooseIngredient.setItems(newTableIngredient);
+        tblIngName.setCellValueFactory(new PropertyValueFactory<>("ingredientsName"));
+    }
+    
+    @FXML
+    public void onExitChooseIngredient(ActionEvent event) {
+        Stage stage = (Stage) pChooseIng.getScene().getWindow();
+        stage.close();
+    }
+    
+    @FXML
+    private JFXComboBox<TypeProduct> cbxTypeDisp;
+
+    @FXML
+    private TableView<TypeProduct> tblChooseTypeProduct;
+
+    @FXML
+    private TableColumn<TypeProduct, String> tblTypeProductName;
+
+    @FXML
+    public void onAddTypeToProduct(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ChooseTypeProducts.fxml"));
+
+        fxmlLoader.setController(this);
+        Parent chooseTypeProduct = fxmlLoader.load();
+        newStage(chooseTypeProduct);
+        onTableChooseTypeProduct();
+        showTPDisp();
+
+    }
+    
+    public void showTPDisp() {
+        ArrayList<TypeProduct> typeProductToProduct = new ArrayList<>();
+        List<TypeProduct> typeProducts = casaDorada.getTypeProduc();
+        for (int i = 0; i < typeProducts.size(); i++) {
+            if (typeProducts.get(i).getTypeState()) {
+                typeProductToProduct.add(typeProducts.get(i));
+            }
+        }
+        ObservableList<TypeProduct> obs;
+        obs = FXCollections.observableArrayList(typeProductToProduct);
+
+        cbxTypeDisp.setItems(obs);
+    }
+    
+    private ArrayList<TypeProduct> typeProductsInP = new ArrayList<>();
+
+    @FXML
+    public void onAddTypeToP(ActionEvent event) {
+        if (cbxTypeDisp.getValue() != null) {
+            typeProductsInP.add(cbxTypeDisp.getValue());
+        }
+        onTableChooseTypeProduct();
+    }
+        
+    public void onTableChooseTypeProduct() {
+        ObservableList<TypeProduct> newTableTypeProduct;
+        newTableTypeProduct = FXCollections.observableArrayList(typeProductsInP);
+
+        tblChooseTypeProduct.setItems(newTableTypeProduct);
+        tblTypeProductName.setCellValueFactory(new PropertyValueFactory<>("typeName"));
+    }
+        
+    @FXML
+    public void onExitChooseType(ActionEvent event) {
+        Stage stage = (Stage) pChooseType.getScene().getWindow();
+        stage.close();
+    }
 
 
-    /*
-    Listar
-     */
-    //Atributos tipo de producto
-
-
-    //Atributos cliente
-
-
-    //Atributos empleado
-    //Buscar cliente para los pedidos
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     @FXML
     private Pane pSearchClient;
 
     //Generar reportes
     @FXML
     private Pane pSelectDate;
-
-    /*
-    Funciones de los botones del
-    MenuBar
-     */
- /*
-        Salir del programa y cuenta
-     */
- /*
-        Gestion de los objetos 
-     */
-
 
 
     @FXML
@@ -1289,23 +1361,6 @@ public class FXControllerGUI implements Initializable {
         pNewOption.getChildren().setAll(orderGestion);
     }
 
-    /*
-        Listar los objetos
-     */
-
-
-    @FXML
-    public void onLIstProducts(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ListProducts.fxml"));
-
-        fxmlLoader.setController(this);
-        Parent listProducts = fxmlLoader.load();
-
-        pNewOption.getChildren().clear();
-        pNewOption.getChildren().setAll(listProducts);
-    }
-
-
     @FXML
     public void onListOrder(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ListOrder.fxml"));
@@ -1317,11 +1372,6 @@ public class FXControllerGUI implements Initializable {
         pNewOption.getChildren().setAll(listOrder);
     }
 
-    /*
-        Metodo para generar los reportes
-        Solo muestra la pantalla
-     */
-    //Gestion de los pedidos
     @FXML
     public void onChooseClient(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/SearchClient.fxml"));
@@ -1352,9 +1402,6 @@ public class FXControllerGUI implements Initializable {
         stage.close();
     }
 
-    /*
-    Seleccionar el reporte que se desea generar
-     */
     @FXML
     public void onReportOrder(ActionEvent event) throws IOException {
         openSelectDate();
@@ -1365,102 +1412,9 @@ public class FXControllerGUI implements Initializable {
         openSelectDate();
     }
 
-    /*
-        Salir de la pantalla de generar reportes
-     */
     @FXML
     public void onExitSelectDate(ActionEvent event) {
         Stage stage = (Stage) pSelectDate.getScene().getWindow();
         stage.close();
     }
-
-    /*
-    Gestionar Producto
-     */
- /*
-        Agregar producto
-     */
-    private Ingredient ingredientSelect;
-    private TypeProduct typeProductSelect;
-    private ArrayList<TypeProduct> typeProductsInP = new ArrayList<>();
-    private ArrayList<Ingredient> ingredientsInP = new ArrayList<>();
-
-
-
-
-    @FXML
-    public void onAddIngredientToP(ActionEvent event) {
-        if (cbxIngDisp.getValue() != null) {
-            ingredientSelect = cbxIngDisp.getValue();
-            ingredientsInP.add(ingredientSelect);
-        }
-        onTableChooseIngredient();
-    }
-
-    @FXML
-    public void onAddTypeToP(ActionEvent event) {
-        if (cbxTypeDisp.getValue() != null) {
-            typeProductSelect = cbxTypeDisp.getValue();
-            typeProductsInP.add(typeProductSelect);
-        }
-        onTableChooseTypeProduct();
-    }
-
-    public void showIngredientsDisp() {
-        ArrayList<Ingredient> ingredientToProduct = new ArrayList<>();
-        List<Ingredient> ingredients = casaDorada.getIngredient();
-        for (int i = 0; i < ingredients.size(); i++) {
-            if (ingredients.get(i).getIngredientsState()) {
-                ingredientToProduct.add(ingredients.get(i));
-            }
-        }
-        ObservableList<Ingredient> obs;
-        obs = FXCollections.observableArrayList(ingredientToProduct);
-
-        cbxIngDisp.setItems(obs);
-    }
-
-    public void showTPDisp() {
-        ArrayList<TypeProduct> typeProductToProduct = new ArrayList<>();
-        List<TypeProduct> typeProducts = casaDorada.getTypeProduc();
-        for (int i = 0; i < typeProducts.size(); i++) {
-            if (typeProducts.get(i).getTypeState()) {
-                typeProductToProduct.add(typeProducts.get(i));
-            }
-        }
-        ObservableList<TypeProduct> obs;
-        obs = FXCollections.observableArrayList(typeProductToProduct);
-
-        cbxTypeDisp.setItems(obs);
-    }
-
-    public void onTableChooseIngredient() {
-        ObservableList<Ingredient> newTableIngredient;
-        newTableIngredient = FXCollections.observableArrayList(ingredientsInP);
-
-        tblChooseIngredient.setItems(newTableIngredient);
-        tblIngName.setCellValueFactory(new PropertyValueFactory<>("ingredientsName"));
-    }
-
-    public void onTableChooseTypeProduct() {
-        ObservableList<TypeProduct> newTableTypeProduct;
-        newTableTypeProduct = FXCollections.observableArrayList(typeProductsInP);
-
-        tblChooseTypeProduct.setItems(newTableTypeProduct);
-        tblTypeProductName.setCellValueFactory(new PropertyValueFactory<>("typeName"));
-    }
-
-    public void onTableProduct() {
-        List<Product> products = casaDorada.getProduct();
-        ObservableList<Product> newTableProduct;
-        newTableProduct = FXCollections.observableArrayList(products);
-
-        tblProduct.setItems(newTableProduct);
-        tblProductName.setCellValueFactory(new PropertyValueFactory<>("prName"));
-        tblProductSize.setCellValueFactory(new PropertyValueFactory<>("prSize"));
-        tblProductPrice.setCellValueFactory(new PropertyValueFactory<>("prPrice"));
-        tblProductState.setCellValueFactory(new PropertyValueFactory<>("prState"));
-    }
-
-
 }

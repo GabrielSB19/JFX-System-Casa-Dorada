@@ -67,8 +67,6 @@ public class Product implements Serializable {
         this.typeProducts = typeProducts;
     }
     
-    
-
     public String getPrName() {
         return prName;
     }

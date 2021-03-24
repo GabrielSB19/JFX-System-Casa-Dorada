@@ -679,13 +679,4 @@ public class CasaDorada implements Serializable {
         return null;
     }
 
-    public void addIngredientToProductArray(ArrayList<Ingredient> ingredients) {
-        int index = listProducts.size() - 1;
-        listProducts.get(index).setIngredientInProduct(ingredients);
-    }
-
-    public void addTypeProductToProductArray(ArrayList<TypeProduct> typeProducts) {
-        int index = listProducts.size() - 1;
-        listProducts.get(index).setTypeProductInProduct(typeProducts);
-    }
 }
