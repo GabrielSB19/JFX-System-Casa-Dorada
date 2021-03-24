@@ -1132,6 +1132,8 @@ public class FXControllerGUI implements Initializable {
                 casaDorada.addProduct(casaDorada.getCode(), 0, txtProductName.getText(), txtProductSize.getText(), Double.parseDouble(txtProductPrice.getText()),
                         tbStateProduct.isSelected(), 0, casaDorada.getAdminActive(), null);
                 showAlert(true, "El producto se ha añadido correctamente");
+                casaDorada.plusIngRef(ingredientsInP, true);
+                casaDorada.addIngredientToProduct(ingredientsInP);
                 txtProductName.clear();
                 txtProductSize.clear();
                 txtProductPrice.clear();

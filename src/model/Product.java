@@ -147,4 +147,12 @@ public class Product implements Serializable {
     public void setTypeProductInProduct(ArrayList<TypeProduct> typeProducts){
         this.typeProducts = typeProducts;
     }
+    
+    public void ingToString(){
+        String asd = "";
+        for (int i = 0; i < ingredients.size(); i++) {
+            asd += ingredients.get(i).getIngredientsName();
+        }
+        System.out.println(asd);
+    }
 }
