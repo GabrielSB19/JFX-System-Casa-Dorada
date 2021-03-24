@@ -649,21 +649,54 @@ public class CasaDorada implements Serializable {
         return exit;
     }
 
-    public void addIngredientToProduct(ArrayList<Ingredient> ingredients) {
-        listProducts.get(listProducts.size() - 1).setIngredientInProduct(ingredients);
-        listProducts.get(listProducts.size() - 1).ingToString();
+    public void addIngredientToProduct(int code, Ingredient newIngredient) throws IOException {
+        for(int i = 0; i<listProducts.size(); i++){
+            if(listProducts.get(i).getPrCode() == code){
+                
+                ArrayList<Ingredient> test = listProducts.get(i).getIngredients();
+                test.add(newIngredient);
+                listProducts.get(i).setIngredientInProduct(test);
+            }
+        }
+        plusIngRef(newIngredient);
+        saveDataProduct();
+        saveDataIngredient();
     }
-
-    public void plusIngRef(ArrayList<Ingredient> ingredients, boolean ref) {
-        for (int i = 0; i < listIngredients.size(); i++) {
-            for (int j = 0; j < ingredients.size(); j++) {
-                if (listIngredients.get(i).getIngCode() == ingredients.get(j).getIngCode() && ref) {
-                    listIngredients.get(i).setIngCode(listIngredients.get(i).getIngCode() + 1);
-                } else {
-                    listIngredients.get(i).setIngCode(listIngredients.get(i).getIngCode() - 1);
+    
+    public ArrayList<Ingredient> getIngredientInTheArrays(int code){
+        for (int i = 0; i < listProducts.size(); i++) {
+            if(listProducts.get(i).getPrCode() == code);
+            return listProducts.get(i).getIngredientInProduct();
+        }
+        return null;
+    }
+    
+    public void removeIngredientInP(int codeI, int codeP) throws IOException{
+        for (int i = 0; i < listProducts.size(); i++) {
+            if (listProducts.get(i).getPrCode() == codeP) {
+                for (int j = 0; j < listProducts.get(i).getIngredientInProduct().size(); j++) {
+                    if (listProducts.get(i).getIngredientInProduct().get(j).getIngCode() == codeI){
+                        listProducts.get(i).getIngredientInProduct().remove(j);
+                    }
                 }
             }
         }
+        for (int i = 0; i < listIngredients.size(); i++) {
+            if (listIngredients.get(i).getIngCode() == codeI) {
+                listIngredients.get(i).setIRef(listIngredients.get(i).getIRef() - 1);
+            }
+        }
+        saveDataProduct();
+        saveDataIngredient();
+    }
+    
+    public void plusIngRef(Ingredient newIngredient) throws IOException {
+        for (int i = 0; i < listIngredients.size(); i++) {
+            if (listIngredients.get(i) == newIngredient) {
+                listIngredients.get(i).setIRef(listIngredients.get(i).getIRef() + 1);
+            }
+        }
+        saveDataIngredient();
     }
 
     public TypeProduct addTypeProductToProduct(TypeProduct typeProductSelect) {

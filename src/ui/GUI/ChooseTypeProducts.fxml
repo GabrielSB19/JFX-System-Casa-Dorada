@@ -30,7 +30,7 @@
             <Font size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="343.0" layoutY="436.0" onAction="#onExitChooseType" prefHeight="39.0" prefWidth="80.0" style="-fx-background-color: #efb810;" text="Volver">
+      <JFXButton buttonType="RAISED" layoutX="343.0" layoutY="436.0" onAction="#onFinishAddProduct" prefHeight="39.0" prefWidth="80.0" style="-fx-background-color: #efb810;" text="Listo">
          <font>
             <Font size="18.0" />
          </font>
