@@ -19,7 +19,6 @@ import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -1122,16 +1121,18 @@ public class FXControllerGUI implements Initializable {
                 btnUpdateProduct.setVisible(true);
                 showAlert(true, "Se ha seleccionado el producto correctamente");
                 onTableChooseIngredient(showTableActualize(code));
+                onTableChooseTypeProduct(showTableActualizeTp(code));
                 txtProductName.setText(productSelected.getPrName());
                 txtProductSize.setText(productSelected.getPrSize());
                 txtProductPrice.setText(String.valueOf(productSelected.getPrPrice()));
                 tbStateProduct.setSelected(productSelected.getPrState());
+                firstTime = false;
             }
         } else if (event.getClickCount() == 1) {
+            code = 0;
             btnAddProduct.setVisible(true);
             btnRemoveProduct.setVisible(false);
             btnUpdateProduct.setVisible(false);
-            onTableChooseTypeProduct();
         }
     }
 
@@ -1157,20 +1158,15 @@ public class FXControllerGUI implements Initializable {
                 txtProductSize.clear();
                 txtProductPrice.clear();
                 onTableProduct();
-                onAddIngredientsToProduct(casaDorada.getCode());
+                onAddIngredientsToProduct(0);
                 showAlert(true, "El producto se ha añadido correctamente");
-                
-                
-                //casaDorada.plusIngRef(ingredientsInP, true);
-                //casaDorada.addIngredientToProduct(ingredientsInP);
-
+                firstTime = true;
             } else {
                 showAlert(false, "Debes de ingresar todos los campos");
             }
         }catch (NumberFormatException e) {
             showAlert(false, "Has ingresado letras en el campo de precios");
         } catch (Exception e){
-            e.printStackTrace();
         }
     }
     
@@ -1183,14 +1179,30 @@ public class FXControllerGUI implements Initializable {
         showIngredientsDisp();
         onTableChooseIngredient(showTableActualize(code));
     }
+
+    public void onAddTypeToProduct(int code) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ChooseTypeProducts.fxml"));
+
+        fxmlLoader.setController(this);
+        Parent chooseTypeProduct = fxmlLoader.load();
+        newStage(chooseTypeProduct);
+        showTPDisp();
+        onTableChooseTypeProduct(showTableActualizeTp(code));
+    }
     
     @FXML
     public void onUpdateProduct(ActionEvent event) throws IOException {
-        casaDorada.updateProduct(code, txtProductName.getText(), txtProductSize.getText(), Double.parseDouble(txtProductPrice.getText()), 
-                                 tbStateProduct.isSelected(), casaDorada.getAdminActive());
-        showAlert(true, "Se ha actualizado el producto correctamenta");
-        btnAddProduct.setVisible(true);
-        tblProduct.refresh();
+        try {
+            casaDorada.updateProduct(code, txtProductName.getText(), txtProductSize.getText(), Double.parseDouble(txtProductPrice.getText()),
+                    tbStateProduct.isSelected(), casaDorada.getAdminActive());
+            btnAddProduct.setVisible(true);
+            tblProduct.refresh();
+            onAddIngredientsToProduct(code);
+            showAlert(true, "Se ha actualizado el producto correctamenta");
+        } catch (NumberFormatException e) {
+            showAlert(false, "No debes ingresar letras en el precio");
+        } catch (Exception e) {
+        }
     }
     
     @FXML
@@ -1253,6 +1265,10 @@ public class FXControllerGUI implements Initializable {
 
     @FXML
     private TableColumn<TypeProduct, String> tblTypeProductName;
+    
+    private int codeI;
+    private int codeTP;
+    private boolean firstTime = false;
 
     public void showIngredientsDisp() {
         ArrayList<Ingredient> ingredientToProduct = new ArrayList<>();
@@ -1283,12 +1299,78 @@ public class FXControllerGUI implements Initializable {
     }
     
     @FXML
-    public void onAddIngredientToP(ActionEvent event) throws IOException {
-        if (cbxIngDisp.getValue() != null) {
-            casaDorada.addIngredientToProduct(casaDorada.getCode()-1, cbxIngDisp.getValue());
-            showAlert2(true, "Se ha agregado el producto");
-            onTableChooseIngredient(showTableActualize(casaDorada.getCode()-1));
+    public void onSelectIngredientInP(MouseEvent event) {
+        Ingredient ingredientInPSelected;
+        if (event.getClickCount() == 2) {
+            ingredientInPSelected = tblChooseIngredient.getSelectionModel().getSelectedItem();
+            if (ingredientInPSelected != null) {
+                codeI = ingredientInPSelected.getIngCode();
+                showAlert2(true, "Se ha seleccionado el ingrediente correctamente");
+            }
+        } 
+    }
+    
+    @FXML
+    public void onSelectTypeInP(MouseEvent event) {
+        TypeProduct typeProductInPSelected;
+        if (event.getClickCount() == 2){
+            typeProductInPSelected = tblChooseTypeProduct.getSelectionModel().getSelectedItem();
+            if (typeProductInPSelected != null) {
+                codeTP = typeProductInPSelected.getTpCode();
+                showAlert2(true, "Se ha seleccionado correctamente el ingrediente");
+            }
         }
+    }
+        
+    @FXML
+    public void onAddIngredientToP(ActionEvent event) throws IOException {
+        int option;
+        if (firstTime) {
+            option = casaDorada.getCode()-1;
+            firstTime = true;
+        } else {
+            option = code;
+            firstTime = false;
+        }
+        if (cbxIngDisp.getValue() != null) {
+            casaDorada.addIngredientToProduct(option, cbxIngDisp.getValue());
+            showAlert2(true, "Se ha agregado el producto");
+            onTableChooseIngredient(showTableActualize(option));
+        } else {
+            showAlert2(true, "No se ha seleccionado un producto");
+        }
+    }
+        
+    @FXML
+    public void onAddTypeToP(ActionEvent event) throws IOException {
+        int option;
+        if (firstTime) {
+            option = casaDorada.getCode()-1;
+        } else {
+            option = code;
+            firstTime = false;
+        }
+        if (cbxTypeDisp.getValue() != null) {
+            casaDorada.addTypeProductToProduct(option, cbxTypeDisp.getValue());
+            showAlert2(true, "Se ha agregado el tipo de producto");
+            onTableChooseTypeProduct(showTableActualizeTp(option));
+        } else {
+            showAlert2(true, "No se ha seleccionado un tipo de producto");
+        }
+    }
+        
+    @FXML
+    public void onRemoveIngredientInP(ActionEvent event) throws IOException {
+        casaDorada.removeIngredientInP(code, codeI);
+        showAlert2(true, "El ingrediente ha sido eliminado del producto correctamente");
+        onTableChooseIngredient(showTableActualize(code));
+    }
+    
+    @FXML
+    public void onRemoveTypeInP(ActionEvent event) throws IOException {
+        casaDorada.removeTypeProductInP(code, codeTP);
+        showAlert2(true, "El tipo de producto ha sido eliminado");
+        onTableChooseTypeProduct(showTableActualizeTp(code));
     }
     
     public ArrayList<Ingredient> showTableActualize(int code){
@@ -1296,10 +1378,19 @@ public class FXControllerGUI implements Initializable {
         for (int i = 0; i < casaDorada.getProduct().size(); i++) {
             if(casaDorada.getProduct().get(i).getPrCode() == code){
                 ingredients = casaDorada.getProduct().get(i).getIngredientInProduct();
-                System.out.println("xjo");
             }
         }
         return ingredients;
+    }
+    
+    public ArrayList<TypeProduct> showTableActualizeTp(int code){
+        ArrayList<TypeProduct> typeProducts = new ArrayList<>();
+        for (int i = 0; i < casaDorada.getProduct().size(); i++) {
+            if (casaDorada.getProduct().get(i).getPrCode() == code) {
+                typeProducts = casaDorada.getProduct().get(i).getTypeProductInProduct();
+            }
+        }
+        return typeProducts;
     }
     
     public void onTableChooseIngredient(ArrayList<Ingredient> ingredients) {
@@ -1315,59 +1406,31 @@ public class FXControllerGUI implements Initializable {
 
     }
     
-    @FXML
-    public void onRemoveIngredientInP(ActionEvent event) throws IOException {
-        //casaDorada.removeIngredientInP(code);
-        showAlert2(true, "El ingrediente ha sido eliminado del producto correctamente");
-        //onTableChooseIngredient();
+    public void onTableChooseTypeProduct(ArrayList<TypeProduct> typeProducts) {
+        try {
+            ObservableList<TypeProduct> newTableTypeProduct;
+            newTableTypeProduct = FXCollections.observableArrayList(typeProducts);
+            
+            tblChooseTypeProduct.setItems(newTableTypeProduct);
+            tblTypeProductName.setCellValueFactory(new PropertyValueFactory<>("typeName"));
+        } catch (NullPointerException e) {
+
+        }
     }
-    
-    @FXML
-    public void onSelectIngredientInP(MouseEvent event) {
-        Ingredient ingredientInPSelected;
-        if (event.getClickCount() == 2) {
-            ingredientInPSelected = tblChooseIngredient.getSelectionModel().getSelectedItem();
-            if (ingredientInPSelected != null) {
-                //codeI = ingredientInPSelected.getIngCode();
-                showAlert2(true, "Se ha seleccionado el ingrediente correctamente");
-            }
-        } 
-    }
-    
+
     @FXML
     public void onNextChooseTypeIngredients(ActionEvent event) throws IOException {
         Stage stage = (Stage) pChooseIng.getScene().getWindow();
         stage.close();
-        onAddTypeToProduct();
-    }
-
-    public void onAddTypeToProduct() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ChooseTypeProducts.fxml"));
-
-        fxmlLoader.setController(this);
-        Parent chooseTypeProduct = fxmlLoader.load();
-        newStage(chooseTypeProduct);
-        onTableChooseTypeProduct();
-        showTPDisp();
-
-    }
-    
-    @FXML
-    public void onAddTypeToP(ActionEvent event) {
-        if (cbxTypeDisp.getValue() != null) {
-            //typeProductsInP.add(cbxTypeDisp.getValue());
+        
+        if(firstTime){
+            onAddTypeToProduct(casaDorada.getCode()-1);
+        } else {
+            onAddTypeToProduct(code);
         }
-        onTableChooseTypeProduct();
-    }
         
-    public void onTableChooseTypeProduct() {
-        ObservableList<TypeProduct> newTableTypeProduct;
-        //newTableTypeProduct = FXCollections.observableArrayList(typeProductsInP);
+    }
 
-        //tblChooseTypeProduct.setItems(newTableTypeProduct);
-        tblTypeProductName.setCellValueFactory(new PropertyValueFactory<>("typeName"));
-    }
-        
     @FXML
     public void onFinishAddProduct(ActionEvent event) {
         Stage stage = (Stage) pChooseType.getScene().getWindow();
@@ -1384,8 +1447,6 @@ public class FXControllerGUI implements Initializable {
         pNewOption.getChildren().clear();
         pNewOption.getChildren().setAll(listProducts);
     }
-    
-    
     
     
     

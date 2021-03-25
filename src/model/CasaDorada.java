@@ -601,7 +601,7 @@ public class CasaDorada implements Serializable {
                 listProducts.get(i).setPrState(prState);
                 for (int j = 0; j < listAdmins.size(); j++) {
                     if (listProducts.get(i).getMpAdmin() == listAdmins.get(j)) {
-                        listAdmins.get(i).setPRef(listAdmins.get(j).getPRef() - 1);
+                        listAdmins.get(j).setPRef(listAdmins.get(j).getPRef() - 1);
                     }
                 }
                 listProducts.get(i).setMpAdmin(mpAdmin);
@@ -652,13 +652,14 @@ public class CasaDorada implements Serializable {
     public void addIngredientToProduct(int code, Ingredient newIngredient) throws IOException {
         for(int i = 0; i<listProducts.size(); i++){
             if(listProducts.get(i).getPrCode() == code){
-                
-                ArrayList<Ingredient> test = listProducts.get(i).getIngredients();
-                test.add(newIngredient);
-                listProducts.get(i).setIngredientInProduct(test);
+                for (int j = 0; j < listIngredients.size(); j++) {
+                    if(listIngredients.get(j) == newIngredient){
+                        listProducts.get(i).addIngredientInProduct(listIngredients.get(j));
+                        plusIngRef(listIngredients.get(j));
+                    }
+                }
             }
         }
-        plusIngRef(newIngredient);
         saveDataProduct();
         saveDataIngredient();
     }
@@ -671,9 +672,9 @@ public class CasaDorada implements Serializable {
         return null;
     }
     
-    public void removeIngredientInP(int codeI, int codeP) throws IOException{
+    public void removeIngredientInP(int code, int codeI) throws IOException{
         for (int i = 0; i < listProducts.size(); i++) {
-            if (listProducts.get(i).getPrCode() == codeP) {
+            if (listProducts.get(i).getPrCode() == code) {
                 for (int j = 0; j < listProducts.get(i).getIngredientInProduct().size(); j++) {
                     if (listProducts.get(i).getIngredientInProduct().get(j).getIngCode() == codeI){
                         listProducts.get(i).getIngredientInProduct().remove(j);
@@ -699,16 +700,56 @@ public class CasaDorada implements Serializable {
         saveDataIngredient();
     }
 
-    public TypeProduct addTypeProductToProduct(TypeProduct typeProductSelect) {
-        /*
-        if (typeProductSelect != null) {
-            typeProductInProduct = typeProductSelect;
-            return typeProductInProduct;
-        } else {
-            return null;
+    public void addTypeProductToProduct(int code, TypeProduct newTypeProduct) throws IOException {
+        for (int i = 0; i < listProducts.size(); i++) {
+            if (listProducts.get(i).getPrCode() == code){
+                for (int j = 0; j < listTypeProducts.size(); j++) {
+                    if (listTypeProducts.get(j) == newTypeProduct){
+                        listProducts.get(i).addTypeProductInProduct(listTypeProducts.get(j));
+                        plusTPRef(listTypeProducts.get(j));
+                    }
+                }
+            }
         }
-         */
+        saveDataProduct();
+        saveDataTypeProduct();
+    }
+    
+    public ArrayList<TypeProduct> getTypeProductsInTheArrays(int code){
+        for (int i = 0; i < listProducts.size(); i++) {
+            if (listProducts.get(i).getPrCode() == code){
+                return listProducts.get(i).getTypeProductInProduct();
+            }
+        }
         return null;
+    }
+    
+    public void removeTypeProductInP(int code, int codeTP) throws IOException{
+        for (int i = 0; i < listProducts.size(); i++) {
+            if(listProducts.get(i).getPrCode() == code){
+                for (int j = 0; j < listProducts.get(i).getTypeProductInProduct().size(); j++) {
+                    if (listProducts.get(i).getTypeProductInProduct().get(j).getTpCode() == codeTP) {
+                        listProducts.get(i).getTypeProductInProduct().remove(j);
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < listTypeProducts.size(); i++) {
+            if (listTypeProducts.get(i).getTpCode() == codeTP) {
+                listTypeProducts.get(i).setTpRef(listTypeProducts.get(i).getTpRef()-1);
+            }
+        }
+        saveDataProduct();
+        saveDataIngredient();
+    }
+    
+    public void plusTPRef(TypeProduct newTypeProduct) throws IOException{
+        for (int i = 0; i < listTypeProducts.size(); i++) {
+            if (listTypeProducts.get(i) == newTypeProduct) {
+                listTypeProducts.get(i).setTpRef(listTypeProducts.get(i).getTpRef()+1);
+            }
+        }
+        saveDataTypeProduct();
     }
 
 }
