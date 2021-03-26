@@ -16,15 +16,6 @@ public class CasaDorada implements Serializable {
 
     private static final long serialVersionUID = 1;
 
-    private final String SAVE_PATH_FILE_ADMIN = "data/Admin.cgd";
-    private final String SAVE_PATH_FILE_CLIENT = "data/Client.cgd";
-    private final String SAVE_PATH_FILE_EMPLOYEE = "data/Employee.cgd";
-    private final String SAVE_PATH_FILE_INGREDIENT = "data/Ingredient.cgd";
-    private final String SAVE_PATH_FILE_TYPEPRODUCT = "data/TypeProduct.cgd";
-    private final String SAVE_PATH_FILE_PRODUCT = "data/Product.cgd";
-    private final String SAVE_PATH_FILE_CODE = "data/Code.cgd";
-    //private final String SAVE_PATH_FILE_ORDER = "data/Order.cgd";
-
     private int code;
     private List<Admin> listAdmins;
     private List<Client> listClients;
@@ -34,7 +25,7 @@ public class CasaDorada implements Serializable {
     private List<Product> listProducts;
     private List<TypeProduct> listTypeProducts;
     private Admin adminActive;
-
+    
     public CasaDorada() {
         listAdmins = new ArrayList<>();
         listClients = new ArrayList<>();
@@ -45,139 +36,6 @@ public class CasaDorada implements Serializable {
         listOrders = new ArrayList<>();
         code = 0;
     }
-
-    public void loadDataAdmin() throws IOException {
-        try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE_ADMIN)));
-            listAdmins = (List) ois.readObject();
-            ois.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void loadDataClient() throws IOException {
-        try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE_CLIENT)));
-            listClients = (List) ois.readObject();
-            ois.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void loadDataEMmployee() throws IOException {
-        try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE_EMPLOYEE)));
-            listEmployees = (List) ois.readObject();
-            ois.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void loadDataIngredient() throws IOException {
-        try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE_INGREDIENT)));
-            listIngredients = (List) ois.readObject();
-            ois.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void loadDatTypeProduct() throws IOException {
-        try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE_TYPEPRODUCT)));
-            listTypeProducts = (List) ois.readObject();
-            ois.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void loadDataProduct() throws IOException {
-        try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE_PRODUCT)));
-            listProducts = (List) ois.readObject();
-            ois.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void loadDataCode() throws IOException {
-        try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE_CODE)));
-            code = (int) ois.readObject();
-            ois.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    /*
-    public void loadDataOrder(){
-        try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE_ORDER)));
-            listOrders = (List) ois.readObject();
-            ois.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    */
-
-    public void saveDataAdmin() throws IOException {
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_ADMIN));
-        oos.writeObject(listAdmins);
-        oos.close();
-    }
-
-    public void saveDataClient() throws IOException {
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_CLIENT));
-        oos.writeObject(listClients);
-        oos.close();
-    }
-
-    public void saveDataEmployee() throws IOException {
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_EMPLOYEE));
-        oos.writeObject(listEmployees);
-        oos.close();
-    }
-
-    public void saveDataIngredient() throws IOException {
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_INGREDIENT));
-        oos.writeObject(listIngredients);
-        oos.close();
-    }
-
-    public void saveDataTypeProduct() throws IOException {
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_TYPEPRODUCT));
-        oos.writeObject(listTypeProducts);
-        oos.close();
-    }
-
-    public void saveDataProduct() throws IOException {
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_PRODUCT));
-        oos.writeObject(listProducts);
-        oos.close();
-    }
-
-    public void saveDataCode() throws IOException {
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_CODE));
-        oos.writeObject(code);
-        oos.close();
-    }
-    
-    /*
-        public void saveDataOrder() throws IOException {
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_ORDER));
-        oos.writeObject(listOrders);
-        oos.close();
-    }
-    */
-
 
     public boolean login(String username, String password) {
         for (int i = 0; i < listAdmins.size(); i++) {
@@ -207,8 +65,6 @@ public class CasaDorada implements Serializable {
     public void addAdmin(String username, String password, int numOrder, boolean eState, Admin mAdmin, int pCode, String name, String lastName, long ID, Admin cAdmin) throws IOException {
         Admin newAdmin = new Admin(username, password, numOrder, true, null, 0, code++, name, lastName, ID, cAdmin);
         listAdmins.add(newAdmin);
-        saveDataCode();
-        saveDataAdmin();
     }
 
     public boolean updateAdmin(int code, String username, String password, boolean eState, Admin mAdmin, String name, String lastName, long ID) throws IOException {
@@ -221,10 +77,6 @@ public class CasaDorada implements Serializable {
                 listAdmins.get(i).setName(name);
                 listAdmins.get(i).setLastName(lastName);
                 listAdmins.get(i).setID(ID);
-                saveDataAdmin();
-                System.out.println(adminActive.getName());
-                System.out.println(listAdmins.get(i).getName());
-                System.out.println(listAdmins.get(i).getEState());
                 if (!listAdmins.get(i).getEState() && listAdmins.get(i) == adminActive) {
                     return true;
                 }
@@ -240,7 +92,6 @@ public class CasaDorada implements Serializable {
             System.out.println(listAdmins.get(i).getPRef());
             if (listAdmins.get(i).getPCode() == code && listAdmins.get(i).getPRef() == 0) {
                 listAdmins.remove(i);
-                saveDataAdmin();
                 return true;
             }
         }
@@ -282,9 +133,6 @@ public class CasaDorada implements Serializable {
                 listAdmins.get(i).setPRef(listAdmins.get(i).getPRef() + 1);
             }
         }
-        saveDataCode();
-        saveDataAdmin();
-        saveDataEmployee();
         return out;
     }
 
@@ -322,8 +170,6 @@ public class CasaDorada implements Serializable {
                 listAdmins.get(i).setPRef(listAdmins.get(i).getPRef() + 1);
             }
         }
-        saveDataEmployee();
-        saveDataAdmin();
         return out;
     }
 
@@ -351,8 +197,6 @@ public class CasaDorada implements Serializable {
                     }
                 }
                 listEmployees.remove(i);
-                saveDataAdmin();
-                saveDataEmployee();
                 return true;
             }
         }
@@ -389,9 +233,6 @@ public class CasaDorada implements Serializable {
                 listAdmins.get(i).setPRef(listAdmins.get(i).getPRef() + 1);
             }
         }
-        saveDataAdmin();
-        saveDataCode();
-        saveDataClient();
         return out;
     }
     
@@ -437,8 +278,6 @@ public class CasaDorada implements Serializable {
                 listAdmins.get(i).setPRef(listAdmins.get(i).getPRef() + 1);
             }
         }
-        saveDataAdmin();
-        saveDataClient();
         return out;
     }
 
@@ -466,8 +305,6 @@ public class CasaDorada implements Serializable {
                     }
                 }
                 listClients.remove(i);
-                saveDataAdmin();
-                saveDataClient();
                 return true;
             }
         }
@@ -487,9 +324,6 @@ public class CasaDorada implements Serializable {
                 listAdmins.get(i).setPRef(listAdmins.get(i).getPRef() + 1);
             }
         }
-        saveDataCode();
-        saveDataAdmin();
-        saveDataIngredient();
     }
 
     public void updateIngredient(int code, String ingredientsName, boolean ingredientsState, Admin miAdmin) throws IOException {
@@ -510,8 +344,6 @@ public class CasaDorada implements Serializable {
                 listAdmins.get(i).setPRef(listAdmins.get(i).getPRef() + 1);
             }
         }
-        saveDataAdmin();
-        saveDataIngredient();
     }
 
     public boolean removeIngredient(int code) throws IOException {
@@ -542,8 +374,6 @@ public class CasaDorada implements Serializable {
                 exit = true;
             }
         }
-        saveDataAdmin();
-        saveDataIngredient();
         return exit;
     }
 
@@ -562,9 +392,6 @@ public class CasaDorada implements Serializable {
                 listAdmins.get(i).setPRef(listAdmins.get(i).getPRef() + 1);
             }
         }
-        saveDataCode();
-        saveDataAdmin();
-        saveDataTypeProduct();
     }
 
     public void updateTypeProduct(int code, String ingredientsName, boolean ingredientsState, Admin miAdmin) throws IOException {
@@ -585,8 +412,6 @@ public class CasaDorada implements Serializable {
                 listAdmins.get(i).setPRef(listAdmins.get(i).getPRef() + 1);
             }
         }
-        saveDataAdmin();
-        saveDataTypeProduct();
     }
 
     public boolean removeTypeProduct(int code) throws IOException {
@@ -617,8 +442,6 @@ public class CasaDorada implements Serializable {
                 exit = true;
             }
         }
-        saveDataAdmin();
-        saveDataTypeProduct();
         return exit;
     }
 
@@ -637,9 +460,6 @@ public class CasaDorada implements Serializable {
                 listAdmins.get(i).setPRef(listAdmins.get(i).getPRef() + 1);
             }
         }
-        saveDataCode();
-        saveDataAdmin();
-        saveDataProduct();
     }
 
     public void updateProduct(int code, String prName, String prSize, double prPrice, boolean prState, Admin mpAdmin) throws IOException {
@@ -662,8 +482,6 @@ public class CasaDorada implements Serializable {
                 listAdmins.get(i).setPRef(listAdmins.get(i).getPRef() + 1);
             }
         }
-        saveDataAdmin();
-        saveDataProduct();
     }
 
     public boolean removeProduct(int code) throws IOException {
@@ -708,10 +526,6 @@ public class CasaDorada implements Serializable {
                 exit = true;
             }
         }
-        saveDataAdmin();
-        saveDataIngredient();
-        saveDataTypeProduct();
-        saveDataProduct();
         return exit;
     }
 
@@ -726,8 +540,6 @@ public class CasaDorada implements Serializable {
                 }
             }
         }
-        saveDataProduct();
-        saveDataIngredient();
     }
     
     public ArrayList<Ingredient> getIngredientInTheArrays(int code){
@@ -753,8 +565,6 @@ public class CasaDorada implements Serializable {
                 listIngredients.get(i).setIRef(listIngredients.get(i).getIRef() - 1);
             }
         }
-        saveDataProduct();
-        saveDataIngredient();
     }
     
     public void plusIngRef(Ingredient newIngredient) throws IOException {
@@ -763,7 +573,6 @@ public class CasaDorada implements Serializable {
                 listIngredients.get(i).setIRef(listIngredients.get(i).getIRef() + 1);
             }
         }
-        saveDataIngredient();
     }
 
     public void addTypeProductToProduct(int code, TypeProduct newTypeProduct) throws IOException {
@@ -777,8 +586,6 @@ public class CasaDorada implements Serializable {
                 }
             }
         }
-        saveDataProduct();
-        saveDataTypeProduct();
     }
     
     public ArrayList<TypeProduct> getTypeProductsInTheArrays(int code){
@@ -805,8 +612,6 @@ public class CasaDorada implements Serializable {
                 listTypeProducts.get(i).setTpRef(listTypeProducts.get(i).getTpRef()-1);
             }
         }
-        saveDataProduct();
-        saveDataIngredient();
     }
     
     public void plusTPRef(TypeProduct newTypeProduct) throws IOException{
@@ -815,7 +620,6 @@ public class CasaDorada implements Serializable {
                 listTypeProducts.get(i).setTpRef(listTypeProducts.get(i).getTpRef()+1);
             }
         }
-        saveDataTypeProduct();
     }
     
    /*
@@ -834,9 +638,6 @@ public class CasaDorada implements Serializable {
                 listAdmins.get(i).setPRef(listAdmins.get(i).getPRef()+1);
             }
         }
-        System.err.println(listOrders.size()+"xs");
-        saveDataCode();
-        saveDataAdmin();
     }
     
     public List<Client> binaryClient(List<Client> preSelect, String name){
