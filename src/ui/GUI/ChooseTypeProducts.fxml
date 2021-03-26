@@ -6,35 +6,41 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="pChooseType" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="766.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+
+<StackPane fx:id="stackPane2" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TableView fx:id="tblChooseTypeProduct" layoutX="77.0" layoutY="137.0" onMouseClicked="#onSelectTypeInP" prefHeight="285.0" prefWidth="614.0" style="-fx-border-color: #efb810;">
-         <columns>
-            <TableColumn fx:id="tblTypeProductName" prefWidth="613.0" text="Tipo de producto" />
-         </columns>
-      </TableView>
-      <Label layoutX="228.0" layoutY="27.0" text="Elegir Tipo de producto">
-         <font>
-            <Font name="SansSerif Regular" size="30.0" />
-         </font>
-      </Label>
-      <JFXButton buttonType="RAISED" layoutX="408.0" layoutY="80.0" onAction="#onAddTypeToP" prefHeight="39.0" prefWidth="110.0" style="-fx-background-color: #efb810;" text="Agregar">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="538.0" layoutY="80.0" onAction="#onRemoveTypeInP" prefHeight="39.0" prefWidth="110.0" style="-fx-background-color: #efb810;" text="Eliminar">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="343.0" layoutY="436.0" onAction="#onFinishAddProduct" prefHeight="39.0" prefWidth="80.0" style="-fx-background-color: #efb810;" text="Listo">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </JFXButton>
-      <JFXComboBox fx:id="cbxTypeDisp" focusColor="BLACK" layoutX="117.0" layoutY="80.0" prefHeight="39.0" prefWidth="259.0" promptText="                 Tipo de producto" unFocusColor="#efb810" />
+      <Pane fx:id="pChooseType" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="766.0" style="-fx-background-color: #ffffff;">
+         <children>
+            <TableView fx:id="tblChooseTypeProduct" layoutX="77.0" layoutY="137.0" onMouseClicked="#onSelectTypeInP" prefHeight="285.0" prefWidth="614.0" style="-fx-border-color: #efb810;">
+               <columns>
+                  <TableColumn fx:id="tblTypeProductName" prefWidth="613.0" text="Tipo de producto" />
+               </columns>
+            </TableView>
+            <Label layoutX="228.0" layoutY="27.0" text="Elegir Tipo de producto">
+               <font>
+                  <Font name="SansSerif Regular" size="30.0" />
+               </font>
+            </Label>
+            <JFXButton buttonType="RAISED" layoutX="408.0" layoutY="80.0" onAction="#onAddTypeToP" prefHeight="39.0" prefWidth="110.0" style="-fx-background-color: #efb810;" text="Agregar">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXButton>
+            <JFXButton buttonType="RAISED" layoutX="538.0" layoutY="80.0" onAction="#onRemoveTypeInP" prefHeight="39.0" prefWidth="110.0" style="-fx-background-color: #efb810;" text="Eliminar">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXButton>
+            <JFXButton buttonType="RAISED" layoutX="343.0" layoutY="436.0" onAction="#onFinishAddProduct" prefHeight="39.0" prefWidth="80.0" style="-fx-background-color: #efb810;" text="Listo">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXButton>
+            <JFXComboBox fx:id="cbxTypeDisp" focusColor="BLACK" layoutX="117.0" layoutY="80.0" prefHeight="39.0" prefWidth="259.0" promptText="                 Tipo de producto" unFocusColor="#efb810" />
+         </children>
+      </Pane>
    </children>
-</Pane>
+</StackPane>

@@ -2,17 +2,17 @@ package model;
 
 import java.io.Serializable;
 
-public class Client extends Person implements Serializable {
+public class Client extends Person implements Serializable, Comparable<Client> {
     
     private static final long serialVersionUID = 1;
 
     private String cAddress;
-    private int cPhone;
+    private long cPhone;
     private String cObservations;
     private boolean cState;
     private Admin mcAdmin;
 
-    public Client(String cAddress, int cPhone, String cObservations, boolean cState, Admin mcAdmin, int pRef, int pCode, String name, String lastName, int ID, Admin cAdmin) {
+    public Client(String cAddress, long cPhone, String cObservations, boolean cState, Admin mcAdmin, int pRef, int pCode, String name, String lastName, long ID, Admin cAdmin) {
         super(pRef, pCode, name, lastName, ID, cAdmin);
         this.cAddress = cAddress;
         this.cPhone = cPhone;
@@ -31,11 +31,11 @@ public class Client extends Person implements Serializable {
         this.cAddress = cAddress;
     }
 
-    public int getCPhone() {
+    public long getCPhone() {
         return cPhone;
     }
 
-    public void setCPhone(int cPhone) {
+    public void setCPhone(long cPhone) {
         this.cPhone = cPhone;
     }
 
@@ -61,5 +61,10 @@ public class Client extends Person implements Serializable {
     
     public void setMcAdmin(Admin mcAdmin) {
         this.mcAdmin = mcAdmin;
+    }
+
+    @Override
+    public int compareTo(Client o) {
+        return this.getName().compareTo(o.getName());
     }
 }

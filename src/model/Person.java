@@ -10,10 +10,10 @@ public abstract class Person implements Serializable {
     private int pCode;
     private String name;
     private String lastName;
-    private int ID;
+    private long ID;
     private Admin cAdmin;
 
-    public Person(int pRef, int pCode, String name, String lastName, int ID, Admin cAdmin) {
+    public Person(int pRef, int pCode, String name, String lastName, long ID, Admin cAdmin) {
         this.pRef = pRef;
         this.pCode = pCode;
         this.name = name;
@@ -54,11 +54,11 @@ public abstract class Person implements Serializable {
         this.lastName = lastName;
     }
 
-    public int getID() {
+    public long getID() {
         return ID;
     }
 
-    public void setID(int ID) {
+    public void setID(long ID) {
         this.ID = ID;
     }
 

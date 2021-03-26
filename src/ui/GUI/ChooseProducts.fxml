@@ -11,34 +11,34 @@
 
 <Pane fx:id="pChooseProduct" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="766.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TableView layoutX="77.0" layoutY="137.0" prefHeight="285.0" prefWidth="614.0">
+      <TableView fx:id="tblProductsSelect" layoutX="77.0" layoutY="137.0" onMouseClicked="#onSelectProductInOrder" prefHeight="285.0" prefWidth="614.0">
          <columns>
-            <TableColumn prefWidth="307.0" text="Productos" />
-            <TableColumn prefWidth="307.0" text="Cantidad" />
+            <TableColumn fx:id="tblNameProductSelected" prefWidth="307.0" text="Productos" />
+            <TableColumn fx:id="tblAmountProduct" prefWidth="307.0" text="Cantidad" />
          </columns>
       </TableView>
-      <JFXComboBox focusColor="BLACK" layoutX="81.0" layoutY="80.0" prefHeight="39.0" prefWidth="259.0" promptText="                        Producto" unFocusColor="#efb810" />
+      <JFXComboBox fx:id="cbxProductsDisp" focusColor="BLACK" layoutX="81.0" layoutY="80.0" prefHeight="39.0" prefWidth="259.0" promptText="                        Producto" unFocusColor="#efb810" />
       <Label layoutX="273.0" layoutY="30.0" text="Elegir Productos">
          <font>
             <Font name="SansSerif Regular" size="30.0" />
          </font>
       </Label>
-      <JFXButton buttonType="RAISED" layoutX="457.0" layoutY="80.0" prefHeight="39.0" prefWidth="110.0" style="-fx-background-color: #efb810;" text="Agregar">
+      <JFXButton buttonType="RAISED" layoutX="457.0" layoutY="80.0" onAction="#onAddProductInOrder" prefHeight="39.0" prefWidth="110.0" style="-fx-background-color: #efb810;" text="Agregar">
          <font>
             <Font size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="583.0" layoutY="80.0" prefHeight="39.0" prefWidth="110.0" style="-fx-background-color: #efb810;" text="Eliminar">
+      <JFXButton buttonType="RAISED" layoutX="583.0" layoutY="80.0" onAction="#onRemoveProductInOrder" prefHeight="39.0" prefWidth="110.0" style="-fx-background-color: #efb810;" text="Eliminar">
          <font>
             <Font size="18.0" />
          </font>
       </JFXButton>
-      <JFXTextField alignment="CENTER" focusColor="BLACK" layoutX="357.0" layoutY="80.0" prefHeight="39.0" prefWidth="73.0" promptText="Telefono" text="Cantidad" unFocusColor="#efb810">
+      <JFXTextField fx:id="txtAmountxProduct" alignment="CENTER" focusColor="BLACK" layoutX="357.0" layoutY="80.0" prefHeight="39.0" prefWidth="73.0" promptText="Telefono" text="Cantidad" unFocusColor="#efb810">
          <font>
             <Font size="18.0" />
          </font>
       </JFXTextField>
-      <JFXButton buttonType="RAISED" layoutX="343.0" layoutY="436.0" onAction="#onExitChooseProduct" prefHeight="39.0" prefWidth="80.0" style="-fx-background-color: #efb810;" text="Volver">
+      <JFXButton buttonType="RAISED" layoutX="343.0" layoutY="436.0" onAction="#onFinishOrder" prefHeight="39.0" prefWidth="80.0" style="-fx-background-color: #efb810;" text="Listo">
          <font>
             <Font size="18.0" />
          </font>

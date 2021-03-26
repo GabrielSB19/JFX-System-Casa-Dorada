@@ -5,12 +5,16 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
@@ -26,6 +30,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -36,6 +41,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import java.time.LocalTime;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import javafx.scene.input.KeyEvent;
 import model.*;
 
 public class FXControllerGUI implements Initializable {
@@ -70,6 +80,7 @@ public class FXControllerGUI implements Initializable {
         casaDorada.loadDatTypeProduct();
         casaDorada.loadDataClient();
         casaDorada.loadDataProduct();
+        casaDorada.loadDataOrder();
         casaDorada.loadDataCode();
     }
 
@@ -232,7 +243,7 @@ public class FXControllerGUI implements Initializable {
                     && !txtRegisterPassword.getText().equals("")) {
 
                 casaDorada.addAdmin(txtRegisterUserName.getText(), txtRegisterPassword.getText(), 0, true, null, casaDorada.getCode(),
-                        txtRegisterName.getText(), txtRegisterLastName.getText(), Integer.parseInt(txtRegisterID.getText()), null);
+                        txtRegisterName.getText(), txtRegisterLastName.getText(), Long.parseLong(txtRegisterID.getText()), null);
 
                 showAlert(true, "El usuario fue agregado correctamente");
                 closeStage();
@@ -347,7 +358,7 @@ public class FXControllerGUI implements Initializable {
     @FXML
     public void onUptadeAdmin(ActionEvent event) throws IOException {
         boolean isActive = casaDorada.updateAdmin(code, txtUsername.getText(), txtPassword.getText(), tbStateUserName.isSelected(), casaDorada.getAdminActive(),
-                txtNameAdmin.getText(), txtLastNameAdmin.getText(), Integer.parseInt(txtIDAdmin.getText()));
+                txtNameAdmin.getText(), txtLastNameAdmin.getText(), Long.parseLong(txtIDAdmin.getText()));
         if (!isActive) {
             showAlert(true, "Se ha actualizado este elemento correctamente");
             tblAdmin.refresh();
@@ -471,7 +482,7 @@ public class FXControllerGUI implements Initializable {
                     && !txtEmpID.getText().equals("")) {
 
                 casaDorada.addEmployee(0, tbStateEmployee.isSelected(), null, 0, casaDorada.getCode(), txtEmpName.getText(), 
-                                       txtEmpLastName.getText(), Integer.parseInt(txtEmpID.getText()), casaDorada.getAdminActive());
+                                       txtEmpLastName.getText(), Long.parseLong(txtEmpID.getText()), casaDorada.getAdminActive());
 
                 showAlert(true, "El empleado ha sido agregado correctamente");
                 txtEmpName.clear();
@@ -489,7 +500,7 @@ public class FXControllerGUI implements Initializable {
     @FXML
     public void onUpdateEmployee(ActionEvent event) throws IOException {
         if(casaDorada.uptadeEmployee(code, tbStateEmployee.isSelected(), casaDorada.getAdminActive(), txtEmpName.getText(),
-           txtEmpLastName.getText(), Integer.parseInt(txtEmpID.getText()))){
+           txtEmpLastName.getText(), Long.parseLong(txtEmpID.getText()))){
             btnAddEmployee.setVisible(true);
             showAlert(true, "Se ha actualizado este elemento correctamente");
             tblEmployee.refresh();
@@ -661,8 +672,8 @@ public class FXControllerGUI implements Initializable {
         try {
             if (!(txtCName.getText().equals("")) && !(txtCLastName.getText().equals("")) && !(txtCID.getText().equals(""))
                     && !(txtCPhone.getText().equals("")) && !(txtCAddress.getText().equals(""))) {
-                if(casaDorada.addClient(txtCAddress.getText(), Integer.parseInt(txtCPhone.getText()), txtCObser.getText(), tbStateClient.isSelected(), null,
-                   0, casaDorada.getCode(), txtCName.getText(), txtCLastName.getText(), Integer.parseInt(txtCID.getText()), casaDorada.getAdminActive())) {
+                if(casaDorada.addClient(txtCAddress.getText(), Long.parseLong(txtCPhone.getText()), txtCObser.getText(), tbStateClient.isSelected(), null,
+                   0, casaDorada.getCode(), txtCName.getText(), txtCLastName.getText(), Long.parseLong(txtCID.getText()), casaDorada.getAdminActive())) {
                    showAlert(true, "Se ha agregado correctamente el cliente"); 
                 } else {
                     showAlert(false, "No se ha agregado el cliente debido a que ya existe otro con la misma Identificación");
@@ -688,11 +699,18 @@ public class FXControllerGUI implements Initializable {
     
     @FXML
     public void onUptadeClient(ActionEvent event) throws IOException {
-        if (casaDorada.updateClient(code, txtCAddress.getText(), Integer.parseInt(txtCPhone.getText()), txtCObser.getText(), tbStateClient.isSelected(),
-                casaDorada.getAdminActive(), txtCName.getText(), txtCLastName.getText(), Integer.parseInt(txtCID.getText()))){
+        if (casaDorada.updateClient(code, txtCAddress.getText(), Long.parseLong(txtCPhone.getText()), txtCObser.getText(), tbStateClient.isSelected(),
+                casaDorada.getAdminActive(), txtCName.getText(), txtCLastName.getText(), Long.parseLong(txtCID.getText()))){
             showAlert(true, "Se ha actualizodo correctamente el cliente");
+            txtCName.clear();
+            txtCLastName.clear();
+            txtCID.clear();
+            txtCPhone.clear();
+            txtCAddress.clear();
+            txtCObser.clear();
         } else {
             showAlert(false, "Ingresaste una identificación que ya le pertenece a otro usuario, no se actualizo");
+            txtCID.clear();
         }
         btnAddClient.setVisible(true);
         tblClients.refresh();
@@ -881,6 +899,7 @@ public class FXControllerGUI implements Initializable {
     public void onRemoveIngredient(ActionEvent event) throws IOException {
         if(casaDorada.removeIngredient(code)){
             showAlert(true, "Se ha eliminado el ingrediente correctamnet");
+            onTableIngredient();
             txtIngName.clear();
         } else {
             showAlert(false, "No se ha eliminado el ingrediente,\n el ingrediente se encuntra referenciado");
@@ -1021,6 +1040,7 @@ public class FXControllerGUI implements Initializable {
     public void onRemoveTypeProduct(ActionEvent event) throws IOException {
         if (casaDorada.removeTypeProduct(code)){
             showAlert(true, "Se ha eliminado el tipo de producto correctamente");
+            onTableTypeProduct();
         } else {
             showAlert(false, "No se ha eliminado el tipo de producto,\nel tipo de producto esta referenciado");
         }
@@ -1097,6 +1117,7 @@ public class FXControllerGUI implements Initializable {
 
         pNewOption.getChildren().clear();
         pNewOption.getChildren().setAll(productsGestion);
+        showEmployeeDisp();
         onTableProduct();
     }
     
@@ -1222,7 +1243,7 @@ public class FXControllerGUI implements Initializable {
     private TableColumn<Product, String> tblProductName;
 
     @FXML
-    private TableColumn<Product, String> tblProductIng;
+    private TableColumn<Product, Ingredient> tblProductIng;
 
     @FXML
     private TableColumn<Product, String> tblProductTp;
@@ -1448,26 +1469,20 @@ public class FXControllerGUI implements Initializable {
         pNewOption.getChildren().setAll(listProducts);
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
+    /*
+    Gestionar Ordenes
+    */
     
     @FXML
     private Pane pSearchClient;
 
-    //Generar reportes
-    @FXML
-    private Pane pSelectDate;
-
-
     @FXML
     private Pane pChooseProduct;
 
+    public Date convertToHour(LocalDateTime dateToConvert) {
+        return java.sql.Timestamp.valueOf(dateToConvert);
+    }
+    
     @FXML
     public void onGestionOrder(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/OrderGestion.fxml"));
@@ -1477,6 +1492,210 @@ public class FXControllerGUI implements Initializable {
 
         pNewOption.getChildren().clear();
         pNewOption.getChildren().setAll(orderGestion);
+        showEmployeeDisp();
+        onTableOrder();
+    }
+        
+    @FXML
+    private JFXButton btnAddOrder;
+
+    @FXML
+    private JFXButton onRemoveOrder;
+
+    @FXML
+    private JFXButton btnUpdateOrder;
+    
+    @FXML
+    public void onSelectOrder(MouseEvent event) {
+
+    }
+
+    @FXML
+    private ToggleGroup statusOrder;
+
+    @FXML
+    private JFXRadioButton rbSolited;
+
+    @FXML
+    private JFXRadioButton rbProccess;
+
+    @FXML
+    private JFXRadioButton rbSent;
+
+    @FXML
+    private JFXRadioButton rbRecieved;
+    
+    
+    @FXML
+    private JFXToggleButton tbStateOrder;
+
+
+    @FXML
+    private JFXTextField txtObserOrder;
+
+    @FXML
+    private JFXComboBox<String> cbxEmployeeOrder;
+
+    public boolean firstTimeOrder = false;
+    
+    @FXML
+    public void onAddOrder(ActionEvent event) throws IOException {
+        try {
+            if(cbxEmployeeOrder.getValue() != null){
+                casaDorada.addOrder(casaDorada.getCode(), statusSelected(getStatusOrder()), convertToHour(LocalDateTime.now()), 
+                                    txtObserOrder.getText(), tbStateOrder.isSelected(), null, getEmployeeSelected(cbxEmployeeOrder.getValue()), casaDorada.getAdminActive(), null);
+                txtObserOrder.clear();
+                onTableOrder();
+                onChooseClient();
+                showAlert(true, "Se ha agregado correctamente el pedido");
+                firstTimeOrder = true;
+            } else {
+                showAlert(false, "No puedes crear una orden sin asignar a un empleado encargado");
+            }
+        } catch (NumberFormatException e) {
+            showAlert(false, "Ingresa los valores bien");
+        } catch (Exception e) {
+        }
+        
+    }
+    
+    public int getStatusOrder(){
+        int option = 1;
+        if (rbSolited.isSelected()) {
+            option = 1;
+        } else if (rbProccess.isSelected()){
+            option = 2;
+        } else if (rbSent.isSelected()){
+            option = 3;
+        } else if (rbRecieved.isSelected()){
+            option = 4;
+        }
+        return option;
+    }
+    
+    public StatusOrder statusSelected(int option){
+        StatusOrder status = StatusOrder.SOLICITADO;
+        switch(option){
+            case 1:
+                status = StatusOrder.SOLICITADO;
+                break;
+            case 2:
+                status = StatusOrder.EN_PROCESO;
+                break;
+            case 3:
+                status = StatusOrder.ENVIADO;
+                break;
+            case 4:
+                status = StatusOrder.ENTREGADO;
+                break;
+        }
+        return status;
+    }
+    
+    public void showEmployeeDisp(){
+        try{
+            ArrayList<Employee> employeeToOrder = new ArrayList<>();
+            List<Employee> employees = casaDorada.getEmployee();
+            for (int i = 0; i < employees.size(); i++) {
+                if (employees.get(i).getEState()) {
+                    employeeToOrder.add(employees.get(i));
+                }
+            }
+            ArrayList<String> nameEmployees = new ArrayList<>();
+            for (int i = 0; i < employeeToOrder.size(); i++) {
+                nameEmployees.add(employeeToOrder.get(i).getNameLN());
+            }
+            ObservableList<String> obs;
+            obs = FXCollections.observableArrayList(nameEmployees);
+            cbxEmployeeOrder.setItems(obs);
+        } catch (NullPointerException e){ 
+        }
+    }
+    
+    public Employee getEmployeeSelected(String name){
+        String [] nameSplit = name.split(" ");
+        for (int i = 0; i < casaDorada.getEmployee().size(); i++) {
+            if (casaDorada.getEmployee().get(i).getName().equals(nameSplit[0]) && casaDorada.getEmployee().get(i).getLastName().equals(nameSplit[1])) {
+                return casaDorada.getEmployee().get(i);
+            }
+        }
+        return null;
+    }
+    
+    @FXML
+    private TableView<Order> tblOrder;
+
+    @FXML
+    private TableColumn<Order, StatusOrder> tblStatusOrder;
+
+    @FXML
+    private TableColumn<Order, String> tblProductsOrder;
+
+    @FXML
+    private TableColumn<Order, String> tblAmounxProducts;
+
+    @FXML
+    private TableColumn<Order, String> tblClientOrder;
+
+    @FXML
+    private TableColumn<Order, String> tblEmployeeOrder;
+
+    @FXML
+    private TableColumn<Order, String> tblObserOrder;
+    
+    public void onTableOrder(){
+        List<Order> orders = casaDorada.getOrders();
+        ObservableList<Order> newTableOrder;
+        newTableOrder = FXCollections.observableArrayList(orders);
+        
+        tblOrder.setItems(newTableOrder);
+        tblStatusOrder.setCellValueFactory(new PropertyValueFactory<>("Status"));
+        tblObserOrder.setCellValueFactory(new PropertyValueFactory<>("observatinos"));
+    }
+    
+    public void onChooseClient() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/SearchClient.fxml"));
+
+        fxmlLoader.setController(this);
+        Parent searchClient = fxmlLoader.load();
+        newStage(searchClient);
+    }
+    
+    @FXML
+    public void onSearchClient(KeyEvent event) {
+
+    }
+    
+    @FXML
+    public void onExitSearchClient(ActionEvent event) throws IOException {
+        Stage stage = (Stage) pSearchClient.getScene().getWindow();
+        stage.close();
+        onChooseProduct();
+    }
+    
+    public void onChooseProduct() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ChooseProducts.fxml"));
+
+        fxmlLoader.setController(this);
+        Parent chooseProduct = fxmlLoader.load();
+        newStage(chooseProduct);
+    }
+    
+    @FXML
+    public void onFinishOrder(ActionEvent event) {
+        Stage stage = (Stage) pChooseProduct.getScene().getWindow();
+        stage.close();
+    }
+    
+
+    @FXML
+    public void onRemoveOrder(ActionEvent event) {
+
+    }
+
+    @FXML
+    public void onUpdateOrder(ActionEvent event) {
+
     }
 
     @FXML
@@ -1490,37 +1709,127 @@ public class FXControllerGUI implements Initializable {
         pNewOption.getChildren().setAll(listOrder);
     }
 
-    @FXML
-    public void onChooseClient(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/SearchClient.fxml"));
 
-        fxmlLoader.setController(this);
-        Parent searchClient = fxmlLoader.load();
-        newStage(searchClient);
+    @FXML
+    void onRemoveClientInOrder(ActionEvent event) {
+
+    }
+
+
+    @FXML
+    void onSelectClientSearch(MouseEvent event) {
+
     }
 
     @FXML
-    public void onChooseProduct(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ChooseProducts.fxml"));
+    void onSelectClientInOrder(MouseEvent event) {
 
-        fxmlLoader.setController(this);
-        Parent chooseProduct = fxmlLoader.load();
-        newStage(chooseProduct);
+    }
+    
+    @FXML
+    void onRemoveProductInOrder(ActionEvent event) {
+
     }
 
     @FXML
-    public void onExitSearchClient(ActionEvent event) {
-        Stage stage = (Stage) pSearchClient.getScene().getWindow();
-        stage.close();
+    void onSelectProductInOrder(MouseEvent event) {
+
+    }
+    
+    @FXML
+    void onAddProductInOrder(ActionEvent event) {
+
+    }
+    
+    @FXML
+    void onAddClientToOrder(ActionEvent event) {
+
     }
 
-    @FXML
-    public void onExitChooseProduct(ActionEvent event) {
-        Stage stage = (Stage) pChooseProduct.getScene().getWindow();
-        stage.close();
-    }
 
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //Generar reportes
     @FXML
+    private Pane pSelectDate;
+    
+        @FXML
     public void onReportOrder(ActionEvent event) throws IOException {
         openSelectDate();
     }

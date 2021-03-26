@@ -10,7 +10,7 @@ public class Employee extends Person implements Serializable {
     private boolean eState;
     private Admin mAdmin;
 
-    public Employee(int numOrder, boolean eState, Admin mAdmin, int pRef, int pCode, String name, String lastName, int ID, Admin cAdmin) {
+    public Employee(int numOrder, boolean eState, Admin mAdmin, int pRef, int pCode, String name, String lastName, long ID, Admin cAdmin) {
         super(pRef, pCode, name, lastName, ID, cAdmin);
         this.numOrder = numOrder;
         this.eState = eState;
@@ -39,6 +39,11 @@ public class Employee extends Person implements Serializable {
 
     public void setMAdmin(Admin mAdmin) {
         this.mAdmin = mAdmin;
+    }
+    
+    public String getNameLN(){
+        String nameLN = getName()+" "+getLastName();
+        return nameLN;
     }
     
     

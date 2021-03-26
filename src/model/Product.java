@@ -51,22 +51,6 @@ public class Product implements Serializable {
         this.prRef = prRef;
     }
 
-    public ArrayList<Ingredient> getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(ArrayList<Ingredient> ingredients) {
-        this.ingredients = ingredients;
-    }
-
-    public ArrayList<TypeProduct> getTypeProducts() {
-        return typeProducts;
-    }
-
-    public void setTypeProducts(ArrayList<TypeProduct> typeProducts) {
-        this.typeProducts = typeProducts;
-    }
-    
     public String getPrName() {
         return prName;
     }

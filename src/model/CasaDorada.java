@@ -8,6 +8,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class CasaDorada implements Serializable {
@@ -21,6 +23,7 @@ public class CasaDorada implements Serializable {
     private final String SAVE_PATH_FILE_TYPEPRODUCT = "data/TypeProduct.cgd";
     private final String SAVE_PATH_FILE_PRODUCT = "data/Product.cgd";
     private final String SAVE_PATH_FILE_CODE = "data/Code.cgd";
+    private final String SAVE_PATH_FILE_ORDER = "data/Order.cgd";
 
     private int code;
     private List<Admin> listAdmins;
@@ -39,6 +42,7 @@ public class CasaDorada implements Serializable {
         listIngredients = new ArrayList<>();
         listTypeProducts = new ArrayList<>();
         listProducts = new ArrayList<>();
+        listOrders = new ArrayList<>();
         code = 0;
     }
 
@@ -111,6 +115,16 @@ public class CasaDorada implements Serializable {
             e.printStackTrace();
         }
     }
+    
+    public void loadDataOrder(){
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE_ORDER)));
+            listOrders = (List) ois.readObject();
+            ois.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public void saveDataAdmin() throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_ADMIN));
@@ -153,6 +167,12 @@ public class CasaDorada implements Serializable {
         oos.writeObject(code);
         oos.close();
     }
+    
+    public void saveDataOrder() throws IOException {
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_ORDER));
+        oos.writeObject(listOrders);
+        oos.close();
+    }
 
     public boolean login(String username, String password) {
         for (int i = 0; i < listAdmins.size(); i++) {
@@ -179,14 +199,14 @@ public class CasaDorada implements Serializable {
         return listAdmins;
     }
 
-    public void addAdmin(String username, String password, int numOrder, boolean eState, Admin mAdmin, int pCode, String name, String lastName, int ID, Admin cAdmin) throws IOException {
+    public void addAdmin(String username, String password, int numOrder, boolean eState, Admin mAdmin, int pCode, String name, String lastName, long ID, Admin cAdmin) throws IOException {
         Admin newAdmin = new Admin(username, password, numOrder, true, null, 0, code++, name, lastName, ID, cAdmin);
         listAdmins.add(newAdmin);
         saveDataCode();
         saveDataAdmin();
     }
 
-    public boolean updateAdmin(int code, String username, String password, boolean eState, Admin mAdmin, String name, String lastName, int ID) throws IOException {
+    public boolean updateAdmin(int code, String username, String password, boolean eState, Admin mAdmin, String name, String lastName, long ID) throws IOException {
         for (int i = 0; i < listAdmins.size(); i++) {
             if (listAdmins.get(i).getPCode() == code) {
                 listAdmins.get(i).setUsername(username);
@@ -238,14 +258,14 @@ public class CasaDorada implements Serializable {
         return listEmployees;
     }
 
-    public boolean addEmployee(int numOrder, boolean eState, Admin mAdmin, int pRef, int pCode, String name, String lastName, int ID, Admin cAdmin) throws IOException {
+    public boolean addEmployee(int numOrder, boolean eState, Admin mAdmin, int pRef, int pCode, String name, String lastName, long ID, Admin cAdmin) throws IOException {
         boolean out = false;
-        Employee newEmployee = new Employee(0, true, null, 0, code++, name, lastName, ID, cAdmin);
-        if (listEmployees.isEmpty()) {
+        Employee newEmployee = new Employee(0, eState, null, 0, code++, name, lastName, ID, cAdmin);
+        if (listEmployees.isEmpty() && !out) {
             listEmployees.add(newEmployee);
             out = true;
         } else {
-            for (int i = 0; i < listEmployees.size(); i++) {
+            for (int i = 0; i < listEmployees.size() && !out; i++) {
                 if (listEmployees.get(i).getID() != ID) {
                     listEmployees.add(newEmployee);
                     out = true;
@@ -263,24 +283,32 @@ public class CasaDorada implements Serializable {
         return out;
     }
 
-    public boolean uptadeEmployee(int code, boolean eState, Admin mAdmin, String name, String lastName, int ID) throws IOException {
+    public boolean uptadeEmployee(int code, boolean eState, Admin mAdmin, String name, String lastName, long ID) throws IOException {
         boolean out = false;
+        boolean test = false;
+        int xd = 0;
+        for (int i = 0; i < listEmployees.size(); i++) {
+            if (listClients.get(i).getID() != ID) {
+                xd++;
+            }
+        }
         for (int i = 0; i < listEmployees.size(); i++) {
             if (listEmployees.get(i).getPCode() == code) {
-                for (int j = 0; j < listEmployees.size(); j++) {
-                    if (listEmployees.get(i).getID() != listEmployees.get(j).getID() && listEmployees.get(i).getID() != ID || listEmployees.size() == 1) {
-                        listEmployees.get(i).setEState(eState);
-                        listEmployees.get(i).setName(name);
-                        listEmployees.get(i).setLastName(lastName);
-                        listEmployees.get(i).setID(ID);
-                        for (int k = 0; k < listAdmins.size(); k++) {
-                            if (listEmployees.get(i).getMAdmin() == listAdmins.get(k)) {
-                                listAdmins.get(k).setPRef(listAdmins.get(k).getPRef() - 1);
-                            }
+                if (listEmployees.get(i).getID() == ID) {
+                    test = true;
+                }
+                if (xd == listEmployees.size() || test) {
+                    listEmployees.get(i).setEState(eState);
+                    listEmployees.get(i).setName(name);
+                    listEmployees.get(i).setLastName(lastName);
+                    listEmployees.get(i).setID(ID);
+                    for (int k = 0; k < listAdmins.size(); k++) {
+                        if (listEmployees.get(i).getMAdmin() == listAdmins.get(k)) {
+                            listAdmins.get(k).setPRef(listAdmins.get(k).getPRef() - 1);
                         }
-                        listEmployees.get(i).setMAdmin(mAdmin);
-                        out = true;
                     }
+                    listEmployees.get(i).setMAdmin(mAdmin);
+                    out = true;
                 }
             }
         }
@@ -333,16 +361,21 @@ public class CasaDorada implements Serializable {
         return listClients;
     }
 
-    public boolean addClient(String cAddress, int cPhone, String cObservations, boolean cState, Admin mcAdmin, int pRef, int pCode, String name, String lastName, int ID, Admin cAdmin) throws IOException {
+    public boolean addClient(String cAddress, long cPhone, String cObservations, boolean cState, Admin mcAdmin, int pRef, int pCode, String name, String lastName, long ID, Admin cAdmin) throws IOException {
         boolean out = false;
         Client newClient = new Client(cAddress, cPhone, cObservations, cState, null, 0, code++, name, lastName, ID, cAdmin);
-        if (listClients.isEmpty()) {
+        if (listClients.isEmpty() && !out) {
             listClients.add(newClient);
             out = true;
         } else {
-            for (int i = 0; i < listClients.size(); i++) {
+            for (int i = 0; i < listClients.size() && !out; i++) {
                 if (listClients.get(i).getID() != ID) {
-                    listClients.add(newClient);
+                    int x = 0;
+                    while (x<listClients.size() && newClient.compareTo(listClients.get(x))>0) {
+                        x++;
+                    }
+                    listClients.add(x, newClient);
+                    out = true;
                 }
             }
         }
@@ -356,28 +389,40 @@ public class CasaDorada implements Serializable {
         saveDataClient();
         return out;
     }
-
-    public boolean updateClient(int code, String cAddress, int cPhone, String cObservations, boolean cState, Admin mcAdmin, String name, String lastName, int ID) throws IOException {
+    
+    public void sortByName(){
+        Collections.sort(listClients);
+    }
+    
+    public boolean updateClient(int code, String cAddress, long cPhone, String cObservations, boolean cState, Admin mcAdmin, String name, String lastName, long ID) throws IOException {
         boolean out = false;
+        boolean test = false;
+        int xd = 0;
+        for (int i = 0; i < listClients.size(); i++) {
+            if (listClients.get(i).getID() != ID) {
+                xd++;
+            }
+        }
         for (int i = 0; i < listClients.size(); i++) {
             if (listClients.get(i).getPCode() == code) {
-                for (int j = 0; j < listClients.size(); j++) {
-                    if (listClients.get(i).getID() != listClients.get(j).getID() && listClients.get(i).getID() != ID || listClients.size() == 1) {
-                        listClients.get(i).setCAddress(cAddress);
-                        listClients.get(i).setCPhone(cPhone);
-                        listClients.get(i).setCObservations(cObservations);
-                        listClients.get(i).setCState(cState);
-                        listClients.get(i).setName(name);
-                        listClients.get(i).setLastName(lastName);
-                        listClients.get(i).setID(ID);
-                        for (int k = 0; k < listAdmins.size(); k++) {
-                            if (listClients.get(i).getMcAdmin() == listAdmins.get(k)) {
-                                listAdmins.get(k).setPRef(listAdmins.get(k).getPRef() - 1);
-                            }
+                if (listClients.get(i).getID() == ID) {
+                    test = true;
+                }
+                if (xd == listClients.size() || test) {
+                    listClients.get(i).setCAddress(cAddress);
+                    listClients.get(i).setCPhone(cPhone);
+                    listClients.get(i).setCObservations(cObservations);
+                    listClients.get(i).setCState(cState);
+                    listClients.get(i).setName(name);
+                    listClients.get(i).setLastName(lastName);
+                    listClients.get(i).setID(ID);
+                    for (int k = 0; k < listAdmins.size(); k++) {
+                        if (listClients.get(i).getMcAdmin() == listAdmins.get(k)) {
+                            listAdmins.get(k).setPRef(listAdmins.get(k).getPRef() - 1);
                         }
-                        listClients.get(i).setMcAdmin(mcAdmin);
-                        out = true;
                     }
+                    listClients.get(i).setMcAdmin(mcAdmin);
+                    out = true;
                 }
 
             }
@@ -620,6 +665,20 @@ public class CasaDorada implements Serializable {
         boolean exit = false;
         for (int i = 0; i < listProducts.size(); i++) {
             if (listProducts.get(i).getPrCode() == code && listProducts.get(i).getPrRef() == 0) {
+                for (int j = 0; j < listIngredients.size(); j++) {
+                    for (int k = 0; k < listProducts.get(i).getIngredientInProduct().size(); k++) {
+                        if (listIngredients.get(j) == listProducts.get(i).getIngredientInProduct().get(k)) {
+                            listIngredients.get(j).setIRef(listIngredients.get(j).getIRef() - 1);
+                        }
+                    }
+                }
+                for (int j = 0; j < listTypeProducts.size(); j++) {
+                    for (int k = 0; k < listProducts.get(i).getTypeProductInProduct().size(); k++) {
+                        if (listTypeProducts.get(j) == listProducts.get(i).getTypeProductInProduct().get(k)) {
+                            listTypeProducts.get(j).setTpRef(listTypeProducts.get(j).getTpRef()-1);
+                        }
+                    }
+                }
                 boolean out = false;
                 boolean out1 = false;
                 for (int j = 0; j < listAdmins.size() && !(out && out1); j++) {
@@ -645,6 +704,8 @@ public class CasaDorada implements Serializable {
             }
         }
         saveDataAdmin();
+        saveDataIngredient();
+        saveDataTypeProduct();
         saveDataProduct();
         return exit;
     }
@@ -751,5 +812,26 @@ public class CasaDorada implements Serializable {
         }
         saveDataTypeProduct();
     }
-
+    
+   /*
+    Metodos relacionados con crear ordenes
+    */
+    
+    public List<Order> getOrders(){
+        return listOrders;
+    }
+    
+    public void addOrder(int oCode, StatusOrder Status, Date oDate, String observatinos, boolean state, Client rClient, Employee rEmployee, Admin coAdmin, Admin moAdmin) throws IOException{
+        Order newOrder = new Order(code++, Status, oDate, observatinos, state, rClient, rEmployee, coAdmin, null);
+        listOrders.add(newOrder);
+        for (int i = 0; i < listAdmins.size(); i++) {
+            if(listAdmins.get(i) == coAdmin){
+                listAdmins.get(i).setPRef(listAdmins.get(i).getPRef()+1);
+            }
+        }
+        saveDataCode();
+        saveDataAdmin();
+        saveDataOrder();
+    }
+    
 }
