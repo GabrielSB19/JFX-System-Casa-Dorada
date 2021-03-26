@@ -23,7 +23,7 @@ public class CasaDorada implements Serializable {
     private final String SAVE_PATH_FILE_TYPEPRODUCT = "data/TypeProduct.cgd";
     private final String SAVE_PATH_FILE_PRODUCT = "data/Product.cgd";
     private final String SAVE_PATH_FILE_CODE = "data/Code.cgd";
-    private final String SAVE_PATH_FILE_ORDER = "data/Order.cgd";
+    //private final String SAVE_PATH_FILE_ORDER = "data/Order.cgd";
 
     private int code;
     private List<Admin> listAdmins;
@@ -116,6 +116,7 @@ public class CasaDorada implements Serializable {
         }
     }
     
+    /*
     public void loadDataOrder(){
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE_ORDER)));
@@ -125,6 +126,7 @@ public class CasaDorada implements Serializable {
             e.printStackTrace();
         }
     }
+    */
 
     public void saveDataAdmin() throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_ADMIN));
@@ -168,11 +170,14 @@ public class CasaDorada implements Serializable {
         oos.close();
     }
     
-    public void saveDataOrder() throws IOException {
+    /*
+        public void saveDataOrder() throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_ORDER));
         oos.writeObject(listOrders);
         oos.close();
     }
+    */
+
 
     public boolean login(String username, String password) {
         for (int i = 0; i < listAdmins.size(); i++) {
@@ -829,9 +834,9 @@ public class CasaDorada implements Serializable {
                 listAdmins.get(i).setPRef(listAdmins.get(i).getPRef()+1);
             }
         }
+        System.err.println(listOrders.size()+"xs");
         saveDataCode();
         saveDataAdmin();
-        saveDataOrder();
     }
     
     public List<Client> binaryClient(List<Client> preSelect, String name){

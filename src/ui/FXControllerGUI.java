@@ -16,6 +16,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -57,7 +58,9 @@ import javafx.collections.transformation.FilteredList;
 import javafx.scene.input.KeyEvent;
 import model.*;
 
-public class FXControllerGUI implements Initializable {
+public class FXControllerGUI implements Initializable, Serializable {
+    
+    private static final long serialVersionUID = 1;
 
     /*
     Atributos y metodos y constructor que son generales de la GUI.
@@ -68,7 +71,8 @@ public class FXControllerGUI implements Initializable {
     public void loadData() throws IOException, FileNotFoundException {
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE)));
-            casaDorada = (CasaDorada) ois.readObject();
+            CasaDorada test = (CasaDorada) ois.readObject();
+            this.casaDorada = test;
             ois.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -80,7 +84,6 @@ public class FXControllerGUI implements Initializable {
         oos.writeObject(this.casaDorada);
         oos.close();
     }
-
     
     public static ImageView imageView;
 
@@ -109,12 +112,17 @@ public class FXControllerGUI implements Initializable {
         casaDorada.loadDatTypeProduct();
         casaDorada.loadDataClient();
         casaDorada.loadDataProduct();
-        casaDorada.loadDataOrder();
+        
+        //casaDorada.loadDataOrder();
         casaDorada.loadDataCode();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        try {
+            loadData();
+        } catch (IOException ex) {
+        }
         imageView = ivWelcome;
         if (!FXMain.loaded) {
             try {
@@ -134,11 +142,7 @@ public class FXControllerGUI implements Initializable {
             timeline.play();
             setImageWelcome();
             FXMain.loaded = true;
-            try {
-                loadData();
-            } catch (IOException ex) {
-                Logger.getLogger(FXControllerGUI.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            
         }
     }
 
@@ -1583,6 +1587,7 @@ public class FXControllerGUI implements Initializable {
                 onChooseClient();
                 showAlert(true, "Se ha agregado correctamente el pedido");
                 firstTimeOrder = true;
+                saveData();
             } else {
                 showAlert(false, "No puedes crear una orden sin asignar a un empleado encargado");
             }
