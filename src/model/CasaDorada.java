@@ -714,7 +714,7 @@ public class CasaDorada implements Serializable {
         for(int i = 0; i<listProducts.size(); i++){
             if(listProducts.get(i).getPrCode() == code){
                 for (int j = 0; j < listIngredients.size(); j++) {
-                    if(listIngredients.get(j) == newIngredient){
+                    if(listIngredients.get(j).getIngCode() == newIngredient.getIngCode()){
                         listProducts.get(i).addIngredientInProduct(listIngredients.get(j));
                         plusIngRef(listIngredients.get(j));
                     }
@@ -832,6 +832,31 @@ public class CasaDorada implements Serializable {
         saveDataCode();
         saveDataAdmin();
         saveDataOrder();
+    }
+    
+    public List<Client> binaryClient(List<Client> preSelect, String name){
+        sortByName();
+        List<Client> selectedClient = new ArrayList<>();
+        preSelect = listClients;
+        int pos = -1;
+        int i = 0;
+        int j = preSelect.size()-1;
+        while (i<=j && pos<0) {            
+            int m = (i+j)/2;
+            if (preSelect.get(m).getName().equalsIgnoreCase(name)) {
+                selectedClient.add(preSelect.get(m));
+                pos = m;
+            } else if (name.compareTo(preSelect.get(m).getName())>0){
+               i = m+1; 
+            } else {
+                j = m-1;
+            }
+        }
+        for (int k = 0; k < selectedClient.size(); k++) {
+            System.out.println(selectedClient.get(k).getName());
+        }
+        
+        return selectedClient;
     }
     
 }

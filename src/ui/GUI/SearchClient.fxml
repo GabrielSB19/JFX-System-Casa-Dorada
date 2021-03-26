@@ -6,63 +6,69 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="pSearchClient" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="625.0" prefWidth="887.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+
+<StackPane fx:id="stackPane2" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TableView fx:id="tblClientDisp" layoutX="56.0" layoutY="166.0" onMouseClicked="#onSelectClientSearch" prefHeight="368.0" prefWidth="366.0">
-         <columns>
-            <TableColumn fx:id="tblNameClientDisp" prefWidth="122.0" text="Nombre" />
-            <TableColumn fx:id="tblLNClientDisp" prefWidth="122.0" text="Apellido" />
-            <TableColumn fx:id="tblIDClientDisp" prefWidth="122.0" text="ID" />
-         </columns>
-      </TableView>
-      <Label layoutX="346.0" layoutY="20.0" text="Buscar Cliente">
-         <font>
-            <Font name="SansSerif Regular" size="30.0" />
-         </font>
-      </Label>
-      <JFXButton buttonType="RAISED" layoutX="279.0" layoutY="80.0" prefHeight="39.0" prefWidth="110.0" style="-fx-background-color: #efb810;" text="Buscar">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="389.0" layoutY="563.0" onAction="#onExitSearchClient" prefHeight="39.0" prefWidth="110.0" style="-fx-background-color: #efb810;" text="Siguiente">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </JFXButton>
-      <JFXTextField fx:id="txtSearchClient" alignment="CENTER" focusColor="BLACK" layoutX="77.0" layoutY="80.0" onKeyReleased="#onSearchClient" prefHeight="39.0" prefWidth="185.0" promptText="Nombre" unFocusColor="#efb810">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </JFXTextField>
-      <JFXButton buttonType="RAISED" layoutX="499.0" layoutY="80.0" onAction="#onAddClientToOrder" prefHeight="39.0" prefWidth="130.0" style="-fx-background-color: #efb810;" text="Agregar">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="663.0" layoutY="80.0" onAction="#onRemoveClientInOrder" prefHeight="39.0" prefWidth="110.0" style="-fx-background-color: #efb810;" text="Eliminar">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </JFXButton>
-      <TableView fx:id="tblClientSelected" layoutX="464.0" layoutY="166.0" onMouseClicked="#onSelectClientInOrder" prefHeight="368.0" prefWidth="366.0">
-         <columns>
-            <TableColumn fx:id="tblNameClientSelected" prefWidth="122.0" text="Nombre" />
-            <TableColumn fx:id="tblLNClientSelected" prefWidth="122.0" text="Apellido" />
-            <TableColumn fx:id="tblIDClientDisp" prefWidth="122.0" text="ID" />
-         </columns>
-      </TableView>
-      <Label layoutX="150.0" layoutY="137.0" text="Clientes disponibles">
-         <font>
-            <Font name="SansSerif Regular" size="20.0" />
-         </font>
-      </Label>
-      <Label layoutX="555.0" layoutY="137.0" text="Cliente seleccionado">
-         <font>
-            <Font name="SansSerif Regular" size="20.0" />
-         </font>
-      </Label>
+      <Pane fx:id="pSearchClient" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="625.0" prefWidth="887.0" style="-fx-background-color: #ffffff;">
+         <children>
+            <TableView fx:id="tblClientDisp" layoutX="56.0" layoutY="166.0" onMouseClicked="#onSelectClientToOrder" prefHeight="368.0" prefWidth="366.0">
+               <columns>
+                  <TableColumn fx:id="tblNameClientDisp" prefWidth="122.0" text="Nombre" />
+                  <TableColumn fx:id="tblLNClientDisp" prefWidth="122.0" text="Apellido" />
+                  <TableColumn fx:id="tblIDClientDisp" prefWidth="122.0" text="ID" />
+               </columns>
+            </TableView>
+            <Label layoutX="346.0" layoutY="20.0" text="Buscar Cliente">
+               <font>
+                  <Font name="SansSerif Regular" size="30.0" />
+               </font>
+            </Label>
+            <JFXButton buttonType="RAISED" layoutX="279.0" layoutY="80.0" onAction="#onSearchClient" prefHeight="39.0" prefWidth="110.0" style="-fx-background-color: #efb810;" text="Buscar">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXButton>
+            <JFXButton buttonType="RAISED" layoutX="389.0" layoutY="563.0" onAction="#onExitSearchClient" prefHeight="39.0" prefWidth="110.0" style="-fx-background-color: #efb810;" text="Siguiente">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXButton>
+            <JFXTextField fx:id="txtSearchClient" alignment="CENTER" focusColor="BLACK" layoutX="77.0" layoutY="80.0" prefHeight="39.0" prefWidth="185.0" promptText="Nombre" unFocusColor="#efb810">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXTextField>
+            <JFXButton buttonType="RAISED" layoutX="499.0" layoutY="80.0" onAction="#onAddClientToOrder" prefHeight="39.0" prefWidth="130.0" style="-fx-background-color: #efb810;" text="Agregar">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXButton>
+            <JFXButton buttonType="RAISED" layoutX="663.0" layoutY="80.0" onAction="#onRemoveClientInOrder" prefHeight="39.0" prefWidth="110.0" style="-fx-background-color: #efb810;" text="Eliminar">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXButton>
+            <TableView fx:id="tblClientSelected" layoutX="464.0" layoutY="166.0" onMouseClicked="#onSelectClientInOrder" prefHeight="368.0" prefWidth="366.0">
+               <columns>
+                  <TableColumn fx:id="tblNameClientSelected" prefWidth="122.0" text="Nombre" />
+                  <TableColumn fx:id="tblLNClientSelected" prefWidth="122.0" text="Apellido" />
+                  <TableColumn fx:id="tblIDClientDisp" prefWidth="122.0" text="ID" />
+               </columns>
+            </TableView>
+            <Label layoutX="150.0" layoutY="137.0" text="Clientes disponibles">
+               <font>
+                  <Font name="SansSerif Regular" size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="555.0" layoutY="137.0" text="Cliente seleccionado">
+               <font>
+                  <Font name="SansSerif Regular" size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
    </children>
-</Pane>
+</StackPane>

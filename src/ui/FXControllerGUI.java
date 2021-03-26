@@ -9,7 +9,13 @@ import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -45,6 +51,9 @@ import java.time.LocalTime;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.collections.transformation.FilteredList;
 import javafx.scene.input.KeyEvent;
 import model.*;
 
@@ -53,9 +62,29 @@ public class FXControllerGUI implements Initializable {
     /*
     Atributos y metodos y constructor que son generales de la GUI.
      */
+      
+    private final String SAVE_PATH_FILE = "data/CasaDorada.cgd";
+    
+    public void loadData() throws IOException, FileNotFoundException {
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(SAVE_PATH_FILE)));
+            casaDorada = (CasaDorada) ois.readObject();
+            ois.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void saveData() throws IOException {
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE));
+        oos.writeObject(this.casaDorada);
+        oos.close();
+    }
+
+    
     public static ImageView imageView;
 
-    private final CasaDorada casaDorada;
+    private  CasaDorada casaDorada;
 
     public static Timeline timeline;
 
@@ -105,6 +134,11 @@ public class FXControllerGUI implements Initializable {
             timeline.play();
             setImageWelcome();
             FXMain.loaded = true;
+            try {
+                loadData();
+            } catch (IOException ex) {
+                Logger.getLogger(FXControllerGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -1659,11 +1693,83 @@ public class FXControllerGUI implements Initializable {
         fxmlLoader.setController(this);
         Parent searchClient = fxmlLoader.load();
         newStage(searchClient);
+        onLoadTableFilter(null);
+    }
+        
+    @FXML
+    private TableView<Client> tblClientDisp;
+
+    @FXML
+    private TableColumn<Client, String> tblNameClientDisp;
+
+    @FXML
+    private TableColumn<Client, String> tblLNClientDisp;
+
+    @FXML
+    private TableColumn<Client, Long> tblIDClientDisp;
+    
+    public void onLoadTableFilter(List<Client> selected){
+        List<Client> clients = new ArrayList<>();
+        if (selected == null){
+            for (int i = 0; i < casaDorada.getClient().size(); i++) {
+                if (casaDorada.getClient().get(i).getCState()) {
+                    clients = casaDorada.getClient();
+                }
+            }
+        } else {
+            for (int i = 0; i < selected.size(); i++) {
+                clients.add(selected.get(i));
+            }
+        }
+        ObservableList<Client> newTableSearchClient;
+        newTableSearchClient = FXCollections.observableArrayList(clients);
+
+        tblClientDisp.setItems(newTableSearchClient);
+        tblNameClientDisp.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tblLNClientDisp.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        tblIDClientDisp.setCellValueFactory(new PropertyValueFactory<>("ID"));
+    }
+
+    @FXML
+    private JFXTextField txtSearchClient;
+ 
+    
+    @FXML
+    public void onSearchClient(ActionEvent event) {
+        if(!txtSearchClient.getText().equals("")){
+            onLoadTableFilter(casaDorada.binaryClient(casaDorada.getClient(), txtSearchClient.getText()));
+            showAlert2(true, "Se ha buscado el cliente");
+        } else {
+            showAlert2(false, "Debes ingresar un nombre para buscar");
+        }
+    }
+    
+    int codeCO;
+    
+    @FXML
+    public void onSelectClientToOrder(MouseEvent event) {
+        Client clientInOrder;
+        if (event.getClickCount() == 2) {
+            clientInOrder = tblClientDisp.getSelectionModel().getSelectedItem();
+            if (clientInOrder != null) {
+               codeCO = clientInOrder.getPCode();
+               showAlert2(true, "se ha seleccionado el empleado\nSi deseas agregarlo presiona el boton agregar");
+            }
+        }
     }
     
     @FXML
-    public void onSearchClient(KeyEvent event) {
-
+    public void onAddClientToOrder(ActionEvent event) {
+        for (int i = 0; i < casaDorada.getClient().size(); i++) {
+            if(casaDorada.getClient().get(i).getPCode() == codeCO){
+                if(casaDorada.getOrders().get(casaDorada.getCode()-1).getrClient() == null){
+                    //casaDorada.getOrders.get(casaDorada.getCode() - 1).setrClient(casaDorada.getClient().get(i));
+                    showAlert2(true, "Se ha agregado el cliente");
+                }
+                showAlert2(false, "No se ha seleccionado un producto");
+            } else 
+                showAlert2(false, "No se ha seleccionado un producto");
+        }
     }
     
     @FXML
@@ -1715,7 +1821,6 @@ public class FXControllerGUI implements Initializable {
 
     }
 
-
     @FXML
     void onSelectClientSearch(MouseEvent event) {
 
@@ -1740,11 +1845,7 @@ public class FXControllerGUI implements Initializable {
     void onAddProductInOrder(ActionEvent event) {
 
     }
-    
-    @FXML
-    void onAddClientToOrder(ActionEvent event) {
 
-    }
 
 
 
