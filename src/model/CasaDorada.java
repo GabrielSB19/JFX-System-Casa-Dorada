@@ -1,11 +1,6 @@
 package model;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -640,29 +635,49 @@ public class CasaDorada implements Serializable {
         }
     }
     
-    public List<Client> binaryClient(List<Client> preSelect, String name){
+    public List<Client> binaryClient(List<Client> preSelect, boolean out, String name) {
         sortByName();
         List<Client> selectedClient = new ArrayList<>();
         preSelect = listClients;
-        int pos = -1;
-        int i = 0;
-        int j = preSelect.size()-1;
-        while (i<=j && pos<0) {            
-            int m = (i+j)/2;
-            if (preSelect.get(m).getName().equalsIgnoreCase(name)) {
-                selectedClient.add(preSelect.get(m));
-                pos = m;
-            } else if (name.compareTo(preSelect.get(m).getName())>0){
-               i = m+1; 
-            } else {
-                j = m-1;
+        if (out) {
+            for (int i = 0; i < preSelect.size(); i++) {
+                if (preSelect.get(i).getName().equalsIgnoreCase(name)) {
+                    selectedClient.add(preSelect.get(i));
+                }
+            }
+        } else {
+            sortID(preSelect);
+            long Id = Long.parseLong(name);
+            int pos = -1;
+            int i = 0;
+            int j = preSelect.size() - 1;
+            while (i <= j && pos < 0) {
+                int m = (i + j) / 2;
+                if (preSelect.get(m).getID() == Id) {
+                    selectedClient.add(preSelect.get(m));
+                    pos = m;
+                } else if (preSelect.get(m).getID() > 0) {
+                    i = m + 1;
+                } else {
+                    j = m - 1;
+                }
             }
         }
-        for (int k = 0; k < selectedClient.size(); k++) {
-            System.out.println(selectedClient.get(k).getName());
-        }
-        
         return selectedClient;
+    }
+    
+    public void sortID(List<Client> preSelect){
+        for (int i = 1; i < preSelect.size(); i++) {
+            for (int j = i; j > 0 && preSelect.get(j-1).getID()>preSelect.get(j).getID(); j--){
+                Client temp = preSelect.get(i);
+                preSelect.set(j, preSelect.get(j-1));
+                preSelect.set(j-1, temp);
+                
+            }
+        }
+        for (int i = 0; i < preSelect.size(); i++) {
+            System.out.println(preSelect.get(i).getID()+"Si ojala");
+        }
     }
     
 }

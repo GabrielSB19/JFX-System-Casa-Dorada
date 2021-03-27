@@ -1745,7 +1745,12 @@ public class FXControllerGUI implements Initializable, Serializable {
     @FXML
     public void onSearchClient(ActionEvent event) {
         if (!txtSearchClient.getText().equals("")) {
-            onLoadTableFilter(casaDorada.binaryClient(casaDorada.getClient(), txtSearchClient.getText()));
+            try {
+                 Long search = Long.parseLong(txtSearchClient.getText());
+                 onLoadTableFilter(casaDorada.binaryClient(casaDorada.getClient(), false, txtSearchClient.getText()));
+            } catch (NumberFormatException e) {
+                onLoadTableFilter(casaDorada.binaryClient(casaDorada.getClient(), true, txtSearchClient.getText()));
+            }
             showAlert2(true, "Se ha buscado el cliente");
         } else {
             showAlert2(false, "Debes ingresar un nombre para buscar");
