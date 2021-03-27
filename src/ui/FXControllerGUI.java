@@ -1725,7 +1725,7 @@ public class FXControllerGUI implements Initializable, Serializable {
         if (selected == null) {
             for (int i = 0; i < casaDorada.getClient().size(); i++) {
                 if (casaDorada.getClient().get(i).getCState()) {
-                    clients = casaDorada.getClient();
+                    clients.add(casaDorada.getClient().get(i));
                 }
             }
         } else {
@@ -1748,11 +1748,12 @@ public class FXControllerGUI implements Initializable, Serializable {
     @FXML
     public void onSearchClient(ActionEvent event) {
         if (!txtSearchClient.getText().equals("")) {
+            List<Client> test = casaDorada.removeDeshabiltyClient(casaDorada.getClient());
             try {
                  Long search = Long.parseLong(txtSearchClient.getText());
-                 onLoadTableFilter(casaDorada.binaryClient(casaDorada.getClient(), false, txtSearchClient.getText()));
+                 onLoadTableFilter(casaDorada.binaryClient(test, false, txtSearchClient.getText()));
             } catch (NumberFormatException e) {
-                onLoadTableFilter(casaDorada.binaryClient(casaDorada.getClient(), true, txtSearchClient.getText()));
+                onLoadTableFilter(casaDorada.binaryClient(test, true, txtSearchClient.getText()));
             }
             showAlert2(true, "Se ha buscado el cliente");
         } else {
@@ -1773,6 +1774,18 @@ public class FXControllerGUI implements Initializable, Serializable {
             }
         }
     }
+    
+    @FXML
+    private TableView<Client> tblClientSelected;
+
+    @FXML
+    private TableColumn<Client, Long> tblNameClientSelected;
+
+    @FXML
+    private TableColumn<Client, Long> tblLNClientSelected;
+
+    @FXML
+    private TableColumn<Client, Long> tblIDClientSelected;
 
     @FXML
     public void onAddClientToOrder(ActionEvent event) {

@@ -635,10 +635,10 @@ public class CasaDorada implements Serializable {
         }
     }
     
+    @SuppressWarnings("null")
     public List<Client> binaryClient(List<Client> preSelect, boolean out, String name) {
         sortByName();
         List<Client> selectedClient = new ArrayList<>();
-        preSelect = listClients;
         if (out) {
             for (int i = 0; i < preSelect.size(); i++) {
                 if (preSelect.get(i).getName().equalsIgnoreCase(name)) {
@@ -657,9 +657,9 @@ public class CasaDorada implements Serializable {
                     selectedClient.add(preSelect.get(m));
                     pos = m;
                 } else if (preSelect.get(m).getID() > 0) {
-                    i = m + 1;
-                } else {
                     j = m - 1;
+                } else {
+                    i = m - 1;
                 }
             }
         }
@@ -675,5 +675,18 @@ public class CasaDorada implements Serializable {
                 
             }
         }
+        for (int i = 0; i < preSelect.size(); i++) {
+            System.out.println(preSelect.get(i).getName()+preSelect.get(i).getID());
+        }
+    }
+    
+    public List<Client> removeDeshabiltyClient(List<Client> listClients){
+         ArrayList<Client> removeClientD = new ArrayList<>();
+         for (int i = 0; i < listClients.size(); i++) {
+             if (listClients.get(i).getCState()) {
+                 removeClientD.add(listClients.get(i));
+             }
+        }
+        return removeClientD;
     }
 }
