@@ -1308,6 +1308,7 @@ public class FXControllerGUI implements Initializable, Serializable {
         tblProductSize.setCellValueFactory(new PropertyValueFactory<>("prSize"));
         tblProductPrice.setCellValueFactory(new PropertyValueFactory<>("prPrice"));
         tblProductState.setCellValueFactory(new PropertyValueFactory<>("prState"));
+        tblProductIng.setCellValueFactory(new PropertyValueFactory<>("ingredientsToString"));
     }
 
     @FXML
@@ -1399,6 +1400,7 @@ public class FXControllerGUI implements Initializable, Serializable {
             saveData();
             showAlert2(true, "Se ha agregado el producto");
             onTableChooseIngredient(showTableActualize(option));
+            tblProduct.refresh();
         } else {
             showAlert2(true, "No se ha seleccionado un producto");
         }
@@ -1418,6 +1420,7 @@ public class FXControllerGUI implements Initializable, Serializable {
             saveData();
             showAlert2(true, "Se ha agregado el tipo de producto");
             onTableChooseTypeProduct(showTableActualizeTp(option));
+            tblProduct.refresh();
         } else {
             showAlert2(true, "No se ha seleccionado un tipo de producto");
         }

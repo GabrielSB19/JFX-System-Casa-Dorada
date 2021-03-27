@@ -139,4 +139,14 @@ public class Product implements Serializable {
         }
         System.out.println(asd);
     }
+    
+    public String getIngredientsToString(){
+        String ingredientsToString = "";
+        String separator =  "";
+        for (int i = 0; i < ingredients.size(); i++) {
+            ingredientsToString += separator+ingredients.get(i).getIngredientsName();
+            separator = ", ";
+        }
+        return ingredientsToString;
+    }
 }

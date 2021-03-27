@@ -675,9 +675,5 @@ public class CasaDorada implements Serializable {
                 
             }
         }
-        for (int i = 0; i < preSelect.size(); i++) {
-            System.out.println(preSelect.get(i).getID()+"Si ojala");
-        }
     }
-    
 }
