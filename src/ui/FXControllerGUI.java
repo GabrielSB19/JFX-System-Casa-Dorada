@@ -1309,6 +1309,7 @@ public class FXControllerGUI implements Initializable, Serializable {
         tblProductPrice.setCellValueFactory(new PropertyValueFactory<>("prPrice"));
         tblProductState.setCellValueFactory(new PropertyValueFactory<>("prState"));
         tblProductIng.setCellValueFactory(new PropertyValueFactory<>("ingredientsToString"));
+        tblProductTp.setCellValueFactory(new PropertyValueFactory<>("tpToString"));
     }
 
     @FXML
@@ -1594,7 +1595,8 @@ public class FXControllerGUI implements Initializable, Serializable {
                 onChooseClient();
                 saveData();
                 showAlert(true, "Se ha agregado correctamente el pedido");
-                firstTimeOrder = true;
+                //firstTimeOrder = true;
+                code = casaDorada.getCode()-1;
             } else {
                 showAlert(false, "No puedes crear una orden sin asignar a un empleado encargado");
             }
@@ -1696,6 +1698,7 @@ public class FXControllerGUI implements Initializable, Serializable {
 
         tblOrder.setItems(newTableOrder);
         tblStatusOrder.setCellValueFactory(new PropertyValueFactory<>("Status"));
+        tblClientOrder.setCellValueFactory(new PropertyValueFactory<>("showClientName"));
         tblObserOrder.setCellValueFactory(new PropertyValueFactory<>("observatinos"));
     }
 
@@ -1770,7 +1773,7 @@ public class FXControllerGUI implements Initializable, Serializable {
             clientInOrder = tblClientDisp.getSelectionModel().getSelectedItem();
             if (clientInOrder != null) {
                 codeCO = clientInOrder.getPCode();
-                showAlert2(true, "se ha seleccionado el empleado\nSi deseas agregarlo presiona el boton agregar");
+                showAlert2(true, "Se ha seleccionado el empleado\nSi deseas agregarlo presiona el boton agregar");
             }
         }
     }
@@ -1788,18 +1791,46 @@ public class FXControllerGUI implements Initializable, Serializable {
     private TableColumn<Client, Long> tblIDClientSelected;
 
     @FXML
-    public void onAddClientToOrder(ActionEvent event) {
-        for (int i = 0; i < casaDorada.getClient().size(); i++) {
-            if (casaDorada.getClient().get(i).getPCode() == codeCO) {
-                if (casaDorada.getOrders().get(casaDorada.getCode() - 1).getrClient() == null) {
-                    //casaDorada.getOrders.get(casaDorada.getCode() - 1).setrClient(casaDorada.getClient().get(i));
-                    showAlert2(true, "Se ha agregado el cliente");
+    public void onAddClientToOrder(ActionEvent event) throws IOException {
+        boolean out = false;
+        if (codeCO == 0) {
+            showAlert2(false, "No se he seleccioando el cliente");
+        } else {
+            for (int i = 0; i < casaDorada.getClient().size() && !out; i++) {
+                if (casaDorada.getClient().get(i).getPCode() == codeCO) {
+                    for (int j = 0; j < casaDorada.getOrders().size(); j++) {
+                        if (casaDorada.getOrders().get(j).getCode() == code) {
+                            if (casaDorada.getOrders().get(j).getrClient() == null) {
+                                casaDorada.getOrders().get(j).setrClient(casaDorada.getClient().get(i));
+                                casaDorada.plusInClient(casaDorada.getClient().get(i));
+                                showAlert2(true, "Se ha agregado el cliente");
+                                showClientSelected(casaDorada.getClient().get(i));
+                                tblOrder.refresh();
+                                out = true;
+                                saveData();
+                            } else {
+                                showAlert2(false, "Ya existe un cliente para esta orden\nSi deseas agregar otro cliente, por favor elimina el anterior");
+                                out = true;
+                            }
+                        }
+                    }
                 }
-                showAlert2(false, "No se ha seleccionado un producto");
-            } else {
-                showAlert2(false, "No se ha seleccionado un producto");
             }
         }
+    }
+    
+    public void showClientSelected (Client clientSelected){
+        ArrayList<Client> clientS = new ArrayList<>();
+        clientS.add(clientSelected);
+        
+        ObservableList<Client> newTableClientSelect;
+        newTableClientSelect = FXCollections.observableArrayList(clientS);
+        
+        tblClientSelected.setItems(newTableClientSelect);
+        tblNameClientSelected.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tblLNClientSelected.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        tblIDClientSelected.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        
     }
 
     @FXML

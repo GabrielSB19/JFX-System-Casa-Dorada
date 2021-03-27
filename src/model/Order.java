@@ -129,4 +129,12 @@ public class Order implements Serializable{
     public void addAmountxProduct(int newAmountxProduct){
         amountxProduct.add(newAmountxProduct);
     }
+    
+    public String getShowClientName(){
+        String showClientName = "";
+        if (rClient != null) {
+            showClientName = rClient.getName();
+        }
+        return showClientName;
+    }
 }

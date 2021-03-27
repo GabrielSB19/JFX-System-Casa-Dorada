@@ -689,4 +689,12 @@ public class CasaDorada implements Serializable {
         }
         return removeClientD;
     }
+    
+    public void plusInClient(Client client){
+        for (int i = 0; i < listClients.size(); i++) {
+            if (client == listClients.get(i)) {
+                listClients.get(i).setPRef(listClients.get(i).getPCode()+1);
+            }
+        }
+    }
 }

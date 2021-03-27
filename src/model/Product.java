@@ -149,4 +149,14 @@ public class Product implements Serializable {
         }
         return ingredientsToString;
     }
+    
+    public String getTpToString(){
+        String tpToString = "";
+        String separator = "";
+        for (int i = 0; i < typeProducts.size(); i++) {
+            tpToString += separator+typeProducts.get(i).getTypeName();
+            separator = ", ";
+        }
+        return tpToString;
+    }
 }
