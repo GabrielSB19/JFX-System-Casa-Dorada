@@ -1590,13 +1590,11 @@ public class FXControllerGUI implements Initializable, Serializable {
             orderSelected = tblOrder.getSelectionModel().getSelectedItem();
             if (orderSelected != null) {
                 code = orderSelected.getCode();
-                Client clientSelected = orderSelected.getrClient();
                 btnAddOrder.setVisible(false);
                 onRemoveOrder.setVisible(true);
                 btnUpdateOrder.setVisible(true);
                 showAlert(true, "Se ha seleccionado la orden");
                 visibleRadioButton(orderSelected.getStatus());
-                //onChooseClient(clientSelected);
                 txtObserOrder.setText(orderSelected.getObservatinos());
                 tbStateOrder.setSelected(orderSelected.getState());
             }
@@ -1692,8 +1690,20 @@ public class FXControllerGUI implements Initializable, Serializable {
     }
     
     @FXML
-    public void onUpdateOrder(ActionEvent event) {
-
+    public void onUpdateOrder(ActionEvent event) throws IOException {
+        casaDorada.updateOrder(code, statusSelected(getStatusOrder()), txtObserOrder.getText(), 
+        tbStateOrder.isSelected(), getEmployeeSelected(cbxEmployeeOrder.getValue()), casaDorada.getAdminActive());
+        btnAddOrder.setVisible(true);
+        tblOrder.refresh();
+        Client selectClient = null;
+        for (int i = 0; i < casaDorada.getOrders().size(); i++) {
+            if (casaDorada.getOrders().get(i).getCode() == code) {
+                selectClient = casaDorada.getOrders().get(i).getrClient();
+            }
+        }
+        onChooseClient(selectClient);
+        saveData();
+        showAlert(true, "Se ha actualizado la orden");
     }
     
     @FXML
@@ -1731,13 +1741,17 @@ public class FXControllerGUI implements Initializable, Serializable {
     }
 
     public Employee getEmployeeSelected(String name) {
-        String[] nameSplit = name.split(" ");
-        for (int i = 0; i < casaDorada.getEmployee().size(); i++) {
-            if (casaDorada.getEmployee().get(i).getName().equals(nameSplit[0]) && casaDorada.getEmployee().get(i).getLastName().equals(nameSplit[1])) {
-                return casaDorada.getEmployee().get(i);
+        try {
+            String[] nameSplit = name.split(" ");
+            for (int i = 0; i < casaDorada.getEmployee().size(); i++) {
+                if (casaDorada.getEmployee().get(i).getName().equals(nameSplit[0]) && casaDorada.getEmployee().get(i).getLastName().equals(nameSplit[1])) {
+                    return casaDorada.getEmployee().get(i);
+                }
             }
+            return null;
+        } catch (NullPointerException e) {
+            return null;
         }
-        return null;
     }
 
     @FXML

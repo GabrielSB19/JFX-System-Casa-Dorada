@@ -750,6 +750,28 @@ public class CasaDorada implements Serializable {
         }
     }
     
+    public void updateOrder(int code, StatusOrder status, String observations, boolean state, Employee rEmployee, Admin coAdmin){
+        for (int i = 0; i < listOrders.size(); i++) {
+            if (listOrders.get(i).getCode() == code) {
+                listOrders.get(i).setStatus(status);
+                listOrders.get(i).setObservatinos(observations);
+                listOrders.get(i).setState(state);
+                listOrders.get(i).setrEmployee(rEmployee);
+                for (int j = 0; j < listAdmins.size(); j++) {
+                    if (listOrders.get(i).getCoAdmin() == listAdmins.get(j)) {
+                        listAdmins.get(j).setPRef(listAdmins.get(j).getPRef()-1);
+                    }
+                }
+                listOrders.get(i).setMoAdmin(coAdmin);
+            }
+        }
+        for (int i = 0; i < listAdmins.size(); i++) {
+            if (listAdmins.get(i) == adminActive) {
+                listAdmins.get(i).setPRef(listAdmins.get(i).getPRef()+1);
+            }
+        }
+    }
+    
     public void  removeOrder(int code) {
         for (int i = 0; i < listOrders.size(); i++) {
             if (listOrders.get(i).getCode() == code) {
