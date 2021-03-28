@@ -687,6 +687,113 @@ public class CasaDorada implements Serializable {
             }
         }
     }
+        
+    public void removeClientInOrder(int code, int codeCOS){
+        for (int i = 0; i < listOrders.size(); i++) {
+            if (listOrders.get(i).getCode() == code) {
+                if (listOrders.get(i).getrClient().getPCode() == codeCOS) {
+                    listOrders.get(i).setrClient(null);
+                }
+            }
+        }
+        for (int i = 0; i < listClients.size(); i++) {
+            if (listClients.get(i).getPCode() == codeCOS) {
+                listClients.get(i).setPRef(listClients.get(i).getPRef()-1);
+            }
+        }
+    }
+    
+    public void addProductInOrder(int code, int newProductCode, int amount) {
+        for (int i = 0; i < listOrders.size(); i++) {
+            if (listOrders.get(i).getCode() == code) {
+                for (int j = 0; j < listProducts.size(); j++) {
+                    if (listProducts.get(j).getPrCode() == newProductCode) {
+                        listOrders.get(i).addProductInOrder(listProducts.get(j));
+                        HashSet hs = new HashSet();
+                        hs.addAll(listOrders.get(i).getProducts());
+                        listOrders.get(i).getProducts().clear();
+                        listOrders.get(i).getProducts().addAll(hs);
+                        for (int k = 0; k < listOrders.get(i).getProducts().size(); k++) {
+                            if (listOrders.get(i).getProducts().get(k).getPrCode() == newProductCode) {
+                                listOrders.get(i).getProducts().get(k).setPrNumOrder(amount);
+                            }
+                        }
+                        plusProductToOrder(listProducts.get(j));
+                    }
+                }
+            }
+        }
+    }
+    
+    public void plusProductToOrder(Product plusProduct){
+        for (int i = 0; i < listProducts.size(); i++) {
+            if (listProducts.get(i) == plusProduct) {
+                listProducts.get(i).setPrRef(listProducts.get(i).getPrRef()+1);
+            }
+        }
+    }
+    
+    public void removeProductInOrder(int code, int codePO){
+        for (int i = 0; i < listOrders.size(); i++) {
+            if (listOrders.get(i).getCode() == code) {
+                for (int j = 0; j < listOrders.get(i).getProducts().size(); j++) {
+                    if (listOrders.get(i).getProducts().get(j).getPrCode() == codePO) {
+                        listOrders.get(i).getProducts().remove(j);
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < listProducts.size(); i++) {
+            if (listProducts.get(i).getPrCode() == codePO) {
+                listProducts.get(i).setPrRef(listProducts.get(i).getPrRef()-1);
+            }
+        }
+    }
+    
+    public void  removeOrder(int code) {
+        for (int i = 0; i < listOrders.size(); i++) {
+            if (listOrders.get(i).getCode() == code) {
+                for (int j = 0; j < listProducts.size(); j++) {
+                    for (int k = 0; k < listOrders.get(i).getProducts().size(); k++) {
+                        if (listProducts.get(j) == listOrders.get(i).getProducts().get(k)) {
+                            listProducts.get(j).setPrRef(listProducts.get(j).getPrRef() - 1);
+                        }
+                    }
+                }
+                for (int j = 0; j < listClients.size(); j++) {
+                    if (listOrders.get(i).getrClient().getPCode() == listClients.get(j).getPCode()) {
+                        listClients.get(j).setPRef(listClients.get(j).getPRef()-1);
+                    }
+                }
+                for (int j = 0; j < listEmployees.size(); j++) {
+                    if (listOrders.get(i).getrEmployee().getPCode() == listEmployees.get(j).getPCode()) {
+                        listEmployees.get(j).setPRef(listEmployees.get(j).getPRef()-1);
+                    }
+                }
+                boolean out = false;
+                boolean out1 = false;
+                for (int j = 0; j < listAdmins.size() && !(out && out1); j++) {
+                    if (listOrders.get(i).getCoAdmin() == listAdmins.get(j) && !out) {
+                        System.out.println("Creador antes:" + listAdmins.get(j).getPRef());
+                        listAdmins.get(j).setPRef(listAdmins.get(j).getPRef() - 1);
+                        System.out.println("Creador despues:" + listAdmins.get(j).getPRef());
+                        out = true;
+                    }
+                    try {
+                        if (listOrders.get(i).getMoAdmin() == listAdmins.get(j) && !out1) {
+                            System.out.println("Modificador antes:" + listAdmins.get(j).getPRef());
+                            listAdmins.get(j).setPRef(listAdmins.get(j).getPRef() - 1);
+                            System.out.println("Modificador despues:" + listAdmins.get(j).getPRef());
+                            out1 = true;
+                        }
+                    } catch (Exception e) {
+                        out1 = true;
+                    }
+                }
+                listOrders.remove(i);
+            }
+        }
+    }
     
     public File fileChooser() {
         FileChooser fc = new FileChooser();
@@ -771,66 +878,5 @@ public class CasaDorada implements Serializable {
             return false;
         }
     }
-    
-    public void removeClientInOrder(int code, int codeCOS){
-        for (int i = 0; i < listOrders.size(); i++) {
-            if (listOrders.get(i).getCode() == code) {
-                if (listOrders.get(i).getrClient().getPCode() == codeCOS) {
-                    listOrders.get(i).setrClient(null);
-                }
-            }
-        }
-        for (int i = 0; i < listClients.size(); i++) {
-            if (listClients.get(i).getPCode() == codeCOS) {
-                listClients.get(i).setPRef(listClients.get(i).getPRef()-1);
-            }
-        }
-    }
-    
-    public void addProductInOrder(int code, int newProductCode, int amount) {
-        for (int i = 0; i < listOrders.size(); i++) {
-            if (listOrders.get(i).getCode() == code) {
-                for (int j = 0; j < listProducts.size(); j++) {
-                    if (listProducts.get(j).getPrCode() == newProductCode) {
-                        listOrders.get(i).addProductInOrder(listProducts.get(j));
-                        HashSet hs = new HashSet();
-                        hs.addAll(listOrders.get(i).getProducts());
-                        listOrders.get(i).getProducts().clear();
-                        listOrders.get(i).getProducts().addAll(hs);
-                        for (int k = 0; k < listOrders.get(i).getProducts().size(); k++) {
-                            if (listOrders.get(i).getProducts().get(k).getPrCode() == newProductCode) {
-                                listOrders.get(i).getProducts().get(k).setPrNumOrder(amount);
-                            }
-                        }
-                        plusProductToOrder(listProducts.get(j));
-                    }
-                }
-            }
-        }
-    }
-    
-    public void plusProductToOrder(Product plusProduct){
-        for (int i = 0; i < listProducts.size(); i++) {
-            if (listProducts.get(i) == plusProduct) {
-                listProducts.get(i).setPrRef(listProducts.get(i).getPrRef()+1);
-            }
-        }
-    }
-    
-    public void removeProductInOrder(int code, int codePO){
-        for (int i = 0; i < listOrders.size(); i++) {
-            if (listOrders.get(i).getCode() == code) {
-                for (int j = 0; j < listOrders.get(i).getProducts().size(); j++) {
-                    if (listOrders.get(i).getProducts().get(j).getPrCode() == codePO) {
-                        listOrders.get(i).getProducts().remove(j);
-                    }
-                }
-            }
-        }
-        for (int i = 0; i < listProducts.size(); i++) {
-            if (listProducts.get(i).getPrCode() == codePO) {
-                listProducts.get(i).setPrRef(listProducts.get(i).getPrRef()-1);
-            }
-        }
-    }
+
 }
