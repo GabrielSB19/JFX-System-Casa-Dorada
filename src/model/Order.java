@@ -10,7 +10,6 @@ public class Order implements Serializable{
 
     private int oCode;
     private StatusOrder Status;
-    private ArrayList<Integer> amountxProduct;
     private Date oDate;
     private String observatinos;
     private boolean state;
@@ -27,7 +26,6 @@ public class Order implements Serializable{
         this.observatinos = observatinos;
         this.state = state;
         products = new ArrayList<>();
-        amountxProduct = new ArrayList<>();
         this.rClient = rClient;
         this.rEmployee = rEmployee;
         this.coAdmin = coAdmin;
@@ -81,14 +79,6 @@ public class Order implements Serializable{
     public void setProducts(ArrayList<Product> products) {
         this.products = products;
     }
-    
-    public ArrayList<Integer> getAmountxProducts(){
-        return amountxProduct;
-    }
-    
-    public void setAmoutnxProducts(ArrayList<Integer> amountxProduct){
-        this.amountxProduct = amountxProduct;
-    }
 
     public Client getrClient() {
         return rClient;
@@ -126,10 +116,6 @@ public class Order implements Serializable{
         products.add(newProduct);
     }
     
-    public void addAmountxProduct(int newAmountxProduct){
-        amountxProduct.add(newAmountxProduct);
-    }
-    
     public String getShowClientName(){
         String showClientName = "";
         if (rClient != null) {
@@ -137,4 +123,13 @@ public class Order implements Serializable{
         }
         return showClientName;
     }
+    
+    public String getShowEmployeeName(){
+        String showEmployeeName = "";
+        if (rEmployee != null) {
+            showEmployeeName = rEmployee.getName();
+        }
+        return showEmployeeName;
+    }
+    
 }

@@ -159,4 +159,8 @@ public class Product implements Serializable {
         }
         return tpToString;
     }
+    
+    public String getNameSP(){
+        return prName+" "+prSize;
+    }
 }

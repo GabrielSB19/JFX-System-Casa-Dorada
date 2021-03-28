@@ -21,8 +21,6 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,8 +49,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import java.time.LocalTime;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.logging.Level;
@@ -1475,7 +1471,6 @@ public class FXControllerGUI implements Initializable, Serializable {
             tblChooseIngredient.setItems(newTableIngredient);
             tblIngName.setCellValueFactory(new PropertyValueFactory<>("ingredientsName"));
         } catch (NullPointerException e) {
-
         }
 
     }
@@ -1585,8 +1580,6 @@ public class FXControllerGUI implements Initializable, Serializable {
 
     @FXML
     private JFXComboBox<String> cbxEmployeeOrder;
-
-    public boolean firstTimeOrder = false;
 
     @FXML
     public void onAddOrder(ActionEvent event) throws IOException {
@@ -1703,6 +1696,7 @@ public class FXControllerGUI implements Initializable, Serializable {
         tblOrder.setItems(newTableOrder);
         tblStatusOrder.setCellValueFactory(new PropertyValueFactory<>("Status"));
         tblClientOrder.setCellValueFactory(new PropertyValueFactory<>("showClientName"));
+        tblEmployeeOrder.setCellValueFactory(new PropertyValueFactory<>("showEmployeeName"));
         tblObserOrder.setCellValueFactory(new PropertyValueFactory<>("observatinos"));
     }
 
@@ -1769,6 +1763,7 @@ public class FXControllerGUI implements Initializable, Serializable {
     }
 
     int codeCO;
+    int codeCOS;
 
     @FXML
     public void onSelectClientToOrder(MouseEvent event) {
@@ -1836,13 +1831,47 @@ public class FXControllerGUI implements Initializable, Serializable {
         tblIDClientSelected.setCellValueFactory(new PropertyValueFactory<>("ID"));
 
     }
+    
+    @FXML
+    public void onSelectClientInOrder(MouseEvent event) {
+        Client clientSelected;
+        if (event.getClickCount() == 2) {
+            clientSelected = tblClientSelected.getSelectionModel().getSelectedItem();
+            codeCOS = clientSelected.getPCode();
+            showAlert2(false, "Se ha seleccionado el cliente\nSi lo deseas eliminar presiona el boton");
+        }
+    }
+    
+    @FXML
+    public void onRemoveClientInOrder(ActionEvent event) throws IOException {
+        casaDorada.removeClientInOrder(code, codeCOS);
+        showAlert2(true, "Se ha eliminado el cliente");
+        saveData();
+        showClientSelected(null);
+        tblClientSelected.refresh();
+        
+    }
 
     @FXML
     public void onExitSearchClient(ActionEvent event) throws IOException {
-        Stage stage = (Stage) pSearchClient.getScene().getWindow();
-        stage.close();
-        onChooseProduct();
+        for (int i = 0; i < casaDorada.getOrders().size(); i++) {
+            if (casaDorada.getOrders().get(i).getCode() == code) {
+                if (casaDorada.getOrders().get(i).getrClient() != null) {
+                    Stage stage = (Stage) pSearchClient.getScene().getWindow();
+                    stage.close();
+                    onChooseProduct();
+                } else {
+                    showAlert2(false, "Debes de elegir un cliente");
+                }
+            }
+        }
     }
+    
+    @FXML
+    private JFXComboBox<String> cbxProductsDisp;
+
+    @FXML
+    private JFXTextField txtAmountxProduct;
 
     public void onChooseProduct() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ChooseProducts.fxml"));
@@ -1850,6 +1879,116 @@ public class FXControllerGUI implements Initializable, Serializable {
         fxmlLoader.setController(this);
         Parent chooseProduct = fxmlLoader.load();
         newStage(chooseProduct);
+        showProductsDisp(getNamesProductsDisp());
+        onTableProductSelectd(showActualizaPO(code));
+    }
+    
+    public ArrayList<String> getNamesProductsDisp(){
+        ArrayList<String> temp = new ArrayList<>();
+        for (int i = 0; i < casaDorada.getProduct().size(); i++) {
+            if (casaDorada.getProduct().get(i).getPrState()) {
+                temp.add(casaDorada.getProduct().get(i).getNameSP());
+            }
+        }
+        return temp;
+    }
+    
+    public void showProductsDisp(ArrayList<String> namesProducts){
+        ObservableList<String> showNamesProducts;
+        showNamesProducts = FXCollections.observableArrayList(namesProducts);
+        cbxProductsDisp.setItems(showNamesProducts);
+    }
+    
+    public Product getProductInOrder(String names) {
+        try {
+            String[] product = names.split(" ");
+            for (int i = 0; i < casaDorada.getProduct().size(); i++) {
+                if (casaDorada.getProduct().get(i).getPrName().equals(product[0]) && casaDorada.getProduct().get(i).getPrSize().equals(product[1])) {
+                    System.out.println(casaDorada.getProduct().get(i).getNameSP());
+                    return casaDorada.getProduct().get(i);
+                }
+            }
+            return null;
+        } catch (NullPointerException e) {
+            return null;
+        }
+    }
+    
+    @FXML
+    public void onAddProductInOrder(ActionEvent event) throws IOException {
+        try {
+            if (cbxProductsDisp != null && !(txtAmountxProduct.getText().equals(""))) {
+                    casaDorada.addProductInOrder(code, getProductInOrder(cbxProductsDisp.getValue()).getPrCode(), Integer.parseInt(txtAmountxProduct.getText()));
+                    showActualizaPO(code);
+                    onTableProductSelectd(showActualizaPO(code));
+                    tblProductsSelect.refresh();
+                    showAlert2(true, "Se ha agregado el producto a la orden");
+                    saveData();
+            } else {
+                showAlert2(false, "Debes de seleccionar un producto y por ende la cantidad de esta");
+            }
+        } catch (NumberFormatException e) {
+            showAlert2(false, "No puedes ingresar letras en la cantidad");
+        }
+    }
+    
+    int codePO;
+    
+    @FXML
+    public void onSelectProductInOrder(MouseEvent event) {
+        Product productSelected;
+        if (event.getClickCount() == 2) {
+            productSelected = tblProductsSelect.getSelectionModel().getSelectedItem();
+            codePO = productSelected.getPrCode();
+            showAlert2(true, "Se ha seleccionado el producto\nSi lo quieres eliminar presiona el boton"
+                    + "\nSi deseas cambiar la cantidad solo busca el producto\n"
+                    + "en las opciones y modifica la cantidad");
+        }
+    }
+
+    @FXML
+    public void onRemoveProductInOrder(ActionEvent event) {
+        casaDorada.removeProductInOrder(code, codePO);
+        showAlert2(true, "Se ha eliminado correctamente");
+        onTableProductSelectd(showActualizaPO(code));
+        tblProductsSelect.refresh();
+    }
+    
+    @FXML
+    private TableView<Product> tblProductsSelect;
+
+    @FXML
+    private TableColumn<Product, String> tblNameProductSelected;
+
+    @FXML
+    private TableColumn<Product, String> tblSizeProductSelected;
+
+    @FXML
+    private TableColumn<Product, Integer> tblPriceProductSelected;
+    
+    @FXML
+    private TableColumn<Product, Integer> tblAmountProductSelected;
+
+    
+    public void onTableProductSelectd(ArrayList<Product> showActualizePO){
+        ObservableList<Product> newTableProductSelected;
+        newTableProductSelected = FXCollections.observableArrayList(showActualizePO);
+        
+        tblProductsSelect.setItems(newTableProductSelected);
+        tblNameProductSelected.setCellValueFactory(new PropertyValueFactory<>("prName"));
+        tblSizeProductSelected.setCellValueFactory(new PropertyValueFactory<>("prSize"));
+        tblPriceProductSelected.setCellValueFactory(new PropertyValueFactory<>("prPrice"));
+        tblAmountProductSelected.setCellValueFactory(new PropertyValueFactory<>("prNumOrder"));
+    }
+    
+    public ArrayList<Product> showActualizaPO(int code){
+        for (int i = 0; i < casaDorada.getOrders().size(); i++) {
+            if (casaDorada.getOrders().get(i).getCode() == code) {
+                System.out.println(casaDorada.getOrders().get(i).getCode());
+                return casaDorada.getOrders().get(i).getProducts();
+            }
+        }
+        return null;
     }
 
     @FXML
@@ -1880,32 +2019,7 @@ public class FXControllerGUI implements Initializable, Serializable {
     }
 
     @FXML
-    void onRemoveClientInOrder(ActionEvent event) {
-
-    }
-
-    @FXML
     void onSelectClientSearch(MouseEvent event) {
-
-    }
-
-    @FXML
-    void onSelectClientInOrder(MouseEvent event) {
-
-    }
-
-    @FXML
-    void onRemoveProductInOrder(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onSelectProductInOrder(MouseEvent event) {
-
-    }
-
-    @FXML
-    void onAddProductInOrder(ActionEvent event) {
 
     }
 
