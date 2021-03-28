@@ -9,13 +9,16 @@ import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.net.URL;
 import java.text.DateFormat;
@@ -56,6 +59,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.transformation.FilteredList;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.FileChooser;
 import model.*;
 
 public class FXControllerGUI implements Initializable, Serializable {
@@ -1596,7 +1600,7 @@ public class FXControllerGUI implements Initializable, Serializable {
                 saveData();
                 showAlert(true, "Se ha agregado correctamente el pedido");
                 //firstTimeOrder = true;
-                code = casaDorada.getCode()-1;
+                code = casaDorada.getCode() - 1;
             } else {
                 showAlert(false, "No puedes crear una orden sin asignar a un empleado encargado");
             }
@@ -1753,8 +1757,8 @@ public class FXControllerGUI implements Initializable, Serializable {
         if (!txtSearchClient.getText().equals("")) {
             List<Client> test = casaDorada.removeDeshabiltyClient(casaDorada.getClient());
             try {
-                 Long search = Long.parseLong(txtSearchClient.getText());
-                 onLoadTableFilter(casaDorada.binaryClient(test, false, txtSearchClient.getText()));
+                Long search = Long.parseLong(txtSearchClient.getText());
+                onLoadTableFilter(casaDorada.binaryClient(test, false, txtSearchClient.getText()));
             } catch (NumberFormatException e) {
                 onLoadTableFilter(casaDorada.binaryClient(test, true, txtSearchClient.getText()));
             }
@@ -1777,7 +1781,7 @@ public class FXControllerGUI implements Initializable, Serializable {
             }
         }
     }
-    
+
     @FXML
     private TableView<Client> tblClientSelected;
 
@@ -1818,19 +1822,19 @@ public class FXControllerGUI implements Initializable, Serializable {
             }
         }
     }
-    
-    public void showClientSelected (Client clientSelected){
+
+    public void showClientSelected(Client clientSelected) {
         ArrayList<Client> clientS = new ArrayList<>();
         clientS.add(clientSelected);
-        
+
         ObservableList<Client> newTableClientSelect;
         newTableClientSelect = FXCollections.observableArrayList(clientS);
-        
+
         tblClientSelected.setItems(newTableClientSelect);
         tblNameClientSelected.setCellValueFactory(new PropertyValueFactory<>("name"));
         tblLNClientSelected.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         tblIDClientSelected.setCellValueFactory(new PropertyValueFactory<>("ID"));
-        
+
     }
 
     @FXML
@@ -1923,5 +1927,155 @@ public class FXControllerGUI implements Initializable, Serializable {
     public void onExitSelectDate(ActionEvent event) {
         Stage stage = (Stage) pSelectDate.getScene().getWindow();
         stage.close();
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    @FXML
+    void importClient(ActionEvent event) throws IOException {
+        if (casaDorada.importClient()) {
+            onTableClient();
+            saveData();
+        } else {
+            showAlert(false, "No se ha encontrado el archivo.");
+        }
+    }
+    
+    @FXML
+    void importPedido(ActionEvent event) throws IOException {
+        /*
+        if (casaDorada.importPedido()) {
+            saveData();
+        } else {
+            showAlert(false, "No se ha encontrado el archivo.");
+        }
+        */
+    }
+
+    @FXML
+    void importProduct(ActionEvent event) throws IOException {
+        if (casaDorada.importProduct()) {
+            onTableProduct();
+            saveData();
+        } else {
+            showAlert(false, "No se ha encontrado el archivo.");
+        }
+    }
+
+    public void exportData(String fileName) throws FileNotFoundException {
+        PrintWriter pw = new PrintWriter(fileName);
+        //A exportar
+        /*
+        for (int i = 0; i < contacts.size(); i++) {
+            Contact myContact = contacts.get(i);
+            pw.println(myContact.getName() + ";" + myContact.getPhone());
+        }
+         */
+        pw.close();
     }
 }

@@ -1,11 +1,16 @@
 package model;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import javafx.stage.FileChooser;
 
 public class CasaDorada implements Serializable {
 
@@ -20,7 +25,7 @@ public class CasaDorada implements Serializable {
     private List<Product> listProducts;
     private List<TypeProduct> listTypeProducts;
     private Admin adminActive;
-    
+
     public CasaDorada() {
         listAdmins = new ArrayList<>();
         listClients = new ArrayList<>();
@@ -215,7 +220,7 @@ public class CasaDorada implements Serializable {
             for (int i = 0; i < listClients.size() && !out; i++) {
                 if (listClients.get(i).getID() != ID) {
                     int x = 0;
-                    while (x<listClients.size() && newClient.compareTo(listClients.get(x))>0) {
+                    while (x < listClients.size() && newClient.compareTo(listClients.get(x)) > 0) {
                         x++;
                     }
                     listClients.add(x, newClient);
@@ -230,11 +235,11 @@ public class CasaDorada implements Serializable {
         }
         return out;
     }
-    
-    public void sortByName(){
+
+    public void sortByName() {
         Collections.sort(listClients);
     }
-    
+
     public boolean updateClient(int code, String cAddress, long cPhone, String cObservations, boolean cState, Admin mcAdmin, String name, String lastName, long ID) throws IOException {
         boolean out = false;
         boolean test = false;
@@ -493,7 +498,7 @@ public class CasaDorada implements Serializable {
                 for (int j = 0; j < listTypeProducts.size(); j++) {
                     for (int k = 0; k < listProducts.get(i).getTypeProductInProduct().size(); k++) {
                         if (listTypeProducts.get(j) == listProducts.get(i).getTypeProductInProduct().get(k)) {
-                            listTypeProducts.get(j).setTpRef(listTypeProducts.get(j).getTpRef()-1);
+                            listTypeProducts.get(j).setTpRef(listTypeProducts.get(j).getTpRef() - 1);
                         }
                     }
                 }
@@ -525,10 +530,10 @@ public class CasaDorada implements Serializable {
     }
 
     public void addIngredientToProduct(int code, Ingredient newIngredient) throws IOException {
-        for(int i = 0; i<listProducts.size(); i++){
-            if(listProducts.get(i).getPrCode() == code){
+        for (int i = 0; i < listProducts.size(); i++) {
+            if (listProducts.get(i).getPrCode() == code) {
                 for (int j = 0; j < listIngredients.size(); j++) {
-                    if(listIngredients.get(j).getIngCode() == newIngredient.getIngCode()){
+                    if (listIngredients.get(j).getIngCode() == newIngredient.getIngCode()) {
                         listProducts.get(i).addIngredientInProduct(listIngredients.get(j));
                         plusIngRef(listIngredients.get(j));
                     }
@@ -536,20 +541,20 @@ public class CasaDorada implements Serializable {
             }
         }
     }
-    
-    public ArrayList<Ingredient> getIngredientInTheArrays(int code){
+
+    public ArrayList<Ingredient> getIngredientInTheArrays(int code) {
         for (int i = 0; i < listProducts.size(); i++) {
-            if(listProducts.get(i).getPrCode() == code);
+            if (listProducts.get(i).getPrCode() == code);
             return listProducts.get(i).getIngredientInProduct();
         }
         return null;
     }
-    
-    public void removeIngredientInP(int code, int codeI) throws IOException{
+
+    public void removeIngredientInP(int code, int codeI) throws IOException {
         for (int i = 0; i < listProducts.size(); i++) {
             if (listProducts.get(i).getPrCode() == code) {
                 for (int j = 0; j < listProducts.get(i).getIngredientInProduct().size(); j++) {
-                    if (listProducts.get(i).getIngredientInProduct().get(j).getIngCode() == codeI){
+                    if (listProducts.get(i).getIngredientInProduct().get(j).getIngCode() == codeI) {
                         listProducts.get(i).getIngredientInProduct().remove(j);
                     }
                 }
@@ -561,7 +566,7 @@ public class CasaDorada implements Serializable {
             }
         }
     }
-    
+
     public void plusIngRef(Ingredient newIngredient) throws IOException {
         for (int i = 0; i < listIngredients.size(); i++) {
             if (listIngredients.get(i) == newIngredient) {
@@ -572,9 +577,9 @@ public class CasaDorada implements Serializable {
 
     public void addTypeProductToProduct(int code, TypeProduct newTypeProduct) throws IOException {
         for (int i = 0; i < listProducts.size(); i++) {
-            if (listProducts.get(i).getPrCode() == code){
+            if (listProducts.get(i).getPrCode() == code) {
                 for (int j = 0; j < listTypeProducts.size(); j++) {
-                    if (listTypeProducts.get(j) == newTypeProduct){
+                    if (listTypeProducts.get(j) == newTypeProduct) {
                         listProducts.get(i).addTypeProductInProduct(listTypeProducts.get(j));
                         plusTPRef(listTypeProducts.get(j));
                     }
@@ -582,19 +587,19 @@ public class CasaDorada implements Serializable {
             }
         }
     }
-    
-    public ArrayList<TypeProduct> getTypeProductsInTheArrays(int code){
+
+    public ArrayList<TypeProduct> getTypeProductsInTheArrays(int code) {
         for (int i = 0; i < listProducts.size(); i++) {
-            if (listProducts.get(i).getPrCode() == code){
+            if (listProducts.get(i).getPrCode() == code) {
                 return listProducts.get(i).getTypeProductInProduct();
             }
         }
         return null;
     }
-    
-    public void removeTypeProductInP(int code, int codeTP) throws IOException{
+
+    public void removeTypeProductInP(int code, int codeTP) throws IOException {
         for (int i = 0; i < listProducts.size(); i++) {
-            if(listProducts.get(i).getPrCode() == code){
+            if (listProducts.get(i).getPrCode() == code) {
                 for (int j = 0; j < listProducts.get(i).getTypeProductInProduct().size(); j++) {
                     if (listProducts.get(i).getTypeProductInProduct().get(j).getTpCode() == codeTP) {
                         listProducts.get(i).getTypeProductInProduct().remove(j);
@@ -604,37 +609,36 @@ public class CasaDorada implements Serializable {
         }
         for (int i = 0; i < listTypeProducts.size(); i++) {
             if (listTypeProducts.get(i).getTpCode() == codeTP) {
-                listTypeProducts.get(i).setTpRef(listTypeProducts.get(i).getTpRef()-1);
+                listTypeProducts.get(i).setTpRef(listTypeProducts.get(i).getTpRef() - 1);
             }
         }
     }
-    
-    public void plusTPRef(TypeProduct newTypeProduct) throws IOException{
+
+    public void plusTPRef(TypeProduct newTypeProduct) throws IOException {
         for (int i = 0; i < listTypeProducts.size(); i++) {
             if (listTypeProducts.get(i) == newTypeProduct) {
-                listTypeProducts.get(i).setTpRef(listTypeProducts.get(i).getTpRef()+1);
+                listTypeProducts.get(i).setTpRef(listTypeProducts.get(i).getTpRef() + 1);
             }
         }
     }
-    
-   /*
+
+    /*
     Metodos relacionados con crear ordenes
-    */
-    
-    public List<Order> getOrders(){
+     */
+    public List<Order> getOrders() {
         return listOrders;
     }
-    
-    public void addOrder(int oCode, StatusOrder Status, Date oDate, String observatinos, boolean state, Client rClient, Employee rEmployee, Admin coAdmin, Admin moAdmin) throws IOException{
+
+    public void addOrder(int oCode, StatusOrder Status, Date oDate, String observatinos, boolean state, Client rClient, Employee rEmployee, Admin coAdmin, Admin moAdmin) throws IOException {
         Order newOrder = new Order(code++, Status, oDate, observatinos, state, rClient, rEmployee, coAdmin, null);
         listOrders.add(newOrder);
         for (int i = 0; i < listAdmins.size(); i++) {
-            if(listAdmins.get(i) == coAdmin){
-                listAdmins.get(i).setPRef(listAdmins.get(i).getPRef()+1);
+            if (listAdmins.get(i) == coAdmin) {
+                listAdmins.get(i).setPRef(listAdmins.get(i).getPRef() + 1);
             }
         }
     }
-    
+
     @SuppressWarnings("null")
     public List<Client> binaryClient(List<Client> preSelect, boolean out, String name) {
         sortByName();
@@ -665,36 +669,168 @@ public class CasaDorada implements Serializable {
         }
         return selectedClient;
     }
-    
-    public void sortID(List<Client> preSelect){
+
+    public void sortID(List<Client> preSelect) {
         for (int i = 1; i < preSelect.size(); i++) {
-            for (int j = i; j > 0 && preSelect.get(j-1).getID()>preSelect.get(j).getID(); j--){
+            for (int j = i; j > 0 && preSelect.get(j - 1).getID() > preSelect.get(j).getID(); j--) {
                 Client temp = preSelect.get(i);
-                preSelect.set(j, preSelect.get(j-1));
-                preSelect.set(j-1, temp);
-                
+                preSelect.set(j, preSelect.get(j - 1));
+                preSelect.set(j - 1, temp);
+
             }
         }
         for (int i = 0; i < preSelect.size(); i++) {
-            System.out.println(preSelect.get(i).getName()+preSelect.get(i).getID());
+            System.out.println(preSelect.get(i).getName() + preSelect.get(i).getID());
         }
     }
-    
-    public List<Client> removeDeshabiltyClient(List<Client> listClients){
-         ArrayList<Client> removeClientD = new ArrayList<>();
-         for (int i = 0; i < listClients.size(); i++) {
-             if (listClients.get(i).getCState()) {
-                 removeClientD.add(listClients.get(i));
-             }
+
+    public List<Client> removeDeshabiltyClient(List<Client> listClients) {
+        ArrayList<Client> removeClientD = new ArrayList<>();
+        for (int i = 0; i < listClients.size(); i++) {
+            if (listClients.get(i).getCState()) {
+                removeClientD.add(listClients.get(i));
+            }
         }
         return removeClientD;
     }
-    
-    public void plusInClient(Client client){
+
+    public void plusInClient(Client client) {
         for (int i = 0; i < listClients.size(); i++) {
             if (client == listClients.get(i)) {
-                listClients.get(i).setPRef(listClients.get(i).getPCode()+1);
+                listClients.get(i).setPRef(listClients.get(i).getPCode() + 1);
             }
+        }
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    public File fileChooser() {
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Open File Client");
+        File file = fc.showOpenDialog(null);
+        return file;
+    }
+
+    public boolean importClient() {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(fileChooser()));
+            String line = br.readLine();
+            line = br.readLine();
+            while (line != null) {
+                String[] parts = line.split(",");
+                listClients.add(new Client(parts[3], Long.parseLong(parts[4]), null, true, null, 0, code, parts[0], parts[1], Long.parseLong(parts[2]), adminActive));
+                code++;
+                boolean out = false;
+                for (int i = 0; i < listAdmins.size() && !out; i++) {
+                    if (listAdmins.get(i) == adminActive) {
+                        listAdmins.get(i).setPRef(listAdmins.get(i).getPRef() + 1);
+                        out = true;
+                    }
+                }
+                line = br.readLine();
+            }
+            br.close();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /*
+    public boolean importPedido() {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(fileChooser()));
+            String line = br.readLine();
+            line = br.readLine();
+            while (line != null) {
+                String[] parts = line.split(",");
+                listClients.add(new Client(parts[3], Long.parseLong(parts[4]), null, true, null, 0, code, parts[0], parts[1], Long.parseLong(parts[2]), adminActive));
+                code++;
+                line = br.readLine();
+            }
+            br.close();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+     */
+    public boolean importProduct() {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(fileChooser()));
+            String line = br.readLine();
+            line = br.readLine();
+            while (line != null) {
+                String[] parts = line.split(",");
+                Ingredient ingredient = new Ingredient(0, code, parts[3], true, adminActive, null);
+                code++;
+                TypeProduct type = new TypeProduct(0, code, parts[4], true, adminActive, null);
+                code++;
+                listProducts.add(new Product(code, 0, parts[1], parts[4],
+                        Double.parseDouble(parts[0]), true, 0, adminActive, null));
+                code++;
+                listProducts.get(listProducts.size() - 1).getIngredientInProduct().add(ingredient);
+                listProducts.get(listProducts.size() - 1).getTypeProductInProduct().add(type);
+                boolean out = false;
+                for (int i = 0; i < listAdmins.size() && !out; i++) {
+                    if (listAdmins.get(i).getPCode() == adminActive.getPCode()) {
+                        listAdmins.get(i).setPRef(listAdmins.get(i).getPRef() + 3);
+                        out = true;
+                    }
+                }
+                line = br.readLine();
+            }
+            br.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }

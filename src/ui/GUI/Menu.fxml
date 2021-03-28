@@ -48,9 +48,9 @@
                   </Menu>
                   <Menu mnemonicParsing="false" style="-fx-background-color: #efb810;" text="Importar">
                      <items>
-                        <MenuItem mnemonicParsing="false" text="Información de Clientes" />
-                        <MenuItem mnemonicParsing="false" text="Productos" />
-                        <MenuItem mnemonicParsing="false" text="Pedidos" />
+                        <MenuItem mnemonicParsing="false" onAction="#importClient" text="Clientes" />
+                        <MenuItem mnemonicParsing="false" onAction="#importProduct" text="Productos" />
+                        <MenuItem mnemonicParsing="false" onAction="#importPedido" text="Pedidos" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" style="-fx-background-color: #efb810;" text="Salir">
