@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 public class CasaDorada implements Serializable {
@@ -46,9 +47,6 @@ public class CasaDorada implements Serializable {
         return code;
     }
 
-    /*
-    Metodos relacionados con los admin
-     */
     public Admin getAdminActive() {
         return adminActive;
     }
@@ -102,9 +100,6 @@ public class CasaDorada implements Serializable {
         return false;
     }
 
-    /*
-    Metodos relacionados con los Empleados
-     */
     public List<Employee> getEmployee() {
         return listEmployees;
     }
@@ -198,9 +193,6 @@ public class CasaDorada implements Serializable {
         return false;
     }
 
-    /*
-    Metodos relacionados con los clientes
-     */
     public List<Client> getClient() {
         return listClients;
     }
@@ -306,7 +298,6 @@ public class CasaDorada implements Serializable {
         return false;
     }
 
-    //Metodos relacionados con los ingredientes
     public List<Ingredient> getIngredient() {
         return listIngredients;
     }
@@ -372,9 +363,6 @@ public class CasaDorada implements Serializable {
         return exit;
     }
 
-    /*
-    Metodos relacionados con los tipo de productos
-     */
     public List<TypeProduct> getTypeProduc() {
         return listTypeProducts;
     }
@@ -440,9 +428,6 @@ public class CasaDorada implements Serializable {
         return exit;
     }
 
-    /*
-    Metodos relacionados con los productos
-     */
     public List<Product> getProduct() {
         return listProducts;
     }
@@ -616,11 +601,7 @@ public class CasaDorada implements Serializable {
             }
         }
     }
-    
-   /*
-    Metodos relacionados con crear ordenes
-    */
-    
+
     public List<Order> getOrders(){
         return listOrders;
     }
@@ -654,12 +635,13 @@ public class CasaDorada implements Serializable {
             while (i <= j && pos < 0) {
                 int m = (i + j) / 2;
                 if (preSelect.get(m).getID() == Id) {
+                    System.out.println(preSelect.get(m).getName()+preSelect.get(m).getID()+"Donde me sente?");
                     selectedClient.add(preSelect.get(m));
                     pos = m;
-                } else if (preSelect.get(m).getID() > 0) {
+                } else if (preSelect.get(m).getID() > Id) {
                     j = m - 1;
                 } else {
-                    i = m - 1;
+                    i = m + 1;
                 }
             }
         }
@@ -694,6 +676,68 @@ public class CasaDorada implements Serializable {
         for (int i = 0; i < listClients.size(); i++) {
             if (client == listClients.get(i)) {
                 listClients.get(i).setPRef(listClients.get(i).getPCode()+1);
+            }
+        }
+    }
+    
+    public void removeClientInOrder(int code, int codeCOS){
+        for (int i = 0; i < listOrders.size(); i++) {
+            if (listOrders.get(i).getCode() == code) {
+                if (listOrders.get(i).getrClient().getPCode() == codeCOS) {
+                    listOrders.get(i).setrClient(null);
+                }
+            }
+        }
+        for (int i = 0; i < listClients.size(); i++) {
+            if (listClients.get(i).getPCode() == codeCOS) {
+                listClients.get(i).setPRef(listClients.get(i).getPRef()-1);
+            }
+        }
+    }
+    
+    public void addProductInOrder(int code, int newProductCode, int amount) {
+        for (int i = 0; i < listOrders.size(); i++) {
+            if (listOrders.get(i).getCode() == code) {
+                for (int j = 0; j < listProducts.size(); j++) {
+                    if (listProducts.get(j).getPrCode() == newProductCode) {
+                        listOrders.get(i).addProductInOrder(listProducts.get(j));
+                        HashSet hs = new HashSet();
+                        hs.addAll(listOrders.get(i).getProducts());
+                        listOrders.get(i).getProducts().clear();
+                        listOrders.get(i).getProducts().addAll(hs);
+                        for (int k = 0; k < listOrders.get(i).getProducts().size(); k++) {
+                            if (listOrders.get(i).getProducts().get(k).getPrCode() == newProductCode) {
+                                listOrders.get(i).getProducts().get(k).setPrNumOrder(amount);
+                            }
+                        }
+                        plusProductToOrder(listProducts.get(j));
+                    }
+                }
+            }
+        }
+    }
+    
+    public void plusProductToOrder(Product plusProduct){
+        for (int i = 0; i < listProducts.size(); i++) {
+            if (listProducts.get(i) == plusProduct) {
+                listProducts.get(i).setPrRef(listProducts.get(i).getPrRef()+1);
+            }
+        }
+    }
+    
+    public void removeProductInOrder(int code, int codePO){
+        for (int i = 0; i < listOrders.size(); i++) {
+            if (listOrders.get(i).getCode() == code) {
+                for (int j = 0; j < listOrders.get(i).getProducts().size(); j++) {
+                    if (listOrders.get(i).getProducts().get(j).getPrCode() == codePO) {
+                        listOrders.get(i).getProducts().remove(j);
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < listProducts.size(); i++) {
+            if (listProducts.get(i).getPrCode() == codePO) {
+                listProducts.get(i).setPrRef(listProducts.get(i).getPrRef()-1);
             }
         }
     }
