@@ -21,8 +21,6 @@ public class Client extends Person implements Serializable, Comparable<Client> {
         this.mcAdmin = mcAdmin;
     }
 
-
-
     public String getCAddress() {
         return cAddress;
     }
