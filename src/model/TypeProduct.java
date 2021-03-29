@@ -29,8 +29,6 @@ public class TypeProduct implements Serializable{
     public void setTpRef(int tpRef) {
         this.tpRef = tpRef;
     }
-    
-    
 
     public int getTpCode() {
         return tpCode;

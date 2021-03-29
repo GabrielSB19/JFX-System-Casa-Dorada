@@ -152,4 +152,18 @@ public class Order implements Serializable{
         return  showAmountProducts;
     }
     
+    public String getValueOrder(){
+        String valueOrder = "";
+        double value = 0;
+        if (Status == StatusOrder.ENTREGADO) {
+            for (int i = 0; i < products.size(); i++) {
+              value += (products.get(i).getPrPrice()*products.get(i).getPrNumOrder());  
+            }
+            valueOrder = value+"";
+        } else {
+            valueOrder = "En Proceso";
+        }
+        return valueOrder;
+    }
+    
 }

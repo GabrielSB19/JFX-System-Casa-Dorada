@@ -2207,6 +2207,9 @@ public class FXControllerGUI implements Initializable, Serializable {
     @FXML
     private TableColumn<Order, String> tblAllObserOrder;
     
+    @FXML
+    private TableColumn<Order, String> tblAllValorOrder;
+    
     public void onTableAllOrder(){
         ArrayList<Order> showOrders = new ArrayList<>();
         for (int i = 0; i < casaDorada.getOrders().size(); i++) {
@@ -2224,6 +2227,7 @@ public class FXControllerGUI implements Initializable, Serializable {
         tblAllClientOrder.setCellValueFactory(new PropertyValueFactory<>("showClientName"));
         tblAllEmployeeOrder.setCellValueFactory(new PropertyValueFactory<>("showEmployeeName"));
         tblAllObserOrder.setCellValueFactory(new PropertyValueFactory<>("observatinos"));
+        tblAllValorOrder.setCellValueFactory(new PropertyValueFactory<>("valueOrder"));
     }
 
 
