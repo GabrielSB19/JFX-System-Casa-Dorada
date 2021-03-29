@@ -2,12 +2,14 @@ package ui;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXTimePicker;
 import com.jfoenix.controls.JFXToggleButton;
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,6 +23,7 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,12 +54,14 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.transformation.FilteredList;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import model.*;
 
 public class FXControllerGUI implements Initializable, Serializable {
@@ -604,11 +609,6 @@ public class FXControllerGUI implements Initializable, Serializable {
         pNewOption.getChildren().clear();
         pNewOption.getChildren().setAll(listEmployees);
         showListEmployee();
-    }
-
-    @FXML
-    public void onReportEmployee(ActionEvent event) throws IOException {
-        openSelectDate();
     }
 
     @FXML
@@ -2238,11 +2238,116 @@ public class FXControllerGUI implements Initializable, Serializable {
     @FXML
     public void onReportOrder(ActionEvent event) throws IOException {
         openSelectDate();
+        optionReport = 1;
     }
 
     @FXML
     public void onReportProducts(ActionEvent event) throws IOException {
         openSelectDate();
+        optionReport = 2;
+    }
+    
+    @FXML
+    public void onReportEmployee(ActionEvent event) throws IOException {
+        openSelectDate();
+        optionReport = 3;
+    }
+    
+    @FXML
+    private JFXDatePicker dpInitialDate;
+
+    @FXML
+    private JFXDatePicker dpFinalDate;
+
+    @FXML
+    private JFXTimePicker tpInitialHour;
+
+    @FXML
+    private JFXTimePicker tpFinalHour;
+    
+    @FXML
+    private JFXTextField txtSeparator;
+
+    
+    private int optionReport = 0;
+    
+    @FXML
+    public void onGenerateReport(ActionEvent event) throws FileNotFoundException {
+        try {
+            String sep;
+            if (!txtSeparator.getText().equals("")) {
+                sep = txtSeparator.getText();
+            } else {
+                sep = ";";
+            }
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            LocalDateTime dateTimeInitial = LocalDateTime.parse((dpInitialDate.getValue().toString() + " " + tpInitialHour.getValue().toString()), formatter);
+            Date dateInitial = convertToHour(dateTimeInitial);
+            LocalDateTime dateTimeFinal = LocalDateTime.parse((dpFinalDate.getValue().toString() + " " + tpFinalHour.getValue().toString()), formatter);
+            Date dateFinal = convertToHour(dateTimeFinal);
+            switch (optionReport) {
+                case 1:
+                    onExportOrder(dateInitial, dateFinal, sep);
+                    break;
+                case 2:
+                    onExportProduct(dateInitial, dateFinal, sep);
+                    break;
+                case 3:
+                    onExportEmployee(dateInitial, dateFinal, sep);
+                    break;
+            }
+            Stage stage = (Stage) pSelectDate.getScene().getWindow();
+            stage.close();
+        } catch (NullPointerException e) {
+            showAlert2(false, "Por favor selecciona el rango de hora y fecha");
+        }
+    }
+    
+    public void onExportOrder(Date dateInitial, Date dateFinal, String sep){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Guardar Ordenes");
+        fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files","*.csv"));
+        File f = fileChooser.showSaveDialog(bpMenu.getScene().getWindow());
+        if (f != null) {
+            try {
+                casaDorada.exportDataOrder(f.getAbsolutePath(),dateInitial, dateFinal, sep);
+                System.out.println("Se corono");
+            } catch (FileNotFoundException e) {
+                System.out.println("Donde me sente?");
+            }
+            
+        }
+    }
+    
+    public void onExportProduct(Date dateInitial, Date dateFinal, String sep){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Generar productos");
+        fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.csv"));
+        File f = fileChooser.showSaveDialog(bpMenu.getScene().getWindow());
+        if (f != null) {
+            try {
+                casaDorada.exportDataProduct(f.getAbsolutePath(), dateInitial, dateFinal, sep);
+                System.out.println("Se volvio a coronar");
+            } catch (FileNotFoundException e) {
+                System.out.println("Me comi el pastel");
+            }
+
+        }
+    }
+    
+    public void onExportEmployee(Date dateInitial, Date dateFinal, String sep) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Generar productos");
+        fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.csv"));
+        File f = fileChooser.showSaveDialog(bpMenu.getScene().getWindow());
+        if (f != null) {
+            try {
+                casaDorada.exportEmployee(f.getAbsolutePath(), dateInitial, dateFinal, sep);
+                System.out.println("A mimir");
+            } catch (FileNotFoundException e) {
+                System.out.println("A bañarme, estoy estresado");
+            }
+        }
     }
 
     @FXML

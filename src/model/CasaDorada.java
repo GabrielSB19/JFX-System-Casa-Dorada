@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -777,27 +778,41 @@ public class CasaDorada implements Serializable {
     }
     
     public void addProductInOrder(int code, int newProductCode, int amount) {
+        Product productSelected = null;
+        for (int i = 0; i < listProducts.size(); i++) {
+            if (listProducts.get(i).getPrCode() == newProductCode) {
+                productSelected = new Product(listProducts.get(i).getPrCode(), 0, listProducts.get(i).getPrName(), listProducts.get(i).getPrSize(), listProducts.get(i).getPrPrice(),
+                        listProducts.get(i).getPrState(), 0, listProducts.get(i).getCpAdmin(), listProducts.get(i).getMpAdmin());
+            }
+        }
         for (int i = 0; i < listOrders.size(); i++) {
             if (listOrders.get(i).getCode() == code) {
                 for (int j = 0; j < listProducts.size(); j++) {
-                    if (listProducts.get(j).getPrCode() == newProductCode) {
-                        listOrders.get(i).addProductInOrder(listProducts.get(j));
-                        HashSet hs = new HashSet();
-                        hs.addAll(listOrders.get(i).getProducts());
-                        listOrders.get(i).getProducts().clear();
-                        listOrders.get(i).getProducts().addAll(hs);
+                    if (listProducts.get(j).getPrCode() == productSelected.getPrCode()) {
+                        int x = 0;
                         for (int k = 0; k < listOrders.get(i).getProducts().size(); k++) {
-                            if (listOrders.get(i).getProducts().get(k).getPrCode() == newProductCode) {
+                            if (listOrders.get(i).getProducts().get(k).getPrCode() == productSelected.getPrCode()) {
+                                x++;
+                            }
+                        }
+                        if (x == 0) {
+                            listOrders.get(i).addProductInOrder(productSelected);
+                        } else {
+
+                        }
+                        for (int k = 0; k < listOrders.get(i).getProducts().size(); k++) {
+                            if (listOrders.get(i).getProducts().get(k).getPrCode() == productSelected.getPrCode()) {
                                 listOrders.get(i).getProducts().get(k).setPrNumOrder(amount);
                             }
                         }
+
                         plusProductToOrder(listProducts.get(j));
                     }
                 }
             }
         }
     }
-    
+
     public void plusProductToOrder(Product plusProduct){
         for (int i = 0; i < listProducts.size(); i++) {
             if (listProducts.get(i) == plusProduct) {
@@ -1055,4 +1070,93 @@ public class CasaDorada implements Serializable {
         }
     }
 
+    @SuppressWarnings("ConvertToTryWithResources")
+    public void exportDataOrder(String filename, Date initial, Date end, String sep) throws FileNotFoundException {
+        String test = "";
+        PrintWriter pw = new PrintWriter(filename);
+        pw.println("Fecha" + sep + "Estado"+sep+"Nombre del cliente" + sep + "Direccion" + sep + "Telefono" + sep + "Empleado" + sep + "Observaciones" + sep + "Valor total" + sep + "Producto");
+        for (int i = 0; i < listOrders.size(); i++) {
+            if (listOrders.get(i).getState()) {
+                if (listOrders.get(i).getODate().compareTo(initial) >= 0 && listOrders.get(i).getODate().compareTo(end) <= 0) {
+                    for (int j = 0; j < listOrders.get(i).getProducts().size(); j++) {
+                        test += listOrders.get(i).getProducts().get(j).getPrName()+" "+listOrders.get(i).getProducts().get(j).getPrNumOrder()+" "+listOrders.get(i).getProducts().get(j).getPrPrice();
+                    }
+                    pw.println(listOrders.get(i).getODate()+sep+listOrders.get(i).getStatus()+sep+listOrders.get(i).getrClient().getNameLN()+sep+
+                    listOrders.get(i).getrClient().getCAddress()+sep+listOrders.get(i).getrClient().getCPhone()+sep+listOrders.get(i).getrEmployee().getNameLN()
+                    +sep+listOrders.get(i).getObservatinos()+sep+listOrders.get(i).getValueOrder()+sep+test);
+                    test = "";
+                }
+            }
+        }
+        pw.close();
+    }
+    
+
+    @SuppressWarnings("ConvertToTryWithResources")
+    public void exportDataProduct(String filename, Date initial, Date end, String sep) throws FileNotFoundException {
+        PrintWriter pw = new PrintWriter(filename);
+        pw.println("Nombre del producto" + sep + "Tamanio" + sep + "Precio" + sep + "Cantidad pedida" + sep + "PagoTotal");
+        for (int i = 0; i < listOrders.size(); i++) {
+            if (listOrders.get(i).getState()) {
+                if (listOrders.get(i).getStatus() == StatusOrder.ENTREGADO) {
+                    if (listOrders.get(i).getODate().compareTo(initial) >= 0 && listOrders.get(i).getODate().compareTo(end) <= 0) {
+                        for (int j = 0; j < listOrders.get(i).getProducts().size(); j++) {
+                            pw.println(listOrders.get(i).getProducts().get(j).getPrName() + sep + listOrders.get(i).getProducts().get(j).getPrSize() + sep
+                                    + listOrders.get(i).getProducts().get(j).getPrPrice() + sep + listOrders.get(i).getProducts().get(j).getPrNumOrder() + sep
+                                    + (listOrders.get(i).getProducts().get(j).getPrNumOrder() * listOrders.get(i).getProducts().get(j).getPrPrice()));
+                        }
+                    }
+                }
+
+            }
+        }
+        pw.close();
+    }
+
+    @SuppressWarnings("ConvertToTryWithResources")
+    public void exportEmployee(String filename, Date initial, Date end, String sep) throws FileNotFoundException {
+        PrintWriter pw = new PrintWriter(filename);
+        pw.println("Nombre" + sep + "Apellido" + sep + "Identificiacion" + sep + "Numero de pedidos" + sep + "Valor pedidos");
+        ArrayList<Order> ordersExport = new ArrayList<>();
+        for (int i = 0; i < listOrders.size(); i++) {
+            if (listOrders.get(i).getState()) {
+                if (listOrders.get(i).getStatus() == StatusOrder.ENTREGADO) {
+                    if (listOrders.get(i).getODate().compareTo(initial) >= 0 && listOrders.get(i).getODate().compareTo(end) <= 0) {
+                        ordersExport.add(listOrders.get(i));
+                    }
+                }
+            }
+        }
+        ArrayList<Employee> employeesDisp = new ArrayList<>();
+        for (int i = 0; i < ordersExport.size(); i++) {
+            employeesDisp.add(ordersExport.get(i).getrEmployee());
+        }
+        HashSet hs = new HashSet();
+        hs.addAll(employeesDisp);
+        employeesDisp.clear();
+        employeesDisp.addAll(hs);
+        int[] newAmount = new int[employeesDisp.size()];
+        double[] newPrice = new double[employeesDisp.size()];
+        int x = 0;
+        double c = 0;
+        for (int i = 0; i < employeesDisp.size(); i++) {
+            for (int j = 0; j < ordersExport.size(); j++) {
+                if (employeesDisp.get(i) == ordersExport.get(j).getrEmployee()) {
+                    x++;
+                    c += Double.parseDouble(ordersExport.get(j).getValueOrder());
+                }
+            }
+            newAmount[i] = x;
+            newPrice[i] = c;
+            c = 0;
+            x = 0;
+        }
+        for (int i = 0; i < employeesDisp.size(); i++) {
+            pw.println(employeesDisp.get(i).getName() + sep + employeesDisp.get(i).getLastName() + sep + employeesDisp.get(i).getID()
+                    + sep + newAmount[i] +sep+newPrice[i]);
+        }
+        pw.close();
+    }
 }
+
+

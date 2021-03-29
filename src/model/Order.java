@@ -153,7 +153,7 @@ public class Order implements Serializable{
     }
     
     public String getValueOrder(){
-        String valueOrder = "";
+        String valueOrder;
         double value = 0;
         if (Status == StatusOrder.ENTREGADO) {
             for (int i = 0; i < products.size(); i++) {
