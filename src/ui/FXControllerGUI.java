@@ -1551,10 +1551,63 @@ public class FXControllerGUI implements Initializable, Serializable {
 
     @FXML
     private JFXButton btnUpdateOrder;
+    
+    public void visibleRadioButton(StatusOrder statusOrdenSelect){
+        if (null != statusOrdenSelect) switch (statusOrdenSelect) {
+            case SOLICITADO:
+                rbSolited.setVisible(false);
+                rbProccess.setVisible(true);
+                rbSent.setVisible(true);
+                rbRecieved.setVisible(true);
+                break;
+            case EN_PROCESO:
+                rbSolited.setVisible(false);
+                rbProccess.setVisible(false);
+                rbSent.setVisible(true);
+                rbRecieved.setVisible(true);
+                break;
+            case ENVIADO:
+                rbSolited.setVisible(false);
+                rbProccess.setVisible(false);
+                rbSent.setVisible(false);
+                rbRecieved.setVisible(true);
+                break;
+            case ENTREGADO:
+                rbSolited.setVisible(false);
+                rbProccess.setVisible(false);
+                rbSent.setVisible(false);
+                rbRecieved.setVisible(false);
+                break;
+            default:
+                break;
+        }
+    }
 
     @FXML
-    public void onSelectOrder(MouseEvent event) {
-
+    public void onSelectOrder(MouseEvent event) throws IOException {
+        Order orderSelected;
+        if (event.getClickCount() == 2) {
+            orderSelected = tblOrder.getSelectionModel().getSelectedItem();
+            if (orderSelected != null) {
+                code = orderSelected.getCode();
+                btnAddOrder.setVisible(false);
+                onRemoveOrder.setVisible(true);
+                btnUpdateOrder.setVisible(true);
+                showAlert(true, "Se ha seleccionado la orden");
+                visibleRadioButton(orderSelected.getStatus());
+                txtObserOrder.setText(orderSelected.getObservatinos());
+                tbStateOrder.setSelected(orderSelected.getState());
+            }
+        } else if (event.getClickCount() == 1) {
+            code = 0;
+            btnAddOrder.setVisible(true);
+            onRemoveOrder.setVisible(false);
+            btnUpdateOrder.setVisible(false);
+            rbSolited.setVisible(true);
+            rbProccess.setVisible(true);
+            rbSent.setVisible(true);
+            rbRecieved.setVisible(true);
+        }
     }
 
     @FXML
@@ -1589,10 +1642,9 @@ public class FXControllerGUI implements Initializable, Serializable {
                         txtObserOrder.getText(), tbStateOrder.isSelected(), null, getEmployeeSelected(cbxEmployeeOrder.getValue()), casaDorada.getAdminActive(), null);
                 txtObserOrder.clear();
                 onTableOrder();
-                onChooseClient();
+                onChooseClient(null);
                 saveData();
                 showAlert(true, "Se ha agregado correctamente el pedido");
-                //firstTimeOrder = true;
                 code = casaDorada.getCode() - 1;
             } else {
                 showAlert(false, "No puedes crear una orden sin asignar a un empleado encargado");
@@ -1603,7 +1655,7 @@ public class FXControllerGUI implements Initializable, Serializable {
         }
 
     }
-
+    
     public int getStatusOrder() {
         int option = 1;
         if (rbSolited.isSelected()) {
@@ -1636,6 +1688,37 @@ public class FXControllerGUI implements Initializable, Serializable {
         }
         return status;
     }
+    
+    @FXML
+    public void onUpdateOrder(ActionEvent event) throws IOException {
+        casaDorada.updateOrder(code, statusSelected(getStatusOrder()), txtObserOrder.getText(), 
+        tbStateOrder.isSelected(), getEmployeeSelected(cbxEmployeeOrder.getValue()), casaDorada.getAdminActive());
+        btnAddOrder.setVisible(true);
+        tblOrder.refresh();
+        Client selectClient = null;
+        for (int i = 0; i < casaDorada.getOrders().size(); i++) {
+            if (casaDorada.getOrders().get(i).getCode() == code) {
+                selectClient = casaDorada.getOrders().get(i).getrClient();
+            }
+        }
+        onChooseClient(selectClient);
+        saveData();
+        showAlert(true, "Se ha actualizado la orden");
+    }
+    
+    @FXML
+    public void onRemoveOrder(ActionEvent event) {
+        casaDorada.removeOrder(code);
+        showAlert(true, "se ha eliminado correctamente la orden");
+        onTableOrder();
+        btnAddOrder.setVisible(true);
+        onRemoveOrder.setVisible(false);
+        btnUpdateOrder.setVisible(false);
+        rbSolited.setVisible(true);
+        rbProccess.setVisible(true);
+        rbSent.setVisible(true);
+        rbRecieved.setVisible(true);
+    }
 
     public void showEmployeeDisp() {
         try {
@@ -1658,13 +1741,17 @@ public class FXControllerGUI implements Initializable, Serializable {
     }
 
     public Employee getEmployeeSelected(String name) {
-        String[] nameSplit = name.split(" ");
-        for (int i = 0; i < casaDorada.getEmployee().size(); i++) {
-            if (casaDorada.getEmployee().get(i).getName().equals(nameSplit[0]) && casaDorada.getEmployee().get(i).getLastName().equals(nameSplit[1])) {
-                return casaDorada.getEmployee().get(i);
+        try {
+            String[] nameSplit = name.split(" ");
+            for (int i = 0; i < casaDorada.getEmployee().size(); i++) {
+                if (casaDorada.getEmployee().get(i).getName().equals(nameSplit[0]) && casaDorada.getEmployee().get(i).getLastName().equals(nameSplit[1])) {
+                    return casaDorada.getEmployee().get(i);
+                }
             }
+            return null;
+        } catch (NullPointerException e) {
+            return null;
         }
-        return null;
     }
 
     @FXML
@@ -1700,13 +1787,14 @@ public class FXControllerGUI implements Initializable, Serializable {
         tblObserOrder.setCellValueFactory(new PropertyValueFactory<>("observatinos"));
     }
 
-    public void onChooseClient() throws IOException {
+    public void onChooseClient(Client clientSelected) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/SearchClient.fxml"));
 
         fxmlLoader.setController(this);
         Parent searchClient = fxmlLoader.load();
         newStage(searchClient);
         onLoadTableFilter(null);
+        showClientSelected(clientSelected);
     }
 
     @FXML
@@ -1998,16 +2086,6 @@ public class FXControllerGUI implements Initializable, Serializable {
     }
 
     @FXML
-    public void onRemoveOrder(ActionEvent event) {
-
-    }
-
-    @FXML
-    public void onUpdateOrder(ActionEvent event) {
-
-    }
-
-    @FXML
     public void onListOrder(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ListOrder.fxml"));
 
@@ -2042,7 +2120,7 @@ public class FXControllerGUI implements Initializable, Serializable {
         Stage stage = (Stage) pSelectDate.getScene().getWindow();
         stage.close();
     }
-
+    
     @FXML
     void importClient(ActionEvent event) throws IOException {
         if (casaDorada.importClient()) {
