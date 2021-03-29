@@ -68,11 +68,12 @@
             </Pane>
             <TableView fx:id="tblOrder" layoutX="49.0" layoutY="52.0" onMouseClicked="#onSelectOrder" prefHeight="647.0" prefWidth="735.0" style="-fx-border-color: #efb810;">
                <columns>
-                  <TableColumn fx:id="tblStatusOrder" prefWidth="122.0" text="Estado" />
-                  <TableColumn fx:id="tblProductsOrder" prefWidth="122.0" text="Productos" />
-                  <TableColumn fx:id="tblAmounxProducts" prefWidth="122.0" text="Cantidad de producto" />
-                  <TableColumn fx:id="tblClientOrder" prefWidth="122.0" text="Cliente Solicitante" />
-                  <TableColumn fx:id="tblEmployeeOrder" prefWidth="122.0" text="Empleado Encargado" />
+                  <TableColumn fx:id="tblDateOrder" prefWidth="128.0" text="Fecha" />
+                  <TableColumn fx:id="tblStatusOrder" prefWidth="96.0" text="Estado" />
+                  <TableColumn fx:id="tblProductsOrder" prefWidth="97.0" text="Productos" />
+                  <TableColumn fx:id="tblAmounxProducts" prefWidth="100.0" text="Cantidad" />
+                  <TableColumn fx:id="tblClientOrder" prefWidth="98.0" text="Cliente" />
+                  <TableColumn fx:id="tblEmployeeOrder" prefWidth="92.0" text="Empleado" />
                   <TableColumn fx:id="tblObserOrder" prefWidth="122.0" text="Observaciones" />
                </columns>
             </TableView>

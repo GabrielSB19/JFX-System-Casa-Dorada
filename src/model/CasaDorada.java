@@ -137,7 +137,7 @@ public class CasaDorada implements Serializable {
         boolean test = false;
         int xd = 0;
         for (int i = 0; i < listEmployees.size(); i++) {
-            if (listClients.get(i).getID() != ID) {
+            if (listEmployees.get(i).getID() != ID) {
                 xd++;
             }
         }
@@ -171,6 +171,9 @@ public class CasaDorada implements Serializable {
 
     public boolean removeEmployee(int code) throws IOException {
         for (int i = 0; i < listEmployees.size(); i++) {
+            if (listEmployees.get(i).getPCode() == code) {
+             System.out.println(listEmployees.get(i).getPRef()+"xd");   
+            }
             if (listEmployees.get(i).getPCode() == code && listEmployees.get(i).getPRef() == 0) {
                 boolean out = false;
                 boolean out1 = false;
@@ -276,6 +279,9 @@ public class CasaDorada implements Serializable {
 
     public boolean removeClient(int code) throws IOException {
         for (int i = 0; i < listClients.size(); i++) {
+            if (listClients.get(i).getPCode() == code) {
+                System.out.println(listClients.get(i).getPRef()+"f?");
+            }
             if (listClients.get(i).getPCode() == code && listClients.get(i).getPRef() == 0) {
                 boolean out = false;
                 boolean out1 = false;
@@ -616,13 +622,19 @@ public class CasaDorada implements Serializable {
     }
 
     public void addOrder(int oCode, StatusOrder Status, Date oDate, String observatinos, boolean state, Client rClient, Employee rEmployee, Admin coAdmin, Admin moAdmin) throws IOException {
-        Order newOrder = new Order(code++, Status, oDate, observatinos, state, rClient, rEmployee, coAdmin, null);
+        Order newOrder = new Order(code++, Status, oDate, observatinos, state, null, rEmployee, coAdmin, null);
         listOrders.add(newOrder);
         for (int i = 0; i < listAdmins.size(); i++) {
             if (listAdmins.get(i) == coAdmin) {
                 listAdmins.get(i).setPRef(listAdmins.get(i).getPRef() + 1);
             }
         }
+        for (int i = 0; i < listEmployees.size(); i++) {
+            if (listEmployees.get(i) == rEmployee) {
+                listEmployees.get(i).setPRef(listEmployees.get(i).getPRef()+1);
+            }
+        }
+        
     }
 
     @SuppressWarnings("null")
@@ -684,7 +696,7 @@ public class CasaDorada implements Serializable {
     public void plusInClient(Client client) {
         for (int i = 0; i < listClients.size(); i++) {
             if (client == listClients.get(i)) {
-                listClients.get(i).setPRef(listClients.get(i).getPCode() + 1);
+                listClients.get(i).setPRef(listClients.get(i).getPRef() + 1);
             }
         }
     }
@@ -757,7 +769,17 @@ public class CasaDorada implements Serializable {
                 listOrders.get(i).setStatus(status);
                 listOrders.get(i).setObservatinos(observations);
                 listOrders.get(i).setState(state);
+                for (int j = 0; j < listEmployees.size(); j++) {
+                    if (listEmployees.get(j) == listOrders.get(i).getrEmployee()) {
+                        listEmployees.get(j).setPRef(listEmployees.get(j).getPRef()-1);
+                    }
+                }
                 listOrders.get(i).setrEmployee(rEmployee);
+                for (int j = 0; j < listEmployees.size(); j++) {
+                    if (listOrders.get(i).getrEmployee() == listEmployees.get(j)) {
+                        listEmployees.get(j).setPRef(listEmployees.get(j).getPRef()+1);
+                    }
+                }
                 for (int j = 0; j < listAdmins.size(); j++) {
                     if (listOrders.get(i).getCoAdmin() == listAdmins.get(j)) {
                         listAdmins.get(j).setPRef(listAdmins.get(j).getPRef()-1);

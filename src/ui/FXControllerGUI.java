@@ -554,6 +554,9 @@ public class FXControllerGUI implements Initializable, Serializable {
             txtEmpName.clear();
             txtEmpID.clear();
             onTableEmployee();
+            btnAddEmployee.setVisible(true);
+            btnUpatedEmployee.setVisible(false);
+            btnRemoveEmployee.setVisible(false);
         } else {
             showAlert(false, "No se ha podido eliminar,\nel empleado se encuentra referenciado");
         }
@@ -763,6 +766,9 @@ public class FXControllerGUI implements Initializable, Serializable {
             txtCAddress.clear();
             txtCObser.clear();
             onTableClient();
+            btnAddClient.setVisible(true);
+            btnUptadeClient.setVisible(false);
+            btnRemoveClient.setVisible(false);
         } else {
             showAlert(false, "No se ha podido eliminar, \nel cliente esta referenciado");
         }
@@ -939,6 +945,9 @@ public class FXControllerGUI implements Initializable, Serializable {
             showAlert(true, "Se ha eliminado el ingrediente correctamnet");
             onTableIngredient();
             txtIngName.clear();
+            btnAddIngredient.setVisible(true);
+            btnUptadeIngredient.setVisible(false);
+            btnRemoveClient.setVisible(false);
         } else {
             showAlert(false, "No se ha eliminado el ingrediente,\n el ingrediente se encuntra referenciado");
         }
@@ -1080,6 +1089,9 @@ public class FXControllerGUI implements Initializable, Serializable {
             saveData();
             showAlert(true, "Se ha eliminado el tipo de producto correctamente");
             onTableTypeProduct();
+            btnAddTypeProduct.setVisible(true);
+            btnUptadeType.setVisible(false);
+            btnRemoveType.setVisible(false);
         } else {
             showAlert(false, "No se ha eliminado el tipo de producto,\nel tipo de producto esta referenciado");
         }
@@ -1272,6 +1284,9 @@ public class FXControllerGUI implements Initializable, Serializable {
             saveData();
             showAlert(true, "Se ha eliminado correctamente el producto");
             onTableProduct();
+            btnAddProduct.setVisible(true);
+            btnUpdateProduct.setVisible(false);
+            btnRemoveProduct.setVisible(false);
         } else {
             showAlert(false, "No se ha eliminado el producto,\nel producto se encuentra referenciado");
         }
@@ -1555,28 +1570,32 @@ public class FXControllerGUI implements Initializable, Serializable {
     public void visibleRadioButton(StatusOrder statusOrdenSelect){
         if (null != statusOrdenSelect) switch (statusOrdenSelect) {
             case SOLICITADO:
+                rbSolited.setVisible(true);
+                rbProccess.setVisible(true);
+                rbSent.setVisible(true);
+                rbRecieved.setVisible(true);
+                rbSolited.setSelected(true);
+                break;
+            case EN_PROCESO:
                 rbSolited.setVisible(false);
                 rbProccess.setVisible(true);
                 rbSent.setVisible(true);
                 rbRecieved.setVisible(true);
-                break;
-            case EN_PROCESO:
-                rbSolited.setVisible(false);
-                rbProccess.setVisible(false);
-                rbSent.setVisible(true);
-                rbRecieved.setVisible(true);
+                rbProccess.setSelected(true);
                 break;
             case ENVIADO:
                 rbSolited.setVisible(false);
                 rbProccess.setVisible(false);
-                rbSent.setVisible(false);
+                rbSent.setVisible(true);
                 rbRecieved.setVisible(true);
+                rbSent.setSelected(true);
                 break;
             case ENTREGADO:
                 rbSolited.setVisible(false);
                 rbProccess.setVisible(false);
                 rbSent.setVisible(false);
-                rbRecieved.setVisible(false);
+                rbRecieved.setVisible(true);
+                rbRecieved.setSelected(true);
                 break;
             default:
                 break;
@@ -1597,6 +1616,7 @@ public class FXControllerGUI implements Initializable, Serializable {
                 visibleRadioButton(orderSelected.getStatus());
                 txtObserOrder.setText(orderSelected.getObservatinos());
                 tbStateOrder.setSelected(orderSelected.getState());
+                cbxEmployeeOrder.setValue(orderSelected.getrEmployee().getNameLN());
             }
         } else if (event.getClickCount() == 1) {
             code = 0;
@@ -1641,6 +1661,7 @@ public class FXControllerGUI implements Initializable, Serializable {
                 casaDorada.addOrder(casaDorada.getCode(), statusSelected(getStatusOrder()), convertToHour(LocalDateTime.now()),
                         txtObserOrder.getText(), tbStateOrder.isSelected(), null, getEmployeeSelected(cbxEmployeeOrder.getValue()), casaDorada.getAdminActive(), null);
                 txtObserOrder.clear();
+                System.out.println(convertToHour(LocalDateTime.now()).toString());
                 onTableOrder();
                 onChooseClient(null);
                 saveData();
@@ -1718,6 +1739,9 @@ public class FXControllerGUI implements Initializable, Serializable {
         rbProccess.setVisible(true);
         rbSent.setVisible(true);
         rbRecieved.setVisible(true);
+        btnAddOrder.setVisible(true);
+        btnUpdateOrder.setVisible(false);
+        onRemoveOrder.setVisible(false);
     }
 
     public void showEmployeeDisp() {
@@ -1774,6 +1798,9 @@ public class FXControllerGUI implements Initializable, Serializable {
 
     @FXML
     private TableColumn<Order, String> tblObserOrder;
+    
+    @FXML
+    private TableColumn<Order, Date> tblDateOrder;
 
     public void onTableOrder() {
         List<Order> orders = casaDorada.getOrders();
@@ -1785,6 +1812,9 @@ public class FXControllerGUI implements Initializable, Serializable {
         tblClientOrder.setCellValueFactory(new PropertyValueFactory<>("showClientName"));
         tblEmployeeOrder.setCellValueFactory(new PropertyValueFactory<>("showEmployeeName"));
         tblObserOrder.setCellValueFactory(new PropertyValueFactory<>("observatinos"));
+        tblProductsOrder.setCellValueFactory(new PropertyValueFactory<>("showNamesProducts"));
+        tblAmounxProducts.setCellValueFactory(new PropertyValueFactory<>("showAmountProducts"));
+        tblDateOrder.setCellValueFactory(new PropertyValueFactory<>("oDate"));
     }
 
     public void onChooseClient(Client clientSelected) throws IOException {
@@ -2012,6 +2042,7 @@ public class FXControllerGUI implements Initializable, Serializable {
                     tblProductsSelect.refresh();
                     showAlert2(true, "Se ha agregado el producto a la orden");
                     saveData();
+                    tblOrder.refresh();
             } else {
                 showAlert2(false, "Debes de seleccionar un producto y por ende la cantidad de esta");
             }
@@ -2035,11 +2066,13 @@ public class FXControllerGUI implements Initializable, Serializable {
     }
 
     @FXML
-    public void onRemoveProductInOrder(ActionEvent event) {
+    public void onRemoveProductInOrder(ActionEvent event) throws IOException {
         casaDorada.removeProductInOrder(code, codePO);
         showAlert2(true, "Se ha eliminado correctamente");
         onTableProductSelectd(showActualizaPO(code));
         tblProductsSelect.refresh();
+        tblOrder.refresh();
+        saveData();
     }
     
     @FXML

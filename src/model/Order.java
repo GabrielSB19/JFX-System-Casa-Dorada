@@ -132,4 +132,24 @@ public class Order implements Serializable{
         return showEmployeeName;
     }
     
+    public String getShowNamesProducts(){
+        String showNamesProducts = "";
+        String separator = "";
+        for (int i = 0; i < products.size(); i++) {
+            showNamesProducts += separator+products.get(i).getNameSP();
+            separator = ", ";
+        }
+        return showNamesProducts;
+    }
+    
+    public String getShowAmountProducts(){
+        String showAmountProducts = "";
+        String separator = "";
+        for (int i = 0; i < products.size(); i++) {
+            showAmountProducts += separator+products.get(i).getPrNumOrder();
+            separator = ", ";
+        }
+        return  showAmountProducts;
+    }
+    
 }
