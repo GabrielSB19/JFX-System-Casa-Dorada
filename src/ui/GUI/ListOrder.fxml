@@ -22,19 +22,15 @@
             </Label>
          </children>
       </Pane>
-      <TableView layoutX="15.0" layoutY="128.0" prefHeight="565.0" prefWidth="1166.0" style="-fx-background-color: #ffffff; -fx-border-color: #efb810;">
+      <TableView fx:id="tblAllOrder" layoutX="15.0" layoutY="128.0" prefHeight="565.0" prefWidth="1166.0" style="-fx-border-color: #efb810;">
          <columns>
-            <TableColumn prefWidth="145.0" style="-fx-background-color: #ffffff;" text="Hora y Fecha" />
-            <TableColumn prefWidth="145.0" style="-fx-background-color: #ffffff;" text="Codigo" />
-            <TableColumn prefWidth="145.0" style="-fx-background-color: #ffffff;" text="Estado del Pedido" />
-            <TableColumn prefWidth="129.0" style="-fx-background-color: #ffffff;" text="Productos">
-               <columns>
-                  <TableColumn prefWidth="145.0" style="-fx-background-color: #ffffff;" text="Producto" />
-                  <TableColumn prefWidth="145.0" style="-fx-background-color: #ffffff;" text="Cantidad" />
-               </columns></TableColumn>
-            <TableColumn prefWidth="145.0" style="-fx-background-color: #ffffff;" text="Cliente" />
-            <TableColumn prefWidth="145.0" style="-fx-background-color: #ffffff;" text="Empleado" />
-            <TableColumn prefWidth="149.0" style="-fx-background-color: #ffffff;" text="Observaciones" />
+            <TableColumn fx:id="tblAllDateOrder" prefWidth="223.0" text="Hora y Fecha" />
+            <TableColumn fx:id="tblAllStatusOrder" prefWidth="157.0" text="Estado del Pedido" />
+            <TableColumn fx:id="tblAllProductsOrder" prefWidth="157.0" text="Producto" />
+            <TableColumn fx:id="tblAllAmountOrder" prefWidth="157.0" text="Cantidad" />
+            <TableColumn fx:id="tblAllClientOrder" prefWidth="157.0" text="Cliente" />
+            <TableColumn fx:id="tblAllEmployeeOrder" prefWidth="157.0" text="Empleado" />
+            <TableColumn fx:id="tblAllObserOrder" prefWidth="157.0" text="Observaciones" />
          </columns>
       </TableView>
    </children>

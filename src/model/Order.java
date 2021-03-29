@@ -119,7 +119,7 @@ public class Order implements Serializable{
     public String getShowClientName(){
         String showClientName = "";
         if (rClient != null) {
-            showClientName = rClient.getName();
+            showClientName = rClient.getName()+" "+rClient.getLastName();
         }
         return showClientName;
     }
@@ -127,7 +127,7 @@ public class Order implements Serializable{
     public String getShowEmployeeName(){
         String showEmployeeName = "";
         if (rEmployee != null) {
-            showEmployeeName = rEmployee.getName();
+            showEmployeeName = rEmployee.getNameLN();
         }
         return showEmployeeName;
     }

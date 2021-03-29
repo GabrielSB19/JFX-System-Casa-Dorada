@@ -54,6 +54,7 @@ import java.time.ZoneId;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.transformation.FilteredList;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import model.*;
@@ -512,16 +513,20 @@ public class FXControllerGUI implements Initializable, Serializable {
         try {
             if (!txtEmpName.getText().equals("") && !txtEmpLastName.getText().equals("")
                     && !txtEmpID.getText().equals("")) {
+                if (casaDorada.addEmployee(0, tbStateEmployee.isSelected(), null, 0, casaDorada.getCode(), txtEmpName.getText(),
+                        txtEmpLastName.getText(), Long.parseLong(txtEmpID.getText()), casaDorada.getAdminActive())) {
+                    saveData();
+                    showAlert(true, "El empleado ha sido agregado correctamente");
+                    txtEmpName.clear();
+                    txtEmpLastName.clear();
+                    txtEmpID.clear();
+                    onTableEmployee();
+                } else {
+                    showAlert(false, "Ya existe otro empleado con la misma identificacion\nNo se ha agregado el empleado");
+                }
 
-                casaDorada.addEmployee(0, tbStateEmployee.isSelected(), null, 0, casaDorada.getCode(), txtEmpName.getText(),
-                        txtEmpLastName.getText(), Long.parseLong(txtEmpID.getText()), casaDorada.getAdminActive());
 
-                saveData();
-                showAlert(true, "El empleado ha sido agregado correctamente");
-                txtEmpName.clear();
-                txtEmpLastName.clear();
-                txtEmpID.clear();
-                onTableEmployee();
+
             } else {
                 showAlert(false, "Debes de llenar todos los campos");
             }
@@ -1169,6 +1174,7 @@ public class FXControllerGUI implements Initializable, Serializable {
         pNewOption.getChildren().setAll(productsGestion);
         showEmployeeDisp();
         onTableProduct();
+        casaDorada.sortPriceProduct();
     }
 
     @FXML
@@ -1530,6 +1536,42 @@ public class FXControllerGUI implements Initializable, Serializable {
 
         pNewOption.getChildren().clear();
         pNewOption.getChildren().setAll(listProducts);
+        onAllTableProduct();
+    }
+
+    @FXML
+    private TableView<Product> tblAllProducts;
+
+    @FXML
+    private TableColumn<Product, String> tblNameAllProducts;
+
+    @FXML
+    private TableColumn<Product, String> tblAllIngredientsProduct;
+
+    @FXML
+    private TableColumn<Product, String> tblAllTPProducts;
+
+    @FXML
+    private TableColumn<Product, String> tblAllSizeProduct;
+
+    @FXML
+    private TableColumn<Product, Double> tblAllPriceProducts;
+
+    public void onAllTableProduct() {
+        ArrayList<Product> showProductsAll = new ArrayList<>();
+        for (int i = 0; i < casaDorada.getProduct().size(); i++) {
+            if (casaDorada.getProduct().get(i).getPrState()) {
+                showProductsAll.add(casaDorada.getProduct().get(i));
+            }
+        }
+        ObservableList<Product> newTableAllProduct;
+        newTableAllProduct = FXCollections.observableArrayList(showProductsAll);
+        tblAllProducts.setItems(newTableAllProduct);
+        tblNameAllProducts.setCellValueFactory(new PropertyValueFactory<>("prName"));
+        tblAllSizeProduct.setCellValueFactory(new PropertyValueFactory<>("prSize"));
+        tblAllPriceProducts.setCellValueFactory(new PropertyValueFactory<>("prPrice"));
+        tblAllIngredientsProduct.setCellValueFactory(new PropertyValueFactory<>("ingredientsToString"));
+        tblAllTPProducts.setCellValueFactory(new PropertyValueFactory<>("tpToString"));
     }
 
     /*
@@ -1864,16 +1906,27 @@ public class FXControllerGUI implements Initializable, Serializable {
     @FXML
     private JFXTextField txtSearchClient;
 
+
+    @FXML
+    private Label lblTimeSearch;
+    
     @FXML
     public void onSearchClient(ActionEvent event) {
         if (!txtSearchClient.getText().equals("")) {
             List<Client> test = casaDorada.removeDeshabiltyClient(casaDorada.getClient());
             try {
                 Long search = Long.parseLong(txtSearchClient.getText());
+                long startTime = System.currentTimeMillis();
                 onLoadTableFilter(casaDorada.binaryClient(test, false, txtSearchClient.getText()));
+                long finishTime = System.currentTimeMillis();
+                lblTimeSearch.setText("Esta busqueda se realizo en: "+(finishTime-startTime)+" milisegundos");
             } catch (NumberFormatException e) {
+                long startTime = System.currentTimeMillis();
                 onLoadTableFilter(casaDorada.binaryClient(test, true, txtSearchClient.getText()));
+                long finishTime = System.currentTimeMillis();
+                lblTimeSearch.setText("Esta busqueda se realizo en: "+(finishTime-startTime)+" milisegundos");
             }
+            
             showAlert2(true, "Se ha buscado el cliente");
         } else {
             showAlert2(false, "Debes ingresar un nombre para buscar");
@@ -2127,12 +2180,52 @@ public class FXControllerGUI implements Initializable, Serializable {
 
         pNewOption.getChildren().clear();
         pNewOption.getChildren().setAll(listOrder);
+        onTableAllOrder();
     }
+    
+    @FXML
+    private TableView<Order> tblAllOrder;
 
     @FXML
-    void onSelectClientSearch(MouseEvent event) {
+    private TableColumn<Order, Date> tblAllDateOrder;
+    
+    @FXML
+    private TableColumn<Order, StatusOrder> tblAllStatusOrder;
 
+    @FXML
+    private TableColumn<Order, String> tblAllProductsOrder;
+
+    @FXML
+    private TableColumn<Order, Integer> tblAllAmountOrder;
+
+    @FXML
+    private TableColumn<Order, String> tblAllClientOrder;
+
+    @FXML
+    private TableColumn<Order, String> tblAllEmployeeOrder;
+
+    @FXML
+    private TableColumn<Order, String> tblAllObserOrder;
+    
+    public void onTableAllOrder(){
+        ArrayList<Order> showOrders = new ArrayList<>();
+        for (int i = 0; i < casaDorada.getOrders().size(); i++) {
+            if (casaDorada.getOrders().get(i).getState()) {
+                showOrders.add(casaDorada.getOrders().get(i));
+            }
+        }
+        ObservableList<Order> newTableAllOrder;
+        newTableAllOrder = FXCollections.observableArrayList(showOrders);
+        tblAllOrder.setItems(newTableAllOrder);
+        tblAllDateOrder.setCellValueFactory(new PropertyValueFactory<>("oDate"));
+        tblAllStatusOrder.setCellValueFactory(new PropertyValueFactory<>("Status"));
+        tblAllProductsOrder.setCellValueFactory(new PropertyValueFactory<>("showNamesProducts"));
+        tblAllAmountOrder.setCellValueFactory(new PropertyValueFactory<>("showAmountProducts"));
+        tblAllClientOrder.setCellValueFactory(new PropertyValueFactory<>("showClientName"));
+        tblAllEmployeeOrder.setCellValueFactory(new PropertyValueFactory<>("showEmployeeName"));
+        tblAllObserOrder.setCellValueFactory(new PropertyValueFactory<>("observatinos"));
     }
+
 
     //Generar reportes
     @FXML

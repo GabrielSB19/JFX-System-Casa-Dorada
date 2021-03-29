@@ -67,6 +67,7 @@
                   <Font name="SansSerif Regular" size="20.0" />
                </font>
             </Label>
+            <Label fx:id="lblTimeSearch" layoutX="56.0" layoutY="534.0" prefHeight="21.0" prefWidth="366.0" />
          </children>
       </Pane>
    </children>
