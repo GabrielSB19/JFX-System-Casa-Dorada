@@ -802,18 +802,21 @@ public class FXControllerGUI implements Initializable, Serializable {
     private TableColumn<Client, Boolean> tblClientStateGestion;
 
     public void onTableClient() {
-        List<Client> clients = casaDorada.getClient();
-        ObservableList<Client> newTableClient;
-        newTableClient = FXCollections.observableArrayList(clients);
+        try {
+            List<Client> clients = casaDorada.getClient();
+            ObservableList<Client> newTableClient;
+            newTableClient = FXCollections.observableArrayList(clients);
 
-        tblClients.setItems(newTableClient);
-        tblClientNameGestion.setCellValueFactory(new PropertyValueFactory<>("name"));
-        tblClientLNGestion.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-        tblClientIDGestion.setCellValueFactory(new PropertyValueFactory<>("ID"));
-        tblClientAddressGestion.setCellValueFactory(new PropertyValueFactory<>("cAddress"));
-        tblClientPhoneGestion.setCellValueFactory(new PropertyValueFactory<>("cPhone"));
-        tblClientObservationsGestion.setCellValueFactory(new PropertyValueFactory<>("cObservations"));
-        tblClientStateGestion.setCellValueFactory(new PropertyValueFactory<>("cState"));
+            tblClients.setItems(newTableClient);
+            tblClientNameGestion.setCellValueFactory(new PropertyValueFactory<>("name"));
+            tblClientLNGestion.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+            tblClientIDGestion.setCellValueFactory(new PropertyValueFactory<>("ID"));
+            tblClientAddressGestion.setCellValueFactory(new PropertyValueFactory<>("cAddress"));
+            tblClientPhoneGestion.setCellValueFactory(new PropertyValueFactory<>("cPhone"));
+            tblClientObservationsGestion.setCellValueFactory(new PropertyValueFactory<>("cObservations"));
+            tblClientStateGestion.setCellValueFactory(new PropertyValueFactory<>("cState"));
+        } catch (Exception e) {
+        }
     }
 
     @FXML
@@ -966,13 +969,16 @@ public class FXControllerGUI implements Initializable, Serializable {
     private TableColumn<Ingredient, Boolean> tblIngredientState;
 
     public void onTableIngredient() {
-        List<Ingredient> ingredients = casaDorada.getIngredient();
-        ObservableList<Ingredient> newTableIngredient;
-        newTableIngredient = FXCollections.observableArrayList(ingredients);
+        try {
+            List<Ingredient> ingredients = casaDorada.getIngredient();
+            ObservableList<Ingredient> newTableIngredient;
+            newTableIngredient = FXCollections.observableArrayList(ingredients);
 
-        tblIngredient.setItems(newTableIngredient);
-        tblIngredientNameGestion.setCellValueFactory(new PropertyValueFactory<>("ingredientsName"));
-        tblIngredientState.setCellValueFactory(new PropertyValueFactory<>("ingredientsState"));
+            tblIngredient.setItems(newTableIngredient);
+            tblIngredientNameGestion.setCellValueFactory(new PropertyValueFactory<>("ingredientsName"));
+            tblIngredientState.setCellValueFactory(new PropertyValueFactory<>("ingredientsState"));
+        } catch (Exception e) {
+        }
     }
 
     @FXML
@@ -1110,13 +1116,16 @@ public class FXControllerGUI implements Initializable, Serializable {
     private TableColumn<TypeProduct, Boolean> tblTypeProductState;
 
     public void onTableTypeProduct() {
-        List<TypeProduct> typeProducts = casaDorada.getTypeProduc();
-        ObservableList<TypeProduct> newTableTypeProduct;
-        newTableTypeProduct = FXCollections.observableArrayList(typeProducts);
+        try {
+            List<TypeProduct> typeProducts = casaDorada.getTypeProduc();
+            ObservableList<TypeProduct> newTableTypeProduct;
+            newTableTypeProduct = FXCollections.observableArrayList(typeProducts);
 
-        tblTypeProduct.setItems(newTableTypeProduct);
-        tblTypeProductNameGestion.setCellValueFactory(new PropertyValueFactory<>("typeName"));
-        tblTypeProductState.setCellValueFactory(new PropertyValueFactory<>("typeState"));
+            tblTypeProduct.setItems(newTableTypeProduct);
+            tblTypeProductNameGestion.setCellValueFactory(new PropertyValueFactory<>("typeName"));
+            tblTypeProductState.setCellValueFactory(new PropertyValueFactory<>("typeState"));
+        } catch (Exception e) {
+        }
     }
 
     @FXML
@@ -1318,17 +1327,20 @@ public class FXControllerGUI implements Initializable, Serializable {
     private TableColumn<Product, Boolean> tblProductState;
 
     public void onTableProduct() {
-        List<Product> products = casaDorada.getProduct();
-        ObservableList<Product> newTableProduct;
-        newTableProduct = FXCollections.observableArrayList(products);
+        try {
+            List<Product> products = casaDorada.getProduct();
+            ObservableList<Product> newTableProduct;
+            newTableProduct = FXCollections.observableArrayList(products);
 
-        tblProduct.setItems(newTableProduct);
-        tblProductName.setCellValueFactory(new PropertyValueFactory<>("prName"));
-        tblProductSize.setCellValueFactory(new PropertyValueFactory<>("prSize"));
-        tblProductPrice.setCellValueFactory(new PropertyValueFactory<>("prPrice"));
-        tblProductState.setCellValueFactory(new PropertyValueFactory<>("prState"));
-        tblProductIng.setCellValueFactory(new PropertyValueFactory<>("ingredientsToString"));
-        tblProductTp.setCellValueFactory(new PropertyValueFactory<>("tpToString"));
+            tblProduct.setItems(newTableProduct);
+            tblProductName.setCellValueFactory(new PropertyValueFactory<>("prName"));
+            tblProductSize.setCellValueFactory(new PropertyValueFactory<>("prSize"));
+            tblProductPrice.setCellValueFactory(new PropertyValueFactory<>("prPrice"));
+            tblProductState.setCellValueFactory(new PropertyValueFactory<>("prState"));
+            tblProductIng.setCellValueFactory(new PropertyValueFactory<>("ingredientsToString"));
+            tblProductTp.setCellValueFactory(new PropertyValueFactory<>("tpToString"));
+        } catch (Exception e) {
+        }
     }
 
     @FXML
@@ -2375,34 +2387,13 @@ public class FXControllerGUI implements Initializable, Serializable {
     @FXML
     void importProduct(ActionEvent event) throws IOException {
         if (casaDorada.importProduct()) {
-            try {
-                onTableIngredient();
-            } catch (Exception e) {
-            }
-            try {
-                onTableTypeProduct();
-            } catch (Exception e) {
-            }
-            try {
-                onTableProduct();
-            } catch (Exception e) {
-            }
+            onTableIngredient();
+            onTableTypeProduct();
+            onTableProduct();
             showAlert(true, "Se ha importado correctamente.");
             saveData();
         } else {
             showAlert(false, "No se ha encontrado el archivo.");
         }
-    }
-
-    public void exportData(String fileName) throws FileNotFoundException {
-        PrintWriter pw = new PrintWriter(fileName);
-        //A exportar
-        /*
-        for (int i = 0; i < contacts.size(); i++) {
-            Contact myContact = contacts.get(i);
-            pw.println(myContact.getName() + ";" + myContact.getPhone());
-        }
-         */
-        pw.close();
     }
 }
