@@ -607,7 +607,7 @@ public class CasaDorada implements Serializable {
             }
         }
     }
-    
+
     public void removeTypeProductInP(int code, int codeTP) throws IOException {
         for (int i = 0; i < listProducts.size(); i++) {
             if (listProducts.get(i).getPrCode() == code) {
@@ -1035,6 +1035,11 @@ public class CasaDorada implements Serializable {
                 }
                 line = br.readLine();
             }
+            sortByName();
+            sortNameEmployee();
+            sortNameIngredient();
+            sortNameTP();
+            sortPriceProduct();
             br.close();
             return true;
         } catch (Exception e) {

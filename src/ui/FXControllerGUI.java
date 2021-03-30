@@ -567,15 +567,18 @@ public class FXControllerGUI implements Initializable, Serializable {
     private TableColumn<Employee, Boolean> tblEmployeeState;
 
     public void onTableEmployee() {
-        List<Employee> employee = casaDorada.getEmployee();
-        ObservableList<Employee> newTableEmployee;
-        newTableEmployee = FXCollections.observableArrayList(employee);
+        try {
+            List<Employee> employee = casaDorada.getEmployee();
+            ObservableList<Employee> newTableEmployee;
+            newTableEmployee = FXCollections.observableArrayList(employee);
 
-        tblEmployee.setItems(newTableEmployee);
-        tblEmployeeName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        tblEmployeeLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-        tblEmployeeID.setCellValueFactory(new PropertyValueFactory<>("ID"));
-        tblEmployeeState.setCellValueFactory(new PropertyValueFactory<>("eState"));
+            tblEmployee.setItems(newTableEmployee);
+            tblEmployeeName.setCellValueFactory(new PropertyValueFactory<>("name"));
+            tblEmployeeLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+            tblEmployeeID.setCellValueFactory(new PropertyValueFactory<>("ID"));
+            tblEmployeeState.setCellValueFactory(new PropertyValueFactory<>("eState"));
+        } catch (Exception e) {
+        }
     }
 
     @FXML
