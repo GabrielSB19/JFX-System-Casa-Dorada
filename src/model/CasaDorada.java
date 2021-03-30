@@ -19,7 +19,6 @@ import javafx.stage.FileChooser;
 public class CasaDorada implements Serializable {
 
     private static final long serialVersionUID = 1;
-
     private int code;
     private List<Admin> listAdmins;
     private List<Client> listClients;
@@ -181,24 +180,17 @@ public class CasaDorada implements Serializable {
 
     public boolean removeEmployee(int code) throws IOException {
         for (int i = 0; i < listEmployees.size(); i++) {
-            if (listEmployees.get(i).getPCode() == code) {
-                System.out.println(listEmployees.get(i).getPRef() + "xd");
-            }
             if (listEmployees.get(i).getPCode() == code && listEmployees.get(i).getPRef() == 0) {
                 boolean out = false;
                 boolean out1 = false;
                 for (int j = 0; j < listAdmins.size() && !(out && out1); j++) {
                     if (listEmployees.get(i).getCAdmin() == listAdmins.get(j) && !out) {
-                        System.out.println("Creador antes:" + listAdmins.get(j).getPRef());
                         listAdmins.get(j).setPRef(listAdmins.get(j).getPRef() - 1);
-                        System.out.println("Creador despues:" + listAdmins.get(j).getPRef());
                         out = true;
                     }
                     try {
                         if (listEmployees.get(i).getMAdmin() == listAdmins.get(j) && !out1) {
-                            System.out.println("Modificador antes:" + listAdmins.get(j).getPRef());
                             listAdmins.get(j).setPRef(listAdmins.get(j).getPRef() - 1);
-                            System.out.println("Modificador despues:" + listAdmins.get(j).getPRef());
                             out1 = true;
                         }
                     } catch (Exception e) {
@@ -292,7 +284,6 @@ public class CasaDorada implements Serializable {
                     listClients.get(i).setMcAdmin(mcAdmin);
                     out = true;
                 }
-
             }
         }
         for (int i = 0; i < listAdmins.size(); i++) {
@@ -305,24 +296,17 @@ public class CasaDorada implements Serializable {
 
     public boolean removeClient(int code) throws IOException {
         for (int i = 0; i < listClients.size(); i++) {
-            if (listClients.get(i).getPCode() == code) {
-                System.out.println(listClients.get(i).getPRef() + "f?");
-            }
             if (listClients.get(i).getPCode() == code && listClients.get(i).getPRef() == 0) {
                 boolean out = false;
                 boolean out1 = false;
                 for (int j = 0; j < listAdmins.size() && !(out && out1); j++) {
                     if (listClients.get(i).getCAdmin() == listAdmins.get(j) && !out) {
-                        System.out.println("Creador antes:" + listAdmins.get(j).getPRef());
                         listAdmins.get(j).setPRef(listAdmins.get(j).getPRef() - 1);
-                        System.out.println("Creador despues:" + listAdmins.get(j).getPRef());
                         out = true;
                     }
                     try {
                         if (listClients.get(i).getMcAdmin() == listAdmins.get(j) && !out1) {
-                            System.out.println("Modificador antes:" + listAdmins.get(j).getPRef());
                             listAdmins.get(j).setPRef(listAdmins.get(j).getPRef() - 1);
-                            System.out.println("Modificador despues:" + listAdmins.get(j).getPRef());
                             out1 = true;
                         }
                     } catch (Exception e) {
@@ -380,16 +364,12 @@ public class CasaDorada implements Serializable {
                 boolean out1 = false;
                 for (int j = 0; j < listAdmins.size() && !(out && out1); j++) {
                     if (listIngredients.get(i).getCiAdmin() == listAdmins.get(j) && !out) {
-                        System.out.println("Creador antes:" + listAdmins.get(j).getPRef());
                         listAdmins.get(j).setPRef(listAdmins.get(j).getPRef() - 1);
-                        System.out.println("Creador despues:" + listAdmins.get(j).getPRef());
                         out = true;
                     }
                     try {
                         if (listIngredients.get(i).getMiAdmin() == listAdmins.get(j) && !out1) {
-                            System.out.println("Modificador antes:" + listAdmins.get(j).getPRef());
                             listAdmins.get(j).setPRef(listAdmins.get(j).getPRef() - 1);
-                            System.out.println("Modificador despues:" + listAdmins.get(j).getPRef());
                             out1 = true;
                         }
                     } catch (Exception e) {
@@ -457,16 +437,12 @@ public class CasaDorada implements Serializable {
                 boolean out1 = false;
                 for (int j = 0; j < listAdmins.size() && !(out && out1); j++) {
                     if (listTypeProducts.get(i).getCtpAdmin() == listAdmins.get(j) && !out) {
-                        System.out.println("Creador antes:" + listAdmins.get(j).getPRef());
                         listAdmins.get(j).setPRef(listAdmins.get(j).getPRef() - 1);
-                        System.out.println("Creador despues:" + listAdmins.get(j).getPRef());
                         out = true;
                     }
                     try {
                         if (listTypeProducts.get(i).getMtpAdmin() == listAdmins.get(j) && !out1) {
-                            System.out.println("Modificador antes:" + listAdmins.get(j).getPRef());
                             listAdmins.get(j).setPRef(listAdmins.get(j).getPRef() - 1);
-                            System.out.println("Modificador despues:" + listAdmins.get(j).getPRef());
                             out1 = true;
                         }
                     } catch (Exception e) {
@@ -562,16 +538,12 @@ public class CasaDorada implements Serializable {
                 boolean out1 = false;
                 for (int j = 0; j < listAdmins.size() && !(out && out1); j++) {
                     if (listProducts.get(i).getCpAdmin() == listAdmins.get(j) && !out) {
-                        System.out.println("Creador antes:" + listAdmins.get(j).getPRef());
                         listAdmins.get(j).setPRef(listAdmins.get(j).getPRef() - 1);
-                        System.out.println("Creador despues:" + listAdmins.get(j).getPRef());
                         out = true;
                     }
                     try {
                         if (listProducts.get(i).getMpAdmin() == listAdmins.get(j) && !out1) {
-                            System.out.println("Modificador antes:" + listAdmins.get(j).getPRef());
                             listAdmins.get(j).setPRef(listAdmins.get(j).getPRef() - 1);
-                            System.out.println("Modificador despues:" + listAdmins.get(j).getPRef());
                             out1 = true;
                         }
                     } catch (Exception e) {
@@ -596,14 +568,6 @@ public class CasaDorada implements Serializable {
                 }
             }
         }
-    }
-
-    public ArrayList<Ingredient> getIngredientInTheArrays(int code) {
-        for (int i = 0; i < listProducts.size(); i++) {
-            if (listProducts.get(i).getPrCode() == code);
-            return listProducts.get(i).getIngredientInProduct();
-        }
-        return null;
     }
 
     public void removeIngredientInP(int code, int codeI) throws IOException {
@@ -643,16 +607,7 @@ public class CasaDorada implements Serializable {
             }
         }
     }
-
-    public ArrayList<TypeProduct> getTypeProductsInTheArrays(int code) {
-        for (int i = 0; i < listProducts.size(); i++) {
-            if (listProducts.get(i).getPrCode() == code) {
-                return listProducts.get(i).getTypeProductInProduct();
-            }
-        }
-        return null;
-    }
-
+    
     public void removeTypeProductInP(int code, int codeTP) throws IOException {
         for (int i = 0; i < listProducts.size(); i++) {
             if (listProducts.get(i).getPrCode() == code) {
@@ -717,7 +672,6 @@ public class CasaDorada implements Serializable {
             while (i <= j && pos < 0) {
                 int m = (i + j) / 2;
                 if (preSelect.get(m).getID() == Id) {
-                    System.out.println(preSelect.get(m).getName() + preSelect.get(m).getID() + "Donde me sente?");
                     selectedClient.add(preSelect.get(m));
                     pos = m;
                 } else if (preSelect.get(m).getID() > Id) {
@@ -738,9 +692,6 @@ public class CasaDorada implements Serializable {
                 preSelect.set(j - 1, temp);
 
             }
-        }
-        for (int i = 0; i < preSelect.size(); i++) {
-            System.out.println(preSelect.get(i).getName() + preSelect.get(i).getID());
         }
     }
 
@@ -797,15 +748,12 @@ public class CasaDorada implements Serializable {
                         }
                         if (x == 0) {
                             listOrders.get(i).addProductInOrder(productSelected);
-                        } else {
-
                         }
                         for (int k = 0; k < listOrders.get(i).getProducts().size(); k++) {
                             if (listOrders.get(i).getProducts().get(k).getPrCode() == productSelected.getPrCode()) {
                                 listOrders.get(i).getProducts().get(k).setPrNumOrder(amount);
                             }
                         }
-
                         plusProductToOrder(listProducts.get(j));
                     }
                 }
@@ -888,7 +836,6 @@ public class CasaDorada implements Serializable {
                     }
                 } catch (NullPointerException e) {
                 }
-
                 for (int j = 0; j < listEmployees.size(); j++) {
                     if (listOrders.get(i).getrEmployee().getPCode() == listEmployees.get(j).getPCode()) {
                         listEmployees.get(j).setPRef(listEmployees.get(j).getPRef() - 1);
@@ -898,16 +845,12 @@ public class CasaDorada implements Serializable {
                 boolean out1 = false;
                 for (int j = 0; j < listAdmins.size() && !(out && out1); j++) {
                     if (listOrders.get(i).getCoAdmin() == listAdmins.get(j) && !out) {
-                        System.out.println("Creador antes:" + listAdmins.get(j).getPRef());
                         listAdmins.get(j).setPRef(listAdmins.get(j).getPRef() - 1);
-                        System.out.println("Creador despues:" + listAdmins.get(j).getPRef());
                         out = true;
                     }
                     try {
                         if (listOrders.get(i).getMoAdmin() == listAdmins.get(j) && !out1) {
-                            System.out.println("Modificador antes:" + listAdmins.get(j).getPRef());
                             listAdmins.get(j).setPRef(listAdmins.get(j).getPRef() - 1);
-                            System.out.println("Modificador despues:" + listAdmins.get(j).getPRef());
                             out1 = true;
                         }
                     } catch (Exception e) {
@@ -1095,7 +1038,6 @@ public class CasaDorada implements Serializable {
             br.close();
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
             return false;
         }
     }
@@ -1219,6 +1161,7 @@ public class CasaDorada implements Serializable {
 
             }
         }
+        pw.print(3);
         pw.close();
     }
 
@@ -1264,6 +1207,7 @@ public class CasaDorada implements Serializable {
             pw.println(employeesDisp.get(i).getName() + sep + employeesDisp.get(i).getLastName() + sep + employeesDisp.get(i).getID()
                     + sep + newAmount[i] + sep + newPrice[i]);
         }
+        pw.print(2);
         pw.close();
     }
 }

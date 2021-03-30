@@ -11,19 +11,15 @@ import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTimePicker;
 import com.jfoenix.controls.JFXToggleButton;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.io.Serializable;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -53,13 +49,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.collections.transformation.FilteredList;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import model.*;
@@ -68,9 +59,7 @@ public class FXControllerGUI implements Initializable, Serializable {
 
     private static final long serialVersionUID = 1;
 
-    /*
-    Atributos y metodos y constructor que son generales de la GUI.
-     */
+    //Atributos y metodos y constructor que son generales de la GUI.
     private final String SAVE_PATH_FILE = "data/CasaDorada.cgd";
 
     public void loadData() throws IOException, FileNotFoundException {
@@ -115,12 +104,6 @@ public class FXControllerGUI implements Initializable, Serializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        /*
-        try {
-            loadData();
-        } catch (IOException ex) {
-        }
-         */
         imageView = ivWelcome;
         if (!FXMain.loaded) {
             try {
@@ -178,7 +161,6 @@ public class FXControllerGUI implements Initializable, Serializable {
 
     public void openSelectDate() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/SelectDate.fxml"));
-
         fxmlLoader.setController(this);
         Parent selectDate = fxmlLoader.load();
         newStage(selectDate);
@@ -529,7 +511,6 @@ public class FXControllerGUI implements Initializable, Serializable {
                 } else {
                     showAlert(false, "Ya existe otro empleado con la misma identificacion\nNo se ha agregado el empleado");
                 }
-
             } else {
                 showAlert(false, "Debes de llenar todos los campos");
             }
@@ -642,10 +623,8 @@ public class FXControllerGUI implements Initializable, Serializable {
     @FXML
     public void onGestionClients(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ClientsGestion.fxml"));
-
         fxmlLoader.setController(this);
         Parent clientsGestion = fxmlLoader.load();
-
         pNewOption.getChildren().clear();
         pNewOption.getChildren().setAll(clientsGestion);
         onTableClient();
@@ -734,7 +713,6 @@ public class FXControllerGUI implements Initializable, Serializable {
             txtCID.clear();
             txtCPhone.clear();
         }
-
     }
 
     @FXML
@@ -822,10 +800,8 @@ public class FXControllerGUI implements Initializable, Serializable {
     @FXML
     public void onLIstClients(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ListClients.fxml"));
-
         fxmlLoader.setController(this);
         Parent listClients = fxmlLoader.load();
-
         pNewOption.getChildren().clear();
         pNewOption.getChildren().setAll(listClients);
         showListClient();
@@ -876,10 +852,8 @@ public class FXControllerGUI implements Initializable, Serializable {
     @FXML
     public void onGestionIngredients(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/IngredientsGestion.fxml"));
-
         fxmlLoader.setController(this);
         Parent ingredientsGestion = fxmlLoader.load();
-
         pNewOption.getChildren().clear();
         pNewOption.getChildren().setAll(ingredientsGestion);
         onTableIngredient();
@@ -1019,9 +993,7 @@ public class FXControllerGUI implements Initializable, Serializable {
         tblIngredientNameDisp.setCellValueFactory(new PropertyValueFactory<>("ingredientsName"));
     }
 
-    /*
-    Gestionar Tipo de producto
-     */
+    //Gestionar Tipo de producto
     @FXML
     public void onGestionTypeProduct(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/TypeProductsGestion.fxml"));
@@ -1131,10 +1103,8 @@ public class FXControllerGUI implements Initializable, Serializable {
     @FXML
     public void onLIstTypeProduct(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ListTypeProducts.fxml"));
-
         fxmlLoader.setController(this);
         Parent listTypeProducts = fxmlLoader.load();
-
         pNewOption.getChildren().clear();
         pNewOption.getChildren().setAll(listTypeProducts);
         showListTypeProduct();
@@ -1161,9 +1131,7 @@ public class FXControllerGUI implements Initializable, Serializable {
         tblDispNameTP.setCellValueFactory(new PropertyValueFactory<>("typeName"));
     }
 
-    /*
-    Gestionar Productos
-     */
+    //Gestionar Productos
     @FXML
     private Pane pChooseIng;
 
@@ -1257,7 +1225,6 @@ public class FXControllerGUI implements Initializable, Serializable {
 
     public void onAddIngredientsToProduct(int code) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ChooseIngredients.fxml"));
-
         fxmlLoader.setController(this);
         Parent chooseIngredient = fxmlLoader.load();
         newStage(chooseIngredient);
@@ -1267,7 +1234,6 @@ public class FXControllerGUI implements Initializable, Serializable {
 
     public void onAddTypeToProduct(int code) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/ChooseTypeProducts.fxml"));
-
         fxmlLoader.setController(this);
         Parent chooseTypeProduct = fxmlLoader.load();
         newStage(chooseTypeProduct);
@@ -1514,7 +1480,6 @@ public class FXControllerGUI implements Initializable, Serializable {
             tblChooseTypeProduct.setItems(newTableTypeProduct);
             tblTypeProductName.setCellValueFactory(new PropertyValueFactory<>("typeName"));
         } catch (NullPointerException e) {
-
         }
     }
 
@@ -1584,9 +1549,7 @@ public class FXControllerGUI implements Initializable, Serializable {
         tblAllTPProducts.setCellValueFactory(new PropertyValueFactory<>("tpToString"));
     }
 
-    /*
-    Gestionar Ordenes
-     */
+    //Gestionar Ordenes
     @FXML
     private Pane pSearchClient;
 
@@ -1728,7 +1691,6 @@ public class FXControllerGUI implements Initializable, Serializable {
             showAlert(false, "Ingresa los valores bien");
         } catch (Exception e) {
         }
-
     }
 
     public int getStatusOrder() {
@@ -2319,11 +2281,10 @@ public class FXControllerGUI implements Initializable, Serializable {
         if (f != null) {
             try {
                 casaDorada.exportDataOrder(f.getAbsolutePath(), dateInitial, dateFinal, sep);
-                System.out.println("Se corono");
+                showAlert(true, "Fue generado exitosamente.");
             } catch (FileNotFoundException e) {
-                System.out.println("Donde me sente?");
+                showAlert(false, "No fue generado exitosamente. \nVerifica que el archivo donde guardaras este vacio.");
             }
-
         }
     }
 
@@ -2335,11 +2296,10 @@ public class FXControllerGUI implements Initializable, Serializable {
         if (f != null) {
             try {
                 casaDorada.exportDataProduct(f.getAbsolutePath(), dateInitial, dateFinal, sep);
-                System.out.println("Se volvio a coronar");
+                showAlert(true, "Fue generado exitosamente.");
             } catch (FileNotFoundException e) {
-                System.out.println("Me comi el pastel");
+                showAlert(false, "No fue generado exitosamente. \nVerifica que el archivo donde guardaras este vacio.");
             }
-
         }
     }
 
@@ -2351,9 +2311,9 @@ public class FXControllerGUI implements Initializable, Serializable {
         if (f != null) {
             try {
                 casaDorada.exportEmployee(f.getAbsolutePath(), dateInitial, dateFinal, sep);
-                System.out.println("A mimir");
+                showAlert(true, "Fue generado exitosamente.");
             } catch (FileNotFoundException e) {
-                System.out.println("A bañarme, estoy estresado");
+                showAlert(false, "No fue generado exitosamente. \nVerifica que el archivo donde guardaras este vacio.");
             }
         }
     }
@@ -2368,6 +2328,7 @@ public class FXControllerGUI implements Initializable, Serializable {
     void importClient(ActionEvent event) throws IOException {
         if (casaDorada.importClient()) {
             onTableClient();
+            showAlert(true, "Se ha importado correctamente.");
             saveData();
         } else {
             showAlert(false, "No se ha encontrado el archivo.");
@@ -2377,6 +2338,11 @@ public class FXControllerGUI implements Initializable, Serializable {
     @FXML
     void importPedido(ActionEvent event) throws IOException {
         if (casaDorada.importPedido()) {
+            onTableIngredient();
+            onTableTypeProduct();
+            onTableProduct();
+            onTableClient();
+            onTableEmployee();
             showAlert(true, "Se ha importado correctamente.");
             saveData();
         } else {

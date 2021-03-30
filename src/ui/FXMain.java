@@ -28,9 +28,7 @@ public class FXMain extends Application {
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/Login.fxml"));
         fxmlLoader.setController(fxControllerGUI);
-
         Parent root = fxmlLoader.load();
-
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);

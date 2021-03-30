@@ -2,10 +2,9 @@ package model;
 
 import java.io.Serializable;
 
-public class Ingredient implements Serializable{
-    
+public class Ingredient implements Serializable {
+
     private static final long serialVersionUID = 1;
-    
     private int iRef;
     private int ingCode;
     private String ingredientsName;
@@ -22,7 +21,6 @@ public class Ingredient implements Serializable{
         this.miAdmin = miAdmin;
     }
 
-    
     public int getIRef() {
         return iRef;
     }
@@ -30,7 +28,7 @@ public class Ingredient implements Serializable{
     public void setIRef(int iRef) {
         this.iRef = iRef;
     }
-    
+
     public int getIngCode() {
         return ingCode;
     }
@@ -70,10 +68,9 @@ public class Ingredient implements Serializable{
     public void setMiAdmin(Admin miAdmin) {
         this.miAdmin = miAdmin;
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         return getIngredientsName();
     }
-
 }

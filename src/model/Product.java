@@ -4,9 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Product implements Serializable {
-    
-    private static final long serialVersionUID = 1;
 
+    private static final long serialVersionUID = 1;
     private int prCode;
     private int prRef;
     private String prName;
@@ -16,7 +15,6 @@ public class Product implements Serializable {
     private int prNumOrder;
     private Admin cpAdmin;
     private Admin mpAdmin;
-
     private ArrayList<Ingredient> ingredients;
     private ArrayList<TypeProduct> typeProducts;
 
@@ -32,7 +30,6 @@ public class Product implements Serializable {
         this.mpAdmin = mpAdmin;
         ingredients = new ArrayList<>();
         typeProducts = new ArrayList<>();
-
     }
 
     public int getPrCode() {
@@ -105,62 +102,61 @@ public class Product implements Serializable {
 
     public void setMpAdmin(Admin mpAdmin) {
         this.mpAdmin = mpAdmin;
-    } 
-    
-    public void addIngredientInProduct(Ingredient newIngredient){
+    }
+
+    public void addIngredientInProduct(Ingredient newIngredient) {
         ingredients.add(newIngredient);
     }
-    
-    public void addTypeProductInProduct(TypeProduct newTypeProduct){
+
+    public void addTypeProductInProduct(TypeProduct newTypeProduct) {
         typeProducts.add(newTypeProduct);
     }
-    
-    public ArrayList<Ingredient> getIngredientInProduct(){
+
+    public ArrayList<Ingredient> getIngredientInProduct() {
         return ingredients;
     }
-    
-    public void setIngredientInProduct(ArrayList<Ingredient> ingredients){
+
+    public void setIngredientInProduct(ArrayList<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
-    
-    public ArrayList<TypeProduct> getTypeProductInProduct(){
+
+    public ArrayList<TypeProduct> getTypeProductInProduct() {
         return typeProducts;
     }
 
-    
-    public void setTypeProductInProduct(ArrayList<TypeProduct> typeProducts){
+    public void setTypeProductInProduct(ArrayList<TypeProduct> typeProducts) {
         this.typeProducts = typeProducts;
     }
-    
-    public void ingToString(){
+
+    public void ingToString() {
         String asd = "";
         for (int i = 0; i < ingredients.size(); i++) {
             asd += ingredients.get(i).getIngredientsName();
         }
         System.out.println(asd);
     }
-    
-    public String getIngredientsToString(){
+
+    public String getIngredientsToString() {
         String ingredientsToString = "";
-        String separator =  "";
+        String separator = "";
         for (int i = 0; i < ingredients.size(); i++) {
-            ingredientsToString += separator+ingredients.get(i).getIngredientsName();
+            ingredientsToString += separator + ingredients.get(i).getIngredientsName();
             separator = ", ";
         }
         return ingredientsToString;
     }
-    
-    public String getTpToString(){
+
+    public String getTpToString() {
         String tpToString = "";
         String separator = "";
         for (int i = 0; i < typeProducts.size(); i++) {
-            tpToString += separator+typeProducts.get(i).getTypeName();
+            tpToString += separator + typeProducts.get(i).getTypeName();
             separator = ", ";
         }
         return tpToString;
     }
-    
-    public String getNameSP(){
-        return prName+" "+prSize;
+
+    public String getNameSP() {
+        return prName + " " + prSize;
     }
 }

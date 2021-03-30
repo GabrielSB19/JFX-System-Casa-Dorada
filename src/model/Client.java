@@ -5,7 +5,6 @@ import java.io.Serializable;
 public class Client extends Person implements Serializable, Comparable<Client> {
     
     private static final long serialVersionUID = 1;
-
     private String cAddress;
     private long cPhone;
     private String cObservations;

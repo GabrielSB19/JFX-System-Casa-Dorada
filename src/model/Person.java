@@ -5,7 +5,6 @@ import java.io.Serializable;
 public abstract class Person implements Serializable {
 
     private static final long serialVersionUID = 1;
-    
     private int pRef;
     private int pCode;
     private String name;
@@ -21,15 +20,15 @@ public abstract class Person implements Serializable {
         this.ID = ID;
         this.cAdmin = cAdmin;
     }
-    
+
     public int getPRef() {
         return pRef;
     }
-    
+
     public void setPRef(int pRef) {
         this.pRef = pRef;
     }
-    
+
     public int getPCode() {
         return pCode;
     }
@@ -37,7 +36,7 @@ public abstract class Person implements Serializable {
     public void setPCode(int pCode) {
         this.pCode = pCode;
     }
-    
+
     public String getName() {
         return name;
     }

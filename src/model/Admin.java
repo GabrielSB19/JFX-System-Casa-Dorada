@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Admin extends Employee implements Serializable {
 
     private static final long serialVersionUID = 1;
-    
+
     private String username;
     private String password;
 
@@ -14,8 +14,6 @@ public class Admin extends Employee implements Serializable {
         this.username = username;
         this.password = password;
     }
-
-
 
     public String getUsername() {
         return username;
@@ -32,6 +30,4 @@ public class Admin extends Employee implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-
-
 }

@@ -2,8 +2,8 @@ package model;
 
 import java.io.Serializable;
 
-public class TypeProduct implements Serializable{
-    
+public class TypeProduct implements Serializable {
+
     private static final long serialVersionUID = 1;
 
     private int tpRef;
@@ -69,9 +69,9 @@ public class TypeProduct implements Serializable{
     public void setMtpAdmin(Admin mtpAdmin) {
         this.mtpAdmin = mtpAdmin;
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         return getTypeName();
     }
 }

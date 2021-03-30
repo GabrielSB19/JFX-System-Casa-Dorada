@@ -5,7 +5,6 @@ import java.io.Serializable;
 public class Employee extends Person implements Serializable {
 
     private static final long serialVersionUID = 1;
-    
     private int numOrder;
     private boolean eState;
     private Admin mAdmin;
@@ -40,12 +39,9 @@ public class Employee extends Person implements Serializable {
     public void setMAdmin(Admin mAdmin) {
         this.mAdmin = mAdmin;
     }
-    
-    public String getNameLN(){
-        String nameLN = getName()+" "+getLastName();
+
+    public String getNameLN() {
+        String nameLN = getName() + " " + getLastName();
         return nameLN;
     }
-    
-    
-
 }

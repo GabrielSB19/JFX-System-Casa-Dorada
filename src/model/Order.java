@@ -4,10 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Order implements Serializable{
-    
-    private static final long serialVersionUID = 1;
+public class Order implements Serializable {
 
+    private static final long serialVersionUID = 1;
     private int oCode;
     private StatusOrder Status;
     private Date oDate;
@@ -18,7 +17,7 @@ public class Order implements Serializable{
     private Employee rEmployee;
     private Admin coAdmin;
     private Admin moAdmin;
-    
+
     public Order(int oCode, StatusOrder Status, Date oDate, String observatinos, boolean state, Client rClient, Employee rEmployee, Admin coAdmin, Admin moAdmin) {
         this.oCode = oCode;
         this.Status = Status;
@@ -112,58 +111,57 @@ public class Order implements Serializable{
         this.moAdmin = moAdmin;
     }
 
-    public void addProductInOrder(Product newProduct){
+    public void addProductInOrder(Product newProduct) {
         products.add(newProduct);
     }
-    
-    public String getShowClientName(){
+
+    public String getShowClientName() {
         String showClientName = "";
         if (rClient != null) {
-            showClientName = rClient.getName()+" "+rClient.getLastName();
+            showClientName = rClient.getName() + " " + rClient.getLastName();
         }
         return showClientName;
     }
-    
-    public String getShowEmployeeName(){
+
+    public String getShowEmployeeName() {
         String showEmployeeName = "";
         if (rEmployee != null) {
             showEmployeeName = rEmployee.getNameLN();
         }
         return showEmployeeName;
     }
-    
-    public String getShowNamesProducts(){
+
+    public String getShowNamesProducts() {
         String showNamesProducts = "";
         String separator = "";
         for (int i = 0; i < products.size(); i++) {
-            showNamesProducts += separator+products.get(i).getNameSP();
+            showNamesProducts += separator + products.get(i).getNameSP();
             separator = ", ";
         }
         return showNamesProducts;
     }
-    
-    public String getShowAmountProducts(){
+
+    public String getShowAmountProducts() {
         String showAmountProducts = "";
         String separator = "";
         for (int i = 0; i < products.size(); i++) {
-            showAmountProducts += separator+products.get(i).getPrNumOrder();
+            showAmountProducts += separator + products.get(i).getPrNumOrder();
             separator = ", ";
         }
-        return  showAmountProducts;
+        return showAmountProducts;
     }
-    
-    public String getValueOrder(){
+
+    public String getValueOrder() {
         String valueOrder;
         double value = 0;
         if (Status == StatusOrder.ENTREGADO) {
             for (int i = 0; i < products.size(); i++) {
-              value += (products.get(i).getPrPrice()*products.get(i).getPrNumOrder());  
+                value += (products.get(i).getPrPrice() * products.get(i).getPrNumOrder());
             }
-            valueOrder = value+"";
+            valueOrder = value + "";
         } else {
             valueOrder = "En Proceso";
         }
         return valueOrder;
     }
-    
 }
