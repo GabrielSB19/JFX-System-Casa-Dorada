@@ -1551,35 +1551,37 @@ public class FXControllerGUI implements Initializable, Serializable {
 
     @FXML
     private JFXButton btnUpdateOrder;
-    
-    public void visibleRadioButton(StatusOrder statusOrdenSelect){
-        if (null != statusOrdenSelect) switch (statusOrdenSelect) {
-            case SOLICITADO:
-                rbSolited.setVisible(false);
-                rbProccess.setVisible(true);
-                rbSent.setVisible(true);
-                rbRecieved.setVisible(true);
-                break;
-            case EN_PROCESO:
-                rbSolited.setVisible(false);
-                rbProccess.setVisible(false);
-                rbSent.setVisible(true);
-                rbRecieved.setVisible(true);
-                break;
-            case ENVIADO:
-                rbSolited.setVisible(false);
-                rbProccess.setVisible(false);
-                rbSent.setVisible(false);
-                rbRecieved.setVisible(true);
-                break;
-            case ENTREGADO:
-                rbSolited.setVisible(false);
-                rbProccess.setVisible(false);
-                rbSent.setVisible(false);
-                rbRecieved.setVisible(false);
-                break;
-            default:
-                break;
+
+    public void visibleRadioButton(StatusOrder statusOrdenSelect) {
+        if (null != statusOrdenSelect) {
+            switch (statusOrdenSelect) {
+                case SOLICITADO:
+                    rbSolited.setVisible(false);
+                    rbProccess.setVisible(true);
+                    rbSent.setVisible(true);
+                    rbRecieved.setVisible(true);
+                    break;
+                case EN_PROCESO:
+                    rbSolited.setVisible(false);
+                    rbProccess.setVisible(false);
+                    rbSent.setVisible(true);
+                    rbRecieved.setVisible(true);
+                    break;
+                case ENVIADO:
+                    rbSolited.setVisible(false);
+                    rbProccess.setVisible(false);
+                    rbSent.setVisible(false);
+                    rbRecieved.setVisible(true);
+                    break;
+                case ENTREGADO:
+                    rbSolited.setVisible(false);
+                    rbProccess.setVisible(false);
+                    rbSent.setVisible(false);
+                    rbRecieved.setVisible(false);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -1655,7 +1657,7 @@ public class FXControllerGUI implements Initializable, Serializable {
         }
 
     }
-    
+
     public int getStatusOrder() {
         int option = 1;
         if (rbSolited.isSelected()) {
@@ -1688,11 +1690,11 @@ public class FXControllerGUI implements Initializable, Serializable {
         }
         return status;
     }
-    
+
     @FXML
     public void onUpdateOrder(ActionEvent event) throws IOException {
-        casaDorada.updateOrder(code, statusSelected(getStatusOrder()), txtObserOrder.getText(), 
-        tbStateOrder.isSelected(), getEmployeeSelected(cbxEmployeeOrder.getValue()), casaDorada.getAdminActive());
+        casaDorada.updateOrder(code, statusSelected(getStatusOrder()), txtObserOrder.getText(),
+                tbStateOrder.isSelected(), getEmployeeSelected(cbxEmployeeOrder.getValue()), casaDorada.getAdminActive());
         btnAddOrder.setVisible(true);
         tblOrder.refresh();
         Client selectClient = null;
@@ -1705,7 +1707,7 @@ public class FXControllerGUI implements Initializable, Serializable {
         saveData();
         showAlert(true, "Se ha actualizado la orden");
     }
-    
+
     @FXML
     public void onRemoveOrder(ActionEvent event) {
         casaDorada.removeOrder(code);
@@ -1919,7 +1921,7 @@ public class FXControllerGUI implements Initializable, Serializable {
         tblIDClientSelected.setCellValueFactory(new PropertyValueFactory<>("ID"));
 
     }
-    
+
     @FXML
     public void onSelectClientInOrder(MouseEvent event) {
         Client clientSelected;
@@ -1929,7 +1931,7 @@ public class FXControllerGUI implements Initializable, Serializable {
             showAlert2(false, "Se ha seleccionado el cliente\nSi lo deseas eliminar presiona el boton");
         }
     }
-    
+
     @FXML
     public void onRemoveClientInOrder(ActionEvent event) throws IOException {
         casaDorada.removeClientInOrder(code, codeCOS);
@@ -1937,7 +1939,7 @@ public class FXControllerGUI implements Initializable, Serializable {
         saveData();
         showClientSelected(null);
         tblClientSelected.refresh();
-        
+
     }
 
     @FXML
@@ -1954,7 +1956,7 @@ public class FXControllerGUI implements Initializable, Serializable {
             }
         }
     }
-    
+
     @FXML
     private JFXComboBox<String> cbxProductsDisp;
 
@@ -1970,8 +1972,8 @@ public class FXControllerGUI implements Initializable, Serializable {
         showProductsDisp(getNamesProductsDisp());
         onTableProductSelectd(showActualizaPO(code));
     }
-    
-    public ArrayList<String> getNamesProductsDisp(){
+
+    public ArrayList<String> getNamesProductsDisp() {
         ArrayList<String> temp = new ArrayList<>();
         for (int i = 0; i < casaDorada.getProduct().size(); i++) {
             if (casaDorada.getProduct().get(i).getPrState()) {
@@ -1980,13 +1982,13 @@ public class FXControllerGUI implements Initializable, Serializable {
         }
         return temp;
     }
-    
-    public void showProductsDisp(ArrayList<String> namesProducts){
+
+    public void showProductsDisp(ArrayList<String> namesProducts) {
         ObservableList<String> showNamesProducts;
         showNamesProducts = FXCollections.observableArrayList(namesProducts);
         cbxProductsDisp.setItems(showNamesProducts);
     }
-    
+
     public Product getProductInOrder(String names) {
         try {
             String[] product = names.split(" ");
@@ -2001,17 +2003,17 @@ public class FXControllerGUI implements Initializable, Serializable {
             return null;
         }
     }
-    
+
     @FXML
     public void onAddProductInOrder(ActionEvent event) throws IOException {
         try {
             if (cbxProductsDisp != null && !(txtAmountxProduct.getText().equals(""))) {
-                    casaDorada.addProductInOrder(code, getProductInOrder(cbxProductsDisp.getValue()).getPrCode(), Integer.parseInt(txtAmountxProduct.getText()));
-                    showActualizaPO(code);
-                    onTableProductSelectd(showActualizaPO(code));
-                    tblProductsSelect.refresh();
-                    showAlert2(true, "Se ha agregado el producto a la orden");
-                    saveData();
+                casaDorada.addProductInOrder(code, getProductInOrder(cbxProductsDisp.getValue()).getPrCode(), Integer.parseInt(txtAmountxProduct.getText()));
+                showActualizaPO(code);
+                onTableProductSelectd(showActualizaPO(code));
+                tblProductsSelect.refresh();
+                showAlert2(true, "Se ha agregado el producto a la orden");
+                saveData();
             } else {
                 showAlert2(false, "Debes de seleccionar un producto y por ende la cantidad de esta");
             }
@@ -2019,9 +2021,9 @@ public class FXControllerGUI implements Initializable, Serializable {
             showAlert2(false, "No puedes ingresar letras en la cantidad");
         }
     }
-    
+
     int codePO;
-    
+
     @FXML
     public void onSelectProductInOrder(MouseEvent event) {
         Product productSelected;
@@ -2041,7 +2043,7 @@ public class FXControllerGUI implements Initializable, Serializable {
         onTableProductSelectd(showActualizaPO(code));
         tblProductsSelect.refresh();
     }
-    
+
     @FXML
     private TableView<Product> tblProductsSelect;
 
@@ -2053,23 +2055,22 @@ public class FXControllerGUI implements Initializable, Serializable {
 
     @FXML
     private TableColumn<Product, Integer> tblPriceProductSelected;
-    
+
     @FXML
     private TableColumn<Product, Integer> tblAmountProductSelected;
 
-    
-    public void onTableProductSelectd(ArrayList<Product> showActualizePO){
+    public void onTableProductSelectd(ArrayList<Product> showActualizePO) {
         ObservableList<Product> newTableProductSelected;
         newTableProductSelected = FXCollections.observableArrayList(showActualizePO);
-        
+
         tblProductsSelect.setItems(newTableProductSelected);
         tblNameProductSelected.setCellValueFactory(new PropertyValueFactory<>("prName"));
         tblSizeProductSelected.setCellValueFactory(new PropertyValueFactory<>("prSize"));
         tblPriceProductSelected.setCellValueFactory(new PropertyValueFactory<>("prPrice"));
         tblAmountProductSelected.setCellValueFactory(new PropertyValueFactory<>("prNumOrder"));
     }
-    
-    public ArrayList<Product> showActualizaPO(int code){
+
+    public ArrayList<Product> showActualizaPO(int code) {
         for (int i = 0; i < casaDorada.getOrders().size(); i++) {
             if (casaDorada.getOrders().get(i).getCode() == code) {
                 System.out.println(casaDorada.getOrders().get(i).getCode());
@@ -2120,7 +2121,7 @@ public class FXControllerGUI implements Initializable, Serializable {
         Stage stage = (Stage) pSelectDate.getScene().getWindow();
         stage.close();
     }
-    
+
     @FXML
     void importClient(ActionEvent event) throws IOException {
         if (casaDorada.importClient()) {
@@ -2130,24 +2131,33 @@ public class FXControllerGUI implements Initializable, Serializable {
             showAlert(false, "No se ha encontrado el archivo.");
         }
     }
-    
+
     @FXML
     void importPedido(ActionEvent event) throws IOException {
-        /*
         if (casaDorada.importPedido()) {
+            showAlert(true, "Se ha importado correctamente.");
             saveData();
         } else {
             showAlert(false, "No se ha encontrado el archivo.");
         }
-        */
     }
-    
+
     @FXML
     void importProduct(ActionEvent event) throws IOException {
         if (casaDorada.importProduct()) {
-            //onTableIngredient();
-            //onTableTypeProduct();
-            onTableProduct();
+            try {
+                onTableIngredient();
+            } catch (Exception e) {
+            }
+            try {
+                onTableTypeProduct();
+            } catch (Exception e) {
+            }
+            try {
+                onTableProduct();
+            } catch (Exception e) {
+            }
+            showAlert(true, "Se ha importado correctamente.");
             saveData();
         } else {
             showAlert(false, "No se ha encontrado el archivo.");
