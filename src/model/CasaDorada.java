@@ -1092,6 +1092,7 @@ public class CasaDorada implements Serializable {
     }
     
 
+
     @SuppressWarnings("ConvertToTryWithResources")
     public void exportDataProduct(String filename, Date initial, Date end, String sep) throws FileNotFoundException {
         PrintWriter pw = new PrintWriter(filename);
