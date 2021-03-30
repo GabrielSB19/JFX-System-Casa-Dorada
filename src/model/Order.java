@@ -119,7 +119,7 @@ public class Order implements Serializable{
     public String getShowClientName(){
         String showClientName = "";
         if (rClient != null) {
-            showClientName = rClient.getName();
+            showClientName = rClient.getName()+" "+rClient.getLastName();
         }
         return showClientName;
     }
@@ -127,9 +127,43 @@ public class Order implements Serializable{
     public String getShowEmployeeName(){
         String showEmployeeName = "";
         if (rEmployee != null) {
-            showEmployeeName = rEmployee.getName();
+            showEmployeeName = rEmployee.getNameLN();
         }
         return showEmployeeName;
+    }
+    
+    public String getShowNamesProducts(){
+        String showNamesProducts = "";
+        String separator = "";
+        for (int i = 0; i < products.size(); i++) {
+            showNamesProducts += separator+products.get(i).getNameSP();
+            separator = ", ";
+        }
+        return showNamesProducts;
+    }
+    
+    public String getShowAmountProducts(){
+        String showAmountProducts = "";
+        String separator = "";
+        for (int i = 0; i < products.size(); i++) {
+            showAmountProducts += separator+products.get(i).getPrNumOrder();
+            separator = ", ";
+        }
+        return  showAmountProducts;
+    }
+    
+    public String getValueOrder(){
+        String valueOrder;
+        double value = 0;
+        if (Status == StatusOrder.ENTREGADO) {
+            for (int i = 0; i < products.size(); i++) {
+              value += (products.get(i).getPrPrice()*products.get(i).getPrNumOrder());  
+            }
+            valueOrder = value+"";
+        } else {
+            valueOrder = "En Proceso";
+        }
+        return valueOrder;
     }
     
 }

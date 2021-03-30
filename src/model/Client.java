@@ -60,9 +60,14 @@ public class Client extends Person implements Serializable, Comparable<Client> {
     public void setMcAdmin(Admin mcAdmin) {
         this.mcAdmin = mcAdmin;
     }
+    
+    public String getNameLN() {
+        String nameLN = getName() + " " + getLastName();
+        return nameLN;
+    }
 
     @Override
     public int compareTo(Client o) {
-        return this.getName().compareTo(o.getName());
+        return this.getNameLN().compareTo(o.getNameLN());
     }
 }

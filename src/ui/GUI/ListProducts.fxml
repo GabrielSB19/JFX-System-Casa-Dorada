@@ -22,14 +22,13 @@
             </Label>
          </children>
       </Pane>
-      <TableView layoutX="106.0" layoutY="128.0" prefHeight="565.0" prefWidth="989.0" style="-fx-background-color: #ffffff; -fx-border-color: #efb810;">
+      <TableView fx:id="tblAllProducts" layoutX="55.0" layoutY="128.0" prefHeight="565.0" prefWidth="1093.0" style="-fx-border-color: #efb810;">
          <columns>
-            <TableColumn prefWidth="140.0" style="-fx-background-color: #ffffff;" text="Nombre" />
-            <TableColumn prefWidth="213.0" style="-fx-background-color: #ffffff;" text="Ingredientes" />
-            <TableColumn prefWidth="213.0" style="-fx-background-color: #ffffff;" text="Tipo de Producto" />
-            <TableColumn prefWidth="140.0" style="-fx-background-color: #ffffff;" text="Tamaño" />
-            <TableColumn prefWidth="140.0" style="-fx-background-color: #ffffff;" text="Precio" />
-            <TableColumn prefWidth="140.0" style="-fx-background-color: #ffffff;" text="Estado" />
+            <TableColumn fx:id="tblNameAllProducts" prefWidth="218.0" text="Nombre" />
+            <TableColumn fx:id="tblAllIngredientsProduct" prefWidth="218.0" text="Ingredientes" />
+            <TableColumn fx:id="tblAllTPProducts" prefWidth="218.0" text="Tipo de Producto" />
+            <TableColumn fx:id="tblAllSizeProduct" prefWidth="218.0" text="Tamaño" />
+            <TableColumn fx:id="tblAllPriceProducts" prefWidth="218.0" text="Precio" />
          </columns>
       </TableView>
    </children>

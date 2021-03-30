@@ -2,12 +2,14 @@ package ui;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXTimePicker;
 import com.jfoenix.controls.JFXToggleButton;
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,6 +23,7 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,11 +54,14 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.transformation.FilteredList;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import model.*;
 
 public class FXControllerGUI implements Initializable, Serializable {
@@ -512,16 +518,18 @@ public class FXControllerGUI implements Initializable, Serializable {
         try {
             if (!txtEmpName.getText().equals("") && !txtEmpLastName.getText().equals("")
                     && !txtEmpID.getText().equals("")) {
+                if (casaDorada.addEmployee(0, tbStateEmployee.isSelected(), null, 0, casaDorada.getCode(), txtEmpName.getText(),
+                        txtEmpLastName.getText(), Long.parseLong(txtEmpID.getText()), casaDorada.getAdminActive())) {
+                    saveData();
+                    showAlert(true, "El empleado ha sido agregado correctamente");
+                    txtEmpName.clear();
+                    txtEmpLastName.clear();
+                    txtEmpID.clear();
+                    onTableEmployee();
+                } else {
+                    showAlert(false, "Ya existe otro empleado con la misma identificacion\nNo se ha agregado el empleado");
+                }
 
-                casaDorada.addEmployee(0, tbStateEmployee.isSelected(), null, 0, casaDorada.getCode(), txtEmpName.getText(),
-                        txtEmpLastName.getText(), Long.parseLong(txtEmpID.getText()), casaDorada.getAdminActive());
-
-                saveData();
-                showAlert(true, "El empleado ha sido agregado correctamente");
-                txtEmpName.clear();
-                txtEmpLastName.clear();
-                txtEmpID.clear();
-                onTableEmployee();
             } else {
                 showAlert(false, "Debes de llenar todos los campos");
             }
@@ -554,6 +562,9 @@ public class FXControllerGUI implements Initializable, Serializable {
             txtEmpName.clear();
             txtEmpID.clear();
             onTableEmployee();
+            btnAddEmployee.setVisible(true);
+            btnUpatedEmployee.setVisible(false);
+            btnRemoveEmployee.setVisible(false);
         } else {
             showAlert(false, "No se ha podido eliminar,\nel empleado se encuentra referenciado");
         }
@@ -596,11 +607,6 @@ public class FXControllerGUI implements Initializable, Serializable {
         pNewOption.getChildren().clear();
         pNewOption.getChildren().setAll(listEmployees);
         showListEmployee();
-    }
-
-    @FXML
-    public void onReportEmployee(ActionEvent event) throws IOException {
-        openSelectDate();
     }
 
     @FXML
@@ -763,6 +769,9 @@ public class FXControllerGUI implements Initializable, Serializable {
             txtCAddress.clear();
             txtCObser.clear();
             onTableClient();
+            btnAddClient.setVisible(true);
+            btnUptadeClient.setVisible(false);
+            btnRemoveClient.setVisible(false);
         } else {
             showAlert(false, "No se ha podido eliminar, \nel cliente esta referenciado");
         }
@@ -939,6 +948,9 @@ public class FXControllerGUI implements Initializable, Serializable {
             showAlert(true, "Se ha eliminado el ingrediente correctamnet");
             onTableIngredient();
             txtIngName.clear();
+            btnAddIngredient.setVisible(true);
+            btnUptadeIngredient.setVisible(false);
+            btnRemoveClient.setVisible(false);
         } else {
             showAlert(false, "No se ha eliminado el ingrediente,\n el ingrediente se encuntra referenciado");
         }
@@ -1080,6 +1092,9 @@ public class FXControllerGUI implements Initializable, Serializable {
             saveData();
             showAlert(true, "Se ha eliminado el tipo de producto correctamente");
             onTableTypeProduct();
+            btnAddTypeProduct.setVisible(true);
+            btnUptadeType.setVisible(false);
+            btnRemoveType.setVisible(false);
         } else {
             showAlert(false, "No se ha eliminado el tipo de producto,\nel tipo de producto esta referenciado");
         }
@@ -1157,6 +1172,7 @@ public class FXControllerGUI implements Initializable, Serializable {
         pNewOption.getChildren().setAll(productsGestion);
         showEmployeeDisp();
         onTableProduct();
+        casaDorada.sortPriceProduct();
     }
 
     @FXML
@@ -1272,6 +1288,9 @@ public class FXControllerGUI implements Initializable, Serializable {
             saveData();
             showAlert(true, "Se ha eliminado correctamente el producto");
             onTableProduct();
+            btnAddProduct.setVisible(true);
+            btnUpdateProduct.setVisible(false);
+            btnRemoveProduct.setVisible(false);
         } else {
             showAlert(false, "No se ha eliminado el producto,\nel producto se encuentra referenciado");
         }
@@ -1515,6 +1534,42 @@ public class FXControllerGUI implements Initializable, Serializable {
 
         pNewOption.getChildren().clear();
         pNewOption.getChildren().setAll(listProducts);
+        onAllTableProduct();
+    }
+
+    @FXML
+    private TableView<Product> tblAllProducts;
+
+    @FXML
+    private TableColumn<Product, String> tblNameAllProducts;
+
+    @FXML
+    private TableColumn<Product, String> tblAllIngredientsProduct;
+
+    @FXML
+    private TableColumn<Product, String> tblAllTPProducts;
+
+    @FXML
+    private TableColumn<Product, String> tblAllSizeProduct;
+
+    @FXML
+    private TableColumn<Product, Double> tblAllPriceProducts;
+
+    public void onAllTableProduct() {
+        ArrayList<Product> showProductsAll = new ArrayList<>();
+        for (int i = 0; i < casaDorada.getProduct().size(); i++) {
+            if (casaDorada.getProduct().get(i).getPrState()) {
+                showProductsAll.add(casaDorada.getProduct().get(i));
+            }
+        }
+        ObservableList<Product> newTableAllProduct;
+        newTableAllProduct = FXCollections.observableArrayList(showProductsAll);
+        tblAllProducts.setItems(newTableAllProduct);
+        tblNameAllProducts.setCellValueFactory(new PropertyValueFactory<>("prName"));
+        tblAllSizeProduct.setCellValueFactory(new PropertyValueFactory<>("prSize"));
+        tblAllPriceProducts.setCellValueFactory(new PropertyValueFactory<>("prPrice"));
+        tblAllIngredientsProduct.setCellValueFactory(new PropertyValueFactory<>("ingredientsToString"));
+        tblAllTPProducts.setCellValueFactory(new PropertyValueFactory<>("tpToString"));
     }
 
     /*
@@ -1556,28 +1611,32 @@ public class FXControllerGUI implements Initializable, Serializable {
         if (null != statusOrdenSelect) {
             switch (statusOrdenSelect) {
                 case SOLICITADO:
+                    rbSolited.setVisible(true);
+                    rbProccess.setVisible(true);
+                    rbSent.setVisible(true);
+                    rbRecieved.setVisible(true);
+                    rbSolited.setSelected(true);
+                    break;
+                case EN_PROCESO:
                     rbSolited.setVisible(false);
                     rbProccess.setVisible(true);
                     rbSent.setVisible(true);
                     rbRecieved.setVisible(true);
-                    break;
-                case EN_PROCESO:
-                    rbSolited.setVisible(false);
-                    rbProccess.setVisible(false);
-                    rbSent.setVisible(true);
-                    rbRecieved.setVisible(true);
+                    rbProccess.setSelected(true);
                     break;
                 case ENVIADO:
                     rbSolited.setVisible(false);
                     rbProccess.setVisible(false);
-                    rbSent.setVisible(false);
+                    rbSent.setVisible(true);
                     rbRecieved.setVisible(true);
+                    rbSent.setSelected(true);
                     break;
                 case ENTREGADO:
                     rbSolited.setVisible(false);
                     rbProccess.setVisible(false);
                     rbSent.setVisible(false);
-                    rbRecieved.setVisible(false);
+                    rbRecieved.setVisible(true);
+                    rbRecieved.setSelected(true);
                     break;
                 default:
                     break;
@@ -1599,6 +1658,7 @@ public class FXControllerGUI implements Initializable, Serializable {
                 visibleRadioButton(orderSelected.getStatus());
                 txtObserOrder.setText(orderSelected.getObservatinos());
                 tbStateOrder.setSelected(orderSelected.getState());
+                cbxEmployeeOrder.setValue(orderSelected.getrEmployee().getNameLN());
             }
         } else if (event.getClickCount() == 1) {
             code = 0;
@@ -1643,6 +1703,7 @@ public class FXControllerGUI implements Initializable, Serializable {
                 casaDorada.addOrder(casaDorada.getCode(), statusSelected(getStatusOrder()), convertToHour(LocalDateTime.now()),
                         txtObserOrder.getText(), tbStateOrder.isSelected(), null, getEmployeeSelected(cbxEmployeeOrder.getValue()), casaDorada.getAdminActive(), null);
                 txtObserOrder.clear();
+                System.out.println(convertToHour(LocalDateTime.now()).toString());
                 onTableOrder();
                 onChooseClient(null);
                 saveData();
@@ -1720,6 +1781,9 @@ public class FXControllerGUI implements Initializable, Serializable {
         rbProccess.setVisible(true);
         rbSent.setVisible(true);
         rbRecieved.setVisible(true);
+        btnAddOrder.setVisible(true);
+        btnUpdateOrder.setVisible(false);
+        onRemoveOrder.setVisible(false);
     }
 
     public void showEmployeeDisp() {
@@ -1777,6 +1841,9 @@ public class FXControllerGUI implements Initializable, Serializable {
     @FXML
     private TableColumn<Order, String> tblObserOrder;
 
+    @FXML
+    private TableColumn<Order, Date> tblDateOrder;
+
     public void onTableOrder() {
         List<Order> orders = casaDorada.getOrders();
         ObservableList<Order> newTableOrder;
@@ -1787,6 +1854,9 @@ public class FXControllerGUI implements Initializable, Serializable {
         tblClientOrder.setCellValueFactory(new PropertyValueFactory<>("showClientName"));
         tblEmployeeOrder.setCellValueFactory(new PropertyValueFactory<>("showEmployeeName"));
         tblObserOrder.setCellValueFactory(new PropertyValueFactory<>("observatinos"));
+        tblProductsOrder.setCellValueFactory(new PropertyValueFactory<>("showNamesProducts"));
+        tblAmounxProducts.setCellValueFactory(new PropertyValueFactory<>("showAmountProducts"));
+        tblDateOrder.setCellValueFactory(new PropertyValueFactory<>("oDate"));
     }
 
     public void onChooseClient(Client clientSelected) throws IOException {
@@ -1837,15 +1907,25 @@ public class FXControllerGUI implements Initializable, Serializable {
     private JFXTextField txtSearchClient;
 
     @FXML
+    private Label lblTimeSearch;
+
+    @FXML
     public void onSearchClient(ActionEvent event) {
         if (!txtSearchClient.getText().equals("")) {
             List<Client> test = casaDorada.removeDeshabiltyClient(casaDorada.getClient());
             try {
                 Long search = Long.parseLong(txtSearchClient.getText());
+                long startTime = System.currentTimeMillis();
                 onLoadTableFilter(casaDorada.binaryClient(test, false, txtSearchClient.getText()));
+                long finishTime = System.currentTimeMillis();
+                lblTimeSearch.setText("Esta busqueda se realizo en: " + (finishTime - startTime) + " milisegundos");
             } catch (NumberFormatException e) {
+                long startTime = System.currentTimeMillis();
                 onLoadTableFilter(casaDorada.binaryClient(test, true, txtSearchClient.getText()));
+                long finishTime = System.currentTimeMillis();
+                lblTimeSearch.setText("Esta busqueda se realizo en: " + (finishTime - startTime) + " milisegundos");
             }
+
             showAlert2(true, "Se ha buscado el cliente");
         } else {
             showAlert2(false, "Debes ingresar un nombre para buscar");
@@ -2014,6 +2094,7 @@ public class FXControllerGUI implements Initializable, Serializable {
                 tblProductsSelect.refresh();
                 showAlert2(true, "Se ha agregado el producto a la orden");
                 saveData();
+                tblOrder.refresh();
             } else {
                 showAlert2(false, "Debes de seleccionar un producto y por ende la cantidad de esta");
             }
@@ -2037,11 +2118,13 @@ public class FXControllerGUI implements Initializable, Serializable {
     }
 
     @FXML
-    public void onRemoveProductInOrder(ActionEvent event) {
+    public void onRemoveProductInOrder(ActionEvent event) throws IOException {
         casaDorada.removeProductInOrder(code, codePO);
         showAlert2(true, "Se ha eliminado correctamente");
         onTableProductSelectd(showActualizaPO(code));
         tblProductsSelect.refresh();
+        tblOrder.refresh();
+        saveData();
     }
 
     @FXML
@@ -2095,11 +2178,54 @@ public class FXControllerGUI implements Initializable, Serializable {
 
         pNewOption.getChildren().clear();
         pNewOption.getChildren().setAll(listOrder);
+        onTableAllOrder();
     }
 
     @FXML
-    void onSelectClientSearch(MouseEvent event) {
+    private TableView<Order> tblAllOrder;
 
+    @FXML
+    private TableColumn<Order, Date> tblAllDateOrder;
+
+    @FXML
+    private TableColumn<Order, StatusOrder> tblAllStatusOrder;
+
+    @FXML
+    private TableColumn<Order, String> tblAllProductsOrder;
+
+    @FXML
+    private TableColumn<Order, Integer> tblAllAmountOrder;
+
+    @FXML
+    private TableColumn<Order, String> tblAllClientOrder;
+
+    @FXML
+    private TableColumn<Order, String> tblAllEmployeeOrder;
+
+    @FXML
+    private TableColumn<Order, String> tblAllObserOrder;
+
+    @FXML
+    private TableColumn<Order, String> tblAllValorOrder;
+
+    public void onTableAllOrder() {
+        ArrayList<Order> showOrders = new ArrayList<>();
+        for (int i = 0; i < casaDorada.getOrders().size(); i++) {
+            if (casaDorada.getOrders().get(i).getState()) {
+                showOrders.add(casaDorada.getOrders().get(i));
+            }
+        }
+        ObservableList<Order> newTableAllOrder;
+        newTableAllOrder = FXCollections.observableArrayList(showOrders);
+        tblAllOrder.setItems(newTableAllOrder);
+        tblAllDateOrder.setCellValueFactory(new PropertyValueFactory<>("oDate"));
+        tblAllStatusOrder.setCellValueFactory(new PropertyValueFactory<>("Status"));
+        tblAllProductsOrder.setCellValueFactory(new PropertyValueFactory<>("showNamesProducts"));
+        tblAllAmountOrder.setCellValueFactory(new PropertyValueFactory<>("showAmountProducts"));
+        tblAllClientOrder.setCellValueFactory(new PropertyValueFactory<>("showClientName"));
+        tblAllEmployeeOrder.setCellValueFactory(new PropertyValueFactory<>("showEmployeeName"));
+        tblAllObserOrder.setCellValueFactory(new PropertyValueFactory<>("observatinos"));
+        tblAllValorOrder.setCellValueFactory(new PropertyValueFactory<>("valueOrder"));
     }
 
     //Generar reportes
@@ -2109,11 +2235,115 @@ public class FXControllerGUI implements Initializable, Serializable {
     @FXML
     public void onReportOrder(ActionEvent event) throws IOException {
         openSelectDate();
+        optionReport = 1;
     }
 
     @FXML
     public void onReportProducts(ActionEvent event) throws IOException {
         openSelectDate();
+        optionReport = 2;
+    }
+
+    @FXML
+    public void onReportEmployee(ActionEvent event) throws IOException {
+        openSelectDate();
+        optionReport = 3;
+    }
+
+    @FXML
+    private JFXDatePicker dpInitialDate;
+
+    @FXML
+    private JFXDatePicker dpFinalDate;
+
+    @FXML
+    private JFXTimePicker tpInitialHour;
+
+    @FXML
+    private JFXTimePicker tpFinalHour;
+
+    @FXML
+    private JFXTextField txtSeparator;
+
+    private int optionReport = 0;
+
+    @FXML
+    public void onGenerateReport(ActionEvent event) throws FileNotFoundException {
+        try {
+            String sep;
+            if (!txtSeparator.getText().equals("")) {
+                sep = txtSeparator.getText();
+            } else {
+                sep = ";";
+            }
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            LocalDateTime dateTimeInitial = LocalDateTime.parse((dpInitialDate.getValue().toString() + " " + tpInitialHour.getValue().toString()), formatter);
+            Date dateInitial = convertToHour(dateTimeInitial);
+            LocalDateTime dateTimeFinal = LocalDateTime.parse((dpFinalDate.getValue().toString() + " " + tpFinalHour.getValue().toString()), formatter);
+            Date dateFinal = convertToHour(dateTimeFinal);
+            switch (optionReport) {
+                case 1:
+                    onExportOrder(dateInitial, dateFinal, sep);
+                    break;
+                case 2:
+                    onExportProduct(dateInitial, dateFinal, sep);
+                    break;
+                case 3:
+                    onExportEmployee(dateInitial, dateFinal, sep);
+                    break;
+            }
+            Stage stage = (Stage) pSelectDate.getScene().getWindow();
+            stage.close();
+        } catch (NullPointerException e) {
+            showAlert2(false, "Por favor selecciona el rango de hora y fecha");
+        }
+    }
+
+    public void onExportOrder(Date dateInitial, Date dateFinal, String sep) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Guardar Ordenes");
+        fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.csv"));
+        File f = fileChooser.showSaveDialog(bpMenu.getScene().getWindow());
+        if (f != null) {
+            try {
+                casaDorada.exportDataOrder(f.getAbsolutePath(), dateInitial, dateFinal, sep);
+                System.out.println("Se corono");
+            } catch (FileNotFoundException e) {
+                System.out.println("Donde me sente?");
+            }
+
+        }
+    }
+
+    public void onExportProduct(Date dateInitial, Date dateFinal, String sep) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Generar productos");
+        fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.csv"));
+        File f = fileChooser.showSaveDialog(bpMenu.getScene().getWindow());
+        if (f != null) {
+            try {
+                casaDorada.exportDataProduct(f.getAbsolutePath(), dateInitial, dateFinal, sep);
+                System.out.println("Se volvio a coronar");
+            } catch (FileNotFoundException e) {
+                System.out.println("Me comi el pastel");
+            }
+
+        }
+    }
+
+    public void onExportEmployee(Date dateInitial, Date dateFinal, String sep) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Generar productos");
+        fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.csv"));
+        File f = fileChooser.showSaveDialog(bpMenu.getScene().getWindow());
+        if (f != null) {
+            try {
+                casaDorada.exportEmployee(f.getAbsolutePath(), dateInitial, dateFinal, sep);
+                System.out.println("A mimir");
+            } catch (FileNotFoundException e) {
+                System.out.println("A bañarme, estoy estresado");
+            }
+        }
     }
 
     @FXML
