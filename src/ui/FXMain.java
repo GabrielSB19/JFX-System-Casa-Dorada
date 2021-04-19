@@ -12,7 +12,6 @@ import model.*;
 
 public class FXMain extends Application {
 
-    private String SAVE_PATH_FILE_PROGRAM = "data/Program.cgd";
     public static boolean loaded = false;
     private CasaDorada casaDorada;
     private FXControllerGUI fxControllerGUI;
