@@ -131,6 +131,7 @@ public class FXControllerGUI implements Initializable, Serializable {
         Stage newStage = new Stage();
         Scene scene = new Scene(root);
         newStage.setScene(scene);
+        newStage.getIcons().add(new Image("/image/app.png"));
         newStage.setTitle("Casa Dorada");
         newStage.setResizable(false);
         newStage.show();
