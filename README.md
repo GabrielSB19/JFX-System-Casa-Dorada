@@ -3,6 +3,10 @@
 _Este proyecto esta basado en un software para la automatizacion de gestiones contables y administrativas del restaurante "La Casa Dorada"_<br>
 _Este es un software totalmente libre, es decir, puede ser utilizado por cualquier persona._
 
+## Valor de la aplicación 📹
+
+Para ver el porque esta aplicación es el mejor opción, dirigete al siguiente enlace [Clic aquí]()
+
 ## Ejecutando las pruebas ⚙️
 
 _Las pruebas realizadas fueron para el metodo de importar_
@@ -17,7 +21,7 @@ eliminar los elementos de este archivo y volver a generar
 
 ## Instalación 💻
 
-Se debe de descargar la carpeta .ZIP llamada APP, una vez descargada esta carpeta se extrae ejecutar el .EXE llamado Casa Dorada, una vez tienes este ejecutable ya podras utilizar el programa. Ese ejecutable no podra ser copiado o pegado en otra parte, lo que si puedes hacer, es crear un acceso directo en el escritorio para así, tener mayor facilidad a la hora de ingresar al programa.
+Hacer clic en el siguiente enlace [Clic aquí](), una vez descargado este archivo .ZIP extraer los archivos que se encuentran en este. Para ejecutar el programa, abrir el archivo .EXE llamado Casa Dorada, una vez hecho esto ya podras utilizar el programa. Este ejecutable no podra ser copiado o pegado en otra parte, lo que si puedes hacer, es crear un acceso directo en el escritorio para así, tener mayor facilidad a la hora de ingresar al programa. Para ver un tutorial de como instalar el programa [Clic aquí]
 
 ## Despliegue 📦
 
@@ -39,6 +43,10 @@ Usamos [GitHub](https://github.com/) para el versionado. Para todas las versione
 
 * **David Montaño** - *Trabajo Total* - [cuatrosr](https://github.com/cuatrosr)
 * **Gabriel Suarez** - *Trabajo Total* - [GabrielSB19](https://github.com/GabrielSB19)
+
+## Videos explicativos de las funciones 📹
+
+Para ver las funcionalidades de la aplicación por favor ve las imagenes y si quieres un poco más de detalle por favor dirigite al siguiente enlace [Clic aquí]()
 
 ## Funcionalidades 📱
 * Inicion sesion <br>
@@ -75,12 +83,10 @@ Usamos [GitHub](https://github.com/) para el versionado. Para todas las versione
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Reportes.png)
 * Plantilla para los reportes <br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/ReportBase.png)
-* Calendario para la generación de reportes
+* Calendario para la generación de reportes <br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Calendar.png)
-* Reloj para la generación de reportes
+* Reloj para la generación de reportes <br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Reloj.png)
-
-## Videos explicativos y Valor de la aplicación 📹
 
 ## Expresiones de Gratitud 🎁
 
