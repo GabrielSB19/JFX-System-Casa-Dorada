@@ -41,15 +41,44 @@ Usamos [GitHub](https://github.com/) para el versionado. Para todas las versione
 * **Gabriel Suarez** - *Trabajo Total* - [GabrielSB19](https://github.com/GabrielSB19)
 
 ## Funcionalidades 📱
-* Inicio de sesión
-* Gestionar empleados
-* Gestionar clientes
-* Gestionar ingredientes
-* Gestionar tipo de productos
-* Gestionar productos
-* Gestionar Pedidos
-* Importar reportes
-* Generar reportes
+* Inicion sesion <br>
+![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Inicio%20Sesion.png)
+* Registro <br>
+![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Registro.png)
+* Menu intuitivo <br>
+![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Menu.png)
+* Gestionar empleados <br>
+![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Empleados.png)
+* Gestionar clientes <br>
+![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Cliente.png)
+* Gestionar ingredientes <br>
+![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Ingredientes.png)
+* Gestionar tipo de productos <br>
+![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Tipo%20de%20Producto.png)
+* Gestionar productos <br>
+![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Productos.png)
+* Añadir ingrediente a producto <br>
+![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/AddIngToP.png)
+* Añadir tipo de producto a producto <br>
+![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/AddTpToP.png)
+* Visualizar listas <br>
+![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/ListarElementos.png)
+* Gestionar Pedidos <br>
+![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Pedidos.png)
+* Busqueda de clientes para pedidos <br>
+![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/BusquedaC.png)
+* Añadir productos a pedidos <br>
+![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/AddPToO.png)
+* Importar reportes <br>
+![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Importar%20registros.png)
+* Generar reportes <br>
+![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Reportes.png)
+* Plantilla para los reportes <br>
+![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/ReportBase.png)
+* Calendario para la generación de reportes
+![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Calendar.png)
+* Reloj para la generación de reportes
+![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Reloj.png)
 
 ## Videos explicativos y Valor de la aplicación 📹
 
