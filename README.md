@@ -21,7 +21,7 @@ eliminar los elementos de este archivo y volver a generar
 
 ## Instalación 💻
 
-Hacer clic en el siguiente enlace [Clic aquí](), una vez descargado este archivo .ZIP extraer los archivos que se encuentran en este. Para ejecutar el programa, abrir el archivo .EXE llamado Casa Dorada, una vez hecho esto ya podras utilizar el programa. Este ejecutable no podra ser copiado o pegado en otra parte, lo que si puedes hacer, es crear un acceso directo en el escritorio para así, tener mayor facilidad a la hora de ingresar al programa. Para ver un tutorial de como instalar el programa [Clic aquí]
+Hacer clic en el siguiente enlace [Clic aquí](https://www.mediafire.com/file/5cf0g55mwti35nv/CasaDorada.zip/file), una vez descargado este archivo .ZIP extraer los archivos que se encuentran en este. Para ejecutar el programa, abrir el archivo .EXE llamado Casa Dorada, una vez hecho esto ya podras utilizar el programa. Este ejecutable no podra ser copiado o pegado en otra parte, lo que si puedes hacer, es crear un acceso directo en el escritorio para así, tener mayor facilidad a la hora de ingresar al programa. Para ver un tutorial de como instalar el programa [Clic aquí]()
 
 ## Despliegue 📦
 
