@@ -1,4 +1,4 @@
-# <b>_La Casa Dorada_</b>
+# <b>_La Casa Dorada_ 🍝</b>
 
 _Este proyecto esta basado en un software para la automatizacion de gestiones contables y administrativas del restaurante "La Casa Dorada"._<br>
 _Este es un software totalmente libre, es decir, puede ser utilizado por cualquier persona._
@@ -9,10 +9,10 @@ _Para ver el porque esta aplicación es la mejor opción, dirigete al siguiente 
 
 ## <b>_Instalación_</b> 💻
 
-_El programa es portable_
+_El programa es portable:_
 
-* _Descargar el .ZIP del programa en este enlace [Clic aquí](https://www.mediafire.com/file/5cf0g55mwti35nv/CasaDorada.zip/file)._<br>
-* _Extraer el archivo para dejar la carpeta en la cual se encuentra todo lo que necesita._
+* 1️⃣ _Descargar el .ZIP del programa en este enlace [Clic aquí](https://www.mediafire.com/file/5cf0g55mwti35nv/CasaDorada.zip/file)._<br>
+* 2️⃣ _Extraer el archivo para dejar la carpeta en la cual se encuentra todo lo que necesita._
 
 ## <b>_Ejecución_</b> 📦
 
@@ -50,23 +50,28 @@ _Usamos [GitHub](https://github.com/) para el versionado. Para todas las version
 
 ## <b>_Importar Datos_</b> ⚙️
 
-_Tenemos formatos ya preestablecidos al momento de importar datos desde los archivos .csv: Clientes, Productos, Pedidos._<br>
-
-* Para los clientes: <br><br>
-* Para los productos: <br><br>
-* Para los pedidos: <br>
+_Tenemos formatos ya preestablecidos al momento de importar desde el menu bar de la aplicacion los datos alojados en archivos .csv: Clientes, Productos, Pedidos._<br>
+_Todos los archivos ejemplos que se usaron para las pruebas de importacion se encuentran en la siguiente ruta visible desde el repositorio o clonando el proyecto:_<br>
 
 ```
-En la carpeta /resources/imports/ se encuentran los archivos usados.
-Usar el metodo importar respectivo a cada archivo desde el menu bar.
+/resources/imports/
 ```
+
+* Para los clientes: Se usara el separador "," entre valores: nombre,apellido,identificacion,direccion,telefono,observaciones<br><br>
+* Para los productos: Se usara el separador "," entre valores: precio,nombre,tipoDeProducto,Ingrediente,Tamaño<br>Si el tipo de producto o el ingrediente no esta en la base de datos del programa lo que va a hacer es importarlo. Si ya esta en la base de datos, porfavor, asegurarse de poner el nombre exacto al momento de importar<br><br>
+* Para los pedidos: ...<br>
 
 ## <b>_Generar Datos_</b> ⚙️
 
 _Para generar reportes se deberan seguir los sigientes pasos:_<br>
 
-* _Se debera de tener un archivo .CSV para que los datos se guarden en este._<br>
-* _Si este archivo .CSV no esta totalmente vacio puede que ocurra un error, en caso de esto, eliminar los elementos de este archivo y volver a generar sobre este._
+* 1️⃣ _Seleccionar desde el menu bar de la aplicacion la opcion de generar reporte._
+* 2️⃣ _Se debera de tener un archivo .CSV para que los datos se guarden en este._<br>
+* 3️⃣ _Si este archivo .CSV no esta totalmente vacio puede que ocurra un error, en caso de esto, eliminar los elementos de este archivo y volver a generar sobre este._
+
+## <b>_Formateo de datos_</b> ⭐
+
+
 
 ## <b>_Funcionalidades_</b> 📱📹
 
