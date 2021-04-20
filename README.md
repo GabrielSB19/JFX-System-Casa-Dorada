@@ -73,7 +73,7 @@ Para ver las funcionalidades de la aplicación por favor ve las imagenes y si qu
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/ListarElementos.png)
 ### * Gestionar Pedidos <br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Pedidos.png)
-####* Busqueda de clientes para pedidos <br>
+#### * Busqueda de clientes para pedidos <br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/BusquedaC.png)
 #### * Añadir productos a pedidos <br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/AddPToO.png)
