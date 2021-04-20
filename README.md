@@ -32,6 +32,12 @@ java -jar JFX-System-Casa-Dorada
 * [Scene Builder](https://gluonhq.com/products/scene-builder/) - Programa donde se realizo el desarrollo de la GUI.
 * [JFoenix](https://github.com/sshahine/JFoenix) - Libreria para mejorar aspecto del GUI.
 
+_Todas las librerias usadas se encuentran en la siguiente ruta visible desde el repositorio o clonando el proyecto:_<br>
+
+```
+/resources/auxLibs/
+```
+
 [![forthebadge](https://forthebadge.com/images/badges/made-with-java.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
 ## <b>_Versionado_</b> 📌
 
@@ -42,9 +48,13 @@ _Usamos [GitHub](https://github.com/) para el versionado. Para todas las version
 * _David Montaño - [cuatrosr](https://github.com/cuatrosr)_
 * _Gabriel Suarez - [GabrielSB19](https://github.com/GabrielSB19)_
 
-## <b>_Ejecutando las pruebas_</b> ⚙️
+## <b>_Importar Datos_</b> ⚙️
 
-_Las pruebas realizadas fueron para el metodo de importar_
+_Tenemos formatos ya preestablecidos al momento de importar datos desde los archivos .csv: Clientes, Productos, Pedidos._<br>
+
+<b>* Para los clientes: </b>
+<b>* Para los productos: </b>
+<b>* Para los pedidos: </b>
 
 ```
 En la carpeta /resources/imports/ se encuentran los archivos usados.
@@ -53,6 +63,9 @@ Para generar reportes, se debera de tener un archivo .CSV para que los datos se 
 Si este archivo .CSV no esta totalmente vacio, puede que ocurra un error, en caso de esto, 
 eliminar los elementos de este archivo y volver a generar
 ```
+
+## <b>_Generar Datos_</b> ⚙️
+
 
 ## _Videos explicativos de las funciones_</b> 📹
 
@@ -63,40 +76,54 @@ _Para ver las funcionalidades de la aplicación por favor ve las imagenes y si q
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Inicio%20Sesion.png)
 * <b>_Registro_</b> <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Registro.png)
-* _Menu intuitivo_ <br><br>
+* <b>_Menu intuitivo_</b> <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Menu.png)
-* _Gestionar empleados_ <br><br>
+* <b>_Gestionar empleados_</b> <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Empleados.png)
-* _Gestionar clientes_ <br><br>
+* <b>_Gestionar clientes_</b> <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Cliente.png)
-* _Gestionar ingredientes_ <br><br>
+* <b>_Gestionar ingredientes_</b> <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Ingredientes.png)
-* _Gestionar tipo de productos_ <br><br>
+* <b>_Gestionar tipo de productos_</b> <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Tipo%20de%20Producto.png)
-* _Gestionar productos_ <br><br>
+* <b>_Gestionar productos_</b> <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Productos.png)
-* _Añadir ingrediente a producto_ <br><br>
+* <b>_Añadir ingrediente a producto_</b> <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/AddIngToP.png)
-* _Añadir tipo de producto a producto_ <br><br>
+* <b>_Añadir tipo de producto a producto_</b> <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/AddTpToP.png)
-* _Visualizar listas_ <br><br>
+* <b>_Visualizar listas_</b> <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/ListarElementos.png)
-* _Gestionar Pedidos_ <br><br>
+* <b>_Gestionar Pedidos_</b> <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Pedidos.png)
-* _Busqueda de clientes para pedidos_ <br><br>
+* <b>_Busqueda de clientes para pedidos_</b> <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/BusquedaC.png)
-* _Añadir productos a pedidos_ <br><br>
+* <b>_Añadir productos a pedidos_</b> <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/AddPToO.png)
-* _Importar reportes_ <br><br>
+* <b>_Importar reportes_</b> <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Importar%20registros.png)
-* _Generar reportes_ <br><br>
+* <b>_Generar reportes_</b> <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Reportes.png)
-* _Plantilla para los reportes_ <br><br>
+* <b>_Plantilla para los reportes_</b> <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/ReportBase.png)
-* _Calendario para la generación de reportes_ <br><br>
+* <b>_Calendario para la generación de reportes_</b> <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Calendar.png)
-* _Reloj para la generación de reportes_ <br><br>
+* <b>_Reloj para la generación de reportes_</b> <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Reloj.png)
+
+## <b>_Documentacion e Imagenes_</b> 💬📷
+
+* _Toda documentacion desde los requerimientos del Software hasta el diagrama de clases se encuentra en un PDF alojado en esta ruta visible desde el repositorio o clonando el proyecto:_<br>
+
+```
+/resources/docs/Requirements and Diagram.pdf
+```
+
+* _Todas las imagenes utilizadas tanto en el Software como en este Readme se encuentran en esta ruta visible desde el repositorio o clonando el proyecto:_<br>
+
+```
+/resources/image/
+```
 
 ## <b>_Expresiones de Gratitud_</b> 🎁
 
