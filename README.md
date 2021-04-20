@@ -31,7 +31,7 @@ _El programa es portable_
 _Tenemos dos formas para que ejecutes el programa: un ejecutable .exe, archivo java .jar._
 
 * _Para ejecutar el programa desde su ejecutable, deberas abrir el archivo .exe llamado CasaDorada. Una vez hecho esto, el programa se inicializara solo dando inicio a la pantalla de registro. <br><br> Este ejecutable no podra ser copiado o pegado en otra parte, lo que si puedes hacer, es crear un acceso directo en el escritorio para así, tener mayor facilidad a la hora de ingresar al programa. Si te surge algun error al ejecutarlo: Puedes ver este video: [Clic aquí]()._<br><br>
-* _Para ejecutar el programa desde su .jar, deberas tener un JRE minimo de: "jre1.8.0_281" en el cual fue desarrollado. Luego, deberas seguir estos pasos: <br><br> 1️⃣ Ejecutar tu consola de comandos. <br><br> 2️⃣ Navegar hasta el directorio en el cual descargaste tu .ZIP o carpeta App si clonaste el directorio.<br><br> 3️⃣ Ejecutar el siguiente comando para ejecutarlo, cualquier error mostrado en consola hacer caso omiso:_<br><br>
+* _Para ejecutar el programa desde su .jar, deberas tener un JRE minimo de: "jre1.8.0_281" en el cual fue desarrollado. Luego, deberas seguir estos pasos: <br><br> 1️⃣ Ejecutar tu consola de comandos. <br><br> 2️⃣ Navegar hasta el directorio en el cual descargaste tu .ZIP o carpeta App si clonaste el directorio.<br><br> 3️⃣ Ejecutar el siguiente comando para ejecutarlo, cualquier error mostrado en consola hacer caso omiso:_<br>
 ```
 java -jar JFX-System-Casa-Dorada
 ```
@@ -44,6 +44,7 @@ java -jar JFX-System-Casa-Dorada
 * [Scene Builder](https://gluonhq.com/products/scene-builder/) - Programa donde se realizo el desarrollo de la GUI.
 * [JFoenix](https://github.com/sshahine/JFoenix) - Libreria para mejorar aspecto del GUI.
 
+[![forthebadge](https://forthebadge.com/images/badges/made-with-java.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
 ## <b>_Versionado_</b> 📌
 
 _Usamos [GitHub](https://github.com/) para el versionado. Para todas las versiones disponibles, mira los [tags en este repositorio](https://github.com/GabrielSB19/JFX-System-Casa-Dorada)._
