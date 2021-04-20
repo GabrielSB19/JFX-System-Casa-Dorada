@@ -50,7 +50,7 @@ _Usamos [GitHub](https://github.com/) para el versionado. Para todas las version
 
 ## <b>_Importar Datos_</b> ⚙️
 
-_Tenemos formatos ya preestablecidos al momento de importar desde el menu bar de la aplicacion los datos alojados en archivos .csv: Clientes, Productos, Pedidos._<br>
+_Tenemos formatos ya preestablecidos al momento de importar desde el menu bar de la aplicacion los datos alojados en archivos .csv: Clientes, Productos, Pedidos._<br><br>
 _Todos los archivos ejemplos que se usaron para las pruebas de importacion se encuentran en la siguiente ruta visible desde el repositorio o clonando el proyecto:_<br>
 
 ```
@@ -58,7 +58,7 @@ _Todos los archivos ejemplos que se usaron para las pruebas de importacion se en
 ```
 
 * Para los clientes: Se usara el separador "," entre valores: nombre,apellido,identificacion,direccion,telefono,observaciones<br><br>
-* Para los productos: Se usara el separador "," entre valores: precio,nombre,tipoDeProducto,Ingrediente,Tamaño<br>Si el tipo de producto o el ingrediente no esta en la base de datos del programa lo que va a hacer es importarlo. Si ya esta en la base de datos, porfavor, asegurarse de poner el nombre exacto al momento de importar<br><br>
+* Para los productos: Se usara el separador "," entre valores: precio,nombre,tipoDeProducto,Ingrediente,Tamaño<br><br>Si el tipo de producto o el ingrediente no esta en la base de datos del programa lo que va a hacer es importarlo. <br>Si ya esta en la base de datos, porfavor, asegurarse de poner el nombre exacto al momento de importar<br><br>
 * Para los pedidos: ...<br>
 
 ## <b>_Generar Datos_</b> ⚙️
