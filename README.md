@@ -106,9 +106,9 @@ _Para ver las funcionalidades de la aplicación, por favor, ve las imagenes que 
 * <b>_Añadir productos a pedidos_</b> <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/AddPToO.png)<br><br>
 * <b>_Importar reportes_</b> <br><br>
-![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Importar%20registros.png)<br><br>
+![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Importar.png)<br><br>
 * <b>_Generar reportes_</b> <br><br>
-![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Reportes.png)<br><br>
+![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Reportes%20Short.png)<br><br>
 * <b>_Plantilla para los reportes_</b> <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/ReportBase.png)<br><br>
 * <b>_Calendario para la generación de reportes_</b> <br><br>
