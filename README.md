@@ -7,18 +7,6 @@ _Este es un software totalmente libre, es decir, puede ser utilizado por cualqui
 
 _Para ver el porque esta aplicación es la mejor opción, dirigete al siguiente enlace [Clic aquí]()_
 
-## <b>_Ejecutando las pruebas_</b> ⚙️
-
-_Las pruebas realizadas fueron para el metodo de importar_
-
-```
-En la carpeta /resources/imports/ se encuentran los archivos usados.
-Usar el metodo importar respectivo a cada archivo desde el menu bar.
-Para generar reportes, se debera de tener un archivo .CSV para que los datos se guarden en este.
-Si este archivo .CSV no esta totalmente vacio, puede que ocurra un error, en caso de esto, 
-eliminar los elementos de este archivo y volver a generar
-```
-
 ## <b>_Instalación_</b> 💻
 
 _El programa es portable_
@@ -51,8 +39,20 @@ _Usamos [GitHub](https://github.com/) para el versionado. Para todas las version
 
 ## <b>_Autores_ ✒️
 
-* _David Montaño - Trabajo Total - [cuatrosr](https://github.com/cuatrosr)_
-* _Gabriel Suarez - Trabajo Total - [GabrielSB19](https://github.com/GabrielSB19)_
+* _David Montaño - [cuatrosr](https://github.com/cuatrosr)_
+* _Gabriel Suarez - [GabrielSB19](https://github.com/GabrielSB19)_
+
+## <b>_Ejecutando las pruebas_</b> ⚙️
+
+_Las pruebas realizadas fueron para el metodo de importar_
+
+```
+En la carpeta /resources/imports/ se encuentran los archivos usados.
+Usar el metodo importar respectivo a cada archivo desde el menu bar.
+Para generar reportes, se debera de tener un archivo .CSV para que los datos se guarden en este.
+Si este archivo .CSV no esta totalmente vacio, puede que ocurra un error, en caso de esto, 
+eliminar los elementos de este archivo y volver a generar
+```
 
 ## _Videos explicativos de las funciones_</b> 📹
 
