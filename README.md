@@ -49,9 +49,9 @@ _Usamos [GitHub](https://github.com/) para el versionado. Para todas las version
 _Para ver las funcionalidades de la aplicación por favor ve las imagenes y si quieres un poco más de detalle por favor dirigite al siguiente enlace [Clic aquí]()_
 
 ## <b>_Funcionalidades_</b> 📱
-* _Inicion sesion_ <br>
+* <b>_Inicion sesion_</b> <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Inicio%20Sesion.png)
-* _Registro_ <br>
+* <b>_Registro_</b> <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Registro.png)
 * _Menu intuitivo_ <br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Menu.png)
