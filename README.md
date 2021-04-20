@@ -30,7 +30,7 @@ _El programa es portable_
 
 _Tenemos dos formas para que ejecutes el programa: un ejecutable .exe, archivo java .jar._
 
-* _Para ejecutar el programa desde su ejecutable, deberas abrir el archivo .exe llamado CasaDorada. Una vez hecho esto, el programa se inicializara solo dando inicio a la pantalla de registro. <br> Este ejecutable no podra ser copiado o pegado en otra parte, lo que si puedes hacer, es crear un acceso directo en el escritorio para así, tener mayor facilidad a la hora de ingresar al programa. Si te surge algun error al ejecutarlo: Puedes resolverlo en este enlace [Clic aquí]()._<br>
+* _Para ejecutar el programa desde su ejecutable, deberas abrir el archivo .exe llamado CasaDorada. Una vez hecho esto, el programa se inicializara solo dando inicio a la pantalla de registro. <br><br> Este ejecutable no podra ser copiado o pegado en otra parte, lo que si puedes hacer, es crear un acceso directo en el escritorio para así, tener mayor facilidad a la hora de ingresar al programa. Si te surge algun error al ejecutarlo: Puedes ver este video: [Clic aquí]()._<br><br>
 * _Para ejecutar el programa desde su .jar, deberas tener un JRE minimo de: "jre1.8.0_281" en el cual fue desarrollado. Luego, deberas seguir estos pasos: <br> Ejecutar tu consola de comandos. <br> Navegar hasta el directorio en el cual descargaste tu .ZIP o carpeta App si clonaste el directorio.<br> Ejecutar el siguiente comando para ejecutarlo, cualquier error mostrado en consola hacer caso omiso:_
 ```
 java -jar JFX-System-Casa-Dorada
