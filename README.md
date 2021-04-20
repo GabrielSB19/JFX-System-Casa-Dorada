@@ -1,13 +1,13 @@
-# <b>_La Casa Dorada_
+# <b>_La Casa Dorada_</b>
 
 _Este proyecto esta basado en un software para la automatizacion de gestiones contables y administrativas del restaurante "La Casa Dorada"_<br>
 _Este es un software totalmente libre, es decir, puede ser utilizado por cualquier persona._
 
-## Valor de la aplicación 📹
+## <b>_Valor de la aplicación_</b> 📹
 
-Para ver el porque esta aplicación es el mejor opción, dirigete al siguiente enlace [Clic aquí]()
+_Para ver el porque esta aplicación es el mejor opción, dirigete al siguiente enlace [Clic aquí]()_
 
-## Ejecutando las pruebas ⚙️
+## <b>_Ejecutando las pruebas_</b> ⚙️
 
 _Las pruebas realizadas fueron para el metodo de importar_
 
@@ -19,15 +19,15 @@ Si este archivo .CSV no esta totalmente vacio, puede que ocurra un error, en cas
 eliminar los elementos de este archivo y volver a generar
 ```
 
-## Instalación 💻
+## <b>_Instalación_</b> 💻
 
-Hacer clic en el siguiente enlace [Clic aquí](https://www.mediafire.com/file/5cf0g55mwti35nv/CasaDorada.zip/file), una vez descargado este archivo .ZIP extraer los archivos que se encuentran en este. Para ejecutar el programa, abrir el archivo .EXE llamado Casa Dorada, una vez hecho esto ya podras utilizar el programa. Este ejecutable no podra ser copiado o pegado en otra parte, lo que si puedes hacer, es crear un acceso directo en el escritorio para así, tener mayor facilidad a la hora de ingresar al programa. Para ver un tutorial de como instalar el programa [Clic aquí]()
+_Hacer clic en el siguiente enlace [Clic aquí](https://www.mediafire.com/file/5cf0g55mwti35nv/CasaDorada.zip/file), una vez descargado este archivo .ZIP extraer los archivos que se encuentran en este. Para ejecutar el programa, abrir el archivo .EXE llamado Casa Dorada, una vez hecho esto ya podras utilizar el programa. Este ejecutable no podra ser copiado o pegado en otra parte, lo que si puedes hacer, es crear un acceso directo en el escritorio para así, tener mayor facilidad a la hora de ingresar al programa. Para ver un tutorial de como instalar el programa [Clic aquí]()_
 
-## Despliegue 📦
+## <b>_Despliegue_</b> 📦
 
 _La aplicación Casa Dorada ya se encuentra en un archivo ejecutable, es decir, cualquier equipo que tenga este ejecutable podra correrla sin ningun problema_
 
-## Construido con 🛠️
+## <b>_Construido con_</b> 🛠️
 
 * [Java](https://www.oracle.com/co/java/technologies/javase/javase-jdk8-downloads.html) - Lenguaje de programación en el que se trabajo.
 * [Adobe Illustrator](https://www.adobe.com/la/products/illustrator/free-trial-download.html) - Programa donde se editaron todas las imagenes.
@@ -35,62 +35,62 @@ _La aplicación Casa Dorada ya se encuentra en un archivo ejecutable, es decir, 
 * [Scene Builder](https://gluonhq.com/products/scene-builder/) - Programa donde se realizo el desarrollo de la GUI.
 * [JFoenix](https://github.com/sshahine/JFoenix) - Libreria para mejorar aspecto del GUI.
 
-## Versionado 📌
+## <b>_Versionado_</b> 📌
 
-Usamos [GitHub](https://github.com/) para el versionado. Para todas las versiones disponibles, mira los [tags en este repositorio](https://github.com/GabrielSB19/JFX-System-Casa-Dorada).
+_Usamos [GitHub](https://github.com/) para el versionado. Para todas las versiones disponibles, mira los [tags en este repositorio](https://github.com/GabrielSB19/JFX-System-Casa-Dorada)._
 
-## Autores ✒️
+## <b>_Autores_ ✒️
 
-* **David Montaño** - *Trabajo Total* - [cuatrosr](https://github.com/cuatrosr)
-* **Gabriel Suarez** - *Trabajo Total* - [GabrielSB19](https://github.com/GabrielSB19)
+* _David Montaño - Trabajo Total - [cuatrosr](https://github.com/cuatrosr)_
+* _Gabriel Suarez - Trabajo Total - [GabrielSB19](https://github.com/GabrielSB19)_
 
-## Videos explicativos de las funciones 📹
+## _Videos explicativos de las funciones_</b> 📹
 
-Para ver las funcionalidades de la aplicación por favor ve las imagenes y si quieres un poco más de detalle por favor dirigite al siguiente enlace [Clic aquí]()
+_Para ver las funcionalidades de la aplicación por favor ve las imagenes y si quieres un poco más de detalle por favor dirigite al siguiente enlace [Clic aquí]()_
 
-## Funcionalidades 📱
-### * Inicion sesion <br>
+## <b>_Funcionalidades_</b> 📱
+* _Inicion sesion_ <br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Inicio%20Sesion.png)
-### * Registro <br>
+* _Registro_ <br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Registro.png)
-### * Menu intuitivo <br>
+* _Menu intuitivo_ <br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Menu.png)
-### * Gestionar empleados <br>
+* _Gestionar empleados_ <br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Empleados.png)
-### * Gestionar clientes <br>
+* _Gestionar clientes_ <br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Cliente.png)
-### * Gestionar ingredientes <br>
+* _Gestionar ingredientes_ <br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Ingredientes.png)
-### * Gestionar tipo de productos <br>
+* _Gestionar tipo de productos_ <br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Tipo%20de%20Producto.png)
-### * Gestionar productos <br>
+* _Gestionar productos_ <br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Productos.png)
-#### * Añadir ingrediente a producto <br>
+* _Añadir ingrediente a producto_ <br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/AddIngToP.png)
-#### * Añadir tipo de producto a producto <br>
+* _Añadir tipo de producto a producto_ <br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/AddTpToP.png)
-### * Visualizar listas <br>
+* _Visualizar listas_ <br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/ListarElementos.png)
-### * Gestionar Pedidos <br>
+* _Gestionar Pedidos_ <br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Pedidos.png)
-#### * Busqueda de clientes para pedidos <br>
+* _Busqueda de clientes para pedidos_ <br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/BusquedaC.png)
-#### * Añadir productos a pedidos <br>
+* _Añadir productos a pedidos_ <br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/AddPToO.png)
-### * Importar reportes <br>
+* _Importar reportes_ <br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Importar%20registros.png)
-### * Generar reportes <br>
+* _Generar reportes_ <br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Reportes.png)
-#### * Plantilla para los reportes <br>
+* _Plantilla para los reportes_ <br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/ReportBase.png)
-#### * Calendario para la generación de reportes <br>
+* _Calendario para la generación de reportes_ <br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Calendar.png)
-#### * Reloj para la generación de reportes <br>
+* _Reloj para la generación de reportes_ <br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Reloj.png)
 
-## Expresiones de Gratitud 🎁
+## <b>_Expresiones de Gratitud_</b> 🎁
 
-* Agradecemos a los integrantes del grupo de discord "Matriculados Papi" por la ayuda durante el desarrollo. 📢
+* _Agradecemos a los integrantes del grupo de discord "Matriculados Papi" por la ayuda durante el desarrollo._ 📢
 
 ---
 ⌨️ con ❤️ por [cuatrosr](https://github.com/cuatrosr) 😊
