@@ -31,7 +31,7 @@ _El programa es portable_
 _Tenemos dos formas para que ejecutes el programa: un ejecutable .exe, archivo java .jar._
 
 * _Para ejecutar el programa desde su ejecutable, deberas abrir el archivo .exe llamado CasaDorada. Una vez hecho esto, el programa se inicializara solo dando inicio a la pantalla de registro. <br><br> Este ejecutable no podra ser copiado o pegado en otra parte, lo que si puedes hacer, es crear un acceso directo en el escritorio para así, tener mayor facilidad a la hora de ingresar al programa. Si te surge algun error al ejecutarlo: Puedes ver este video: [Clic aquí]()._<br><br>
-* _Para ejecutar el programa desde su .jar, deberas tener un JRE minimo de: "jre1.8.0_281" en el cual fue desarrollado. Luego, deberas seguir estos pasos: <br> Ejecutar tu consola de comandos. <br> Navegar hasta el directorio en el cual descargaste tu .ZIP o carpeta App si clonaste el directorio.<br> Ejecutar el siguiente comando para ejecutarlo, cualquier error mostrado en consola hacer caso omiso:_
+* _Para ejecutar el programa desde su .jar, deberas tener un JRE minimo de: "jre1.8.0_281" en el cual fue desarrollado. Luego, deberas seguir estos pasos: <br><br> 1️⃣ Ejecutar tu consola de comandos. <br><br> 2️⃣ Navegar hasta el directorio en el cual descargaste tu .ZIP o carpeta App si clonaste el directorio.<br><br> 3️⃣ Ejecutar el siguiente comando para ejecutarlo, cualquier error mostrado en consola hacer caso omiso:_<br><br>
 ```
 java -jar JFX-System-Casa-Dorada
 ```
@@ -62,39 +62,39 @@ _Para ver las funcionalidades de la aplicación por favor ve las imagenes y si q
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Inicio%20Sesion.png)
 * <b>_Registro_</b> <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Registro.png)
-* _Menu intuitivo_ <br>
+* _Menu intuitivo_ <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Menu.png)
-* _Gestionar empleados_ <br>
+* _Gestionar empleados_ <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Empleados.png)
-* _Gestionar clientes_ <br>
+* _Gestionar clientes_ <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Cliente.png)
-* _Gestionar ingredientes_ <br>
+* _Gestionar ingredientes_ <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Ingredientes.png)
-* _Gestionar tipo de productos_ <br>
+* _Gestionar tipo de productos_ <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Tipo%20de%20Producto.png)
-* _Gestionar productos_ <br>
+* _Gestionar productos_ <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Productos.png)
-* _Añadir ingrediente a producto_ <br>
+* _Añadir ingrediente a producto_ <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/AddIngToP.png)
-* _Añadir tipo de producto a producto_ <br>
+* _Añadir tipo de producto a producto_ <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/AddTpToP.png)
-* _Visualizar listas_ <br>
+* _Visualizar listas_ <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/ListarElementos.png)
-* _Gestionar Pedidos_ <br>
+* _Gestionar Pedidos_ <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Pedidos.png)
-* _Busqueda de clientes para pedidos_ <br>
+* _Busqueda de clientes para pedidos_ <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/BusquedaC.png)
-* _Añadir productos a pedidos_ <br>
+* _Añadir productos a pedidos_ <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/AddPToO.png)
-* _Importar reportes_ <br>
+* _Importar reportes_ <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Importar%20registros.png)
-* _Generar reportes_ <br>
+* _Generar reportes_ <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Reportes.png)
-* _Plantilla para los reportes_ <br>
+* _Plantilla para los reportes_ <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/ReportBase.png)
-* _Calendario para la generación de reportes_ <br>
+* _Calendario para la generación de reportes_ <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Calendar.png)
-* _Reloj para la generación de reportes_ <br>
+* _Reloj para la generación de reportes_ <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Reloj.png)
 
 ## <b>_Expresiones de Gratitud_</b> 🎁
