@@ -52,9 +52,9 @@ _Usamos [GitHub](https://github.com/) para el versionado. Para todas las version
 
 _Tenemos formatos ya preestablecidos al momento de importar datos desde los archivos .csv: Clientes, Productos, Pedidos._<br>
 
-<b>* Para los clientes: </b>
-<b>* Para los productos: </b>
-<b>* Para los pedidos: </b>
+* Para los clientes: <br><br>
+* Para los productos: <br><br>
+* Para los pedidos: <br>
 
 ```
 En la carpeta /resources/imports/ se encuentran los archivos usados.
@@ -127,7 +127,7 @@ _Para ver las funcionalidades de la aplicación por favor ve las imagenes y si q
 
 ## <b>_Expresiones de Gratitud_</b> 🎁
 
-* _Agradecemos a los integrantes del grupo de discord: "Matriculados Papi" por la ayuda durante el desarrollo_ 📢
+* _Agradecemos a los integrantes del grupo de discord: "Matriculados Papi" por la ayuda durante el desarrollo._ 📢
 
 ---
 ⌨️ con ❤️ por [cuatrosr](https://github.com/cuatrosr) 😊<br>
