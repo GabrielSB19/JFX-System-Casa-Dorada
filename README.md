@@ -1,11 +1,11 @@
 # <b>_La Casa Dorada_</b>
 
-_Este proyecto esta basado en un software para la automatizacion de gestiones contables y administrativas del restaurante "La Casa Dorada"_<br>
+_Este proyecto esta basado en un software para la automatizacion de gestiones contables y administrativas del restaurante "La Casa Dorada"._<br>
 _Este es un software totalmente libre, es decir, puede ser utilizado por cualquier persona._
 
 ## <b>_Valor de la aplicación_</b> 📹
 
-_Para ver el porque esta aplicación es el mejor opción, dirigete al siguiente enlace [Clic aquí]()_
+_Para ver el porque esta aplicación es la mejor opción, dirigete al siguiente enlace [Clic aquí]()_
 
 ## <b>_Ejecutando las pruebas_</b> ⚙️
 
@@ -21,11 +21,21 @@ eliminar los elementos de este archivo y volver a generar
 
 ## <b>_Instalación_</b> 💻
 
-_Hacer clic en el siguiente enlace [Clic aquí](https://www.mediafire.com/file/5cf0g55mwti35nv/CasaDorada.zip/file), una vez descargado este archivo .ZIP extraer los archivos que se encuentran en este. Para ejecutar el programa, abrir el archivo .EXE llamado Casa Dorada, una vez hecho esto ya podras utilizar el programa. Este ejecutable no podra ser copiado o pegado en otra parte, lo que si puedes hacer, es crear un acceso directo en el escritorio para así, tener mayor facilidad a la hora de ingresar al programa. Para ver un tutorial de como instalar el programa [Clic aquí]()_
+_El programa es portable_
 
-## <b>_Despliegue_</b> 📦
+* _Descargar el .ZIP del programa en este enlace [Clic aquí](https://www.mediafire.com/file/5cf0g55mwti35nv/CasaDorada.zip/file).<br>
+* _Extraer el archivo para dejar la carpeta en la cual se encuentra todo lo que necesita._
 
-_La aplicación Casa Dorada ya se encuentra en un archivo ejecutable, es decir, cualquier equipo que tenga este ejecutable podra correrla sin ningun problema_
+## <b>_Ejecución_</b> 📦
+
+_Tenemos dos formas para que ejecutes el programa: un ejecutable .exe, archivo java .jar._
+
+* _Para ejecutar el programa desde su ejecutable, deberas abrir el archivo .exe llamado CasaDorada. Una vez hecho esto, el programa se inicializara solo dando inicio a la pantalla de registro. <br> Este ejecutable no podra ser copiado o pegado en otra parte, lo que si puedes hacer, es crear un acceso directo en el escritorio para así, tener mayor facilidad a la hora de ingresar al programa. Si te surge algun error al ejecutarlo: Puedes resolverlo en este enlace [Clic aquí]()._<br>
+* _Para ejecutar el programa desde su .jar, deberas tener un JRE minimo de: "jre1.8.0_281" en el cual fue desarrollado. Luego, deberas seguir estos pasos: <br> Ejecutar tu consola de comandos. <br> Navegar hasta el directorio en el cual descargaste tu .ZIP o carpeta App si clonaste el directorio.<br> Ejecutar el siguiente comando para ejecutarlo:
+```
+java -jar JFX-System-Casa-Dorada
+```
+_Cualquier error mostrado en consola hacer caso omiso_
 
 ## <b>_Construido con_</b> 🛠️
 
@@ -90,8 +100,8 @@ _Para ver las funcionalidades de la aplicación por favor ve las imagenes y si q
 
 ## <b>_Expresiones de Gratitud_</b> 🎁
 
-* _Agradecemos a los integrantes del grupo de discord "Matriculados Papi" por la ayuda durante el desarrollo._ 📢
+* _Agradecemos a los integrantes del grupo de discord: "Matriculados Papi" por la ayuda durante el desarrollo_ 📢
 
 ---
-⌨️ con ❤️ por [cuatrosr](https://github.com/cuatrosr) 😊
+⌨️ con ❤️ por [cuatrosr](https://github.com/cuatrosr) 😊<br>
 ⌨️ con ❤️ por [GabrielSB19](https://github.com/GabrielSB19) 😊
