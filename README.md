@@ -1,4 +1,4 @@
-# ***La Casa Dorada***
+# <b>_La Casa Dorada_
 
 _Este proyecto esta basado en un software para la automatizacion de gestiones contables y administrativas del restaurante "La Casa Dorada"_<br>
 _Este es un software totalmente libre, es decir, puede ser utilizado por cualquier persona._
