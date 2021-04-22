@@ -96,7 +96,7 @@ _Para eliminar todos los datos de la aplicacion para volver a su estado de fabri
 
 ## <b>_Funcionalidades_</b> 📱📹
 
-_Para ver las funcionalidades de la aplicación, por favor, ve las imagenes que estan acontinuacion. Si quieres un poco más de detalle puedes ver el siguiente video: [Clic aquí]()_<br>
+_Para ver las funcionalidades de la aplicación, por favor, ve las imagenes que estan acontinuacion. Si quieres un poco más de detalle puedes ver el siguiente video: [Clic aquí](https://www.youtube.com/watch?v=FrhbuGm71HI)_<br>
 
 * <b>_Iniciar sesion_</b> <br><br>
 ![ScreenShot](https://github.com/GabrielSB19/JFX-System-Casa-Dorada/blob/master/resources/image/Inicio%20Sesion.png)<br><br>
